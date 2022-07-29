@@ -5,7 +5,9 @@ class OptionsMenu extends StatelessWidget {
   const OptionsMenu({Key? key}) : super(key: key);
   final List<OptionTile> tiles = const [
     OptionTile(
-        iconData: Icons.camera, title: "Image/Videos", navigationRoute: ""),
+        iconData: Icons.camera,
+        title: "Image/Videos",
+        navigationRoute: "/videoImagePage"),
     OptionTile(iconData: Icons.mic, title: "Sound", navigationRoute: ""),
     OptionTile(iconData: Icons.check, title: "Verify", navigationRoute: "")
   ];
