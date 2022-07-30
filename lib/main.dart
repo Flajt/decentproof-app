@@ -1,4 +1,5 @@
 import 'package:decentproof/pages/homepage/HomePage.dart';
+import 'package:decentproof/pages/videoimagepage/VideoImagePage.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -11,6 +12,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      routes: {"/videoImagePage": (context) => const VideoImagePage()},
       title: 'Decentproof',
       theme: ThemeData(
         primarySwatch: Colors.lightGreen,
