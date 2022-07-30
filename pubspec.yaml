@@ -38,6 +38,7 @@ dependencies:
   native_exif: ^0.2.1
   path_provider: ^2.0.11
   nanoid: ^1.0.0
+  pointycastle: ^3.6.1
 
 dev_dependencies:
   flutter_test:
