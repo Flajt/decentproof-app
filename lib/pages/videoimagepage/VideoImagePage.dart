@@ -39,6 +39,7 @@ class _VideoImagePageState extends State<VideoImagePage> {
               ),
               VideoButton(
                 videoManager: videoManager,
+                videoImageHashManager: videoImageHashManager,
               )
             ],
           )),

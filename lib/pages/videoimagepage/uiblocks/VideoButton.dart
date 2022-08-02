@@ -1,9 +1,15 @@
+import 'package:decentproof/pages/videoimagepage/logic/VideoImageHashManager.dart';
 import 'package:flutter/material.dart';
 import '../logic/VideoManager.dart';
 
 class VideoButton extends StatelessWidget {
-  const VideoButton({Key? key, required this.videoManager}) : super(key: key);
+  const VideoButton(
+      {Key? key,
+      required this.videoManager,
+      required this.videoImageHashManager})
+      : super(key: key);
   final VideoManager videoManager;
+  final VideoImageHashManager videoImageHashManager;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -16,7 +22,12 @@ class VideoButton extends StatelessWidget {
       child: Material(
           color: Colors.transparent,
           child: InkWell(
-            onTap: () async => await videoManager.saveVideo(),
+            onTap: () async {
+              String path = await videoManager.saveVideo();
+              String hash = await videoImageHashManager.hashVideo(path);
+              Navigator.of(context)
+                  .pushNamed("/submissionPage", arguments: {"hash": hash});
+            },
             radius: size.width,
             splashColor: Colors.lightGreenAccent,
             child: Row(children: const [
