@@ -17,8 +17,9 @@ class ImageManager {
         ? (await getExternalStorageDirectory())!.path
         : (await getApplicationDocumentsDirectory()).path;
     String imageId = await nanoid(16);
-    File("$path/$imageId.png").writeAsBytesSync(imageAsBytes);
+    String fullPath = "$path/$imageId.png";
+    File(fullPath).writeAsBytesSync(imageAsBytes);
     //exifWrapper.addExifToImage("$path/$imageId.png"); TODO: Decide if it's really required
-    return path;
+    return fullPath;
   }
 }
