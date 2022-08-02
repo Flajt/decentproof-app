@@ -11,10 +11,10 @@ class HashLogic {
 
   Future<String> hashBytesInChunks(Uint8List bytes) async {
     final Iterator<int> iterator = bytes.iterator;
-    while (iterator.moveNext() != false) {
+    while (iterator.moveNext()) {
       _keccakDigest.updateByte(iterator.current);
     }
-    final Uint8List hashAsBytes = Uint8List(bytes.length);
+    final Uint8List hashAsBytes = Uint8List(_keccakDigest.digestSize);
     _keccakDigest.doFinal(hashAsBytes, 0);
     return hex.encode(hashAsBytes);
   }
