@@ -26,13 +26,16 @@ class _RecordingButtonState extends State<RecordingButton> {
         onPressed: () async {
           isRecording = !isRecording;
           String savePath = await widget.audioManager.audioPath;
-          isRecording == true
-              ? await widget.controller.record(savePath)
-              : await widget.controller.stop(true);
+          if (isRecording) {
+            await widget.controller.record(savePath);
+          } else {
+            String path = await widget.controller.stop(true) as String;
+            String hash = await widget.hashAudioManager.hashAudio(path);
+            print(hash.characters);
+            Navigator.of(context)
+                .pushNamed("/submissionPage", arguments: {"hash": hash});
+          }
           setState(() {});
-          String hash = await widget.hashAudioManager.hashAudio(savePath);
-          Navigator.of(context)
-              .pushNamed("/submissionPage", arguments: {"hash": hash});
         },
         child: isRecording ? const Icon(Icons.stop) : const Icon(Icons.mic));
   }
