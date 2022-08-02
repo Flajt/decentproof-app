@@ -13,6 +13,10 @@ class SubmissionPage extends StatelessWidget {
       child: Stack(
         children: [
           Align(
+            alignment: Alignment.center,
+            child: Text(args["hash"] ?? "No Hash"),
+          ),
+          Align(
               alignment: Alignment.bottomCenter,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
