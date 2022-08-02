@@ -17,7 +17,6 @@ class _AudioPageState extends State<AudioPage> {
   @override
   void initState() {
     super.initState();
-    print("init");
     recorderController = RecorderController()
       ..androidOutputFormat = AndroidOutputFormat.mpeg4
       ..shouldClearLabels;
@@ -25,7 +24,6 @@ class _AudioPageState extends State<AudioPage> {
 
   @override
   void dispose() {
-    print("dispose");
     recorderController.dispose();
     super.dispose();
   }
