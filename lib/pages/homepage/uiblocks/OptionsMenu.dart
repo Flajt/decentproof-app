@@ -8,7 +8,8 @@ class OptionsMenu extends StatelessWidget {
         iconData: Icons.camera,
         title: "Image/Videos",
         navigationRoute: "/videoImagePage"),
-    OptionTile(iconData: Icons.mic, title: "Sound", navigationRoute: ""),
+    OptionTile(
+        iconData: Icons.mic, title: "Sound", navigationRoute: "/audioPage"),
     OptionTile(iconData: Icons.check, title: "Verify", navigationRoute: "")
   ];
 

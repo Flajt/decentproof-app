@@ -15,7 +15,7 @@ class OptionTile extends StatelessWidget {
     return ListTile(
       leading: Icon(iconData, color: Colors.lightGreenAccent),
       title: Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
-      onTap: () => Navigator.of(context).popAndPushNamed(navigationRoute),
+      onTap: () => Navigator.of(context).pushNamed(navigationRoute),
     );
   }
 }
