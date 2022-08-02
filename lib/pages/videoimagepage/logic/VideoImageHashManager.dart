@@ -12,4 +12,11 @@ class VideoImageHashManager {
     String hash = await _hashLogic.hashBytes(imageAsBytes);
     return hash;
   }
+
+  Future<String> hashVideo(String path) async {
+    File file = File(path);
+    Uint8List imageAsBytes = await file.readAsBytes();
+    String hash = await _hashLogic.hashBytesInChunks(imageAsBytes);
+    return hash;
+  }
 }
