@@ -26,6 +26,7 @@ class _RecordingButtonState extends State<RecordingButton> {
         onPressed: () async {
           isRecording = !isRecording;
           String savePath = await widget.audioManager.audioPath;
+          setState(() {});
           if (isRecording) {
             await widget.controller.record(savePath);
           } else {
@@ -35,7 +36,6 @@ class _RecordingButtonState extends State<RecordingButton> {
             Navigator.of(context)
                 .pushNamed("/submissionPage", arguments: {"hash": hash});
           }
-          setState(() {});
         },
         child: isRecording ? const Icon(Icons.stop) : const Icon(Icons.mic));
   }

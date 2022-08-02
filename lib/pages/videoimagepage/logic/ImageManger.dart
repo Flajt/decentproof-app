@@ -11,14 +11,15 @@ class ImageManager {
   final ImagePickerWrapper imagePickerWrapper;
   final ExifWrapper exifWrapper;
 
-  Future<bool> saveImage() async {
+  Future<String> saveImage() async {
     Uint8List imageAsBytes = await imagePickerWrapper.getImageAsBytes();
     String path = Platform.isAndroid
         ? (await getExternalStorageDirectory())!.path
         : (await getApplicationDocumentsDirectory()).path;
     String imageId = await nanoid(16);
-    File("$path/$imageId.png").writeAsBytesSync(imageAsBytes);
-    exifWrapper.addExifToImage("$path/$imageId.png");
-    return true;
+    String fullPath = "$path/$imageId.png";
+    File(fullPath).writeAsBytesSync(imageAsBytes);
+    //exifWrapper.addExifToImage("$path/$imageId.png"); TODO: Decide if it's really required
+    return fullPath;
   }
 }
