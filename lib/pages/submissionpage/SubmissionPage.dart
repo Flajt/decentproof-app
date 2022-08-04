@@ -1,11 +1,19 @@
 import 'package:decentproof/pages/submissionpage/logic/SaveToTangleLogic.dart';
 import 'package:flutter/material.dart';
 
-class SubmissionPage extends StatelessWidget {
+class SubmissionPage extends StatefulWidget {
   const SubmissionPage({Key? key}) : super(key: key);
 
   @override
+  State<SubmissionPage> createState() => _SubmissionPageState();
+}
+
+class _SubmissionPageState extends State<SubmissionPage> {
+  bool hasMessageId = false;
+  String? messageId;
+  @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     Map<String, String> args =
         ModalRoute.of(context)!.settings.arguments as Map<String, String>;
     return Scaffold(
@@ -13,17 +21,40 @@ class SubmissionPage extends StatelessWidget {
             child: SizedBox(
       child: Stack(
         children: [
-          Align(
-            alignment: Alignment.center,
-            child: Text(args["hash"] ?? "No Hash"),
+          Positioned(
+            height: size.height * .1,
+            width: size.width - 10,
+            top: size.height * .2,
+            child: Text(
+              "Your Hash: \n\n ${args["hash"]}",
+              textAlign: TextAlign.center,
+              style:
+                  const TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0),
+            ),
           ),
+          hasMessageId
+              ? Positioned(
+                  width: size.width - 10,
+                  height: size.height * .1,
+                  bottom: size.height * .3,
+                  child: Text(
+                    "Message ID:\n\n $messageId",
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 18.0),
+                    textAlign: TextAlign.center,
+                  ))
+              : Container(),
           Align(
               alignment: Alignment.bottomCenter,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ElevatedButton(
-                    onPressed: () =>
-                        SaveToTangleLogic().save(args["hash"] as String),
+                    onPressed: () async {
+                      messageId = await const SaveToTangleLogic()
+                          .save(args["hash"] as String);
+                      hasMessageId = true;
+                      setState(() {});
+                    },
                     child: const Text("Submitt")),
               ))
         ],
