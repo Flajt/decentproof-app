@@ -1,9 +1,11 @@
 import 'package:decentproof/pages/submissionpage/logic/SaveToTangleLogic.dart';
+import 'package:decentproof/pages/submissionpage/logic/ShowInExplorer.dart';
 import 'package:flutter/material.dart';
 
 class SubmissionPage extends StatefulWidget {
-  const SubmissionPage({Key? key}) : super(key: key);
-
+  const SubmissionPage({Key? key, required this.showInExplorer})
+      : super(key: key);
+  final ShowInExplorer showInExplorer;
   @override
   State<SubmissionPage> createState() => _SubmissionPageState();
 }
@@ -35,14 +37,16 @@ class _SubmissionPageState extends State<SubmissionPage> {
           hasMessageId
               ? Positioned(
                   width: size.width - 10,
-                  height: size.height * .1,
-                  bottom: size.height * .3,
-                  child: Text(
-                    "Message ID:\n\n $messageId",
-                    style: const TextStyle(
-                        fontWeight: FontWeight.bold, fontSize: 18.0),
-                    textAlign: TextAlign.center,
-                  ))
+                  height: size.height * .2,
+                  bottom: size.height * .2,
+                  child: TextButton(
+                      onPressed: () => widget.showInExplorer.show(messageId!),
+                      child: Text(
+                        "Message ID:\n\n $messageId",
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 18.0),
+                        textAlign: TextAlign.center,
+                      )))
               : Container(),
           Align(
               alignment: Alignment.bottomCenter,
