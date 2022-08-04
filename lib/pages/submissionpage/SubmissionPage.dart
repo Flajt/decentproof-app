@@ -1,3 +1,4 @@
+import 'package:decentproof/pages/submissionpage/logic/SaveToTangleLogic.dart';
 import 'package:flutter/material.dart';
 
 class SubmissionPage extends StatelessWidget {
@@ -21,7 +22,9 @@ class SubmissionPage extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ElevatedButton(
-                    onPressed: () {}, child: const Text("Submitt")),
+                    onPressed: () =>
+                        SaveToTangleLogic().save(args["hash"] as String),
+                    child: const Text("Submitt")),
               ))
         ],
       ),
