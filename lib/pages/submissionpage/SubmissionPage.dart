@@ -1,5 +1,6 @@
 import 'package:decentproof/pages/submissionpage/logic/SaveToTangleLogic.dart';
 import 'package:decentproof/pages/submissionpage/logic/ShowInExplorer.dart';
+import 'package:decentproof/pages/submissionpage/uiblocks/BackToHomeButton.dart';
 import 'package:flutter/material.dart';
 
 class SubmissionPage extends StatefulWidget {
@@ -23,6 +24,13 @@ class _SubmissionPageState extends State<SubmissionPage> {
             child: SizedBox(
       child: Stack(
         children: [
+          const Align(
+            alignment: Alignment.topLeft,
+            child: Padding(
+              padding: EdgeInsets.all(8.0),
+              child: BackToHomeButton(),
+            ),
+          ),
           Positioned(
             height: size.height * .1,
             width: size.width - 10,
