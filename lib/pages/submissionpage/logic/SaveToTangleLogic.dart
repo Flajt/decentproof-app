@@ -24,7 +24,6 @@ class SaveToTangleLogic {
         SubmitMessageRequest(payload: payload);
     Response<SubmitMessageResponse> response =
         await api.apiV1MessagesPost(body: requestBody);
-    print(response.error);
     return response.body!.data.messageId;
   }
 }
