@@ -1,6 +1,7 @@
 import 'package:decentproof/pages/audiopage/AudioPage.dart';
 import 'package:decentproof/pages/homepage/HomePage.dart';
-import 'package:decentproof/pages/submissionpage/uiblocks/SubmissionPage.dart';
+import 'package:decentproof/pages/submissionpage/SubmissionPage.dart';
+import 'package:decentproof/pages/submissionpage/logic/ShowInExplorer.dart';
 import 'package:decentproof/pages/videoimagepage/VideoImagePage.dart';
 import 'package:flutter/material.dart';
 
@@ -17,7 +18,8 @@ class MyApp extends StatelessWidget {
       routes: {
         "/videoImagePage": (context) => const VideoImagePage(),
         "/audioPage": (context) => const AudioPage(),
-        "/submissionPage": (context) => const SubmissionPage()
+        "/submissionPage": (context) =>
+            SubmissionPage(showInExplorer: ShowInExplorer())
       },
       title: 'Decentproof',
       theme: ThemeData(
