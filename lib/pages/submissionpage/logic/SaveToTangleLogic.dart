@@ -17,7 +17,7 @@ class SaveToTangleLogic {
     String data = "Hash:$hash App: DecentProof DateTime:$dateTime";
     final payload = IndexationPayload(
         type: 2,
-        index: hex.encode(utf8.encode("DecentProof-App")),
+        index: hex.encode(utf8.encode("DecentProofApp:")) + hash,
         data: hex.encode(utf8.encode(data)));
     final SubmitMessageRequest requestBody =
         SubmitMessageRequest(payload: payload);
