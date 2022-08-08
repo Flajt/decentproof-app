@@ -14,15 +14,17 @@ class SaveToTangleLogic {
           : "https://chrysalis-nodes.iota.cafe",
     );
     final DateTime dateTime = DateTime.now();
-    String data = "Hash:$hash App: DecentProof DateTime:$dateTime";
+    String data = "Hash:$hash App:DecentProof DateTime:$dateTime";
     final payload = IndexationPayload(
         type: 2,
-        index: hex.encode(utf8.encode("DecentProofApp:")) + hash,
+        index:
+            hex.encode(utf8.encode("DecentProofApp:${hash.substring(0, 40)}")),
         data: hex.encode(utf8.encode(data)));
     final SubmitMessageRequest requestBody =
         SubmitMessageRequest(payload: payload);
     Response<SubmitMessageResponse> response =
         await api.apiV1MessagesPost(body: requestBody);
+    print(response.error);
     return response.body!.data.messageId;
   }
 }
