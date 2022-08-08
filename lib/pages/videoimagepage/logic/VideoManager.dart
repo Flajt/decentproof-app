@@ -20,7 +20,7 @@ class VideoManager {
         ? (await getExternalStorageDirectory())!.path
         : (await getApplicationDocumentsDirectory()).path;
     String imageId = await nanoid(16);
-    String fullPath = "$path/$imageId.png";
+    String fullPath = "$path/$imageId.mp4";
     await File(fullPath).writeAsBytes(videoAsBytes);
     return fullPath;
   }
