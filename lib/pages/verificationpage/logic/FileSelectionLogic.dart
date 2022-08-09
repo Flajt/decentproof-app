@@ -3,7 +3,7 @@ import 'dart:typed_data';
 import 'package:file_picker/file_picker.dart';
 
 class FileSelectionLogic {
-  static Future<Stream<List<int>>?> selectFileAsStream() async {
+  Future<Stream<List<int>>?> selectFileAsStream() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
         withReadStream: true,
         allowCompression: false,
@@ -12,5 +12,6 @@ class FileSelectionLogic {
       PlatformFile file = result.files[0];
       return file.readStream!;
     }
+    return null;
   }
 }
