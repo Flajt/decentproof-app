@@ -18,4 +18,16 @@ class HashLogic {
     _keccakDigest.doFinal(hashAsBytes, 0);
     return hex.encode(hashAsBytes);
   }
+
+  Future<String> hashBytesInChunksFromStream(
+      Stream<List<int>> byteStream) async {
+    byteStream.listen((event) {
+      for (int byte in event) {
+        _keccakDigest.updateByte(byte);
+      }
+    });
+    final Uint8List hashAsBytes = Uint8List(_keccakDigest.digestSize);
+    _keccakDigest.doFinal(hashAsBytes, 0);
+    return hex.encode(hashAsBytes);
+  }
 }
