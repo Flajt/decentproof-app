@@ -859,13 +859,12 @@ const _$MessageMetadataResponse$DataLedgerInclusionStateEnumMap = {
       'noTransaction',
 };
 
-MessageResponse$Data _$MessageResponse$DataFromJson(
-        Map<String, dynamic> json) =>
-    MessageResponse$Data(
-      allOf: json['allOf'] == null
-          ? null
-          : Message.fromJson(json['allOf'] as Map<String, dynamic>),
-    );
+MessageResponse$Data _$MessageResponse$DataFromJson(Map<String, dynamic> json) {
+  return MessageResponse$Data(
+    allOf: Message.fromJson(
+        json), //allOf is not a key in the json, idk where it's comming from
+  );
+}
 
 Map<String, dynamic> _$MessageResponse$DataToJson(
         MessageResponse$Data instance) =>
