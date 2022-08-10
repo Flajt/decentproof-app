@@ -51,7 +51,9 @@
 	<string>This App requires access to your microphone to allow you to capture videos with sound or capture sound only</string>
 	<key>NSCameraUsageDescription</key>
 	<string>This App requires access to your camera to allow you to take videos and and pictures</string>
-	<key></key>
-	<string></string>
+	<key>LSSupportsOpeningDocumentsInPlace</key>
+	<true/>
+	<key>UIFileSharingEnabled</key>
+	<true/>
 </dict>
 </plist>
