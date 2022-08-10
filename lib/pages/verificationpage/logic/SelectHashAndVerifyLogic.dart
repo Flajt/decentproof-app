@@ -17,6 +17,7 @@ class SelectHashAndVerifyLogic {
       if (messageId != null) {
         return {"messageId": messageId, "hash": hash};
       }
+      throw "No file found for hash: $hash";
     }
     throw "No file selected!";
   }
