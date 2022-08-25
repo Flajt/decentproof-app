@@ -1,3 +1,4 @@
+import 'package:decentproof/pages/supportpage/uiblocks/SupportDialog.dart';
 import 'package:flutter/material.dart';
 
 class SupportButton extends StatelessWidget {
@@ -7,7 +8,8 @@ class SupportButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconButton(
         tooltip: "Support the developer",
-        onPressed: () {},
+        onPressed: () => showDialog(
+            context: context, builder: (context) => const SupportDialog()),
         icon: const Icon(
           Icons.handshake,
         ));
