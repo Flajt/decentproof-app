@@ -1,6 +1,8 @@
 import 'package:audio_waveforms/audio_waveforms.dart';
 import 'package:decentproof/pages/audiopage/logic/AudioManager.dart';
 import 'package:decentproof/pages/homepage/logic/hashAudioManager.dart';
+import 'package:decentproof/shared/ProcessingDialog.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class RecordingButton extends StatefulWidget {
@@ -31,8 +33,11 @@ class _RecordingButtonState extends State<RecordingButton> {
             await widget.controller.record(savePath);
           } else {
             String path = await widget.controller.stop(true) as String;
-            String hash = await widget.hashAudioManager.hashAudio(path);
-            print(hash.characters);
+            showDialog(
+                context: context,
+                builder: (context) => const ProcessingDialog());
+            String hash =
+                await compute(widget.hashAudioManager.hashAudio, path);
             Navigator.of(context)
                 .pushNamed("/submissionPage", arguments: {"hash": hash});
           }
