@@ -1,4 +1,6 @@
 import 'package:decentproof/pages/videoimagepage/logic/VideoImageHashManager.dart';
+import 'package:decentproof/shared/ProcessingDialog.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../logic/VideoManager.dart';
 
@@ -23,8 +25,14 @@ class VideoButton extends StatelessWidget {
           color: Colors.transparent,
           child: InkWell(
             onTap: () async {
+              showDialog(
+                  context: context,
+                  builder: (context) => const ProcessingDialog());
+
               String path = await videoManager.saveVideo();
-              String hash = await videoImageHashManager.hashVideo(path);
+              //String hash = await videoImageHashManager.hashVideo(path);
+              String hash =
+                  await compute(videoImageHashManager.hashVideo, path);
               Navigator.of(context)
                   .pushNamed("/submissionPage", arguments: {"hash": hash});
             },
