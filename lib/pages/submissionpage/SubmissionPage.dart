@@ -1,12 +1,11 @@
+import 'package:decentproof/pages/settingspage/logic/DevNetLogic.dart';
 import 'package:decentproof/pages/submissionpage/logic/SaveToTangleLogic.dart';
 import 'package:decentproof/pages/submissionpage/logic/ShowInExplorer.dart';
 import 'package:decentproof/pages/submissionpage/uiblocks/BackToHomeButton.dart';
 import 'package:flutter/material.dart';
 
 class SubmissionPage extends StatefulWidget {
-  const SubmissionPage({Key? key, required this.showInExplorer})
-      : super(key: key);
-  final ShowInExplorer showInExplorer;
+  const SubmissionPage({Key? key}) : super(key: key);
   @override
   State<SubmissionPage> createState() => _SubmissionPageState();
 }
@@ -14,6 +13,16 @@ class SubmissionPage extends StatefulWidget {
 class _SubmissionPageState extends State<SubmissionPage> {
   bool hasMessageId = false;
   String? messageId;
+  final DevNetLogic devNetLogic = DevNetLogic();
+  late final bool shouldUseDevNet;
+  late final ShowInExplorer showInExplorer = ShowInExplorer();
+
+  @override
+  void didChangeDependencies() async {
+    super.didChangeDependencies();
+    shouldUseDevNet = await devNetLogic.shouldUseDevNet;
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -48,7 +57,8 @@ class _SubmissionPageState extends State<SubmissionPage> {
                   height: size.height * .2,
                   bottom: size.height * .2,
                   child: TextButton(
-                      onPressed: () => widget.showInExplorer.show(messageId!),
+                      onPressed: () =>
+                          showInExplorer.show(messageId!, shouldUseDevNet),
                       child: Text(
                         "Message ID:\n\n $messageId",
                         style: const TextStyle(
@@ -62,7 +72,7 @@ class _SubmissionPageState extends State<SubmissionPage> {
                 padding: const EdgeInsets.all(8.0),
                 child: ElevatedButton(
                     onPressed: () async {
-                      messageId = await const SaveToTangleLogic()
+                      messageId = await SaveToTangleLogic(shouldUseDevNet)
                           .save(args["hash"] as String);
                       hasMessageId = true;
                       setState(() {});

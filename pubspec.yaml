@@ -46,6 +46,7 @@ dependencies:
   file_picker: ^5.0.1
   flutter_donation_buttons: ^0.0.5
   simple_icons: ^7.1.0
+  shared_preferences: ^2.0.15
 
 
 dev_dependencies:

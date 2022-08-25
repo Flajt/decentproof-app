@@ -1,3 +1,4 @@
+import 'package:decentproof/pages/settingspage/logic/DevNetLogic.dart';
 import 'package:decentproof/pages/submissionpage/logic/ShowInExplorer.dart';
 import 'package:decentproof/pages/verificationpage/logic/FileSelectionLogic.dart';
 import 'package:decentproof/pages/verificationpage/logic/SelectHashAndVerifyLogic.dart';
@@ -21,14 +22,21 @@ class _VerificationPageState extends State<VerificationPage> {
   late final VerificationLogic verificationLogic;
   late final FileSelectionLogic fileSelectionLogic;
   late final SelectHashAndVerifyLogic selectHashAndVerifyLogic;
-
+  late final bool shouldUseDevNet;
+  final DevNetLogic devNetLogic = DevNetLogic();
   @override
   void initState() {
     super.initState();
     showInExplorer = ShowInExplorer();
     hashLogic = HashLogic();
-    verificationLogic = VerificationLogic();
     fileSelectionLogic = FileSelectionLogic();
+  }
+
+  @override
+  void didChangeDependencies() async {
+    super.didChangeDependencies();
+    shouldUseDevNet = await devNetLogic.shouldUseDevNet;
+    verificationLogic = VerificationLogic(shouldUseDevNet);
     selectHashAndVerifyLogic = SelectHashAndVerifyLogic(
         hashLogic, verificationLogic, fileSelectionLogic);
   }
@@ -123,7 +131,8 @@ class _VerificationPageState extends State<VerificationPage> {
                         height: size.height * .2,
                         bottom: size.height * .2,
                         child: TextButton(
-                            onPressed: () => showInExplorer.show(messageId!),
+                            onPressed: () => showInExplorer.show(
+                                messageId!, shouldUseDevNet),
                             child: Text(
                               "Message ID:\n\n $messageId",
                               style: const TextStyle(
