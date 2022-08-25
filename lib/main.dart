@@ -20,8 +20,7 @@ class MyApp extends StatelessWidget {
       routes: {
         "/videoImagePage": (context) => const VideoImagePage(),
         "/audioPage": (context) => const AudioPage(),
-        "/submissionPage": (context) =>
-            SubmissionPage(showInExplorer: ShowInExplorer()),
+        "/submissionPage": (context) => const SubmissionPage(),
         "/verificationPage": (context) => const VerificationPage(),
         "/settingsPage": (context) => const SettingsPage()
       },
