@@ -25,7 +25,8 @@ class VerificationLogic {
         Response<MessageResponse> message =
             await api.apiV1MessagesMessageIdGet(messageId: messageId);
         if (message.isSuccessful) {
-          List<int> data = hex.decode(message.body!.data.allOf!.payload);
+          List<int> data =
+              hex.decode(message.body!.data.allOf!.payload["data"]);
           String payload = utf8.decode(data);
           String extractedHash = payload.split("Hash:")[1].split(" ")[0];
           if (extractedHash == hash) {

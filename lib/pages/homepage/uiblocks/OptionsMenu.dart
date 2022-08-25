@@ -10,7 +10,10 @@ class OptionsMenu extends StatelessWidget {
         navigationRoute: "/videoImagePage"),
     OptionTile(
         iconData: Icons.mic, title: "Sound", navigationRoute: "/audioPage"),
-    OptionTile(iconData: Icons.check, title: "Verify", navigationRoute: "")
+    OptionTile(
+        iconData: Icons.check,
+        title: "Verify",
+        navigationRoute: "/verificationPage")
   ];
 
   @override
