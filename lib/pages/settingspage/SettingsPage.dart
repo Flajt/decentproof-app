@@ -39,6 +39,10 @@ class SettingsPage extends StatelessWidget {
               trailing: DevNetSwitch(),
             ),
             const Divider(),
+            const AboutListTile(
+              applicationLegalese: "Copyright 2022, Tjalf Bartel",
+            ),
+            const Divider()
           ],
         ),
       )),
