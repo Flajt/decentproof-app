@@ -2,6 +2,8 @@ import 'package:decentproof/pages/videoimagepage/logic/ImageManger.dart';
 import 'package:decentproof/pages/videoimagepage/logic/VideoImageHashManager.dart';
 import 'package:flutter/material.dart';
 
+import '../../../shared/ProcessingDialog.dart';
+
 class ImageButton extends StatelessWidget {
   const ImageButton(
       {Key? key,
@@ -24,6 +26,9 @@ class ImageButton extends StatelessWidget {
           child: InkWell(
             onTap: () async {
               String path = await imageManager.saveImage();
+              showDialog(
+                  context: context,
+                  builder: (context) => const ProcessingDialog());
               String hash = await videoImageHashManager.hashImage(path);
               Navigator.of(context)
                   .pushNamed("/submissionPage", arguments: {"hash": hash});
