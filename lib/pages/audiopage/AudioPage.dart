@@ -1,9 +1,10 @@
 import 'package:audio_waveforms/audio_waveforms.dart';
 import 'package:decentproof/pages/audiopage/logic/AudioManager.dart';
 import 'package:decentproof/pages/audiopage/uiblock/RecordingButton.dart';
-import 'package:decentproof/pages/homepage/logic/hashAudioManager.dart';
 import 'package:decentproof/shared/HashLogic.dart';
 import 'package:flutter/material.dart';
+
+import 'logic/HashAudioManager.dart';
 
 class AudioPage extends StatefulWidget {
   const AudioPage({Key? key}) : super(key: key);
