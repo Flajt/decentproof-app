@@ -1,6 +1,6 @@
 import 'dart:typed_data';
 import 'package:pointycastle/digests/keccak.dart';
-import 'package:convert/convert.dart';
+import 'package:convert/convert.dart' show hex;
 
 class HashLogic {
   HashLogic() {

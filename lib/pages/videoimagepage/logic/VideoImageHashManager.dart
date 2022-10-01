@@ -15,8 +15,8 @@ class VideoImageHashManager {
 
   Future<String> hashVideo(String path) async {
     File file = File(path);
-    Uint8List imageAsBytes = await file.readAsBytes();
-    String hash = await _hashLogic.hashBytesInChunks(imageAsBytes);
+    Stream<List<int>> imageAsBytes = file.openRead();
+    String hash = await _hashLogic.hashBytesInChunksFromStream(imageAsBytes);
     return hash;
   }
 }
