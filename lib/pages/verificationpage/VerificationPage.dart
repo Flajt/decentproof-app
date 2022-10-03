@@ -4,6 +4,8 @@ import 'package:decentproof/pages/verificationpage/logic/FileSelectionLogic.dart
 import 'package:decentproof/pages/verificationpage/logic/SelectHashAndVerifyLogic.dart';
 import 'package:decentproof/pages/verificationpage/logic/VerificationLogic.dart';
 import 'package:decentproof/shared/HashLogic.dart';
+import 'package:decentproof/shared/ProcessingDialog.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class VerificationPage extends StatefulWidget {
@@ -66,8 +68,12 @@ class _VerificationPageState extends State<VerificationPage> {
                   child: OutlinedButton(
                       onPressed: () async {
                         try {
+                          showDialog(
+                              context: context,
+                              builder: (context) => const ProcessingDialog());
                           Map<String, String>? data =
                               await selectHashAndVerifyLogic.check();
+                          print(data);
                           if (data != null) {
                             hash = data["hash"];
                             messageId = data["messageId"];
@@ -75,6 +81,7 @@ class _VerificationPageState extends State<VerificationPage> {
                           }
                           setState(() {});
                         } catch (e) {
+                          Navigator.of(context).pop();
                           showDialog(
                               context: context,
                               builder: (context) => Dialog(
@@ -107,6 +114,7 @@ class _VerificationPageState extends State<VerificationPage> {
                                     ),
                                   ));
                         }
+                        Navigator.of(context).pop();
                       },
                       child: const Text("Select File")),
                 ),

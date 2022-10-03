@@ -5,9 +5,16 @@ class ProcessingDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-        child: CircularProgressIndicator.adaptive(
-      backgroundColor: Colors.white,
-    ));
+    return const Dialog(
+      elevation: 0.0,
+      insetPadding: EdgeInsets.all(1),
+      backgroundColor: Colors.transparent,
+      child: Center(
+          child: CircularProgressIndicator.adaptive(
+        backgroundColor: Colors.white,
+        strokeWidth: 10.0,
+        semanticsLabel: "Processing input",
+      )),
+    );
   }
 }
