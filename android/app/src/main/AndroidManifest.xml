@@ -1,6 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="de.triskalion.decentproof.decentproof">
    <application
+        android:allowBackup="false"
+        android:fullBackupContent="false"
         android:label="decentproof"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
