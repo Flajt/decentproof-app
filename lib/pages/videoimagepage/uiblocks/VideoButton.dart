@@ -16,8 +16,8 @@ class VideoButton extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Container(
-      width: size.width * .7,
-      height: size.height * .3,
+      width: size.width * .6,
+      height: size.height * .2,
       decoration: BoxDecoration(
           border: Border.all(color: Colors.black, width: 2.0),
           borderRadius: const BorderRadius.all(Radius.circular(20.0))),
@@ -30,7 +30,6 @@ class VideoButton extends StatelessWidget {
                   builder: (context) => const ProcessingDialog());
 
               String path = await videoManager.saveVideo();
-              //String hash = await videoImageHashManager.hashVideo(path);
               String hash =
                   await compute(videoImageHashManager.hashVideo, path);
               Navigator.of(context)
@@ -38,14 +37,17 @@ class VideoButton extends StatelessWidget {
             },
             radius: size.width,
             splashColor: Colors.lightGreenAccent,
-            child: Row(children: const [
-              Icon(
-                Icons.video_camera_front,
-                size: 100.0,
-              ),
-              Text("Take a Video",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0))
-            ]),
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: const [
+                  Icon(
+                    Icons.video_file,
+                    size: 100.0,
+                  ),
+                  Text("Take a Video",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 20.0))
+                ]),
           )),
     );
   }
