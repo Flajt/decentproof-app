@@ -8,8 +8,9 @@ class HashAudioManager {
   const HashAudioManager(HashLogic hashLogic) : _hashLogic = hashLogic;
   Future<String> hashAudio(String path) async {
     File audioFile = File(path);
-    Uint8List audioFileAsBytes = await audioFile.readAsBytes();
-    String hash = await _hashLogic.hashBytes(audioFileAsBytes);
+    Stream<List<int>> audioFileAsBytes = audioFile.openRead();
+    String hash =
+        await _hashLogic.hashBytesInChunksFromStream(audioFileAsBytes);
     return hash;
   }
 }

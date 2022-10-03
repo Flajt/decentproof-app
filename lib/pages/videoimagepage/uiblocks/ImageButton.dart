@@ -2,6 +2,8 @@ import 'package:decentproof/pages/videoimagepage/logic/ImageManger.dart';
 import 'package:decentproof/pages/videoimagepage/logic/VideoImageHashManager.dart';
 import 'package:flutter/material.dart';
 
+import '../../../shared/ProcessingDialog.dart';
+
 class ImageButton extends StatelessWidget {
   const ImageButton(
       {Key? key,
@@ -14,8 +16,8 @@ class ImageButton extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Container(
-      width: size.width * .7,
-      height: size.height * .3,
+      width: size.width * .6,
+      height: size.height * .2,
       decoration: BoxDecoration(
           border: Border.all(color: Colors.black, width: 2.0),
           borderRadius: const BorderRadius.all(Radius.circular(20.0))),
@@ -24,20 +26,26 @@ class ImageButton extends StatelessWidget {
           child: InkWell(
             onTap: () async {
               String path = await imageManager.saveImage();
+              showDialog(
+                  context: context,
+                  builder: (context) => const ProcessingDialog());
               String hash = await videoImageHashManager.hashImage(path);
               Navigator.of(context)
                   .pushNamed("/submissionPage", arguments: {"hash": hash});
             },
             radius: size.width,
             splashColor: Colors.lightGreenAccent,
-            child: Row(children: const [
-              Icon(
-                Icons.photo,
-                size: 100.0,
-              ),
-              Text("Take a Photo",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0))
-            ]),
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: const [
+                  Icon(
+                    Icons.camera,
+                    size: 100.0,
+                  ),
+                  Text("Take a Photo",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 20.0))
+                ]),
           )),
     );
   }
