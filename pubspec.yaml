@@ -48,6 +48,7 @@ dependencies:
   simple_icons: ^7.1.0
   shared_preferences: ^2.0.15
   firebase_core: ^1.24.0
+  firebase_app_check: ^0.0.9
 
 
 dev_dependencies:
