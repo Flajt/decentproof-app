@@ -17,20 +17,23 @@ class ApiKeyManager {
   Future<bool> checkForNewApiKey() async {
     String? apiKey = await _secureStorageWrapper.retriveApiKey();
     Response resp = await _dio.get("/update-required",
-        options: Options(headers: {"Authorzation": apiKey}));
+        options: Options(
+            headers: {"authorization": "basic $apiKey"},
+            contentType: "application/json",
+            responseType: ResponseType.json));
     if (resp.statusCode == 200) {
-      bool hasNewer = resp.data.hasNewer;
+      bool hasNewer = resp.data["hasNewer"];
       return hasNewer;
     }
     throw resp.statusCode.toString();
   }
 
   Future<void> getNewNewKey() async {
-    String token = await _appCheckWrapper!.getAppToken();
+    //String token = await _appCheckWrapper!.getAppToken();
     Response resp = await _dio.get("/apiKey",
-        options: Options(headers: {"X-AppCheck": token}));
+        options: Options(headers: {"X-AppCheck": "token"}));
     if (resp.statusCode == 200) {
-      String apiKey = resp.data.key;
+      String apiKey = resp.data["key"];
       _secureStorageWrapper.saveApiKey(apiKey);
     }
   }

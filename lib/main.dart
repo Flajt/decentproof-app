@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:decentproof/firebase_options.dart';
 import 'package:decentproof/pages/Integrety/ApiKeyManager.dart';
 import 'package:decentproof/pages/Integrety/AppCheckWrapper.dart';
@@ -15,15 +14,15 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 void main() async {
-  final ApiKeyManager apiKeyManager =
-      ApiKeyManager(SecureStorageWrapper(), AppcheckWrapper());
   WidgetsFlutterBinding.ensureInitialized();
-  //used ONLY for appcheck and nothing more
-  if (Random().nextInt(2) == 1) await apiKeyManager.updateIfNewKey();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await FirebaseAppCheck.instance.activate();
+  final ApiKeyManager apiKeyManager =
+      ApiKeyManager(SecureStorageWrapper(), AppcheckWrapper());
+  //used ONLY for appcheck and nothing more
+  if (Random().nextInt(2) == 1) await apiKeyManager.updateIfNewKey();
   runApp(const MyApp());
 }
 

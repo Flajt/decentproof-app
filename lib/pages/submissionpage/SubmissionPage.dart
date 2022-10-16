@@ -1,4 +1,6 @@
+import 'package:decentproof/pages/Integrety/SecureStorageWrapper.dart';
 import 'package:decentproof/pages/settingspage/logic/DevNetLogic.dart';
+import 'package:decentproof/pages/submissionpage/logic/MessageSigningService.dart';
 import 'package:decentproof/pages/submissionpage/logic/SaveToTangleLogic.dart';
 import 'package:decentproof/pages/submissionpage/logic/ShowInExplorer.dart';
 import 'package:decentproof/pages/submissionpage/uiblocks/BackToHomeButton.dart';
@@ -16,6 +18,7 @@ class _SubmissionPageState extends State<SubmissionPage> {
   final DevNetLogic devNetLogic = DevNetLogic();
   late final bool shouldUseDevNet;
   late final ShowInExplorer showInExplorer = ShowInExplorer();
+  final signingService = MessageSigningService(SecureStorageWrapper());
 
   @override
   void didChangeDependencies() async {
@@ -72,7 +75,11 @@ class _SubmissionPageState extends State<SubmissionPage> {
                 padding: const EdgeInsets.all(8.0),
                 child: ElevatedButton(
                     onPressed: () async {
-                      messageId = await SaveToTangleLogic(shouldUseDevNet)
+                      final DateTime dateTime = DateTime.now();
+                      String signature = await signingService.signMessage(
+                          args["hash"] as String, dateTime);
+                      messageId = await SaveToTangleLogic(
+                              signature, dateTime, shouldUseDevNet)
                           .save(args["hash"] as String);
                       hasMessageId = true;
                       setState(() {});
