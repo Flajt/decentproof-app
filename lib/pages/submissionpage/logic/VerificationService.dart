@@ -27,7 +27,6 @@ g5IHK23GwgQNWeEYWTY8QyCLRuRbSvaoS+5TSc35fEut6gFAnElJxs3wuQ==
   }
 
   ECPublicKey loadAndPrepPubKey() {
-    print("POWeR Rangers");
     return CryptoUtils.ecPublicKeyFromPem(pemPubKey);
   }
 
