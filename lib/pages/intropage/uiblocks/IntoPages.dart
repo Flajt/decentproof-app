@@ -36,5 +36,5 @@ List<PageViewModel> introPages = [
       decoration: const PageDecoration(bodyAlignment: Alignment.center),
       title: "Finish",
       body:
-          "That's it, if you want to support the App feel free to check the top right icon out, I would appreciate it!")
+          "That's it, if you want to support the App, or would like to get more info about how it works, feel free to check the top right icon, on the main page, out. I would appreciate it!")
 ];
