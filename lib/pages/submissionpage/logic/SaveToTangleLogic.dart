@@ -5,16 +5,18 @@ import 'package:chopper/chopper.dart';
 import 'package:decentproof/shared/generated/openapi.swagger.dart';
 
 class SaveToTangleLogic {
-  const SaveToTangleLogic([this.devNet = true]);
+  const SaveToTangleLogic(this.signature, this.dateTime, [this.devNet = true]);
   final bool devNet;
+  final String signature;
+  final DateTime dateTime;
   Future<String> save(String hash) async {
     final api = Openapi.create(
       baseUrl: devNet
           ? "https://api.lb-0.h.chrysalis-devnet.iota.cafe"
           : "https://chrysalis-nodes.iota.cafe",
     );
-    final DateTime dateTime = DateTime.now();
-    String data = "Hash:$hash App:DecentProof DateTime:$dateTime";
+    String data =
+        "Hash:$hash App:DecentProof v:0 DateTime:$dateTime Sig:$signature";
     final payload = IndexationPayload(
         type: 2,
         index:

@@ -1,10 +1,13 @@
 import 'dart:convert';
 import 'package:chopper/chopper.dart';
+import 'package:decentproof/pages/submissionpage/logic/VerificationService.dart';
 import 'package:decentproof/shared/generated/openapi.swagger.dart';
 import 'package:convert/convert.dart';
+import 'package:pointycastle/pointycastle.dart';
 
 class VerificationLogic {
-  VerificationLogic([this.devNet = true]) {
+  final VerificationService verificationService;
+  VerificationLogic(this.verificationService, [this.devNet = true]) {
     api = Openapi.create(
         baseUrl: devNet
             ? "https://api.lb-0.h.chrysalis-devnet.iota.cafe"
@@ -29,12 +32,20 @@ class VerificationLogic {
               hex.decode(message.body!.data.allOf!.payload["data"]);
           String payload = utf8.decode(data);
           String extractedHash = payload.split("Hash:")[1].split(" ")[0];
+          String signatureString = payload.split("Sig:")[1].split(" ")[0];
+          String messageToValidate = payload.split(" Sig:")[0];
+          ECSignature signature =
+              verificationService.loadAndConvertSignature(signatureString);
           if (extractedHash == hash) {
             targetMessageId = messageId;
-            break;
+            if (verificationService.verify(messageToValidate, signature)) {
+              break;
+            } else {
+              throw "Message Signature is not valid!" as Error;
+            }
           }
         } else {
-          throw message.error.toString();
+          throw message.error.toString() as Error;
         }
       }
     }

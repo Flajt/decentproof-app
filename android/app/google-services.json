@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "874981793699",
+    "project_id": "decentproof-66628",
+    "storage_bucket": "decentproof-66628.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:874981793699:android:a0e991058daef81a498416",
+        "android_client_info": {
+          "package_name": "de.triskalion.decentproof.decentproof"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "874981793699-bshuoueuha01faqv9k0ho5quof88lkma.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAHf5u12s0L-kR82E6CZZ9bXwzKEec7dBY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "874981793699-bshuoueuha01faqv9k0ho5quof88lkma.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

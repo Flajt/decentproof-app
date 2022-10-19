@@ -1,5 +1,6 @@
 import 'package:decentproof/pages/settingspage/logic/DevNetLogic.dart';
 import 'package:decentproof/pages/submissionpage/logic/ShowInExplorer.dart';
+import 'package:decentproof/pages/submissionpage/logic/VerificationService.dart';
 import 'package:decentproof/pages/verificationpage/logic/FileSelectionLogic.dart';
 import 'package:decentproof/pages/verificationpage/logic/SelectHashAndVerifyLogic.dart';
 import 'package:decentproof/pages/verificationpage/logic/VerificationLogic.dart';
@@ -38,7 +39,8 @@ class _VerificationPageState extends State<VerificationPage> {
   void didChangeDependencies() async {
     super.didChangeDependencies();
     shouldUseDevNet = await devNetLogic.shouldUseDevNet;
-    verificationLogic = VerificationLogic(shouldUseDevNet);
+    verificationLogic =
+        VerificationLogic(VerificationService(), shouldUseDevNet);
     selectHashAndVerifyLogic = SelectHashAndVerifyLogic(
         hashLogic, verificationLogic, fileSelectionLogic);
   }
@@ -75,12 +77,13 @@ class _VerificationPageState extends State<VerificationPage> {
                               await selectHashAndVerifyLogic.check();
                           print(data);
                           if (data != null) {
+                            Navigator.of(context).pop();
                             hash = data["hash"];
                             messageId = data["messageId"];
                             isVerfied = true;
                           }
                           setState(() {});
-                        } catch (e) {
+                        } catch (e, stack) {
                           Navigator.of(context).pop();
                           showDialog(
                               context: context,
@@ -114,7 +117,7 @@ class _VerificationPageState extends State<VerificationPage> {
                                     ),
                                   ));
                         }
-                        Navigator.of(context).pop();
+                        //Navigator.of(context).pop();
                       },
                       child: const Text("Select File")),
                 ),
