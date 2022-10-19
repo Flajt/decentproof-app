@@ -11,12 +11,14 @@ import 'package:decentproof/pages/settingspage/SettingsPage.dart';
 import 'package:decentproof/pages/submissionpage/SubmissionPage.dart';
 import 'package:decentproof/pages/verificationpage/VerificationPage.dart';
 import 'package:decentproof/pages/videoimagepage/VideoImagePage.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -25,7 +27,19 @@ void main() async {
       ApiKeyManager(SecureStorageWrapper(), AppcheckWrapper());
   //used ONLY for appcheck and nothing more
   if (Random().nextInt(2) == 1) await apiKeyManager.updateIfNewKey();
-  runApp(const MyApp());
+  runApp(EasyLocalization(
+      useOnlyLangCode: true,
+      fallbackLocale: const Locale("en"),
+      path: "assets/translations",
+      supportedLocales: const [
+        Locale("en"),
+        Locale("de"),
+        Locale("sn"),
+        Locale("fr"),
+        Locale("jp"),
+        Locale("ch")
+      ],
+      child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -34,6 +48,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
+      locale: context.locale,
       routes: {
         "/videoImagePage": (context) => const VideoImagePage(),
         "/audioPage": (context) => const AudioPage(),
