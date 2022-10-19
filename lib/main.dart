@@ -5,6 +5,8 @@ import 'package:decentproof/pages/Integrety/AppCheckWrapper.dart';
 import 'package:decentproof/pages/Integrety/SecureStorageWrapper.dart';
 import 'package:decentproof/pages/audiopage/AudioPage.dart';
 import 'package:decentproof/pages/homepage/HomePage.dart';
+import 'package:decentproof/pages/intropage/IntroPage.dart';
+import 'package:decentproof/pages/intropage/logic/firstTimeUserCheck.dart';
 import 'package:decentproof/pages/settingspage/SettingsPage.dart';
 import 'package:decentproof/pages/submissionpage/SubmissionPage.dart';
 import 'package:decentproof/pages/verificationpage/VerificationPage.dart';
@@ -44,7 +46,14 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.lightGreen,
         primaryColor: Colors.lightGreenAccent,
       ),
-      home: const HomePage(),
+      home: FutureBuilder(
+          future: isFirstTimeUser(),
+          builder: (context, snapshot) {
+            if (snapshot.data == true) {
+              return const IntroPage();
+            }
+            return const HomePage();
+          }),
     );
   }
 }
