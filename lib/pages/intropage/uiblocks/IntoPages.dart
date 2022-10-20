@@ -1,10 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 
 List<PageViewModel> introPages = [
   PageViewModel(
       decoration: const PageDecoration(bodyAlignment: Alignment.center),
-      title: "Welcome to Decentproof",
+      title: "introPage.title0".tr(),
       bodyWidget: const Center(
         child: Icon(
           Icons.waving_hand_rounded,
@@ -14,27 +15,22 @@ List<PageViewModel> introPages = [
       )),
   PageViewModel(
       decoration: const PageDecoration(bodyAlignment: Alignment.center),
-      title: "What can you do?",
-      body:
-          "With this App you can create multimedia files and later proof that this file has not been tampered with!"),
+      title: "introPage.title1",
+      body: "introPage.body1".tr()),
   PageViewModel(
       decoration: const PageDecoration(bodyAlignment: Alignment.center),
-      title: "How does it work?",
-      body:
-          "Simply select on of the 2 options in the main menu and start creating your file. Supported are: .mp4, .png & .mp3"),
+      title: "introPage.title2".tr(),
+      body: "introPage.body2".tr()),
   PageViewModel(
       decoration: const PageDecoration(bodyAlignment: Alignment.center),
-      title: "A note about shareing",
-      body:
-          "You can simply share the file from any App you want, but we recommend you use E-Mail, a Cloud storage or direct export.\n\nIf you use other apps like a chat app you might loose metadata and might not be able to later validate the file!"),
+      title: "introPage.title3".tr(),
+      body: "introPage.body3".tr()),
   PageViewModel(
       decoration: const PageDecoration(bodyAlignment: Alignment.center),
-      title: "Verifying files",
-      body:
-          "Thats easy, simply select the third entry in the main Menu and select your file. Everything else is self explantory!"),
+      title: "introPage.title4".tr(),
+      body: "introPage.body4".tr()),
   PageViewModel(
       decoration: const PageDecoration(bodyAlignment: Alignment.center),
-      title: "Finish",
-      body:
-          "That's it, if you want to support the App, or would like to get more info about how it works, feel free to check the top right icon, on the main page, out. I would appreciate it!")
+      title: "introPage.title5".tr(),
+      body: "introPage.body5".tr())
 ];

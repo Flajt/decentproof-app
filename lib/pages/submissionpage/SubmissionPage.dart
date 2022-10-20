@@ -4,6 +4,7 @@ import 'package:decentproof/pages/submissionpage/logic/MessageSigningService.dar
 import 'package:decentproof/pages/submissionpage/logic/SaveToTangleLogic.dart';
 import 'package:decentproof/pages/submissionpage/logic/ShowInExplorer.dart';
 import 'package:decentproof/pages/submissionpage/uiblocks/BackToHomeButton.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class SubmissionPage extends StatefulWidget {
@@ -48,7 +49,7 @@ class _SubmissionPageState extends State<SubmissionPage> {
             width: size.width - 10,
             top: size.height * .2,
             child: Text(
-              "Your Hash: \n\n ${args["hash"]}",
+              "${"submissionPage.hash".tr()}\n\n ${args["hash"]}",
               textAlign: TextAlign.center,
               style:
                   const TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0),
@@ -63,7 +64,7 @@ class _SubmissionPageState extends State<SubmissionPage> {
                       onPressed: () =>
                           showInExplorer.show(messageId!, shouldUseDevNet),
                       child: Text(
-                        "Message ID:\n\n $messageId",
+                        "${"submissionPage.messageid".tr()}\n\n $messageId",
                         style: const TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 18.0),
                         textAlign: TextAlign.center,
@@ -84,7 +85,7 @@ class _SubmissionPageState extends State<SubmissionPage> {
                       hasMessageId = true;
                       setState(() {});
                     },
-                    child: const Text("Submitt")),
+                    child: const Text("submissionPage.submitt").tr()),
               ))
         ],
       ),

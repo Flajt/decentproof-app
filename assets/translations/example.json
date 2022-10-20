@@ -1,0 +1,57 @@
+{
+    "homePage":{
+        "options":{
+            "imageVideo":"",
+            "audio": "",
+            "verify":""
+        }
+    },
+    "introPage":{
+        "title0":"",
+        "title1": "",
+        "title2": "",
+        "title3": "",
+        "title4": "",
+        "title5": "",
+        "body1": "",
+        "body2": "",
+        "body3": "",
+        "body4": "",
+        "body5": "",
+        "next": "",
+        "skip": "",
+        "done": ""
+    },
+    "settingsPage":{
+        "title": "",
+        "devnet": "",
+        "description": ""
+    },
+    "submissionPage":{
+        "hash": "",
+        "messageid": "",
+        "submitt": ""
+    },
+    "supportPage":{
+        "title": "",
+        "description":"",
+        "support":"",
+        "help": "",
+        "code": ""
+    },
+    "verificationPage":{
+        "notModified":"",
+        "error":"",
+        "selectFile":"",
+        "hash": "",
+        "noFile":"",
+        "id": ""
+    },
+    "videoImagePage":{
+        "photo": "",
+        "video": ""
+    },
+    "other":{
+        "home":""
+    }
+}

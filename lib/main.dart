@@ -37,7 +37,7 @@ void main() async {
         Locale("sn"),
         Locale("fr"),
         Locale("jp"),
-        Locale("ch")
+        Locale("zn")
       ],
       child: const MyApp()));
 }

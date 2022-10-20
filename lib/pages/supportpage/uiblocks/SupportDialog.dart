@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_donation_buttons/donationButtons/buyMeACoffeButton.dart';
 import 'package:flutter_donation_buttons/donationButtons/ko-fiButton.dart';
@@ -17,21 +18,21 @@ class SupportDialog extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Text("Support Development",
+              Text("supportPage.title".tr(),
                   style: Theme.of(context).textTheme.headline5),
               const Text(
-                "If you like this project, consider checking one of these links out. This will help immensely.",
+                "supportPage.description",
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 16.0),
-              ),
-              const KofiButton(
+              ).tr(),
+              KofiButton(
                 kofiName: "flajt",
-                text: "Support Development",
+                text: "supportPage.support".tr(),
                 kofiColor: KofiColor.Red,
               ),
-              const BuyMeACoffeButton(
+              BuyMeACoffeButton(
                 buyMeACoffeName: "flajt",
-                text: "Help Development",
+                text: "supportPage.help".tr(),
                 color: BuyMeACoffeColor.Green,
               ),
               ElevatedButton.icon(
@@ -39,7 +40,7 @@ class SupportDialog extends StatelessWidget {
                   onPressed: () => launchUrlString(
                       "https://github.com/Flajt/decentproof-app"),
                   icon: const Icon(SimpleIcons.github),
-                  label: const Text("Checkout the code"))
+                  label: const Text("supportPage.code").tr())
             ],
           ),
         ),

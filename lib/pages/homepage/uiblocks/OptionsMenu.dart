@@ -1,4 +1,5 @@
 import 'package:decentproof/pages/homepage/uiblocks/OptionTile.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class OptionsMenu extends StatelessWidget {
@@ -6,13 +7,15 @@ class OptionsMenu extends StatelessWidget {
   final List<OptionTile> tiles = const [
     OptionTile(
         iconData: Icons.camera,
-        title: "Image/Videos",
+        title: "homePage.options.imageVideo",
         navigationRoute: "/videoImagePage"),
     OptionTile(
-        iconData: Icons.mic, title: "Sound", navigationRoute: "/audioPage"),
+        iconData: Icons.mic,
+        title: "homePage.options.audio",
+        navigationRoute: "/audioPage"),
     OptionTile(
         iconData: Icons.check,
-        title: "Verify",
+        title: "homePage.options.verify",
         navigationRoute: "/verificationPage")
   ];
 

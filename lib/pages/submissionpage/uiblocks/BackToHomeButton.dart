@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class BackToHomeButton extends StatelessWidget {
@@ -7,6 +8,6 @@ class BackToHomeButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextButton(
         onPressed: () => Navigator.of(context).popAndPushNamed("/"),
-        child: const Text("Back to Home"));
+        child: const Text("other.home").tr());
   }
 }
