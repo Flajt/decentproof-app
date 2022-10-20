@@ -1,0 +1,58 @@
+{
+    "homePage":{
+        "options":{
+            "imageVideo": "imagen/vídeo",
+            "audio": "Audio",
+            "verify": "Verificar"
+        }
+    },
+    "introPage":{
+        "title0": "Bienvenido a Decentproof",
+        "title1": "¿Qué puedes hacer?",
+        "title2": "¿Cómo funciona?",
+        "title3": "Una nota sobre cómo compartir",
+        "title4": "Verificación de archivos",
+        "title5": "Finalizar",
+        "body1": "¡Con esta App puedes crear archivos multimedia y posteriormente probar que ese archivo no ha sido manipulado!",
+        "body2": "Simplemente selecciona una de las 2 opciones del menú principal y empieza a crear tu archivo. Los archivos soportados son: .mp4, .png y .mp3",
+        "body3": "Puedes simplemente compartir el archivo desde cualquier App que quieras, pero te recomendamos que utilices el correo electrónico, un almacenamiento en la nube o la exportación directa.\n\n¡Si utilizas otras apps como una app de chat podrías perder los metadatos y no poder validar el archivo posteriormente!",
+        "body4": "Así de fácil, simplemente selecciona la tercera entrada en el menú principal y selecciona tu archivo. Todo lo demás se explica por sí mismo",
+        "body5": "Eso es todo, si quieres apoyar la aplicación, o te gustaría obtener más información sobre su funcionamiento, no dudes en comprobar el icono superior derecho, en la página principal, fuera. Te lo agradecería!",
+        "next": "Next",
+        "skip": "Saltar",
+        "done": "Hecho"
+    },
+    "settingsPage":{
+        "title": "Settings",
+        "devnet": "DevNet",
+        "description": "Si quieres guardar datos en el DevNet. No se recomienda"
+    },
+    "submissionPage":{
+        "hash": "Su Hash:",
+        "messageid": "Message ID",
+        "submitt": "Submitt"
+
+    },
+    "supportPage":{
+        "title": "Desarrollo de soporte",
+        "description": "Si te gusta este proyecto, considera comprobar uno de estos enlaces. Esto será de gran ayuda",
+        "support": "Ayuda desarrollo",
+        "help": "Ayuda desarrollo",
+        "code": "Comprobar el código"
+    },
+    "verificationPage":{
+        "notModified": "Parece que su archivo no ha sido modificado",
+        "error": "Se ha producido un error",
+        "selectFile": "Selecciona un archivo",
+        "hash": "Su Hash:",
+        "noFile": "¡No se ha seleccionado ningún archivo!",
+        "id": "Su ID de mensaje:"
+    },
+    "videoImagePage":{
+        "photo": "Toma una foto",
+        "video": "Take a video"
+    },
+    "other":{
+        "home": "Volver a casa"
+    }
+}

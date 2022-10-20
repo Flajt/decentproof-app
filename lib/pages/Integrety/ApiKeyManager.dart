@@ -4,7 +4,7 @@ import 'package:dio/dio.dart';
 
 class ApiKeyManager {
   late final AppcheckWrapper? _appCheckWrapper;
-  final String url = "http://localhost:8000";
+  final String url = "http://192.168.0.2:8000";
   late final Dio _dio;
   late final SecureStorageWrapper _secureStorageWrapper;
 

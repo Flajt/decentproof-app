@@ -1,5 +1,6 @@
 import 'package:decentproof/pages/videoimagepage/logic/ImageManger.dart';
 import 'package:decentproof/pages/videoimagepage/logic/VideoImageHashManager.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../../../shared/ProcessingDialog.dart';
@@ -37,13 +38,13 @@ class ImageButton extends StatelessWidget {
             splashColor: Colors.lightGreenAccent,
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: const [
-                  Icon(
+                children: [
+                  const Icon(
                     Icons.camera,
                     size: 100.0,
                   ),
-                  Text("Take a Photo",
-                      style: TextStyle(
+                  Text("videoImagePage.photo".tr(),
+                      style: const TextStyle(
                           fontWeight: FontWeight.bold, fontSize: 20.0))
                 ]),
           )),

@@ -1,0 +1,59 @@
+{
+    "homePage":{
+        "options":{
+            "imageVideo":"Bild/Video",
+            "audio":"Audio",
+            "verify": "Verifizieren"
+        }
+    },
+    "introPage":{
+        "title0": "Willkommen bei Decentproof",
+        "title1": "Was können Sie tun?",
+        "title2": "Wie funktioniert das?",
+        "title3": "Ein Hinweis zum exportieren",
+        "title4": "Datein verifizieren",
+        "title5": "Ende",
+        "body1": "Mit dieser App können Sie Multimediadateien erstellen und später beweisen, dass diese Datei nicht manipuliert wurde!",
+        "body2": "Wählen Sie einfach eine der 2 Optionen im Hauptmenü und beginnen Sie mit der Erstellung Ihrer Datei. Unterstützt werden: .mp4, .png & .mp3",
+        "body3": "Sie können die Datei von jeder beliebigen App aus teilen, aber wir empfehlen Ihnen, E-Mail, einen Cloud-Speicher oder den direkten Export zu verwenden. Wenn Sie andere Apps wie z. B. eine Chat-App verwenden, gehen möglicherweise Metadaten verloren und Sie können die Datei später nicht verifizieren!",
+        "body4": "Das ist ganz einfach: Wählen Sie einfach den dritten Eintrag im Hauptmenü und wählen Sie Ihre Datei aus. Alles andere ist ",
+        "body5": "Das war's. Wenn Sie die App unterstützen wollen oder mehr Informationen über ihre Funktionsweise wünschen, können Sie das Symbol oben rechts auf der Hauptseite verwenden. Ich würde mich freuen.",
+        "next": "Weiter",
+        "skip": "Überspringen",
+        "done": "Fertig"
+    },
+    "settingsPage":{
+        "title": "Einstellungen",
+        "devnet": "DevNet",
+        "description": "Wenn du Daten im DevNet speichern willst. Nicht empfohlen!"
+    },
+    "submissionPage":{
+        "hash": "Ihr Hash",
+        "messageid": "Nachrichten ID",
+        "submitt": "Einreichen"
+    },
+    "supportPage":{
+        "title": "Unterstützung",
+        "description":"Wenn Ihnen dieses Projekt gefällt oder Sie mehr darüber wissen möchten, sollten Sie sich einen der folgenden Links ansehen.",
+        "support":" Entwickler helfen",
+        "help": "Entwickler helfen",
+        "code": "Projekt Code einsehen"
+    },
+    "verificationPage":{
+        "notModified":"Ihre Datei schein nicht modifiziert zu sein",
+        "error":"Ein Fehler trat auf",
+        "selectFile":"Datei auswählen",
+        "hash": "Ihr Hash:",
+        "noFile":"Keine Datei ausgewählt!",
+        "id": "Nachriten ID"
+    },
+    "videoImagePage":{
+        "photo": "Ein Foto machen",
+        "video": "Ein Video machen"
+
+    },
+    "other":{
+        "home":"Zur Home Page"
+ 
+    }
+}

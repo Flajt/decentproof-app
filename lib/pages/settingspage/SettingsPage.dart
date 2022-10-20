@@ -1,4 +1,5 @@
 import 'package:decentproof/pages/settingspage/uiblocks/DevNetSwitch.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class SettingsPage extends StatelessWidget {
@@ -24,7 +25,7 @@ class SettingsPage extends StatelessWidget {
                 Align(
                   alignment: Alignment.topCenter,
                   child: Text(
-                    "Einstellungen",
+                    "settingsPage.title".tr(),
                     style: Theme.of(context).textTheme.headline5,
                     textAlign: TextAlign.center,
                   ),
@@ -32,11 +33,10 @@ class SettingsPage extends StatelessWidget {
               ],
             ),
             const Divider(),
-            const ListTile(
-              title: Text("Devnet"),
-              subtitle: Text(
-                  "Wenn du daten im devnet speichern willst. Nicht empfohlen!"),
-              trailing: DevNetSwitch(),
+            ListTile(
+              title: Text("settingsPage.devnet".tr()),
+              subtitle: Text("settingsPage.description".tr()),
+              trailing: const DevNetSwitch(),
             ),
             const Divider(),
             const AboutListTile(

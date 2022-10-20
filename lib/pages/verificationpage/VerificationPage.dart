@@ -6,6 +6,7 @@ import 'package:decentproof/pages/verificationpage/logic/SelectHashAndVerifyLogi
 import 'package:decentproof/pages/verificationpage/logic/VerificationLogic.dart';
 import 'package:decentproof/shared/HashLogic.dart';
 import 'package:decentproof/shared/ProcessingDialog.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -54,13 +55,13 @@ class _VerificationPageState extends State<VerificationPage> {
               size: size,
               child: Stack(children: [
                 isVerfied
-                    ? const Align(
+                    ? Align(
                         alignment: Alignment.topCenter,
                         child: Padding(
-                          padding: EdgeInsets.all(12.0),
+                          padding: const EdgeInsets.all(12.0),
                           child: Text(
-                            "It seems that your file hasn't been modified",
-                            style: TextStyle(
+                            "verificationPage.notModified".tr(),
+                            style: const TextStyle(
                                 fontSize: 16.0, fontWeight: FontWeight.bold),
                           ),
                         ))
@@ -93,13 +94,14 @@ class _VerificationPageState extends State<VerificationPage> {
                                       height: size.height * .4,
                                       child: Stack(
                                         children: [
-                                          const Align(
+                                          Align(
                                               alignment: Alignment.topCenter,
                                               child: Padding(
-                                                padding: EdgeInsets.all(12.0),
+                                                padding:
+                                                    const EdgeInsets.all(12.0),
                                                 child: Text(
-                                                  "An error occured",
-                                                  style: TextStyle(
+                                                  "verificationPage.error".tr(),
+                                                  style: const TextStyle(
                                                       fontSize: 25.0,
                                                       color: Colors.black,
                                                       fontWeight:
@@ -119,21 +121,21 @@ class _VerificationPageState extends State<VerificationPage> {
                         }
                         //Navigator.of(context).pop();
                       },
-                      child: const Text("Select File")),
+                      child: const Text("verificationPage.selectFile").tr()),
                 ),
                 Positioned(
                   width: size.width,
                   top: size.height * .25,
                   child: hash != null
                       ? Text(
-                          "Your Hash:\n\n$hash",
+                          "${"verificationPage.hash".tr()}\n\n$hash",
                           style: const TextStyle(fontSize: 20),
                           textAlign: TextAlign.center,
                         )
-                      : const Center(
+                      : Center(
                           child: Text(
-                          "No file selected!",
-                          style: TextStyle(fontSize: 18.0),
+                          "verificationPage.noFile".tr(),
+                          style: const TextStyle(fontSize: 18.0),
                         )),
                 ),
                 messageId != null
@@ -145,7 +147,7 @@ class _VerificationPageState extends State<VerificationPage> {
                             onPressed: () => showInExplorer.show(
                                 messageId!, shouldUseDevNet),
                             child: Text(
-                              "Message ID:\n\n $messageId",
+                              "${"verificationPage.id".tr()}:\n\n $messageId",
                               style: const TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 18.0),
                               textAlign: TextAlign.center,
