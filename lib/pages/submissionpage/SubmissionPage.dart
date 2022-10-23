@@ -5,6 +5,7 @@ import 'package:decentproof/pages/submissionpage/logic/SaveToTangleLogic.dart';
 import 'package:decentproof/pages/submissionpage/logic/ShowInExplorer.dart';
 import 'package:decentproof/pages/submissionpage/uiblocks/BackToHomeButton.dart';
 import 'package:decentproof/shared/ErrorDialog.dart';
+import 'package:decentproof/shared/ProcessingDialog.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
@@ -78,6 +79,9 @@ class _SubmissionPageState extends State<SubmissionPage> {
                 child: ElevatedButton(
                     onPressed: () async {
                       try {
+                        showDialog(
+                            context: context,
+                            builder: (context) => const ProcessingDialog());
                         final DateTime dateTime = DateTime.now();
                         String signature = await signingService.signMessage(
                             args["hash"] as String, dateTime);
@@ -85,8 +89,10 @@ class _SubmissionPageState extends State<SubmissionPage> {
                                 signature, dateTime, shouldUseDevNet)
                             .save(args["hash"] as String);
                         hasMessageId = true;
+                        Navigator.of(context).pop();
                         setState(() {});
                       } catch (e) {
+                        Navigator.of(context).pop();
                         showDialog(
                             context: context,
                             builder: (context) =>
