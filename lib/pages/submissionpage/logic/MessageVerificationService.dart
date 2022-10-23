@@ -4,7 +4,7 @@ import 'dart:typed_data';
 import 'package:basic_utils/basic_utils.dart';
 import 'package:pointycastle/signers/ecdsa_signer.dart';
 
-class VerificationService {
+class MessageVerificationService {
   final String pemPubKey = """
 -----BEGIN PUBLIC KEY-----
 MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEMGABYxoEQSiFxeidgzS5m9Q9GWtZ
@@ -13,7 +13,6 @@ g5IHK23GwgQNWeEYWTY8QyCLRuRbSvaoS+5TSc35fEut6gFAnElJxs3wuQ==
 """;
 
   ECSignature loadAndConvertSignature(String sig) {
-    print(sig);
     //Based on: https://github.com/bcgit/pc-dart/issues/159#issuecomment-1105689978
     Uint8List bytes = Uint8List.fromList(hex.decode(sig));
     ASN1Parser p = ASN1Parser(bytes);

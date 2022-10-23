@@ -1,13 +1,12 @@
 import 'package:decentproof/pages/settingspage/logic/DevNetLogic.dart';
 import 'package:decentproof/pages/submissionpage/logic/ShowInExplorer.dart';
-import 'package:decentproof/pages/submissionpage/logic/VerificationService.dart';
+import 'package:decentproof/pages/submissionpage/logic/MessageVerificationService.dart';
 import 'package:decentproof/pages/verificationpage/logic/FileSelectionLogic.dart';
 import 'package:decentproof/pages/verificationpage/logic/SelectHashAndVerifyLogic.dart';
 import 'package:decentproof/pages/verificationpage/logic/VerificationLogic.dart';
 import 'package:decentproof/shared/HashLogic.dart';
 import 'package:decentproof/shared/ProcessingDialog.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class VerificationPage extends StatefulWidget {
@@ -41,7 +40,7 @@ class _VerificationPageState extends State<VerificationPage> {
     super.didChangeDependencies();
     shouldUseDevNet = await devNetLogic.shouldUseDevNet;
     verificationLogic =
-        VerificationLogic(VerificationService(), shouldUseDevNet);
+        VerificationLogic(MessageVerificationService(), shouldUseDevNet);
     selectHashAndVerifyLogic = SelectHashAndVerifyLogic(
         hashLogic, verificationLogic, fileSelectionLogic);
   }

@@ -1,12 +1,12 @@
 import 'dart:convert';
 import 'package:chopper/chopper.dart';
-import 'package:decentproof/pages/submissionpage/logic/VerificationService.dart';
+import 'package:decentproof/pages/submissionpage/logic/MessageVerificationService.dart';
 import 'package:decentproof/shared/generated/openapi.swagger.dart';
 import 'package:convert/convert.dart';
 import 'package:pointycastle/pointycastle.dart';
 
 class VerificationLogic {
-  final VerificationService verificationService;
+  final MessageVerificationService verificationService;
   VerificationLogic(this.verificationService, [this.devNet = true]) {
     api = Openapi.create(
         baseUrl: devNet
