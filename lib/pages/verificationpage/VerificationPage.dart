@@ -126,7 +126,7 @@ class _VerificationPageState extends State<VerificationPage> {
                   width: size.width,
                   top: size.height * .25,
                   child: hash != null
-                      ? Text(
+                      ? SelectableText(
                           "${"verificationPage.hash".tr()}\n\n$hash",
                           style: const TextStyle(fontSize: 20),
                           textAlign: TextAlign.center,
@@ -145,7 +145,7 @@ class _VerificationPageState extends State<VerificationPage> {
                         child: TextButton(
                             onPressed: () => showInExplorer.show(
                                 messageId!, shouldUseDevNet),
-                            child: Text(
+                            child: SelectableText(
                               "${"verificationPage.id".tr()}:\n\n $messageId",
                               style: const TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 18.0),

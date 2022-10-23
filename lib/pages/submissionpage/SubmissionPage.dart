@@ -63,7 +63,7 @@ class _SubmissionPageState extends State<SubmissionPage> {
                   child: TextButton(
                       onPressed: () =>
                           showInExplorer.show(messageId!, shouldUseDevNet),
-                      child: Text(
+                      child: SelectableText(
                         "${"submissionPage.messageid".tr()}\n\n $messageId",
                         style: const TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 18.0),
