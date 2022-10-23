@@ -15,7 +15,7 @@ List<PageViewModel> introPages = [
       )),
   PageViewModel(
       decoration: const PageDecoration(bodyAlignment: Alignment.center),
-      title: "introPage.title1",
+      title: "introPage.title1".tr(),
       body: "introPage.body1".tr()),
   PageViewModel(
       decoration: const PageDecoration(bodyAlignment: Alignment.center),
