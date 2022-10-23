@@ -2,17 +2,17 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:basic_utils/basic_utils.dart';
-import 'package:decentproof/pages/submissionpage/logic/VerificationService.dart';
+import 'package:decentproof/pages/submissionpage/logic/MessageVerificationService.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group("Signature validation", () {
-    late final VerificationService verificationService;
+    late final MessageVerificationService verificationService;
     late final AsymmetricKeyPair<PublicKey, PrivateKey> keyPair;
     const String message = "Test message";
 
     setUp(() {
-      verificationService = VerificationService();
+      verificationService = MessageVerificationService();
       keyPair = CryptoUtils.generateEcKeyPair(curve: "secp256r1");
     });
 
