@@ -4,6 +4,7 @@ import 'package:decentproof/pages/submissionpage/logic/MessageSigningService.dar
 import 'package:decentproof/pages/submissionpage/logic/SaveToTangleLogic.dart';
 import 'package:decentproof/pages/submissionpage/logic/ShowInExplorer.dart';
 import 'package:decentproof/pages/submissionpage/uiblocks/BackToHomeButton.dart';
+import 'package:decentproof/shared/ErrorDialog.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
@@ -76,14 +77,21 @@ class _SubmissionPageState extends State<SubmissionPage> {
                 padding: const EdgeInsets.all(8.0),
                 child: ElevatedButton(
                     onPressed: () async {
-                      final DateTime dateTime = DateTime.now();
-                      String signature = await signingService.signMessage(
-                          args["hash"] as String, dateTime);
-                      messageId = await SaveToTangleLogic(
-                              signature, dateTime, shouldUseDevNet)
-                          .save(args["hash"] as String);
-                      hasMessageId = true;
-                      setState(() {});
+                      try {
+                        final DateTime dateTime = DateTime.now();
+                        String signature = await signingService.signMessage(
+                            args["hash"] as String, dateTime);
+                        messageId = await SaveToTangleLogic(
+                                signature, dateTime, shouldUseDevNet)
+                            .save(args["hash"] as String);
+                        hasMessageId = true;
+                        setState(() {});
+                      } catch (e) {
+                        showDialog(
+                            context: context,
+                            builder: (context) =>
+                                ErrorDialog(size: size, error: e.toString()));
+                      }
                     },
                     child: const Text("submissionPage.submitt").tr()),
               ))
