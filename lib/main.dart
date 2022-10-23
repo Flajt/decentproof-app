@@ -25,8 +25,7 @@ void main() async {
   await FirebaseAppCheck.instance.activate();
   final ApiKeyManager apiKeyManager =
       ApiKeyManager(SecureStorageWrapper(), AppcheckWrapper());
-  //used ONLY for appcheck and nothing more
-  if (Random().nextInt(2) == 1) await apiKeyManager.updateIfNewKey();
+  await apiKeyManager.updateOrRetriveKey();
   runApp(EasyLocalization(
       useOnlyLangCode: true,
       fallbackLocale: const Locale("en"),

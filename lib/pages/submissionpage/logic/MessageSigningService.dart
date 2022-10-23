@@ -16,7 +16,7 @@ class MessageSigningService {
     String? apiKey = await _secureStorageWrapper.retriveApiKey();
     Response resp = await _dio.post("$url/sign",
         data: jsonEncode({"data": message}),
-        options: Options(headers: {"Authorization": "base $apiKey"}));
+        options: Options(headers: {"Authorization": "basic $apiKey"}));
     if (resp.statusCode == 200) {
       return resp.data["signature"];
     }
