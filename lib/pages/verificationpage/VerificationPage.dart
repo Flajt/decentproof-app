@@ -76,7 +76,6 @@ class _VerificationPageState extends State<VerificationPage> {
                               builder: (context) => const ProcessingDialog());
                           Map<String, String>? data =
                               await selectHashAndVerifyLogic.check();
-                          print(data);
                           if (data != null) {
                             Navigator.of(context).pop();
                             hash = data["hash"];
@@ -86,6 +85,10 @@ class _VerificationPageState extends State<VerificationPage> {
                           setState(() {});
                         } catch (e, stack) {
                           Navigator.of(context).pop();
+                          isVerfied = false;
+                          messageId = null;
+                          hash = null;
+                          setState(() {});
                           showDialog(
                               context: context,
                               builder: (context) =>
