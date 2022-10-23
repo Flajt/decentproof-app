@@ -40,7 +40,7 @@
         "code": "Projekt Code einsehen"
     },
     "verificationPage":{
-        "notModified":"Ihre Datei schein nicht modifiziert zu sein",
+        "notModified":"Ihre Datei scheint nicht modifiziert zu sein",
         "error":"Ein Fehler trat auf",
         "selectFile":"Datei auswählen",
         "hash": "Ihr Hash:",
