@@ -6,7 +6,7 @@ import 'package:dio/dio.dart';
 
 class ApiKeyManager {
   late final AppcheckWrapper? _appCheckWrapper;
-  final String url = "localhost:80000";
+  final String url = "localhost:8000";
   late final Dio _dio;
   late final SecureStorageWrapper _secureStorageWrapper;
 
@@ -49,8 +49,8 @@ class ApiKeyManager {
     bool hasKey = await hasApiKey();
     if (hasKey) {
       //Used to prevent overwhelming the service with requsts for a new key, as soon as it's available
-      if (Random().nextInt(2) == 1) {
-        bool? hasNew = await checkForNewApiKey();
+      if (Random().nextInt(1) == 1) {
+        bool hasNew = await checkForNewApiKey();
         if (hasNew) {
           String token = await _appCheckWrapper!.getAppToken();
           await getNewNewKey(token);
