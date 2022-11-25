@@ -62,14 +62,16 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.lightGreen,
         primaryColor: Colors.lightGreenAccent,
       ),
-      home: FutureBuilder(
-          future: isFirstTimeUser(),
-          builder: (context, snapshot) {
-            if (snapshot.data == true) {
-              return const IntroPage();
-            }
-            return const HomePage();
-          }),
+      home: Builder(builder: (context) {
+        return FutureBuilder(
+            future: isFirstTimeUser(),
+            builder: (context, snapshot) {
+              if (snapshot.data == true) {
+                return const IntroPage();
+              }
+              return const HomePage();
+            });
+      }),
     );
   }
 }
