@@ -14,12 +14,12 @@ class IntroPage extends StatelessWidget {
       showDoneButton: true,
       showSkipButton: true,
       showNextButton: true,
-      dotsDecorator: DotsDecorator(size: Size.square(6.5)),
+      dotsDecorator: const DotsDecorator(size: Size.square(6.5)),
       onSkip: () => Navigator.of(context).popAndPushNamed("/"),
       onDone: () => Navigator.of(context).popAndPushNamed("/"),
-      skip: Text("Skip"),
-      done: Text("Done"),
-      next: Text("Next"),
+      skip: const Text("Skip"),
+      done: const Text("Done"),
+      next: const Text("Next"),
     );
   }
 }
