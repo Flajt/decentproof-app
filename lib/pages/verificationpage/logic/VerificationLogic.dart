@@ -3,6 +3,7 @@ import 'package:chopper/chopper.dart';
 import 'package:decentproof/pages/submissionpage/logic/MessageVerificationService.dart';
 import 'package:decentproof/shared/generated/openapi.swagger.dart';
 import 'package:convert/convert.dart';
+import 'package:decentproof/shared/interceptors/IotaPinningInterceptor.dart';
 import 'package:pointycastle/pointycastle.dart';
 
 class VerificationLogic {
@@ -11,7 +12,8 @@ class VerificationLogic {
     api = Openapi.create(
         baseUrl: devNet
             ? "https://api.lb-0.h.chrysalis-devnet.iota.cafe"
-            : "https://chrysalis-nodes.iota.cafe");
+            : "https://chrysalis-nodes.iota.cafe",
+        interceptors: [IotaSSLPinningInterceptor()]);
   }
   final bool devNet;
   late final Openapi api;
