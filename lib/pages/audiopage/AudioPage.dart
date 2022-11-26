@@ -20,6 +20,8 @@ class _AudioPageState extends State<AudioPage> {
     super.initState();
     recorderController = RecorderController()
       ..androidOutputFormat = AndroidOutputFormat.aac_adts
+      ..bitRate = 48000
+      ..sampleRate = 44100
       ..shouldClearLabels;
   }
 
