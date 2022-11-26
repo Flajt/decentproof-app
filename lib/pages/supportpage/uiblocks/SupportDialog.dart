@@ -36,7 +36,9 @@ class SupportDialog extends StatelessWidget {
                 color: BuyMeACoffeColor.Green,
               ),
               ElevatedButton.icon(
-                  style: ElevatedButton.styleFrom(primary: Colors.white),
+                  style: ElevatedButton.styleFrom(
+                      foregroundColor: Colors.black,
+                      backgroundColor: Colors.white),
                   onPressed: () => launchUrlString(
                       "https://github.com/Flajt/decentproof-app"),
                   icon: const Icon(SimpleIcons.github),
