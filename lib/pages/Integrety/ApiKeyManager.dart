@@ -3,16 +3,21 @@ import 'dart:math';
 import 'package:decentproof/pages/Integrety/AppCheckWrapper.dart';
 import 'package:decentproof/pages/Integrety/SecureStorageWrapper.dart';
 import 'package:dio/dio.dart';
+import 'package:http_certificate_pinning/http_certificate_pinning.dart';
 
 class ApiKeyManager {
   late final AppcheckWrapper? _appCheckWrapper;
-  final String url = "localhost:8000";
+  final String url = "https://1lwaux.deta.dev";
   late final Dio _dio;
   late final SecureStorageWrapper _secureStorageWrapper;
 
   ApiKeyManager(SecureStorageWrapper secureStorageWrapper,
       [AppcheckWrapper? wrapper]) {
     _dio = Dio(BaseOptions(baseUrl: url));
+    _dio.interceptors
+        .add(CertificatePinningInterceptor(allowedSHAFingerprints: [
+      "87:E7:EB:E3:B3:37:39:9D:4A:8F:A4:99:11:D4:A3:6B:49:D6:32:69:96:9B:16:88:82:94:5E:A7:9F:9E:E2:35"
+    ]));
     _appCheckWrapper = wrapper;
     _secureStorageWrapper = secureStorageWrapper;
   }
