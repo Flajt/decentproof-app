@@ -35,7 +35,7 @@ class ImageButton extends StatelessWidget {
                   .pushNamed("/submissionPage", arguments: {"hash": hash});
             },
             radius: size.width,
-            splashColor: Colors.lightGreenAccent,
+            splashColor: Colors.orangeAccent,
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
