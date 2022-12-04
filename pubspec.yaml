@@ -55,6 +55,7 @@ dependencies:
   basic_utils: ^5.3.0
   introduction_screen: ^3.0.2
   easy_localization: ^3.0.1
+  dotenv: ^4.0.1
 
 dev_dependencies:
   flutter_test:

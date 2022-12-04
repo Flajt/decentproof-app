@@ -1,10 +1,11 @@
 import 'dart:convert';
+import 'package:decentproof/constants.dart';
 import 'package:decentproof/pages/Integrety/SecureStorageWrapper.dart';
 import 'package:dio/dio.dart';
 import 'package:http_certificate_pinning/http_certificate_pinning.dart';
 
 class MessageSigningService {
-  late final String url = "https://1lwaux.deta.dev";
+  late final String url = SIGN_URL;
   late final Dio _dio;
   late final SecureStorageWrapper _secureStorageWrapper;
 
@@ -13,7 +14,7 @@ class MessageSigningService {
       baseUrl: url,
     ))
       ..interceptors.add(CertificatePinningInterceptor(allowedSHAFingerprints: [
-        "87:E7:EB:E3:B3:37:39:9D:4A:8F:A4:99:11:D4:A3:6B:49:D6:32:69:96:9B:16:88:82:94:5E:A7:9F:9E:E2:35"
+        "8E:2C:79:AA:6C:A9:E8:1A:86:A6:6F:59:F8:FB:7A:B8:B1:93:73:15:03:22:59:50:6C:3D:C5:C4:C6:AB:38:E3"
       ], timeout: 20));
     _secureStorageWrapper = wrapper;
   }
