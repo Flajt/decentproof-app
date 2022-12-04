@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:decentproof/constants.dart';
 import 'package:decentproof/pages/Integrety/AppCheckWrapper.dart';
 import 'package:decentproof/pages/Integrety/SecureStorageWrapper.dart';
 import 'package:dio/dio.dart';
@@ -7,16 +8,22 @@ import 'package:http_certificate_pinning/http_certificate_pinning.dart';
 
 class ApiKeyManager {
   late final AppcheckWrapper? _appCheckWrapper;
-  final String url = "https://1lwaux.deta.dev";
-  late final Dio _dio;
+  late final Dio _checkKeyRequestManager;
+  late final Dio _getKeyRequestManager;
   late final SecureStorageWrapper _secureStorageWrapper;
 
   ApiKeyManager(SecureStorageWrapper secureStorageWrapper,
       [AppcheckWrapper? wrapper]) {
-    _dio = Dio(BaseOptions(baseUrl: url));
-    _dio.interceptors
+    //TODO: Provide URL via class constructor?
+    _checkKeyRequestManager = Dio(BaseOptions(baseUrl: CHECK_KEY_URL));
+    _checkKeyRequestManager.interceptors
         .add(CertificatePinningInterceptor(allowedSHAFingerprints: [
-      "87:E7:EB:E3:B3:37:39:9D:4A:8F:A4:99:11:D4:A3:6B:49:D6:32:69:96:9B:16:88:82:94:5E:A7:9F:9E:E2:35"
+      "8E:2C:79:AA:6C:A9:E8:1A:86:A6:6F:59:F8:FB:7A:B8:B1:93:73:15:03:22:59:50:6C:3D:C5:C4:C6:AB:38:E3"
+    ]));
+    _getKeyRequestManager = Dio(BaseOptions(baseUrl: GET_KEY_URL));
+    _getKeyRequestManager.interceptors
+        .add(CertificatePinningInterceptor(allowedSHAFingerprints: [
+      "8E:2C:79:AA:6C:A9:E8:1A:86:A6:6F:59:F8:FB:7A:B8:B1:93:73:15:03:22:59:50:6C:3D:C5:C4:C6:AB:38:E3"
     ]));
     _appCheckWrapper = wrapper;
     _secureStorageWrapper = secureStorageWrapper;
@@ -26,7 +33,7 @@ class ApiKeyManager {
 
   Future<bool> checkForNewApiKey() async {
     String? apiKey = await _secureStorageWrapper.retriveApiKey();
-    Response resp = await _dio.get("/update-required",
+    Response resp = await _checkKeyRequestManager.get("/",
         options: Options(
             headers: {"authorization": "basic $apiKey"},
             responseType: ResponseType.json));
@@ -39,7 +46,7 @@ class ApiKeyManager {
 
   Future<void> getNewNewKey(String token) async {
     String token = await _appCheckWrapper!.getAppToken();
-    Response resp = await _dio.get("/apiKey",
+    Response resp = await _getKeyRequestManager.get("/",
         options: Options(headers: {"X-AppCheck": token}));
     if (resp.statusCode == 200) {
       String apiKey = resp.data["key"];
