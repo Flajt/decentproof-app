@@ -3,7 +3,7 @@
    <application
         android:allowBackup="false"
         android:fullBackupContent="false"
-        android:label="decentproof"
+        android:label="Decentproof"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
