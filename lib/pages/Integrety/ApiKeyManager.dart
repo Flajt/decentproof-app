@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:decentproof/constants.dart';
@@ -15,12 +16,14 @@ class ApiKeyManager {
   ApiKeyManager(SecureStorageWrapper secureStorageWrapper,
       [AppcheckWrapper? wrapper]) {
     //TODO: Provide URL via class constructor?
-    _checkKeyRequestManager = Dio(BaseOptions(baseUrl: CHECK_KEY_URL));
+    _checkKeyRequestManager = Dio(
+        BaseOptions(baseUrl: CHECK_KEY_URL, validateStatus: (status) => true));
     _checkKeyRequestManager.interceptors
         .add(CertificatePinningInterceptor(allowedSHAFingerprints: [
       "8E:2C:79:AA:6C:A9:E8:1A:86:A6:6F:59:F8:FB:7A:B8:B1:93:73:15:03:22:59:50:6C:3D:C5:C4:C6:AB:38:E3"
     ]));
-    _getKeyRequestManager = Dio(BaseOptions(baseUrl: GET_KEY_URL));
+    _getKeyRequestManager = Dio(
+        BaseOptions(baseUrl: GET_KEY_URL, validateStatus: (status) => true));
     _getKeyRequestManager.interceptors
         .add(CertificatePinningInterceptor(allowedSHAFingerprints: [
       "8E:2C:79:AA:6C:A9:E8:1A:86:A6:6F:59:F8:FB:7A:B8:B1:93:73:15:03:22:59:50:6C:3D:C5:C4:C6:AB:38:E3"
@@ -34,9 +37,10 @@ class ApiKeyManager {
   Future<bool> checkForNewApiKey() async {
     String? apiKey = await _secureStorageWrapper.retriveApiKey();
     Response resp = await _checkKeyRequestManager.get("/",
-        options: Options(
-            headers: {"authorization": "basic $apiKey"},
-            responseType: ResponseType.json));
+        options: Options(headers: {
+          "authorization": "basic $apiKey",
+          "Content-Type": "application/json"
+        }, responseType: ResponseType.json));
     if (resp.statusCode == 200) {
       bool hasNewer = resp.data["hasNewer"];
       return hasNewer;
@@ -45,11 +49,12 @@ class ApiKeyManager {
   }
 
   Future<void> getNewNewKey(String token) async {
-    String token = await _appCheckWrapper!.getAppToken();
     Response resp = await _getKeyRequestManager.get("/",
-        options: Options(headers: {"X-AppCheck": token}));
+        options: Options(headers: {
+          "X-AppCheck": token,
+        }));
     if (resp.statusCode == 200) {
-      String apiKey = resp.data["key"];
+      String apiKey = jsonDecode(resp.data)["key"];
       _secureStorageWrapper.saveApiKey(apiKey);
     }
   }
