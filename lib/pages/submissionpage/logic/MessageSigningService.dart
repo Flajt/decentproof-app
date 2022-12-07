@@ -21,11 +21,11 @@ class MessageSigningService {
   Future<String> signMessage(String hash, DateTime dateTime) async {
     String message = "Hash:$hash App:DecentProof v:0 DateTime:$dateTime";
     String? apiKey = await _secureStorageWrapper.retriveApiKey();
-    Response resp = await _dio.post("$url/sign",
+    Response resp = await _dio.post("/",
         data: jsonEncode({"data": message}),
         options: Options(headers: {"Authorization": "basic $apiKey"}));
     if (resp.statusCode == 200) {
-      return resp.data["signature"];
+      return jsonDecode(resp.data)["signature"];
     }
     throw resp.statusCode.toString();
   }
