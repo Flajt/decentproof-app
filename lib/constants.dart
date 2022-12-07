@@ -1,8 +1,7 @@
 // ignore_for_file: non_constant_identifier_names
 
-import 'package:dotenv/dotenv.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-final env = DotEnv(includePlatformEnvironment: true)..load(["../.env"]);
-final String GET_KEY_URL = env["GET_KEY_URL"] ?? "";
-final String CHECK_KEY_URL = env["CHECK_KEY_URL"] ?? "";
-final String SIGN_URL = env["SIGN_URL"] ?? "";
+final String GET_KEY_URL = dotenv.env["GET_KEY_URL"] ?? "";
+final String CHECK_KEY_URL = dotenv.env["CHECK_KEY_URL"] ?? "";
+final String SIGN_URL = dotenv.env["SIGN_URL"] ?? "";
