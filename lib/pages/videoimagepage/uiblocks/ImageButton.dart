@@ -31,8 +31,8 @@ class ImageButton extends StatelessWidget {
                   context: context,
                   builder: (context) => const ProcessingDialog());
               String hash = await videoImageHashManager.hashImage(path);
-              Navigator.of(context)
-                  .pushNamed("/submissionPage", arguments: {"hash": hash});
+              Navigator.of(context).pushNamed("/submissionPage",
+                  arguments: {"hash": hash, "path": path});
             },
             radius: size.width,
             splashColor: Colors.orangeAccent,

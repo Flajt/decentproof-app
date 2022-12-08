@@ -39,8 +39,8 @@ class _RecordingButtonState extends State<RecordingButton> {
             String hash =
                 await compute(widget.hashAudioManager.hashAudio, path);
             Navigator.of(context).pop();
-            Navigator.of(context)
-                .pushNamed("/submissionPage", arguments: {"hash": hash});
+            Navigator.of(context).pushNamed("/submissionPage",
+                arguments: {"hash": hash, "path": path});
           }
         },
         child: isRecording ? const Icon(Icons.stop) : const Icon(Icons.mic));

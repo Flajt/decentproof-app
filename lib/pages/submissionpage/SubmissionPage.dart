@@ -4,6 +4,7 @@ import 'package:decentproof/pages/submissionpage/logic/MessageSigningService.dar
 import 'package:decentproof/pages/submissionpage/logic/SaveToTangleLogic.dart';
 import 'package:decentproof/pages/submissionpage/logic/ShowInExplorer.dart';
 import 'package:decentproof/pages/submissionpage/uiblocks/BackToHomeButton.dart';
+import 'package:decentproof/pages/submissionpage/uiblocks/ShareButton.dart';
 import 'package:decentproof/shared/ErrorDialog.dart';
 import 'package:decentproof/shared/ProcessingDialog.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -19,7 +20,7 @@ class _SubmissionPageState extends State<SubmissionPage> {
   bool hasMessageId = false;
   String? messageId;
   final DevNetLogic devNetLogic = DevNetLogic();
-  late final bool shouldUseDevNet;
+  late bool shouldUseDevNet;
   late final ShowInExplorer showInExplorer = ShowInExplorer();
   final signingService = MessageSigningService(SecureStorageWrapper());
 
@@ -36,9 +37,16 @@ class _SubmissionPageState extends State<SubmissionPage> {
         ModalRoute.of(context)!.settings.arguments as Map<String, String>;
     return Scaffold(
         body: SafeArea(
-            child: SizedBox(
+            child: SizedBox.fromSize(
+      size: size,
       child: Stack(
         children: [
+          Align(
+            alignment: Alignment.topRight,
+            child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ShareButton(filePath: args["path"]!)),
+          ),
           const Align(
             alignment: Alignment.topLeft,
             child: Padding(

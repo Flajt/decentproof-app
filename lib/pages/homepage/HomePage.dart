@@ -40,7 +40,7 @@ class HomePage extends StatelessWidget {
                   }
                   return const Center(
                       child: CircularProgressIndicator.adaptive(
-                          backgroundColor: Colors.orange));
+                          backgroundColor: Colors.white, strokeWidth: 10));
                 },
               )),
           const Align(
