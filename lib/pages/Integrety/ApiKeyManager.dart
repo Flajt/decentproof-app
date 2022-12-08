@@ -57,6 +57,7 @@ class ApiKeyManager {
       String apiKey = jsonDecode(resp.data)["key"];
       _secureStorageWrapper.saveApiKey(apiKey);
     }
+    throw "$resp.statusCode.toString() + ${resp.statusMessage ?? "Possible Invalid device!"}";
   }
 
   ///Conveniece method to request a new key if available

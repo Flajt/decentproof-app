@@ -27,9 +27,6 @@ void main() async {
   await FirebaseAppCheck.instance.activate(
       androidProvider:
           kReleaseMode ? AndroidProvider.playIntegrity : AndroidProvider.debug);
-  final ApiKeyManager apiKeyManager =
-      ApiKeyManager(SecureStorageWrapper(), AppcheckWrapper());
-  await apiKeyManager.updateOrRetriveKey();
   runApp(EasyLocalization(
       useOnlyLangCode: true,
       fallbackLocale: const Locale("en"),
