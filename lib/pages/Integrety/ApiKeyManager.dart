@@ -16,14 +16,12 @@ class ApiKeyManager {
   ApiKeyManager(SecureStorageWrapper secureStorageWrapper,
       [AppcheckWrapper? wrapper]) {
     //TODO: Provide URL via class constructor?
-    _checkKeyRequestManager = Dio(
-        BaseOptions(baseUrl: CHECK_KEY_URL, validateStatus: (status) => true));
+    _checkKeyRequestManager = Dio(BaseOptions(baseUrl: CHECK_KEY_URL));
     _checkKeyRequestManager.interceptors
         .add(CertificatePinningInterceptor(allowedSHAFingerprints: [
       "8E:2C:79:AA:6C:A9:E8:1A:86:A6:6F:59:F8:FB:7A:B8:B1:93:73:15:03:22:59:50:6C:3D:C5:C4:C6:AB:38:E3"
     ]));
-    _getKeyRequestManager = Dio(
-        BaseOptions(baseUrl: GET_KEY_URL, validateStatus: (status) => true));
+    _getKeyRequestManager = Dio(BaseOptions(baseUrl: GET_KEY_URL));
     _getKeyRequestManager.interceptors
         .add(CertificatePinningInterceptor(allowedSHAFingerprints: [
       "8E:2C:79:AA:6C:A9:E8:1A:86:A6:6F:59:F8:FB:7A:B8:B1:93:73:15:03:22:59:50:6C:3D:C5:C4:C6:AB:38:E3"
@@ -57,6 +55,7 @@ class ApiKeyManager {
       String apiKey = jsonDecode(resp.data)["key"];
       _secureStorageWrapper.saveApiKey(apiKey);
     }
+    throw "$resp.statusCode.toString() + ${resp.statusMessage ?? "Possible Invalid device!"}";
   }
 
   ///Conveniece method to request a new key if available
