@@ -26,9 +26,11 @@ class _RecordingButtonState extends State<RecordingButton> {
   Widget build(BuildContext context) {
     return FloatingActionButton(
         onPressed: () async {
+          if (!widget.controller.hasPermission) {
+            await widget.controller.checkPermission();
+          }
           isRecording = !isRecording;
           String savePath = await widget.audioManager.audioPath;
-          setState(() {});
           if (isRecording) {
             await widget.controller.record(savePath);
           } else {
@@ -42,6 +44,7 @@ class _RecordingButtonState extends State<RecordingButton> {
             Navigator.of(context).pushNamed("/submissionPage",
                 arguments: {"hash": hash, "path": path});
           }
+          setState(() {});
         },
         child: isRecording ? const Icon(Icons.stop) : const Icon(Icons.mic));
   }
