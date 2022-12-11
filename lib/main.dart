@@ -1,7 +1,4 @@
 import 'package:decentproof/firebase_options.dart';
-import 'package:decentproof/pages/Integrety/ApiKeyManager.dart';
-import 'package:decentproof/pages/Integrety/AppCheckWrapper.dart';
-import 'package:decentproof/pages/Integrety/SecureStorageWrapper.dart';
 import 'package:decentproof/pages/audiopage/AudioPage.dart';
 import 'package:decentproof/pages/homepage/HomePage.dart';
 import 'package:decentproof/pages/intropage/IntroPage.dart';
