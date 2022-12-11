@@ -1,0 +1,546 @@
+{
+  "repoId": "repoId",
+  "repoName": "",
+  "repoURL": "",
+  "branchName": "master",
+  "commitId": "",
+  "customerId": "cliCustomer",
+  "scanId": null,
+  "permissionList": [
+    {
+      "category": "Audio, Visual & Sensory Data",
+      "element": "Microphone",
+      "dataElement": "Audio Recordings",
+      "sensitive": false,
+      "sensitivity": "low",
+      "score": 1,
+      "confidence": "high",
+      "scoringPoints": [],
+      "occurrences": [
+        {
+          "score": 1,
+          "confidence": "high",
+          "scoringPoints": [],
+          "sample": "android.permission.RECORD_AUDIO",
+          "fileName": "build/app/intermediates/packaged_manifests/debug/AndroidManifest.xml",
+          "language": "app-permissions",
+          "excerpt": "         to allow setting breakpoints, to provide hot reload, etc.\n    -->\n    <uses-permission android:name=\"android.permission.INTERNET\" />\n    <uses-permission android:name=\"android.permission.RECORD_AUDIO\" />\n    <uses-permission android:name=\"android.permission.READ_EXTERNAL_STORAGE\" />\n\n    <queries>\n",
+          "isCorrect": null,
+          "occurrenceIndexes": [
+            {
+              "lineNumber": 3,
+              "startIndex": 35,
+              "endIndex": 66
+            }
+          ],
+          "startLocationLine": 16,
+          "authorEmail": null
+        },
+        {
+          "score": 1,
+          "confidence": "high",
+          "scoringPoints": [],
+          "sample": "android.permission.RECORD_AUDIO",
+          "fileName": "build/app/intermediates/packaged_manifests/release/AndroidManifest.xml",
+          "language": "app-permissions",
+          "excerpt": "        android:minSdkVersion=\"21\"\n        android:targetSdkVersion=\"31\" />\n\n    <uses-permission android:name=\"android.permission.RECORD_AUDIO\" />\n    <uses-permission android:name=\"android.permission.READ_EXTERNAL_STORAGE\" />\n\n    <queries>\n",
+          "isCorrect": null,
+          "occurrenceIndexes": [
+            {
+              "lineNumber": 3,
+              "startIndex": 35,
+              "endIndex": 66
+            }
+          ],
+          "startLocationLine": 11,
+          "authorEmail": null
+        },
+        {
+          "score": 1,
+          "confidence": "high",
+          "scoringPoints": [],
+          "sample": "android.permission.RECORD_AUDIO",
+          "fileName": "build/app/intermediates/bundle_manifest/release/AndroidManifest.xml",
+          "language": "app-permissions",
+          "excerpt": "        android:minSdkVersion=\"21\"\n        android:targetSdkVersion=\"31\" />\n\n    <uses-permission android:name=\"android.permission.RECORD_AUDIO\" />\n    <uses-permission android:name=\"android.permission.READ_EXTERNAL_STORAGE\" />\n\n    <queries>\n",
+          "isCorrect": null,
+          "occurrenceIndexes": [
+            {
+              "lineNumber": 3,
+              "startIndex": 35,
+              "endIndex": 66
+            }
+          ],
+          "startLocationLine": 11,
+          "authorEmail": null
+        },
+        {
+          "score": 1,
+          "confidence": "high",
+          "scoringPoints": [],
+          "sample": "android.permission.RECORD_AUDIO",
+          "fileName": "build/app/intermediates/merged_manifest/debug/AndroidManifest.xml",
+          "language": "app-permissions",
+          "excerpt": "         to allow setting breakpoints, to provide hot reload, etc.\n    -->\n    <uses-permission android:name=\"android.permission.INTERNET\" />\n    <uses-permission android:name=\"android.permission.RECORD_AUDIO\" />\n    <uses-permission android:name=\"android.permission.READ_EXTERNAL_STORAGE\" />\n\n    <queries>\n",
+          "isCorrect": null,
+          "occurrenceIndexes": [
+            {
+              "lineNumber": 3,
+              "startIndex": 35,
+              "endIndex": 66
+            }
+          ],
+          "startLocationLine": 16,
+          "authorEmail": null
+        },
+        {
+          "score": 1,
+          "confidence": "high",
+          "scoringPoints": [],
+          "sample": "android.permission.RECORD_AUDIO",
+          "fileName": "build/app/intermediates/merged_manifest/release/AndroidManifest.xml",
+          "language": "app-permissions",
+          "excerpt": "        android:minSdkVersion=\"21\"\n        android:targetSdkVersion=\"31\" />\n\n    <uses-permission android:name=\"android.permission.RECORD_AUDIO\" />\n    <uses-permission android:name=\"android.permission.READ_EXTERNAL_STORAGE\" />\n\n    <queries>\n",
+          "isCorrect": null,
+          "occurrenceIndexes": [
+            {
+              "lineNumber": 3,
+              "startIndex": 35,
+              "endIndex": 66
+            }
+          ],
+          "startLocationLine": 11,
+          "authorEmail": null
+        }
+      ]
+    },
+    {
+      "category": "Device Data Access",
+      "element": "Storage or Media",
+      "dataElement": null,
+      "sensitive": false,
+      "sensitivity": "low",
+      "score": 1,
+      "confidence": "high",
+      "scoringPoints": [],
+      "occurrences": [
+        {
+          "score": 1,
+          "confidence": "high",
+          "scoringPoints": [],
+          "sample": "android.permission.READ_EXTERNAL_STORAGE",
+          "fileName": "build/app/intermediates/packaged_manifests/debug/AndroidManifest.xml",
+          "language": "app-permissions",
+          "excerpt": "    -->\n    <uses-permission android:name=\"android.permission.INTERNET\" />\n    <uses-permission android:name=\"android.permission.RECORD_AUDIO\" />\n    <uses-permission android:name=\"android.permission.READ_EXTERNAL_STORAGE\" />\n\n    <queries>\n        <intent>\n",
+          "isCorrect": null,
+          "occurrenceIndexes": [
+            {
+              "lineNumber": 3,
+              "startIndex": 35,
+              "endIndex": 75
+            }
+          ],
+          "startLocationLine": 17,
+          "authorEmail": null
+        },
+        {
+          "score": 1,
+          "confidence": "high",
+          "scoringPoints": [],
+          "sample": "android.permission.READ_EXTERNAL_STORAGE",
+          "fileName": "build/app/intermediates/packaged_manifests/release/AndroidManifest.xml",
+          "language": "app-permissions",
+          "excerpt": "        android:targetSdkVersion=\"31\" />\n\n    <uses-permission android:name=\"android.permission.RECORD_AUDIO\" />\n    <uses-permission android:name=\"android.permission.READ_EXTERNAL_STORAGE\" />\n\n    <queries>\n        <intent>\n",
+          "isCorrect": null,
+          "occurrenceIndexes": [
+            {
+              "lineNumber": 3,
+              "startIndex": 35,
+              "endIndex": 75
+            }
+          ],
+          "startLocationLine": 12,
+          "authorEmail": null
+        },
+        {
+          "score": 1,
+          "confidence": "high",
+          "scoringPoints": [],
+          "sample": "android.permission.READ_EXTERNAL_STORAGE",
+          "fileName": "build/app/intermediates/bundle_manifest/release/AndroidManifest.xml",
+          "language": "app-permissions",
+          "excerpt": "        android:targetSdkVersion=\"31\" />\n\n    <uses-permission android:name=\"android.permission.RECORD_AUDIO\" />\n    <uses-permission android:name=\"android.permission.READ_EXTERNAL_STORAGE\" />\n\n    <queries>\n        <intent>\n",
+          "isCorrect": null,
+          "occurrenceIndexes": [
+            {
+              "lineNumber": 3,
+              "startIndex": 35,
+              "endIndex": 75
+            }
+          ],
+          "startLocationLine": 12,
+          "authorEmail": null
+        },
+        {
+          "score": 1,
+          "confidence": "high",
+          "scoringPoints": [],
+          "sample": "android.permission.READ_EXTERNAL_STORAGE",
+          "fileName": "build/app/intermediates/merged_manifest/debug/AndroidManifest.xml",
+          "language": "app-permissions",
+          "excerpt": "    -->\n    <uses-permission android:name=\"android.permission.INTERNET\" />\n    <uses-permission android:name=\"android.permission.RECORD_AUDIO\" />\n    <uses-permission android:name=\"android.permission.READ_EXTERNAL_STORAGE\" />\n\n    <queries>\n        <intent>\n",
+          "isCorrect": null,
+          "occurrenceIndexes": [
+            {
+              "lineNumber": 3,
+              "startIndex": 35,
+              "endIndex": 75
+            }
+          ],
+          "startLocationLine": 17,
+          "authorEmail": null
+        },
+        {
+          "score": 1,
+          "confidence": "high",
+          "scoringPoints": [],
+          "sample": "android.permission.READ_EXTERNAL_STORAGE",
+          "fileName": "build/file_picker/intermediates/merged_manifest/release/AndroidManifest.xml",
+          "language": "app-permissions",
+          "excerpt": "        android:minSdkVersion=\"16\"\n        android:targetSdkVersion=\"16\" />\n\n    <uses-permission android:name=\"android.permission.READ_EXTERNAL_STORAGE\" />\n\n    <queries>\n        <intent>\n",
+          "isCorrect": null,
+          "occurrenceIndexes": [
+            {
+              "lineNumber": 3,
+              "startIndex": 35,
+              "endIndex": 75
+            }
+          ],
+          "startLocationLine": 9,
+          "authorEmail": null
+        }
+      ]
+    },
+    {
+      "category": "Device Sensor Input",
+      "element": "Camera",
+      "dataElement": null,
+      "sensitive": false,
+      "sensitivity": "low",
+      "score": 1,
+      "confidence": "high",
+      "scoringPoints": [],
+      "occurrences": [
+        {
+          "score": 1,
+          "confidence": "high",
+          "scoringPoints": [],
+          "sample": "NSCameraUsageDescription",
+          "fileName": "ios/Runner/Info.plist",
+          "language": "app-permissions",
+          "excerpt": "\t<true/>\n\t<key>NSAppleMusicUsageDescription</key>\n\t<string>This app requires access to audio files to allow you to verify them</string>\n\t<key>NSCameraUsageDescription</key>\n\t<string>This App requires access to your camera to allow you to take videos and and pictures</string>\n\t<key>NSMicrophoneUsageDescription</key>\n\t<string>This App requires access to your microphone to allow you to capture videos with sound or capture sound only</string>\n",
+          "isCorrect": null,
+          "occurrenceIndexes": [
+            {
+              "lineNumber": 3,
+              "startIndex": 6,
+              "endIndex": 30
+            }
+          ],
+          "startLocationLine": 44,
+          "authorEmail": null
+        }
+      ]
+    }
+  ],
+  "piiList": [
+    {
+      "category": "Audio, Visual & Sensory Data",
+      "element": "Audio Recordings",
+      "dataSafetyElement": "Voice or sound recordings",
+      "dataSafetyCategory": "Audio files",
+      "sensitive": false,
+      "sensitivity": "medium",
+      "score": 1,
+      "confidence": "high",
+      "scoringPoints": [
+        "app_permission"
+      ],
+      "occurrences": [
+        {
+          "score": 1,
+          "confidence": "high",
+          "scoringPoints": [],
+          "sample": "android.permission.RECORD_AUDIO",
+          "fileName": "build/app/intermediates/packaged_manifests/debug/AndroidManifest.xml",
+          "language": "app-permissions",
+          "excerpt": "         to allow setting breakpoints, to provide hot reload, etc.\n    -->\n    <uses-permission android:name=\"android.permission.INTERNET\" />\n    <uses-permission android:name=\"android.permission.RECORD_AUDIO\" />\n    <uses-permission android:name=\"android.permission.READ_EXTERNAL_STORAGE\" />\n\n    <queries>\n",
+          "isCorrect": null,
+          "occurrenceIndexes": [
+            {
+              "lineNumber": 3,
+              "startIndex": 35,
+              "endIndex": 66
+            }
+          ],
+          "startLocationLine": 16,
+          "authorEmail": null
+        },
+        {
+          "score": 1,
+          "confidence": "high",
+          "scoringPoints": [],
+          "sample": "android.permission.RECORD_AUDIO",
+          "fileName": "build/app/intermediates/packaged_manifests/release/AndroidManifest.xml",
+          "language": "app-permissions",
+          "excerpt": "        android:minSdkVersion=\"21\"\n        android:targetSdkVersion=\"31\" />\n\n    <uses-permission android:name=\"android.permission.RECORD_AUDIO\" />\n    <uses-permission android:name=\"android.permission.READ_EXTERNAL_STORAGE\" />\n\n    <queries>\n",
+          "isCorrect": null,
+          "occurrenceIndexes": [
+            {
+              "lineNumber": 3,
+              "startIndex": 35,
+              "endIndex": 66
+            }
+          ],
+          "startLocationLine": 11,
+          "authorEmail": null
+        },
+        {
+          "score": 1,
+          "confidence": "high",
+          "scoringPoints": [],
+          "sample": "android.permission.RECORD_AUDIO",
+          "fileName": "build/app/intermediates/bundle_manifest/release/AndroidManifest.xml",
+          "language": "app-permissions",
+          "excerpt": "        android:minSdkVersion=\"21\"\n        android:targetSdkVersion=\"31\" />\n\n    <uses-permission android:name=\"android.permission.RECORD_AUDIO\" />\n    <uses-permission android:name=\"android.permission.READ_EXTERNAL_STORAGE\" />\n\n    <queries>\n",
+          "isCorrect": null,
+          "occurrenceIndexes": [
+            {
+              "lineNumber": 3,
+              "startIndex": 35,
+              "endIndex": 66
+            }
+          ],
+          "startLocationLine": 11,
+          "authorEmail": null
+        },
+        {
+          "score": 1,
+          "confidence": "high",
+          "scoringPoints": [],
+          "sample": "android.permission.RECORD_AUDIO",
+          "fileName": "build/app/intermediates/merged_manifest/debug/AndroidManifest.xml",
+          "language": "app-permissions",
+          "excerpt": "         to allow setting breakpoints, to provide hot reload, etc.\n    -->\n    <uses-permission android:name=\"android.permission.INTERNET\" />\n    <uses-permission android:name=\"android.permission.RECORD_AUDIO\" />\n    <uses-permission android:name=\"android.permission.READ_EXTERNAL_STORAGE\" />\n\n    <queries>\n",
+          "isCorrect": null,
+          "occurrenceIndexes": [
+            {
+              "lineNumber": 3,
+              "startIndex": 35,
+              "endIndex": 66
+            }
+          ],
+          "startLocationLine": 16,
+          "authorEmail": null
+        },
+        {
+          "score": 1,
+          "confidence": "high",
+          "scoringPoints": [],
+          "sample": "android.permission.RECORD_AUDIO",
+          "fileName": "build/app/intermediates/merged_manifest/release/AndroidManifest.xml",
+          "language": "app-permissions",
+          "excerpt": "        android:minSdkVersion=\"21\"\n        android:targetSdkVersion=\"31\" />\n\n    <uses-permission android:name=\"android.permission.RECORD_AUDIO\" />\n    <uses-permission android:name=\"android.permission.READ_EXTERNAL_STORAGE\" />\n\n    <queries>\n",
+          "isCorrect": null,
+          "occurrenceIndexes": [
+            {
+              "lineNumber": 3,
+              "startIndex": 35,
+              "endIndex": 66
+            }
+          ],
+          "startLocationLine": 11,
+          "authorEmail": null
+        },
+        {
+          "score": 1,
+          "confidence": "high",
+          "scoringPoints": [],
+          "sample": "android.permission.RECORD_AUDIO",
+          "fileName": "build/app/intermediates/merged_manifests/debug/AndroidManifest.xml",
+          "language": "app-permissions",
+          "excerpt": "         to allow setting breakpoints, to provide hot reload, etc.\n    -->\n    <uses-permission android:name=\"android.permission.INTERNET\" />\n    <uses-permission android:name=\"android.permission.RECORD_AUDIO\" />\n    <uses-permission android:name=\"android.permission.READ_EXTERNAL_STORAGE\" />\n\n    <queries>\n",
+          "isCorrect": null,
+          "occurrenceIndexes": [
+            {
+              "lineNumber": 3,
+              "startIndex": 35,
+              "endIndex": 66
+            }
+          ],
+          "startLocationLine": 16,
+          "authorEmail": null
+        },
+        {
+          "score": 1,
+          "confidence": "high",
+          "scoringPoints": [],
+          "sample": "android.permission.RECORD_AUDIO",
+          "fileName": "build/app/intermediates/merged_manifests/release/AndroidManifest.xml",
+          "language": "app-permissions",
+          "excerpt": "        android:minSdkVersion=\"21\"\n        android:targetSdkVersion=\"31\" />\n\n    <uses-permission android:name=\"android.permission.RECORD_AUDIO\" />\n    <uses-permission android:name=\"android.permission.READ_EXTERNAL_STORAGE\" />\n\n    <queries>\n",
+          "isCorrect": null,
+          "occurrenceIndexes": [
+            {
+              "lineNumber": 3,
+              "startIndex": 35,
+              "endIndex": 66
+            }
+          ],
+          "startLocationLine": 11,
+          "authorEmail": null
+        },
+        {
+          "score": 1,
+          "confidence": "high",
+          "scoringPoints": [],
+          "sample": "android.permission.RECORD_AUDIO",
+          "fileName": "android/app/src/main/AndroidManifest.xml",
+          "language": "app-permissions",
+          "excerpt": "            android:name=\"flutterEmbedding\"\n            android:value=\"2\" />\n    </application>\n    <uses-permission android:name=\"android.permission.RECORD_AUDIO\" />\n</manifest>\n",
+          "isCorrect": null,
+          "occurrenceIndexes": [
+            {
+              "lineNumber": 3,
+              "startIndex": 35,
+              "endIndex": 66
+            }
+          ],
+          "startLocationLine": 36,
+          "authorEmail": null
+        },
+        {
+          "score": 1,
+          "confidence": "high",
+          "scoringPoints": [],
+          "sample": "NSMicrophoneUsageDescription",
+          "fileName": "ios/Runner/Info.plist",
+          "language": "app-permissions",
+          "excerpt": "\t<string>This app requires access to audio files to allow you to verify them</string>\n\t<key>NSCameraUsageDescription</key>\n\t<string>This App requires access to your camera to allow you to take videos and and pictures</string>\n\t<key>NSMicrophoneUsageDescription</key>\n\t<string>This App requires access to your microphone to allow you to capture videos with sound or capture sound only</string>\n\t<key>NSPhotoLibraryUsageDescription</key>\n\t<string>This App requires access to your library to allow you to verify selected files</string>\n",
+          "isCorrect": null,
+          "occurrenceIndexes": [
+            {
+              "lineNumber": 3,
+              "startIndex": 6,
+              "endIndex": 34
+            }
+          ],
+          "startLocationLine": 46,
+          "authorEmail": null
+        }
+      ]
+    }
+  ],
+  "vendorList": [
+    {
+      "category": {
+        "sector": "Information Technology",
+        "industryGroup": "Software & Services",
+        "industry": "Internet Software & Services",
+        "subIndustry": "Internet",
+        "sicCode": "73",
+        "naicsCode": "54"
+      },
+      "element": "firebase_core|firebase.google.com",
+      "ruleId": "TP00SDK1",
+      "confidence": "high",
+      "confidenceTypeId": 1,
+      "occurrences": [
+        {
+          "confidence": "high",
+          "sample": "/firebase_core",
+          "fileName": "lib/main.dart",
+          "language": "dart",
+          "excerpt": "import 'package:decentproof/pages/videoimagepage/VideoImagePage.dart';\nimport 'package:easy_localization/easy_localization.dart';\nimport 'package:firebase_app_check/firebase_app_check.dart';\nimport 'package:firebase_core/firebase_core.dart';\nimport 'package:flutter/foundation.dart';\nimport 'package:flutter/material.dart';\nimport 'package:flutter_dotenv/flutter_dotenv.dart';\n",
+          "occurrenceIndexes": [
+            {
+              "lineNumber": 3,
+              "startIndex": 29,
+              "endIndex": 43
+            }
+          ],
+          "startLocationLine": 15
+        },
+        {
+          "confidence": "high",
+          "sample": "/firebase_core",
+          "fileName": "lib/firebase_options.dart",
+          "language": "dart",
+          "excerpt": "// File generated by FlutterFire CLI.\n// ignore_for_file: lines_longer_than_80_chars, avoid_classes_with_only_static_members\nimport 'package:firebase_core/firebase_core.dart' show FirebaseOptions;\nimport 'package:flutter/foundation.dart'\n    show defaultTargetPlatform, kIsWeb, TargetPlatform;\n\n",
+          "occurrenceIndexes": [
+            {
+              "lineNumber": 2,
+              "startIndex": 29,
+              "endIndex": 43
+            }
+          ],
+          "startLocationLine": 3
+        }
+      ],
+      "isSDK": true,
+      "name": "Google",
+      "vendorName": "firebase.google.com",
+      "_id": {
+        "$oid": "61bd860cff3f3581858f2fa3"
+      },
+      "description": "Google LLC is an American multinational technology company that specializes in Internet-related services and products, which include online advertising technologies, a search engine, cloud computing, software, and hardware.",
+      "domains": [
+        "firebase.google.com"
+      ],
+      "geo": {
+        "streetNumber": "1600",
+        "streetName": "Amphitheatre Parkway",
+        "subPremise": null,
+        "city": "Mountain View",
+        "postalCode": "94043",
+        "state": "California",
+        "stateCode": "CA",
+        "country": "United States",
+        "countryCode": "US",
+        "lat": 37.422388,
+        "lng": -122.0841883
+      },
+      "lastUpdatedAt": "09/04/2022 05:56AM",
+      "logo": "https://logo.clearbit.com/google.com",
+      "tags": [
+        "Internet",
+        "Web Services & Apps",
+        "Technology",
+        "SAAS",
+        "B2C",
+        "Mobile"
+      ],
+      "vendorCategory": [
+        "Others"
+      ],
+      "companyLocation": "United States"
+    }
+  ],
+  "interestsubjectList": [
+    {
+      "words": [
+        {
+          "word": "_baseUrl",
+          "vendorName": "iota.org",
+          "urls": [
+            "https://explorer.iota.org",
+            "iota.org"
+          ],
+          "type": "master"
+        }
+      ]
+    }
+  ],
+  "created": "2022-12-11 00:16:05.856313",
+  "updated": "2022-12-11 00:16:05.856363"
+}
