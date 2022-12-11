@@ -19,12 +19,12 @@ class ApiKeyManager {
     _checkKeyRequestManager = Dio(BaseOptions(baseUrl: CHECK_KEY_URL));
     _checkKeyRequestManager.interceptors
         .add(CertificatePinningInterceptor(allowedSHAFingerprints: [
-      "8E:2C:79:AA:6C:A9:E8:1A:86:A6:6F:59:F8:FB:7A:B8:B1:93:73:15:03:22:59:50:6C:3D:C5:C4:C6:AB:38:E3"
+      "72:13:F7:54:38:CF:61:25:AB:90:09:B4:0A:B9:76:C6:AD:DB:89:15:E5:E4:8B:92:8E:0D:A7:0B:28:6D:DB:BD"
     ]));
     _getKeyRequestManager = Dio(BaseOptions(baseUrl: GET_KEY_URL));
     _getKeyRequestManager.interceptors
         .add(CertificatePinningInterceptor(allowedSHAFingerprints: [
-      "8E:2C:79:AA:6C:A9:E8:1A:86:A6:6F:59:F8:FB:7A:B8:B1:93:73:15:03:22:59:50:6C:3D:C5:C4:C6:AB:38:E3"
+      "72:13:F7:54:38:CF:61:25:AB:90:09:B4:0A:B9:76:C6:AD:DB:89:15:E5:E4:8B:92:8E:0D:A7:0B:28:6D:DB:BD"
     ]));
     _appCheckWrapper = wrapper;
     _secureStorageWrapper = secureStorageWrapper;
@@ -52,10 +52,11 @@ class ApiKeyManager {
           "X-AppCheck": token,
         }));
     if (resp.statusCode == 200) {
-      String apiKey = jsonDecode(resp.data)["key"];
+      String apiKey = resp.data["key"];
       _secureStorageWrapper.saveApiKey(apiKey);
+    } else {
+      throw "${resp.statusCode.toString()} + ${resp.statusMessage ?? "Possible Invalid device!"}";
     }
-    throw "$resp.statusCode.toString() + ${resp.statusMessage ?? "Possible Invalid device!"}";
   }
 
   ///Conveniece method to request a new key if available
@@ -63,6 +64,7 @@ class ApiKeyManager {
   Future<void> updateOrRetriveKey() async {
     assert(_appCheckWrapper != null);
     bool hasKey = await hasApiKey();
+    hasKey = false;
     if (hasKey) {
       //Used to prevent overwhelming the service with requsts for a new key, as soon as it's available
       if (Random().nextInt(1) == 1) {
