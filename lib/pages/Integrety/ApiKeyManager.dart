@@ -64,7 +64,6 @@ class ApiKeyManager {
   Future<void> updateOrRetriveKey() async {
     assert(_appCheckWrapper != null);
     bool hasKey = await hasApiKey();
-    hasKey = false;
     if (hasKey) {
       //Used to prevent overwhelming the service with requsts for a new key, as soon as it's available
       if (Random().nextInt(1) == 1) {
