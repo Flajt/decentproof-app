@@ -39,7 +39,7 @@ class HomePage extends StatelessWidget {
                     return const OptionsMenu();
                   }
                   return const Center(
-                      child: CircularProgressIndicator.adaptive(
+                      child: CircularProgressIndicator(
                           backgroundColor: Colors.white, strokeWidth: 10));
                 },
               )),
