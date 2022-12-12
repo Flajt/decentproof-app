@@ -55,7 +55,7 @@ class _SubmissionPageState extends State<SubmissionPage> {
             ),
           ),
           Positioned(
-            height: size.height * .1,
+            height: size.height * .2,
             width: size.width - 10,
             top: size.height * .2,
             child: Text(
