@@ -5,6 +5,7 @@ import 'package:decentproof/pages/videoimagepage/logic/VideoImageHashManager.dar
 import 'package:decentproof/shared/ExifWrapper.dart';
 import 'package:nanoid/async.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:photo_manager/photo_manager.dart';
 
 class VideoManager {
   const VideoManager(
@@ -15,13 +16,18 @@ class VideoManager {
   final ExifWrapper _exifWrapper;
 
   Future<String> saveVideo() async {
-    Uint8List videoAsBytes = await _imagePickerWrapper.getVideoAsBytes();
-    String path = Platform.isAndroid
-        ? (await getExternalStorageDirectory())!.path
-        : (await getApplicationDocumentsDirectory()).path;
     String imageId = await nanoid(16);
+    Uint8List videoAsBytes = await _imagePickerWrapper.getVideoAsBytes();
+    String path = Platform.isIOS
+        ? (await getApplicationDocumentsDirectory()).path
+        : (await getExternalStorageDirectories(
+                type: StorageDirectory.movies))![0]
+            .path;
     String fullPath = "$path/$imageId.mp4";
-    await File(fullPath).writeAsBytes(videoAsBytes);
+    File videoFile = await File(fullPath).writeAsBytes(videoAsBytes);
+    if (Platform.isAndroid) {
+      await PhotoManager.editor.saveVideo(videoFile, title: imageId);
+    }
     return fullPath;
   }
 }
