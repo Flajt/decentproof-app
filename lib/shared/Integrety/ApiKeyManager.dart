@@ -2,8 +2,8 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:decentproof/constants.dart';
-import 'package:decentproof/pages/Integrety/AppCheckWrapper.dart';
-import 'package:decentproof/pages/Integrety/SecureStorageWrapper.dart';
+import 'package:decentproof/shared/Integrety/AppCheckWrapper.dart';
+import 'package:decentproof/shared/Integrety/SecureStorageWrapper.dart';
 import 'package:dio/dio.dart';
 import 'package:http_certificate_pinning/http_certificate_pinning.dart';
 

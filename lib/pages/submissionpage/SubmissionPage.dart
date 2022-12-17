@@ -1,4 +1,4 @@
-import 'package:decentproof/pages/Integrety/SecureStorageWrapper.dart';
+import 'package:decentproof/shared/Integrety/SecureStorageWrapper.dart';
 import 'package:decentproof/pages/settingspage/logic/DevNetLogic.dart';
 import 'package:decentproof/pages/submissionpage/logic/MessageSigningService.dart';
 import 'package:decentproof/pages/submissionpage/logic/SaveToTangleLogic.dart';

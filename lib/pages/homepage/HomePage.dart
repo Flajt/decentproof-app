@@ -3,9 +3,9 @@ import 'package:decentproof/pages/homepage/uiblocks/SettingsButton.dart';
 import 'package:decentproof/pages/homepage/uiblocks/SupportButton.dart';
 import 'package:flutter/material.dart';
 
-import '../Integrety/ApiKeyManager.dart';
-import '../Integrety/AppCheckWrapper.dart';
-import '../Integrety/SecureStorageWrapper.dart';
+import '../../shared/Integrety/ApiKeyManager.dart';
+import '../../shared/Integrety/AppCheckWrapper.dart';
+import '../../shared/Integrety/SecureStorageWrapper.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
