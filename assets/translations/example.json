@@ -13,11 +13,13 @@
         "title3": "",
         "title4": "",
         "title5": "",
+        "tempTitle":"",
         "body1": "",
         "body2": "",
         "body3": "",
         "body4": "",
         "body5": "",
+        "tempBody": "",
         "next": "",
         "skip": "",
         "done": ""

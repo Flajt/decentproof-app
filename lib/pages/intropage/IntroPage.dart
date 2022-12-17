@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:decentproof/pages/intropage/uiblocks/IntoPages.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 
@@ -10,7 +13,7 @@ class IntroPage extends StatelessWidget {
     return IntroductionScreen(
       isTopSafeArea: true,
       isBottomSafeArea: true,
-      pages: introPages,
+      pages: IntroPages().introPages,
       showDoneButton: true,
       showSkipButton: true,
       showNextButton: true,
