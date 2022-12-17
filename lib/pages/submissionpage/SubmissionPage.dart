@@ -23,6 +23,7 @@ class _SubmissionPageState extends State<SubmissionPage> {
   late bool shouldUseDevNet;
   late final ShowInExplorer showInExplorer = ShowInExplorer();
   final signingService = MessageSigningService(SecureStorageWrapper());
+  bool hasSubmitted = false;
 
   @override
   void didChangeDependencies() async {
@@ -84,22 +85,27 @@ class _SubmissionPageState extends State<SubmissionPage> {
               alignment: Alignment.bottomCenter,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
+                //TODO: Extract button into own widget
                 child: ElevatedButton(
                     onPressed: () async {
                       try {
-                        showDialog(
-                            context: context,
-                            builder: (context) => const ProcessingDialog());
-                        final DateTime dateTime = DateTime.now();
-                        String signature = await signingService.signMessage(
-                            args["hash"] as String, dateTime);
-                        messageId = await SaveToTangleLogic(
-                                signature, dateTime, shouldUseDevNet)
-                            .save(args["hash"] as String);
-                        hasMessageId = true;
-                        Navigator.of(context).pop();
-                        setState(() {});
+                        if (!hasSubmitted) {
+                          hasSubmitted = !hasSubmitted;
+                          showDialog(
+                              context: context,
+                              builder: (context) => const ProcessingDialog());
+                          final DateTime dateTime = DateTime.now();
+                          String signature = await signingService.signMessage(
+                              args["hash"] as String, dateTime);
+                          messageId = await SaveToTangleLogic(
+                                  signature, dateTime, shouldUseDevNet)
+                              .save(args["hash"] as String);
+                          hasMessageId = true;
+                          Navigator.of(context).pop();
+                          setState(() {});
+                        }
                       } catch (e) {
+                        hasSubmitted = false;
                         Navigator.of(context).pop();
                         showDialog(
                             context: context,
