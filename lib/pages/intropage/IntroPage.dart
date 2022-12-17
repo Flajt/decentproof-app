@@ -1,7 +1,4 @@
-import 'dart:io';
-
 import 'package:decentproof/pages/intropage/uiblocks/IntoPages.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 
