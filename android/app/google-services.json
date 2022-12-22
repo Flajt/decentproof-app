@@ -29,6 +29,13 @@
             {
               "client_id": "446653633041-vbk9oj7hn3g6ophhmdhtr21c719mcgoj.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "446653633041-loccnmlb1vvm5mq7oli2io5si71taqs7.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "de.triskalion.decentproof.decentproof"
+              }
             }
           ]
         }

@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>874981793699-3tlh8ti4mu5kao8buq6fnu0usc2donnu.apps.googleusercontent.com</string>
+	<string>446653633041-loccnmlb1vvm5mq7oli2io5si71taqs7.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.874981793699-3tlh8ti4mu5kao8buq6fnu0usc2donnu</string>
+	<string>com.googleusercontent.apps.446653633041-loccnmlb1vvm5mq7oli2io5si71taqs7</string>
 	<key>API_KEY</key>
-	<string>AIzaSyAKxl3vr7KomU0dBb3pJNkiKEKGw1DTUsY</string>
+	<string>AIzaSyDfM6jnh2CSXN1SI4CEHlE-KYEs0F2dTek</string>
 	<key>GCM_SENDER_ID</key>
-	<string>874981793699</string>
+	<string>446653633041</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>de.triskalion.decentproof.decentproof</string>
 	<key>PROJECT_ID</key>
-	<string>decentproof-66628</string>
+	<string>decentproof</string>
 	<key>STORAGE_BUCKET</key>
-	<string>decentproof-66628.appspot.com</string>
+	<string>decentproof.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:874981793699:ios:bf3410f4138c5a59498416</string>
+	<string>1:446653633041:ios:03d2e83adf25770892d7b0</string>
 </dict>
 </plist>
