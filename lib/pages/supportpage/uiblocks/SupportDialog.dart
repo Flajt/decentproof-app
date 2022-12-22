@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_donation_buttons/donationButtons/buyMeACoffeButton.dart';
@@ -25,16 +27,20 @@ class SupportDialog extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 16.0),
               ).tr(),
-              KofiButton(
-                kofiName: "flajt",
-                text: "supportPage.support".tr(),
-                kofiColor: KofiColor.Red,
-              ),
-              BuyMeACoffeButton(
-                buyMeACoffeName: "flajt",
-                text: "supportPage.help".tr(),
-                color: BuyMeACoffeColor.Green,
-              ),
+              !Platform.isIOS
+                  ? KofiButton(
+                      kofiName: "flajt",
+                      text: "supportPage.support".tr(),
+                      kofiColor: KofiColor.Red,
+                    )
+                  : Container(),
+              !Platform.isIOS
+                  ? BuyMeACoffeButton(
+                      buyMeACoffeName: "flajt",
+                      text: "supportPage.help".tr(),
+                      color: BuyMeACoffeColor.Green,
+                    )
+                  : Container(),
               ElevatedButton.icon(
                   style: ElevatedButton.styleFrom(
                       foregroundColor: Colors.black,
