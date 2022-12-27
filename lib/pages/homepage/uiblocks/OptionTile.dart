@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class OptionTile extends StatelessWidget {
@@ -13,9 +14,10 @@ class OptionTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: Icon(iconData, color: Colors.lightGreenAccent),
-      title: Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
-      onTap: () => Navigator.of(context).popAndPushNamed(navigationRoute),
+      leading: Icon(iconData, color: Colors.orangeAccent),
+      title:
+          Text(title.tr(), style: const TextStyle(fontWeight: FontWeight.bold)),
+      onTap: () => Navigator.of(context).pushNamed(navigationRoute),
     );
   }
 }

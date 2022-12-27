@@ -5,9 +5,17 @@ class OptionsMenu extends StatelessWidget {
   const OptionsMenu({Key? key}) : super(key: key);
   final List<OptionTile> tiles = const [
     OptionTile(
-        iconData: Icons.camera, title: "Image/Videos", navigationRoute: ""),
-    OptionTile(iconData: Icons.mic, title: "Sound", navigationRoute: ""),
-    OptionTile(iconData: Icons.check, title: "Verify", navigationRoute: "")
+        iconData: Icons.camera,
+        title: "homePage.options.imageVideo",
+        navigationRoute: "/videoImagePage"),
+    OptionTile(
+        iconData: Icons.mic,
+        title: "homePage.options.audio",
+        navigationRoute: "/audioPage"),
+    OptionTile(
+        iconData: Icons.check,
+        title: "homePage.options.verify",
+        navigationRoute: "/verificationPage")
   ];
 
   @override
@@ -16,7 +24,7 @@ class OptionsMenu extends StatelessWidget {
     return Container(
       color: Colors.black,
       width: size.width * .8,
-      height: size.height * .2,
+      height: size.height * .21,
       //decoration: BoxDecoration(border: Border.all()),
       child: Card(
           shape: const RoundedRectangleBorder(

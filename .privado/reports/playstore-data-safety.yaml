@@ -1,0 +1,18 @@
+version: v0.1
+name: playstore-data-safety-report
+projectName: ''
+createdAt: '2022-12-10 17:22:28.277030'
+updatedAt: '2022-12-10 17:22:53.352283'
+doesProcessData: false
+doesEncryptDataInTransit: true
+doesAllowDeletionOfData: false
+pii:
+- element: Voice or sound recordings
+  category: Audio files
+  isSDK: false
+  collected: true
+  shared: false
+  processedEphemerally: false
+  required: null
+  collectionPurposes: []
+  sharingPurposes: []
