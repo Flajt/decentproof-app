@@ -4,7 +4,6 @@ import 'package:convert/convert.dart';
 import 'package:chopper/chopper.dart';
 import 'package:decentproof/shared/generated/openapi.swagger.dart';
 import 'package:decentproof/shared/interceptors/IotaPinningInterceptor.dart';
-import 'package:http_certificate_pinning/http_certificate_pinning.dart';
 
 class SaveToTangleLogic {
   const SaveToTangleLogic(this.signature, this.dateTime, [this.devNet = true]);
