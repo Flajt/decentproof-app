@@ -1,4 +1,4 @@
-import 'package:decentproof/pages/supportpage/uiblocks/SupportDialog.dart';
+import 'package:decentproof/pages/homepage/uiblocks/SupportDialog.dart';
 import 'package:flutter/material.dart';
 
 class SupportButton extends StatelessWidget {

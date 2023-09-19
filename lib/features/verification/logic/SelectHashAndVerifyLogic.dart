@@ -1,5 +1,5 @@
-import 'package:decentproof/pages/verificationpage/logic/FileSelectionLogic.dart';
-import 'package:decentproof/pages/verificationpage/logic/VerificationLogic.dart';
+import 'package:decentproof/features/verification/logic/FileSelectionLogic.dart';
+import 'package:decentproof/features/verification/logic/VerificationLogic.dart';
 import 'package:decentproof/shared/HashLogic.dart';
 
 class SelectHashAndVerifyLogic {
