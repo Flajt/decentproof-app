@@ -32,7 +32,7 @@ class _RecordingButtonState extends State<RecordingButton> {
           isRecording = !isRecording;
           String savePath = await widget.audioManager.audioPath;
           if (isRecording) {
-            await widget.controller.record(savePath);
+            await widget.controller.record(path: savePath);
           } else {
             String path = await widget.controller.stop(true) as String;
             showDialog(

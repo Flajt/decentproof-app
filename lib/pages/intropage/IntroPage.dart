@@ -9,8 +9,6 @@ class IntroPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IntroductionScreen(
-      isTopSafeArea: true,
-      isBottomSafeArea: true,
       pages: IntroPages().introPages,
       showDoneButton: true,
       showSkipButton: true,

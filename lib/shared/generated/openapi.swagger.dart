@@ -8,9 +8,9 @@ import 'package:chopper/chopper.dart';
 
 import 'client_mapping.dart';
 import 'dart:async';
+import 'package:http/http.dart' as http;
 import 'package:chopper/chopper.dart' as chopper;
 import 'openapi.enums.swagger.dart' as enums;
-import 'openapi.enums.swagger.dart';
 export 'openapi.enums.swagger.dart';
 
 part 'openapi.swagger.chopper.dart';
@@ -24,8 +24,10 @@ part 'openapi.swagger.g.dart';
 abstract class Openapi extends ChopperService {
   static Openapi create({
     ChopperClient? client,
+    http.Client? httpClient,
     Authenticator? authenticator,
-    String? baseUrl,
+    Converter? converter,
+    Uri? baseUrl,
     Iterable<dynamic>? interceptors,
   }) {
     if (client != null) {
@@ -34,10 +36,11 @@ abstract class Openapi extends ChopperService {
 
     final newClient = ChopperClient(
         services: [_$Openapi()],
-        converter: $JsonSerializableConverter(),
+        converter: converter ?? $JsonSerializableConverter(),
         interceptors: interceptors ?? [],
+        client: httpClient,
         authenticator: authenticator,
-        baseUrl: baseUrl ?? 'http://');
+        baseUrl: baseUrl ?? Uri.parse('http://'));
     return _$Openapi(newClient);
   }
 
@@ -84,7 +87,10 @@ abstract class Openapi extends ChopperService {
   }
 
   ///Submit a message.
-  @Post(path: '/api/v1/messages')
+  @Post(
+    path: '/api/v1/messages',
+    optionalBody: true,
+  )
   Future<chopper.Response<SubmitMessageResponse>> _apiV1MessagesPost(
       {@Body() required SubmitMessageRequest? body});
 
@@ -387,7 +393,10 @@ abstract class Openapi extends ChopperService {
   }
 
   ///Add a given peer to the node.
-  @Post(path: '/api/v1/peers')
+  @Post(
+    path: '/api/v1/peers',
+    optionalBody: true,
+  )
   Future<chopper.Response<AddPeerResponse>> _apiV1PeersPost(
       {@Body() required AddPeerRequest? body});
 
@@ -432,6 +441,9 @@ class Message {
   factory Message.fromJson(Map<String, dynamic> json) =>
       _$MessageFromJson(json);
 
+  static const toJsonFactory = _$MessageToJson;
+  Map<String, dynamic> toJson() => _$MessageToJson(this);
+
   @JsonKey(name: 'networkId')
   final String networkId;
   @JsonKey(name: 'parentMessageIds', defaultValue: <String>[])
@@ -441,8 +453,6 @@ class Message {
   @JsonKey(name: 'nonce')
   final String nonce;
   static const fromJsonFactory = _$MessageFromJson;
-  static const toJsonFactory = _$MessageToJson;
-  Map<String, dynamic> toJson() => _$MessageToJson(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -512,6 +522,9 @@ class TransactionPayload {
   factory TransactionPayload.fromJson(Map<String, dynamic> json) =>
       _$TransactionPayloadFromJson(json);
 
+  static const toJsonFactory = _$TransactionPayloadToJson;
+  Map<String, dynamic> toJson() => _$TransactionPayloadToJson(this);
+
   @JsonKey(name: 'type')
   final int type;
   @JsonKey(name: 'essence')
@@ -519,8 +532,6 @@ class TransactionPayload {
   @JsonKey(name: 'unlockBlocks', defaultValue: <Object>[])
   final List<Object> unlockBlocks;
   static const fromJsonFactory = _$TransactionPayloadFromJson;
-  static const toJsonFactory = _$TransactionPayloadToJson;
-  Map<String, dynamic> toJson() => _$TransactionPayloadToJson(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -580,6 +591,9 @@ class TransactionEssence {
   factory TransactionEssence.fromJson(Map<String, dynamic> json) =>
       _$TransactionEssenceFromJson(json);
 
+  static const toJsonFactory = _$TransactionEssenceToJson;
+  Map<String, dynamic> toJson() => _$TransactionEssenceToJson(this);
+
   @JsonKey(name: 'type')
   final int type;
   @JsonKey(name: 'inputs', defaultValue: <Object>[])
@@ -589,8 +603,6 @@ class TransactionEssence {
   @JsonKey(name: 'payload')
   final dynamic payload;
   static const fromJsonFactory = _$TransactionEssenceFromJson;
-  static const toJsonFactory = _$TransactionEssenceToJson;
-  Map<String, dynamic> toJson() => _$TransactionEssenceToJson(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -656,6 +668,9 @@ class UTXOInput {
   factory UTXOInput.fromJson(Map<String, dynamic> json) =>
       _$UTXOInputFromJson(json);
 
+  static const toJsonFactory = _$UTXOInputToJson;
+  Map<String, dynamic> toJson() => _$UTXOInputToJson(this);
+
   @JsonKey(name: 'type')
   final int type;
   @JsonKey(name: 'transactionId')
@@ -663,8 +678,6 @@ class UTXOInput {
   @JsonKey(name: 'transactionOutputIndex')
   final int transactionOutputIndex;
   static const fromJsonFactory = _$UTXOInputFromJson;
-  static const toJsonFactory = _$UTXOInputToJson;
-  Map<String, dynamic> toJson() => _$UTXOInputToJson(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -726,6 +739,9 @@ class SigLockedSingleOutput {
   factory SigLockedSingleOutput.fromJson(Map<String, dynamic> json) =>
       _$SigLockedSingleOutputFromJson(json);
 
+  static const toJsonFactory = _$SigLockedSingleOutputToJson;
+  Map<String, dynamic> toJson() => _$SigLockedSingleOutputToJson(this);
+
   @JsonKey(name: 'type')
   final int type;
   @JsonKey(name: 'address')
@@ -733,8 +749,6 @@ class SigLockedSingleOutput {
   @JsonKey(name: 'amount')
   final int amount;
   static const fromJsonFactory = _$SigLockedSingleOutputFromJson;
-  static const toJsonFactory = _$SigLockedSingleOutputToJson;
-  Map<String, dynamic> toJson() => _$SigLockedSingleOutputToJson(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -788,6 +802,9 @@ class SigLockedDustAllowanceOutput {
   factory SigLockedDustAllowanceOutput.fromJson(Map<String, dynamic> json) =>
       _$SigLockedDustAllowanceOutputFromJson(json);
 
+  static const toJsonFactory = _$SigLockedDustAllowanceOutputToJson;
+  Map<String, dynamic> toJson() => _$SigLockedDustAllowanceOutputToJson(this);
+
   @JsonKey(name: 'type')
   final int type;
   @JsonKey(name: 'address')
@@ -795,8 +812,6 @@ class SigLockedDustAllowanceOutput {
   @JsonKey(name: 'amount')
   final int amount;
   static const fromJsonFactory = _$SigLockedDustAllowanceOutputFromJson;
-  static const toJsonFactory = _$SigLockedDustAllowanceOutputToJson;
-  Map<String, dynamic> toJson() => _$SigLockedDustAllowanceOutputToJson(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -851,13 +866,14 @@ class Ed25519Address {
   factory Ed25519Address.fromJson(Map<String, dynamic> json) =>
       _$Ed25519AddressFromJson(json);
 
+  static const toJsonFactory = _$Ed25519AddressToJson;
+  Map<String, dynamic> toJson() => _$Ed25519AddressToJson(this);
+
   @JsonKey(name: 'type')
   final int type;
   @JsonKey(name: 'address')
   final String address;
   static const fromJsonFactory = _$Ed25519AddressFromJson;
-  static const toJsonFactory = _$Ed25519AddressToJson;
-  Map<String, dynamic> toJson() => _$Ed25519AddressToJson(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -903,13 +919,14 @@ class SignatureUnlockBlock {
   factory SignatureUnlockBlock.fromJson(Map<String, dynamic> json) =>
       _$SignatureUnlockBlockFromJson(json);
 
+  static const toJsonFactory = _$SignatureUnlockBlockToJson;
+  Map<String, dynamic> toJson() => _$SignatureUnlockBlockToJson(this);
+
   @JsonKey(name: 'type')
   final int type;
   @JsonKey(name: 'signature')
   final Object signature;
   static const fromJsonFactory = _$SignatureUnlockBlockFromJson;
-  static const toJsonFactory = _$SignatureUnlockBlockToJson;
-  Map<String, dynamic> toJson() => _$SignatureUnlockBlockToJson(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -957,6 +974,9 @@ class Ed25519Signature {
   factory Ed25519Signature.fromJson(Map<String, dynamic> json) =>
       _$Ed25519SignatureFromJson(json);
 
+  static const toJsonFactory = _$Ed25519SignatureToJson;
+  Map<String, dynamic> toJson() => _$Ed25519SignatureToJson(this);
+
   @JsonKey(name: 'type')
   final int type;
   @JsonKey(name: 'publicKey')
@@ -964,8 +984,6 @@ class Ed25519Signature {
   @JsonKey(name: 'signature')
   final String signature;
   static const fromJsonFactory = _$Ed25519SignatureFromJson;
-  static const toJsonFactory = _$Ed25519SignatureToJson;
-  Map<String, dynamic> toJson() => _$Ed25519SignatureToJson(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -1021,13 +1039,14 @@ class ReferenceUnlockBlock {
   factory ReferenceUnlockBlock.fromJson(Map<String, dynamic> json) =>
       _$ReferenceUnlockBlockFromJson(json);
 
+  static const toJsonFactory = _$ReferenceUnlockBlockToJson;
+  Map<String, dynamic> toJson() => _$ReferenceUnlockBlockToJson(this);
+
   @JsonKey(name: 'type')
   final int type;
   @JsonKey(name: 'reference')
   final int reference;
   static const fromJsonFactory = _$ReferenceUnlockBlockFromJson;
-  static const toJsonFactory = _$ReferenceUnlockBlockToJson;
-  Map<String, dynamic> toJson() => _$ReferenceUnlockBlockToJson(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -1081,6 +1100,9 @@ class MilestonePayload {
   factory MilestonePayload.fromJson(Map<String, dynamic> json) =>
       _$MilestonePayloadFromJson(json);
 
+  static const toJsonFactory = _$MilestonePayloadToJson;
+  Map<String, dynamic> toJson() => _$MilestonePayloadToJson(this);
+
   @JsonKey(name: 'type')
   final int type;
   @JsonKey(name: 'index')
@@ -1100,8 +1122,6 @@ class MilestonePayload {
   @JsonKey(name: 'signatures', defaultValue: <String>[])
   final List<String> signatures;
   static const fromJsonFactory = _$MilestonePayloadFromJson;
-  static const toJsonFactory = _$MilestonePayloadToJson;
-  Map<String, dynamic> toJson() => _$MilestonePayloadToJson(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -1216,6 +1236,9 @@ class IndexationPayload {
   factory IndexationPayload.fromJson(Map<String, dynamic> json) =>
       _$IndexationPayloadFromJson(json);
 
+  static const toJsonFactory = _$IndexationPayloadToJson;
+  Map<String, dynamic> toJson() => _$IndexationPayloadToJson(this);
+
   @JsonKey(name: 'type')
   final int type;
   @JsonKey(name: 'index')
@@ -1223,8 +1246,6 @@ class IndexationPayload {
   @JsonKey(name: 'data')
   final String data;
   static const fromJsonFactory = _$IndexationPayloadFromJson;
-  static const toJsonFactory = _$IndexationPayloadToJson;
-  Map<String, dynamic> toJson() => _$IndexationPayloadToJson(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -1277,6 +1298,9 @@ class TreasuryTransactionPayload {
   factory TreasuryTransactionPayload.fromJson(Map<String, dynamic> json) =>
       _$TreasuryTransactionPayloadFromJson(json);
 
+  static const toJsonFactory = _$TreasuryTransactionPayloadToJson;
+  Map<String, dynamic> toJson() => _$TreasuryTransactionPayloadToJson(this);
+
   @JsonKey(name: 'type')
   final int type;
   @JsonKey(name: 'input')
@@ -1284,8 +1308,6 @@ class TreasuryTransactionPayload {
   @JsonKey(name: 'output')
   final TreasuryOutput output;
   static const fromJsonFactory = _$TreasuryTransactionPayloadFromJson;
-  static const toJsonFactory = _$TreasuryTransactionPayloadToJson;
-  Map<String, dynamic> toJson() => _$TreasuryTransactionPayloadToJson(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -1340,13 +1362,14 @@ class TreasuryInput {
   factory TreasuryInput.fromJson(Map<String, dynamic> json) =>
       _$TreasuryInputFromJson(json);
 
+  static const toJsonFactory = _$TreasuryInputToJson;
+  Map<String, dynamic> toJson() => _$TreasuryInputToJson(this);
+
   @JsonKey(name: 'type')
   final int type;
   @JsonKey(name: 'milestoneId')
   final String milestoneId;
   static const fromJsonFactory = _$TreasuryInputFromJson;
-  static const toJsonFactory = _$TreasuryInputToJson;
-  Map<String, dynamic> toJson() => _$TreasuryInputToJson(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -1394,13 +1417,14 @@ class TreasuryOutput {
   factory TreasuryOutput.fromJson(Map<String, dynamic> json) =>
       _$TreasuryOutputFromJson(json);
 
+  static const toJsonFactory = _$TreasuryOutputToJson;
+  Map<String, dynamic> toJson() => _$TreasuryOutputToJson(this);
+
   @JsonKey(name: 'type')
   final int type;
   @JsonKey(name: 'amount')
   final int amount;
   static const fromJsonFactory = _$TreasuryOutputFromJson;
-  static const toJsonFactory = _$TreasuryOutputToJson;
-  Map<String, dynamic> toJson() => _$TreasuryOutputToJson(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -1448,6 +1472,9 @@ class Peer {
 
   factory Peer.fromJson(Map<String, dynamic> json) => _$PeerFromJson(json);
 
+  static const toJsonFactory = _$PeerToJson;
+  Map<String, dynamic> toJson() => _$PeerToJson(this);
+
   @JsonKey(name: 'id')
   final String id;
   @JsonKey(name: 'multiAddresses', defaultValue: <String>[])
@@ -1465,8 +1492,6 @@ class Peer {
   @JsonKey(name: 'gossip')
   final Gossip gossip;
   static const fromJsonFactory = _$PeerFromJson;
-  static const toJsonFactory = _$PeerToJson;
-  Map<String, dynamic> toJson() => _$PeerToJson(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -1548,13 +1573,14 @@ class Gossip {
 
   factory Gossip.fromJson(Map<String, dynamic> json) => _$GossipFromJson(json);
 
+  static const toJsonFactory = _$GossipToJson;
+  Map<String, dynamic> toJson() => _$GossipToJson(this);
+
   @JsonKey(name: 'heartbeat')
   final Heartbeat? heartbeat;
   @JsonKey(name: 'metrics')
   final Metrics? metrics;
   static const fromJsonFactory = _$GossipFromJson;
-  static const toJsonFactory = _$GossipToJson;
-  Map<String, dynamic> toJson() => _$GossipToJson(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -1605,6 +1631,9 @@ class Heartbeat {
   factory Heartbeat.fromJson(Map<String, dynamic> json) =>
       _$HeartbeatFromJson(json);
 
+  static const toJsonFactory = _$HeartbeatToJson;
+  Map<String, dynamic> toJson() => _$HeartbeatToJson(this);
+
   @JsonKey(name: 'solidMilestoneIndex')
   final int? solidMilestoneIndex;
   @JsonKey(name: 'prunedMilestoneIndex')
@@ -1616,8 +1645,6 @@ class Heartbeat {
   @JsonKey(name: 'syncedNeighbors')
   final int? syncedNeighbors;
   static const fromJsonFactory = _$HeartbeatFromJson;
-  static const toJsonFactory = _$HeartbeatToJson;
-  Map<String, dynamic> toJson() => _$HeartbeatToJson(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -1712,6 +1739,9 @@ class Metrics {
   factory Metrics.fromJson(Map<String, dynamic> json) =>
       _$MetricsFromJson(json);
 
+  static const toJsonFactory = _$MetricsToJson;
+  Map<String, dynamic> toJson() => _$MetricsToJson(this);
+
   @JsonKey(name: 'newMessages')
   final int newMessages;
   @JsonKey(name: 'knownMessages')
@@ -1735,8 +1765,6 @@ class Metrics {
   @JsonKey(name: 'droppedPackets')
   final int droppedPackets;
   static const fromJsonFactory = _$MetricsFromJson;
-  static const toJsonFactory = _$MetricsToJson;
-  Map<String, dynamic> toJson() => _$MetricsToJson(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -1885,13 +1913,14 @@ class ReceiptTuple {
   factory ReceiptTuple.fromJson(Map<String, dynamic> json) =>
       _$ReceiptTupleFromJson(json);
 
+  static const toJsonFactory = _$ReceiptTupleToJson;
+  Map<String, dynamic> toJson() => _$ReceiptTupleToJson(this);
+
   @JsonKey(name: 'receipt')
   final ReceiptPayload receipt;
   @JsonKey(name: 'milestoneIndex')
   final int milestoneIndex;
   static const fromJsonFactory = _$ReceiptTupleFromJson;
-  static const toJsonFactory = _$ReceiptTupleToJson;
-  Map<String, dynamic> toJson() => _$ReceiptTupleToJson(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -1944,6 +1973,9 @@ class ReceiptPayload {
   factory ReceiptPayload.fromJson(Map<String, dynamic> json) =>
       _$ReceiptPayloadFromJson(json);
 
+  static const toJsonFactory = _$ReceiptPayloadToJson;
+  Map<String, dynamic> toJson() => _$ReceiptPayloadToJson(this);
+
   @JsonKey(name: 'migratedAt')
   final int migratedAt;
   @JsonKey(name: 'final')
@@ -1953,8 +1985,6 @@ class ReceiptPayload {
   @JsonKey(name: 'transaction')
   final TreasuryTransactionPayload transaction;
   static const fromJsonFactory = _$ReceiptPayloadFromJson;
-  static const toJsonFactory = _$ReceiptPayloadToJson;
-  Map<String, dynamic> toJson() => _$ReceiptPayloadToJson(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -2022,6 +2052,9 @@ class MigratedFundsEntry {
   factory MigratedFundsEntry.fromJson(Map<String, dynamic> json) =>
       _$MigratedFundsEntryFromJson(json);
 
+  static const toJsonFactory = _$MigratedFundsEntryToJson;
+  Map<String, dynamic> toJson() => _$MigratedFundsEntryToJson(this);
+
   @JsonKey(name: 'tailTransactionHash')
   final String tailTransactionHash;
   @JsonKey(name: 'address')
@@ -2029,8 +2062,6 @@ class MigratedFundsEntry {
   @JsonKey(name: 'deposit')
   final int deposit;
   static const fromJsonFactory = _$MigratedFundsEntryFromJson;
-  static const toJsonFactory = _$MigratedFundsEntryToJson;
-  Map<String, dynamic> toJson() => _$MigratedFundsEntryToJson(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -2088,11 +2119,12 @@ class ErrorResponse {
   factory ErrorResponse.fromJson(Map<String, dynamic> json) =>
       _$ErrorResponseFromJson(json);
 
+  static const toJsonFactory = _$ErrorResponseToJson;
+  Map<String, dynamic> toJson() => _$ErrorResponseToJson(this);
+
   @JsonKey(name: 'error')
   final ErrorResponse$Error error;
   static const fromJsonFactory = _$ErrorResponseFromJson;
-  static const toJsonFactory = _$ErrorResponseToJson;
-  Map<String, dynamic> toJson() => _$ErrorResponseToJson(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -2129,11 +2161,12 @@ class ForbiddenResponse {
   factory ForbiddenResponse.fromJson(Map<String, dynamic> json) =>
       _$ForbiddenResponseFromJson(json);
 
+  static const toJsonFactory = _$ForbiddenResponseToJson;
+  Map<String, dynamic> toJson() => _$ForbiddenResponseToJson(this);
+
   @JsonKey(name: 'error')
   final ForbiddenResponse$Error error;
   static const fromJsonFactory = _$ForbiddenResponseFromJson;
-  static const toJsonFactory = _$ForbiddenResponseToJson;
-  Map<String, dynamic> toJson() => _$ForbiddenResponseToJson(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -2170,11 +2203,12 @@ class ServiceUnavailableResponse {
   factory ServiceUnavailableResponse.fromJson(Map<String, dynamic> json) =>
       _$ServiceUnavailableResponseFromJson(json);
 
+  static const toJsonFactory = _$ServiceUnavailableResponseToJson;
+  Map<String, dynamic> toJson() => _$ServiceUnavailableResponseToJson(this);
+
   @JsonKey(name: 'error')
   final ServiceUnavailableResponse$Error error;
   static const fromJsonFactory = _$ServiceUnavailableResponseFromJson;
-  static const toJsonFactory = _$ServiceUnavailableResponseToJson;
-  Map<String, dynamic> toJson() => _$ServiceUnavailableResponseToJson(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -2214,11 +2248,12 @@ class BadRequestResponse {
   factory BadRequestResponse.fromJson(Map<String, dynamic> json) =>
       _$BadRequestResponseFromJson(json);
 
+  static const toJsonFactory = _$BadRequestResponseToJson;
+  Map<String, dynamic> toJson() => _$BadRequestResponseToJson(this);
+
   @JsonKey(name: 'error')
   final BadRequestResponse$Error error;
   static const fromJsonFactory = _$BadRequestResponseFromJson;
-  static const toJsonFactory = _$BadRequestResponseToJson;
-  Map<String, dynamic> toJson() => _$BadRequestResponseToJson(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -2257,11 +2292,12 @@ class NotFoundResponse {
   factory NotFoundResponse.fromJson(Map<String, dynamic> json) =>
       _$NotFoundResponseFromJson(json);
 
+  static const toJsonFactory = _$NotFoundResponseToJson;
+  Map<String, dynamic> toJson() => _$NotFoundResponseToJson(this);
+
   @JsonKey(name: 'error')
   final NotFoundResponse$Error error;
   static const fromJsonFactory = _$NotFoundResponseFromJson;
-  static const toJsonFactory = _$NotFoundResponseToJson;
-  Map<String, dynamic> toJson() => _$NotFoundResponseToJson(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -2298,11 +2334,12 @@ class InternalErrorResponse {
   factory InternalErrorResponse.fromJson(Map<String, dynamic> json) =>
       _$InternalErrorResponseFromJson(json);
 
+  static const toJsonFactory = _$InternalErrorResponseToJson;
+  Map<String, dynamic> toJson() => _$InternalErrorResponseToJson(this);
+
   @JsonKey(name: 'error')
   final InternalErrorResponse$Error error;
   static const fromJsonFactory = _$InternalErrorResponseFromJson;
-  static const toJsonFactory = _$InternalErrorResponseToJson;
-  Map<String, dynamic> toJson() => _$InternalErrorResponseToJson(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -2341,11 +2378,12 @@ class InfoResponse {
   factory InfoResponse.fromJson(Map<String, dynamic> json) =>
       _$InfoResponseFromJson(json);
 
+  static const toJsonFactory = _$InfoResponseToJson;
+  Map<String, dynamic> toJson() => _$InfoResponseToJson(this);
+
   @JsonKey(name: 'data')
   final InfoResponse$Data data;
   static const fromJsonFactory = _$InfoResponseFromJson;
-  static const toJsonFactory = _$InfoResponseToJson;
-  Map<String, dynamic> toJson() => _$InfoResponseToJson(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -2382,11 +2420,12 @@ class TipsResponse {
   factory TipsResponse.fromJson(Map<String, dynamic> json) =>
       _$TipsResponseFromJson(json);
 
+  static const toJsonFactory = _$TipsResponseToJson;
+  Map<String, dynamic> toJson() => _$TipsResponseToJson(this);
+
   @JsonKey(name: 'data')
   final TipsResponse$Data data;
   static const fromJsonFactory = _$TipsResponseFromJson;
-  static const toJsonFactory = _$TipsResponseToJson;
-  Map<String, dynamic> toJson() => _$TipsResponseToJson(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -2426,6 +2465,9 @@ class SubmitMessageRequest {
   factory SubmitMessageRequest.fromJson(Map<String, dynamic> json) =>
       _$SubmitMessageRequestFromJson(json);
 
+  static const toJsonFactory = _$SubmitMessageRequestToJson;
+  Map<String, dynamic> toJson() => _$SubmitMessageRequestToJson(this);
+
   @JsonKey(name: 'networkId')
   final String? networkId;
   @JsonKey(name: 'parentMessageIds', defaultValue: <String>[])
@@ -2435,8 +2477,6 @@ class SubmitMessageRequest {
   @JsonKey(name: 'nonce')
   final String? nonce;
   static const fromJsonFactory = _$SubmitMessageRequestFromJson;
-  static const toJsonFactory = _$SubmitMessageRequestToJson;
-  Map<String, dynamic> toJson() => _$SubmitMessageRequestToJson(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -2504,11 +2544,12 @@ class SubmitMessageResponse {
   factory SubmitMessageResponse.fromJson(Map<String, dynamic> json) =>
       _$SubmitMessageResponseFromJson(json);
 
+  static const toJsonFactory = _$SubmitMessageResponseToJson;
+  Map<String, dynamic> toJson() => _$SubmitMessageResponseToJson(this);
+
   @JsonKey(name: 'data')
   final SubmitMessageResponse$Data data;
   static const fromJsonFactory = _$SubmitMessageResponseFromJson;
-  static const toJsonFactory = _$SubmitMessageResponseToJson;
-  Map<String, dynamic> toJson() => _$SubmitMessageResponseToJson(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -2546,11 +2587,12 @@ class MessagesFindResponse {
   factory MessagesFindResponse.fromJson(Map<String, dynamic> json) =>
       _$MessagesFindResponseFromJson(json);
 
+  static const toJsonFactory = _$MessagesFindResponseToJson;
+  Map<String, dynamic> toJson() => _$MessagesFindResponseToJson(this);
+
   @JsonKey(name: 'data')
   final MessagesFindResponse$Data data;
   static const fromJsonFactory = _$MessagesFindResponseFromJson;
-  static const toJsonFactory = _$MessagesFindResponseToJson;
-  Map<String, dynamic> toJson() => _$MessagesFindResponseToJson(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -2588,11 +2630,12 @@ class MessageMetadataResponse {
   factory MessageMetadataResponse.fromJson(Map<String, dynamic> json) =>
       _$MessageMetadataResponseFromJson(json);
 
+  static const toJsonFactory = _$MessageMetadataResponseToJson;
+  Map<String, dynamic> toJson() => _$MessageMetadataResponseToJson(this);
+
   @JsonKey(name: 'data')
   final MessageMetadataResponse$Data data;
   static const fromJsonFactory = _$MessageMetadataResponseFromJson;
-  static const toJsonFactory = _$MessageMetadataResponseToJson;
-  Map<String, dynamic> toJson() => _$MessageMetadataResponseToJson(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -2631,11 +2674,12 @@ class MessageResponse {
   factory MessageResponse.fromJson(Map<String, dynamic> json) =>
       _$MessageResponseFromJson(json);
 
+  static const toJsonFactory = _$MessageResponseToJson;
+  Map<String, dynamic> toJson() => _$MessageResponseToJson(this);
+
   @JsonKey(name: 'data')
   final MessageResponse$Data data;
   static const fromJsonFactory = _$MessageResponseFromJson;
-  static const toJsonFactory = _$MessageResponseToJson;
-  Map<String, dynamic> toJson() => _$MessageResponseToJson(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -2672,11 +2716,12 @@ class MessageChildrenResponse {
   factory MessageChildrenResponse.fromJson(Map<String, dynamic> json) =>
       _$MessageChildrenResponseFromJson(json);
 
+  static const toJsonFactory = _$MessageChildrenResponseToJson;
+  Map<String, dynamic> toJson() => _$MessageChildrenResponseToJson(this);
+
   @JsonKey(name: 'data')
   final MessageChildrenResponse$Data data;
   static const fromJsonFactory = _$MessageChildrenResponseFromJson;
-  static const toJsonFactory = _$MessageChildrenResponseToJson;
-  Map<String, dynamic> toJson() => _$MessageChildrenResponseToJson(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -2715,11 +2760,12 @@ class OutputResponse {
   factory OutputResponse.fromJson(Map<String, dynamic> json) =>
       _$OutputResponseFromJson(json);
 
+  static const toJsonFactory = _$OutputResponseToJson;
+  Map<String, dynamic> toJson() => _$OutputResponseToJson(this);
+
   @JsonKey(name: 'data')
   final OutputResponse$Data data;
   static const fromJsonFactory = _$OutputResponseFromJson;
-  static const toJsonFactory = _$OutputResponseToJson;
-  Map<String, dynamic> toJson() => _$OutputResponseToJson(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -2756,11 +2802,12 @@ class BalanceAddressResponse {
   factory BalanceAddressResponse.fromJson(Map<String, dynamic> json) =>
       _$BalanceAddressResponseFromJson(json);
 
+  static const toJsonFactory = _$BalanceAddressResponseToJson;
+  Map<String, dynamic> toJson() => _$BalanceAddressResponseToJson(this);
+
   @JsonKey(name: 'data')
   final BalanceAddressResponse$Data data;
   static const fromJsonFactory = _$BalanceAddressResponseFromJson;
-  static const toJsonFactory = _$BalanceAddressResponseToJson;
-  Map<String, dynamic> toJson() => _$BalanceAddressResponseToJson(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -2799,11 +2846,12 @@ class OutputsAddressResponse {
   factory OutputsAddressResponse.fromJson(Map<String, dynamic> json) =>
       _$OutputsAddressResponseFromJson(json);
 
+  static const toJsonFactory = _$OutputsAddressResponseToJson;
+  Map<String, dynamic> toJson() => _$OutputsAddressResponseToJson(this);
+
   @JsonKey(name: 'data')
   final OutputsAddressResponse$Data data;
   static const fromJsonFactory = _$OutputsAddressResponseFromJson;
-  static const toJsonFactory = _$OutputsAddressResponseToJson;
-  Map<String, dynamic> toJson() => _$OutputsAddressResponseToJson(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -2842,11 +2890,12 @@ class ReceiptsResponse {
   factory ReceiptsResponse.fromJson(Map<String, dynamic> json) =>
       _$ReceiptsResponseFromJson(json);
 
+  static const toJsonFactory = _$ReceiptsResponseToJson;
+  Map<String, dynamic> toJson() => _$ReceiptsResponseToJson(this);
+
   @JsonKey(name: 'data')
   final ReceiptsResponse$Data data;
   static const fromJsonFactory = _$ReceiptsResponseFromJson;
-  static const toJsonFactory = _$ReceiptsResponseToJson;
-  Map<String, dynamic> toJson() => _$ReceiptsResponseToJson(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -2883,11 +2932,12 @@ class TreasuryResponse {
   factory TreasuryResponse.fromJson(Map<String, dynamic> json) =>
       _$TreasuryResponseFromJson(json);
 
+  static const toJsonFactory = _$TreasuryResponseToJson;
+  Map<String, dynamic> toJson() => _$TreasuryResponseToJson(this);
+
   @JsonKey(name: 'data')
   final TreasuryResponse$Data data;
   static const fromJsonFactory = _$TreasuryResponseFromJson;
-  static const toJsonFactory = _$TreasuryResponseToJson;
-  Map<String, dynamic> toJson() => _$TreasuryResponseToJson(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -2924,11 +2974,12 @@ class MilestoneResponse {
   factory MilestoneResponse.fromJson(Map<String, dynamic> json) =>
       _$MilestoneResponseFromJson(json);
 
+  static const toJsonFactory = _$MilestoneResponseToJson;
+  Map<String, dynamic> toJson() => _$MilestoneResponseToJson(this);
+
   @JsonKey(name: 'data')
   final MilestoneResponse$Data data;
   static const fromJsonFactory = _$MilestoneResponseFromJson;
-  static const toJsonFactory = _$MilestoneResponseToJson;
-  Map<String, dynamic> toJson() => _$MilestoneResponseToJson(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -2965,11 +3016,12 @@ class UTXOChangesResponse {
   factory UTXOChangesResponse.fromJson(Map<String, dynamic> json) =>
       _$UTXOChangesResponseFromJson(json);
 
+  static const toJsonFactory = _$UTXOChangesResponseToJson;
+  Map<String, dynamic> toJson() => _$UTXOChangesResponseToJson(this);
+
   @JsonKey(name: 'data')
   final UTXOChangesResponse$Data data;
   static const fromJsonFactory = _$UTXOChangesResponseFromJson;
-  static const toJsonFactory = _$UTXOChangesResponseToJson;
-  Map<String, dynamic> toJson() => _$UTXOChangesResponseToJson(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -3007,11 +3059,12 @@ class PeersResponse {
   factory PeersResponse.fromJson(Map<String, dynamic> json) =>
       _$PeersResponseFromJson(json);
 
+  static const toJsonFactory = _$PeersResponseToJson;
+  Map<String, dynamic> toJson() => _$PeersResponseToJson(this);
+
   @JsonKey(name: 'data', defaultValue: <Peer>[])
   final List<Peer> data;
   static const fromJsonFactory = _$PeersResponseFromJson;
-  static const toJsonFactory = _$PeersResponseToJson;
-  Map<String, dynamic> toJson() => _$PeersResponseToJson(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -3048,11 +3101,12 @@ class PeerResponse {
   factory PeerResponse.fromJson(Map<String, dynamic> json) =>
       _$PeerResponseFromJson(json);
 
+  static const toJsonFactory = _$PeerResponseToJson;
+  Map<String, dynamic> toJson() => _$PeerResponseToJson(this);
+
   @JsonKey(name: 'data')
   final Peer data;
   static const fromJsonFactory = _$PeerResponseFromJson;
-  static const toJsonFactory = _$PeerResponseToJson;
-  Map<String, dynamic> toJson() => _$PeerResponseToJson(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -3090,13 +3144,14 @@ class AddPeerRequest {
   factory AddPeerRequest.fromJson(Map<String, dynamic> json) =>
       _$AddPeerRequestFromJson(json);
 
+  static const toJsonFactory = _$AddPeerRequestToJson;
+  Map<String, dynamic> toJson() => _$AddPeerRequestToJson(this);
+
   @JsonKey(name: 'multiAddress')
   final String multiAddress;
   @JsonKey(name: 'alias')
   final String? alias;
   static const fromJsonFactory = _$AddPeerRequestFromJson;
-  static const toJsonFactory = _$AddPeerRequestToJson;
-  Map<String, dynamic> toJson() => _$AddPeerRequestToJson(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -3144,11 +3199,12 @@ class AddPeerResponse {
   factory AddPeerResponse.fromJson(Map<String, dynamic> json) =>
       _$AddPeerResponseFromJson(json);
 
+  static const toJsonFactory = _$AddPeerResponseToJson;
+  Map<String, dynamic> toJson() => _$AddPeerResponseToJson(this);
+
   @JsonKey(name: 'data')
   final Peer data;
   static const fromJsonFactory = _$AddPeerResponseFromJson;
-  static const toJsonFactory = _$AddPeerResponseToJson;
-  Map<String, dynamic> toJson() => _$AddPeerResponseToJson(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -3186,13 +3242,14 @@ class ErrorResponse$Error {
   factory ErrorResponse$Error.fromJson(Map<String, dynamic> json) =>
       _$ErrorResponse$ErrorFromJson(json);
 
+  static const toJsonFactory = _$ErrorResponse$ErrorToJson;
+  Map<String, dynamic> toJson() => _$ErrorResponse$ErrorToJson(this);
+
   @JsonKey(name: 'code')
   final String code;
   @JsonKey(name: 'message')
   final String message;
   static const fromJsonFactory = _$ErrorResponse$ErrorFromJson;
-  static const toJsonFactory = _$ErrorResponse$ErrorToJson;
-  Map<String, dynamic> toJson() => _$ErrorResponse$ErrorToJson(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -3238,13 +3295,14 @@ class ForbiddenResponse$Error {
   factory ForbiddenResponse$Error.fromJson(Map<String, dynamic> json) =>
       _$ForbiddenResponse$ErrorFromJson(json);
 
+  static const toJsonFactory = _$ForbiddenResponse$ErrorToJson;
+  Map<String, dynamic> toJson() => _$ForbiddenResponse$ErrorToJson(this);
+
   @JsonKey(name: 'code')
   final String code;
   @JsonKey(name: 'message')
   final String message;
   static const fromJsonFactory = _$ForbiddenResponse$ErrorFromJson;
-  static const toJsonFactory = _$ForbiddenResponse$ErrorToJson;
-  Map<String, dynamic> toJson() => _$ForbiddenResponse$ErrorToJson(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -3291,14 +3349,15 @@ class ServiceUnavailableResponse$Error {
           Map<String, dynamic> json) =>
       _$ServiceUnavailableResponse$ErrorFromJson(json);
 
+  static const toJsonFactory = _$ServiceUnavailableResponse$ErrorToJson;
+  Map<String, dynamic> toJson() =>
+      _$ServiceUnavailableResponse$ErrorToJson(this);
+
   @JsonKey(name: 'code')
   final String code;
   @JsonKey(name: 'message')
   final String message;
   static const fromJsonFactory = _$ServiceUnavailableResponse$ErrorFromJson;
-  static const toJsonFactory = _$ServiceUnavailableResponse$ErrorToJson;
-  Map<String, dynamic> toJson() =>
-      _$ServiceUnavailableResponse$ErrorToJson(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -3345,13 +3404,14 @@ class BadRequestResponse$Error {
   factory BadRequestResponse$Error.fromJson(Map<String, dynamic> json) =>
       _$BadRequestResponse$ErrorFromJson(json);
 
+  static const toJsonFactory = _$BadRequestResponse$ErrorToJson;
+  Map<String, dynamic> toJson() => _$BadRequestResponse$ErrorToJson(this);
+
   @JsonKey(name: 'code')
   final String code;
   @JsonKey(name: 'message')
   final String message;
   static const fromJsonFactory = _$BadRequestResponse$ErrorFromJson;
-  static const toJsonFactory = _$BadRequestResponse$ErrorToJson;
-  Map<String, dynamic> toJson() => _$BadRequestResponse$ErrorToJson(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -3397,13 +3457,14 @@ class NotFoundResponse$Error {
   factory NotFoundResponse$Error.fromJson(Map<String, dynamic> json) =>
       _$NotFoundResponse$ErrorFromJson(json);
 
+  static const toJsonFactory = _$NotFoundResponse$ErrorToJson;
+  Map<String, dynamic> toJson() => _$NotFoundResponse$ErrorToJson(this);
+
   @JsonKey(name: 'code')
   final String code;
   @JsonKey(name: 'message')
   final String message;
   static const fromJsonFactory = _$NotFoundResponse$ErrorFromJson;
-  static const toJsonFactory = _$NotFoundResponse$ErrorToJson;
-  Map<String, dynamic> toJson() => _$NotFoundResponse$ErrorToJson(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -3449,13 +3510,14 @@ class InternalErrorResponse$Error {
   factory InternalErrorResponse$Error.fromJson(Map<String, dynamic> json) =>
       _$InternalErrorResponse$ErrorFromJson(json);
 
+  static const toJsonFactory = _$InternalErrorResponse$ErrorToJson;
+  Map<String, dynamic> toJson() => _$InternalErrorResponse$ErrorToJson(this);
+
   @JsonKey(name: 'code')
   final String code;
   @JsonKey(name: 'message')
   final String message;
   static const fromJsonFactory = _$InternalErrorResponse$ErrorFromJson;
-  static const toJsonFactory = _$InternalErrorResponse$ErrorToJson;
-  Map<String, dynamic> toJson() => _$InternalErrorResponse$ErrorToJson(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -3513,6 +3575,9 @@ class InfoResponse$Data {
   factory InfoResponse$Data.fromJson(Map<String, dynamic> json) =>
       _$InfoResponse$DataFromJson(json);
 
+  static const toJsonFactory = _$InfoResponse$DataToJson;
+  Map<String, dynamic> toJson() => _$InfoResponse$DataToJson(this);
+
   @JsonKey(name: 'name')
   final String name;
   @JsonKey(name: 'version')
@@ -3542,8 +3607,6 @@ class InfoResponse$Data {
   @JsonKey(name: 'features', defaultValue: <String>[])
   final List<String> features;
   static const fromJsonFactory = _$InfoResponse$DataFromJson;
-  static const toJsonFactory = _$InfoResponse$DataToJson;
-  Map<String, dynamic> toJson() => _$InfoResponse$DataToJson(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -3710,11 +3773,12 @@ class TipsResponse$Data {
   factory TipsResponse$Data.fromJson(Map<String, dynamic> json) =>
       _$TipsResponse$DataFromJson(json);
 
+  static const toJsonFactory = _$TipsResponse$DataToJson;
+  Map<String, dynamic> toJson() => _$TipsResponse$DataToJson(this);
+
   @JsonKey(name: 'tipMessageIds', defaultValue: <String>[])
   final List<String> tipMessageIds;
   static const fromJsonFactory = _$TipsResponse$DataFromJson;
-  static const toJsonFactory = _$TipsResponse$DataToJson;
-  Map<String, dynamic> toJson() => _$TipsResponse$DataToJson(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -3755,11 +3819,12 @@ class SubmitMessageResponse$Data {
   factory SubmitMessageResponse$Data.fromJson(Map<String, dynamic> json) =>
       _$SubmitMessageResponse$DataFromJson(json);
 
+  static const toJsonFactory = _$SubmitMessageResponse$DataToJson;
+  Map<String, dynamic> toJson() => _$SubmitMessageResponse$DataToJson(this);
+
   @JsonKey(name: 'messageId')
   final String messageId;
   static const fromJsonFactory = _$SubmitMessageResponse$DataFromJson;
-  static const toJsonFactory = _$SubmitMessageResponse$DataToJson;
-  Map<String, dynamic> toJson() => _$SubmitMessageResponse$DataToJson(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -3801,6 +3866,9 @@ class MessagesFindResponse$Data {
   factory MessagesFindResponse$Data.fromJson(Map<String, dynamic> json) =>
       _$MessagesFindResponse$DataFromJson(json);
 
+  static const toJsonFactory = _$MessagesFindResponse$DataToJson;
+  Map<String, dynamic> toJson() => _$MessagesFindResponse$DataToJson(this);
+
   @JsonKey(name: 'index')
   final String index;
   @JsonKey(name: 'maxResults')
@@ -3810,8 +3878,6 @@ class MessagesFindResponse$Data {
   @JsonKey(name: 'messageIds', defaultValue: <String>[])
   final List<String> messageIds;
   static const fromJsonFactory = _$MessagesFindResponse$DataFromJson;
-  static const toJsonFactory = _$MessagesFindResponse$DataToJson;
-  Map<String, dynamic> toJson() => _$MessagesFindResponse$DataToJson(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -3881,6 +3947,9 @@ class MessageMetadataResponse$Data {
   factory MessageMetadataResponse$Data.fromJson(Map<String, dynamic> json) =>
       _$MessageMetadataResponse$DataFromJson(json);
 
+  static const toJsonFactory = _$MessageMetadataResponse$DataToJson;
+  Map<String, dynamic> toJson() => _$MessageMetadataResponse$DataToJson(this);
+
   @JsonKey(name: 'messageId')
   final String messageId;
   @JsonKey(name: 'parentMessageIds', defaultValue: <String>[])
@@ -3891,7 +3960,11 @@ class MessageMetadataResponse$Data {
   final int? referencedByMilestoneIndex;
   @JsonKey(name: 'milestoneIndex')
   final int? milestoneIndex;
-  @JsonKey(name: 'ledgerInclusionState')
+  @JsonKey(
+    name: 'ledgerInclusionState',
+    toJson: messageMetadataResponse$DataLedgerInclusionStateToJson,
+    fromJson: messageMetadataResponse$DataLedgerInclusionStateFromJson,
+  )
   final enums.MessageMetadataResponse$DataLedgerInclusionState?
       ledgerInclusionState;
   @JsonKey(name: 'conflictReason')
@@ -3901,8 +3974,6 @@ class MessageMetadataResponse$Data {
   @JsonKey(name: 'shouldReattach')
   final bool? shouldReattach;
   static const fromJsonFactory = _$MessageMetadataResponse$DataFromJson;
-  static const toJsonFactory = _$MessageMetadataResponse$DataToJson;
-  Map<String, dynamic> toJson() => _$MessageMetadataResponse$DataToJson(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -4028,11 +4099,12 @@ class MessageResponse$Data {
   factory MessageResponse$Data.fromJson(Map<String, dynamic> json) =>
       _$MessageResponse$DataFromJson(json);
 
+  static const toJsonFactory = _$MessageResponse$DataToJson;
+  Map<String, dynamic> toJson() => _$MessageResponse$DataToJson(this);
+
   @JsonKey(name: 'allOf')
   final Message? allOf;
   static const fromJsonFactory = _$MessageResponse$DataFromJson;
-  static const toJsonFactory = _$MessageResponse$DataToJson;
-  Map<String, dynamic> toJson() => _$MessageResponse$DataToJson(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -4073,6 +4145,9 @@ class MessageChildrenResponse$Data {
   factory MessageChildrenResponse$Data.fromJson(Map<String, dynamic> json) =>
       _$MessageChildrenResponse$DataFromJson(json);
 
+  static const toJsonFactory = _$MessageChildrenResponse$DataToJson;
+  Map<String, dynamic> toJson() => _$MessageChildrenResponse$DataToJson(this);
+
   @JsonKey(name: 'messageId')
   final String messageId;
   @JsonKey(name: 'maxResults')
@@ -4082,8 +4157,6 @@ class MessageChildrenResponse$Data {
   @JsonKey(name: 'childrenMessageIds', defaultValue: <String>[])
   final List<String> childrenMessageIds;
   static const fromJsonFactory = _$MessageChildrenResponse$DataFromJson;
-  static const toJsonFactory = _$MessageChildrenResponse$DataToJson;
-  Map<String, dynamic> toJson() => _$MessageChildrenResponse$DataToJson(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -4157,6 +4230,9 @@ class OutputResponse$Data {
   factory OutputResponse$Data.fromJson(Map<String, dynamic> json) =>
       _$OutputResponse$DataFromJson(json);
 
+  static const toJsonFactory = _$OutputResponse$DataToJson;
+  Map<String, dynamic> toJson() => _$OutputResponse$DataToJson(this);
+
   @JsonKey(name: 'messageId')
   final String messageId;
   @JsonKey(name: 'transactionId')
@@ -4170,8 +4246,6 @@ class OutputResponse$Data {
   @JsonKey(name: 'ledgerIndex')
   final int ledgerIndex;
   static const fromJsonFactory = _$OutputResponse$DataFromJson;
-  static const toJsonFactory = _$OutputResponse$DataToJson;
-  Map<String, dynamic> toJson() => _$OutputResponse$DataToJson(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -4260,6 +4334,9 @@ class BalanceAddressResponse$Data {
   factory BalanceAddressResponse$Data.fromJson(Map<String, dynamic> json) =>
       _$BalanceAddressResponse$DataFromJson(json);
 
+  static const toJsonFactory = _$BalanceAddressResponse$DataToJson;
+  Map<String, dynamic> toJson() => _$BalanceAddressResponse$DataToJson(this);
+
   @JsonKey(name: 'addressType')
   final int addressType;
   @JsonKey(name: 'address')
@@ -4271,8 +4348,6 @@ class BalanceAddressResponse$Data {
   @JsonKey(name: 'ledgerIndex')
   final int ledgerIndex;
   static const fromJsonFactory = _$BalanceAddressResponse$DataFromJson;
-  static const toJsonFactory = _$BalanceAddressResponse$DataToJson;
-  Map<String, dynamic> toJson() => _$BalanceAddressResponse$DataToJson(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -4355,6 +4430,9 @@ class OutputsAddressResponse$Data {
   factory OutputsAddressResponse$Data.fromJson(Map<String, dynamic> json) =>
       _$OutputsAddressResponse$DataFromJson(json);
 
+  static const toJsonFactory = _$OutputsAddressResponse$DataToJson;
+  Map<String, dynamic> toJson() => _$OutputsAddressResponse$DataToJson(this);
+
   @JsonKey(name: 'addressType')
   final int addressType;
   @JsonKey(name: 'address')
@@ -4368,8 +4446,6 @@ class OutputsAddressResponse$Data {
   @JsonKey(name: 'ledgerIndex')
   final int ledgerIndex;
   static const fromJsonFactory = _$OutputsAddressResponse$DataFromJson;
-  static const toJsonFactory = _$OutputsAddressResponse$DataToJson;
-  Map<String, dynamic> toJson() => _$OutputsAddressResponse$DataToJson(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -4453,11 +4529,12 @@ class ReceiptsResponse$Data {
   factory ReceiptsResponse$Data.fromJson(Map<String, dynamic> json) =>
       _$ReceiptsResponse$DataFromJson(json);
 
+  static const toJsonFactory = _$ReceiptsResponse$DataToJson;
+  Map<String, dynamic> toJson() => _$ReceiptsResponse$DataToJson(this);
+
   @JsonKey(name: 'receipts', defaultValue: <ReceiptTuple>[])
   final List<ReceiptTuple> receipts;
   static const fromJsonFactory = _$ReceiptsResponse$DataFromJson;
-  static const toJsonFactory = _$ReceiptsResponse$DataToJson;
-  Map<String, dynamic> toJson() => _$ReceiptsResponse$DataToJson(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -4498,13 +4575,14 @@ class TreasuryResponse$Data {
   factory TreasuryResponse$Data.fromJson(Map<String, dynamic> json) =>
       _$TreasuryResponse$DataFromJson(json);
 
+  static const toJsonFactory = _$TreasuryResponse$DataToJson;
+  Map<String, dynamic> toJson() => _$TreasuryResponse$DataToJson(this);
+
   @JsonKey(name: 'milestoneId')
   final String milestoneId;
   @JsonKey(name: 'amount')
   final int amount;
   static const fromJsonFactory = _$TreasuryResponse$DataFromJson;
-  static const toJsonFactory = _$TreasuryResponse$DataToJson;
-  Map<String, dynamic> toJson() => _$TreasuryResponse$DataToJson(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -4554,6 +4632,9 @@ class MilestoneResponse$Data {
   factory MilestoneResponse$Data.fromJson(Map<String, dynamic> json) =>
       _$MilestoneResponse$DataFromJson(json);
 
+  static const toJsonFactory = _$MilestoneResponse$DataToJson;
+  Map<String, dynamic> toJson() => _$MilestoneResponse$DataToJson(this);
+
   @JsonKey(name: 'index')
   final int index;
   @JsonKey(name: 'messageId')
@@ -4561,8 +4642,6 @@ class MilestoneResponse$Data {
   @JsonKey(name: 'timestamp')
   final int timestamp;
   static const fromJsonFactory = _$MilestoneResponse$DataFromJson;
-  static const toJsonFactory = _$MilestoneResponse$DataToJson;
-  Map<String, dynamic> toJson() => _$MilestoneResponse$DataToJson(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -4620,6 +4699,9 @@ class UTXOChangesResponse$Data {
   factory UTXOChangesResponse$Data.fromJson(Map<String, dynamic> json) =>
       _$UTXOChangesResponse$DataFromJson(json);
 
+  static const toJsonFactory = _$UTXOChangesResponse$DataToJson;
+  Map<String, dynamic> toJson() => _$UTXOChangesResponse$DataToJson(this);
+
   @JsonKey(name: 'index')
   final int index;
   @JsonKey(name: 'createdOutputs', defaultValue: <String>[])
@@ -4627,8 +4709,6 @@ class UTXOChangesResponse$Data {
   @JsonKey(name: 'consumedOutputs', defaultValue: <String>[])
   final List<String> consumedOutputs;
   static const fromJsonFactory = _$UTXOChangesResponse$DataFromJson;
-  static const toJsonFactory = _$UTXOChangesResponse$DataToJson;
-  Map<String, dynamic> toJson() => _$UTXOChangesResponse$DataToJson(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -4682,30 +4762,15 @@ extension $UTXOChangesResponse$DataExtension on UTXOChangesResponse$Data {
 }
 
 String? peerRelationToJson(enums.PeerRelation? peerRelation) {
-  return enums.$PeerRelationMap[peerRelation];
+  return peerRelation?.value;
 }
 
 enums.PeerRelation peerRelationFromJson(
   Object? peerRelation, [
   enums.PeerRelation? defaultValue,
 ]) {
-  if (peerRelation is String) {
-    return enums.$PeerRelationMap.entries
-        .firstWhere(
-            (element) =>
-                element.value.toLowerCase() == peerRelation.toLowerCase(),
-            orElse: () =>
-                const MapEntry(enums.PeerRelation.swaggerGeneratedUnknown, ''))
-        .key;
-  }
-
-  final parsedResult = defaultValue == null
-      ? null
-      : enums.$PeerRelationMap.entries
-          .firstWhereOrNull((element) => element.value == defaultValue)
-          ?.key;
-
-  return parsedResult ??
+  return enums.PeerRelation.values
+          .firstWhereOrNull((e) => e.value == peerRelation) ??
       defaultValue ??
       enums.PeerRelation.swaggerGeneratedUnknown;
 }
@@ -4715,7 +4780,7 @@ List<String> peerRelationListToJson(List<enums.PeerRelation>? peerRelation) {
     return [];
   }
 
-  return peerRelation.map((e) => enums.$PeerRelationMap[e]!).toList();
+  return peerRelation.map((e) => e.value!).toList();
 }
 
 List<enums.PeerRelation> peerRelationListFromJson(
@@ -4738,6 +4803,67 @@ List<enums.PeerRelation>? peerRelationNullableListFromJson(
   }
 
   return peerRelation.map((e) => peerRelationFromJson(e.toString())).toList();
+}
+
+String? messageMetadataResponse$DataLedgerInclusionStateToJson(
+    enums.MessageMetadataResponse$DataLedgerInclusionState?
+        messageMetadataResponse$DataLedgerInclusionState) {
+  return messageMetadataResponse$DataLedgerInclusionState?.value;
+}
+
+enums.MessageMetadataResponse$DataLedgerInclusionState
+    messageMetadataResponse$DataLedgerInclusionStateFromJson(
+  Object? messageMetadataResponse$DataLedgerInclusionState, [
+  enums.MessageMetadataResponse$DataLedgerInclusionState? defaultValue,
+]) {
+  return enums.MessageMetadataResponse$DataLedgerInclusionState.values
+          .firstWhereOrNull((e) =>
+              e.value == messageMetadataResponse$DataLedgerInclusionState) ??
+      defaultValue ??
+      enums.MessageMetadataResponse$DataLedgerInclusionState
+          .swaggerGeneratedUnknown;
+}
+
+List<String> messageMetadataResponse$DataLedgerInclusionStateListToJson(
+    List<enums.MessageMetadataResponse$DataLedgerInclusionState>?
+        messageMetadataResponse$DataLedgerInclusionState) {
+  if (messageMetadataResponse$DataLedgerInclusionState == null) {
+    return [];
+  }
+
+  return messageMetadataResponse$DataLedgerInclusionState
+      .map((e) => e.value!)
+      .toList();
+}
+
+List<enums.MessageMetadataResponse$DataLedgerInclusionState>
+    messageMetadataResponse$DataLedgerInclusionStateListFromJson(
+  List? messageMetadataResponse$DataLedgerInclusionState, [
+  List<enums.MessageMetadataResponse$DataLedgerInclusionState>? defaultValue,
+]) {
+  if (messageMetadataResponse$DataLedgerInclusionState == null) {
+    return defaultValue ?? [];
+  }
+
+  return messageMetadataResponse$DataLedgerInclusionState
+      .map((e) => messageMetadataResponse$DataLedgerInclusionStateFromJson(
+          e.toString()))
+      .toList();
+}
+
+List<enums.MessageMetadataResponse$DataLedgerInclusionState>?
+    messageMetadataResponse$DataLedgerInclusionStateNullableListFromJson(
+  List? messageMetadataResponse$DataLedgerInclusionState, [
+  List<enums.MessageMetadataResponse$DataLedgerInclusionState>? defaultValue,
+]) {
+  if (messageMetadataResponse$DataLedgerInclusionState == null) {
+    return defaultValue;
+  }
+
+  return messageMetadataResponse$DataLedgerInclusionState
+      .map((e) => messageMetadataResponse$DataLedgerInclusionStateFromJson(
+          e.toString()))
+      .toList();
 }
 
 typedef $JsonFactory<T> = T Function(Map<String, dynamic> json);

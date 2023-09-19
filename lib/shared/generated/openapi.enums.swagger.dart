@@ -1,36 +1,34 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:collection/collection.dart';
 
 enum PeerRelation {
-  @JsonValue('swaggerGeneratedUnknown')
-  swaggerGeneratedUnknown,
-  @JsonValue('known')
-  known,
-  @JsonValue('unknown')
-  unknown,
-  @JsonValue('autopeered')
-  autopeered
-}
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
 
-const $PeerRelationMap = {
-  PeerRelation.known: 'known',
-  PeerRelation.unknown: 'unknown',
-  PeerRelation.autopeered: 'autopeered'
-};
+  @JsonValue('known')
+  known('known'),
+  @JsonValue('unknown')
+  unknown('unknown'),
+  @JsonValue('autopeered')
+  autopeered('autopeered');
+
+  final String? value;
+
+  const PeerRelation(this.value);
+}
 
 enum MessageMetadataResponse$DataLedgerInclusionState {
-  @JsonValue('swaggerGeneratedUnknown')
-  swaggerGeneratedUnknown,
-  @JsonValue('included')
-  included,
-  @JsonValue('conflicting')
-  conflicting,
-  @JsonValue('noTransaction')
-  notransaction
-}
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
 
-const $MessageMetadataResponse$DataLedgerInclusionStateMap = {
-  MessageMetadataResponse$DataLedgerInclusionState.included: 'included',
-  MessageMetadataResponse$DataLedgerInclusionState.conflicting: 'conflicting',
-  MessageMetadataResponse$DataLedgerInclusionState.notransaction:
-      'noTransaction'
-};
+  @JsonValue('included')
+  included('included'),
+  @JsonValue('conflicting')
+  conflicting('conflicting'),
+  @JsonValue('noTransaction')
+  notransaction('noTransaction');
+
+  final String? value;
+
+  const MessageMetadataResponse$DataLedgerInclusionState(this.value);
+}

@@ -6,8 +6,8 @@ part of 'openapi.swagger.dart';
 // ChopperGenerator
 // **************************************************************************
 
-// ignore_for_file: always_put_control_body_on_new_line, always_specify_types, prefer_const_declarations, unnecessary_brace_in_string_interps
-class _$Openapi extends Openapi {
+// ignore_for_file: always_put_control_body_on_new_line, always_specify_types, prefer_const_declarations, unnecessary_string_interpolations, unnecessary_brace_in_string_interps
+final class _$Openapi extends Openapi {
   _$Openapi([ChopperClient? client]) {
     if (client == null) return;
     this.client = client;
@@ -18,7 +18,7 @@ class _$Openapi extends Openapi {
 
   @override
   Future<Response<dynamic>> _healthGet() {
-    final String $url = '/health';
+    final Uri $url = Uri.parse('/health');
     final Request $request = Request(
       'GET',
       $url,
@@ -29,7 +29,7 @@ class _$Openapi extends Openapi {
 
   @override
   Future<Response<InfoResponse>> _apiV1InfoGet() {
-    final String $url = '/api/v1/info';
+    final Uri $url = Uri.parse('/api/v1/info');
     final Request $request = Request(
       'GET',
       $url,
@@ -40,7 +40,7 @@ class _$Openapi extends Openapi {
 
   @override
   Future<Response<TipsResponse>> _apiV1TipsGet() {
-    final String $url = '/api/v1/tips';
+    final Uri $url = Uri.parse('/api/v1/tips');
     final Request $request = Request(
       'GET',
       $url,
@@ -52,7 +52,7 @@ class _$Openapi extends Openapi {
   @override
   Future<Response<SubmitMessageResponse>> _apiV1MessagesPost(
       {required SubmitMessageRequest? body}) {
-    final String $url = '/api/v1/messages';
+    final Uri $url = Uri.parse('/api/v1/messages');
     final $body = body;
     final Request $request = Request(
       'POST',
@@ -66,7 +66,7 @@ class _$Openapi extends Openapi {
   @override
   Future<Response<MessagesFindResponse>> _apiV1MessagesGet(
       {required String? index}) {
-    final String $url = '/api/v1/messages';
+    final Uri $url = Uri.parse('/api/v1/messages');
     final Map<String, dynamic> $params = <String, dynamic>{'index': index};
     final Request $request = Request(
       'GET',
@@ -80,7 +80,7 @@ class _$Openapi extends Openapi {
   @override
   Future<Response<MessageResponse>> _apiV1MessagesMessageIdGet(
       {required String? messageId}) {
-    final String $url = '/api/v1/messages/${messageId}';
+    final Uri $url = Uri.parse('/api/v1/messages/${messageId}');
     final Request $request = Request(
       'GET',
       $url,
@@ -92,7 +92,7 @@ class _$Openapi extends Openapi {
   @override
   Future<Response<MessageMetadataResponse>> _apiV1MessagesMessageIdMetadataGet(
       {required String? messageId}) {
-    final String $url = '/api/v1/messages/${messageId}/metadata';
+    final Uri $url = Uri.parse('/api/v1/messages/${messageId}/metadata');
     final Request $request = Request(
       'GET',
       $url,
@@ -105,7 +105,7 @@ class _$Openapi extends Openapi {
   @override
   Future<Response<String>> _apiV1MessagesMessageIdRawGet(
       {required String? messageId}) {
-    final String $url = '/api/v1/messages/${messageId}/raw';
+    final Uri $url = Uri.parse('/api/v1/messages/${messageId}/raw');
     final Request $request = Request(
       'GET',
       $url,
@@ -117,7 +117,7 @@ class _$Openapi extends Openapi {
   @override
   Future<Response<MessageChildrenResponse>> _apiV1MessagesMessageIdChildrenGet(
       {required String? messageId}) {
-    final String $url = '/api/v1/messages/${messageId}/children';
+    final Uri $url = Uri.parse('/api/v1/messages/${messageId}/children');
     final Request $request = Request(
       'GET',
       $url,
@@ -130,7 +130,7 @@ class _$Openapi extends Openapi {
   @override
   Future<Response<OutputResponse>> _apiV1OutputsOutputIdGet(
       {required String? outputId}) {
-    final String $url = '/api/v1/outputs/${outputId}';
+    final Uri $url = Uri.parse('/api/v1/outputs/${outputId}');
     final Request $request = Request(
       'GET',
       $url,
@@ -142,7 +142,7 @@ class _$Openapi extends Openapi {
   @override
   Future<Response<BalanceAddressResponse>> _apiV1AddressesAddressGet(
       {required String? address}) {
-    final String $url = '/api/v1/addresses/${address}';
+    final Uri $url = Uri.parse('/api/v1/addresses/${address}');
     final Request $request = Request(
       'GET',
       $url,
@@ -155,7 +155,7 @@ class _$Openapi extends Openapi {
   @override
   Future<Response<BalanceAddressResponse>> _apiV1AddressesEd25519AddressGet(
       {required String? address}) {
-    final String $url = '/api/v1/addresses/ed25519/${address}';
+    final Uri $url = Uri.parse('/api/v1/addresses/ed25519/${address}');
     final Request $request = Request(
       'GET',
       $url,
@@ -171,7 +171,7 @@ class _$Openapi extends Openapi {
     bool? includeSpent,
     int? type,
   }) {
-    final String $url = '/api/v1/addresses/${address}/outputs';
+    final Uri $url = Uri.parse('/api/v1/addresses/${address}/outputs');
     final Map<String, dynamic> $params = <String, dynamic>{
       'include-spent': includeSpent,
       'type': type,
@@ -193,7 +193,7 @@ class _$Openapi extends Openapi {
     bool? includeSpent,
     int? type,
   }) {
-    final String $url = '/api/v1/addresses/ed25519/${address}/outputs';
+    final Uri $url = Uri.parse('/api/v1/addresses/ed25519/${address}/outputs');
     final Map<String, dynamic> $params = <String, dynamic>{
       'include-spent': includeSpent,
       'type': type,
@@ -210,7 +210,7 @@ class _$Openapi extends Openapi {
 
   @override
   Future<Response<ReceiptsResponse>> _apiV1ReceiptsGet() {
-    final String $url = '/api/v1/receipts';
+    final Uri $url = Uri.parse('/api/v1/receipts');
     final Request $request = Request(
       'GET',
       $url,
@@ -222,7 +222,7 @@ class _$Openapi extends Openapi {
   @override
   Future<Response<ReceiptsResponse>> _apiV1ReceiptsMigratedAtGet(
       {required num? migratedAt}) {
-    final String $url = '/api/v1/receipts/${migratedAt}';
+    final Uri $url = Uri.parse('/api/v1/receipts/${migratedAt}');
     final Request $request = Request(
       'GET',
       $url,
@@ -233,7 +233,7 @@ class _$Openapi extends Openapi {
 
   @override
   Future<Response<TreasuryResponse>> _apiV1TreasuryGet() {
-    final String $url = '/api/v1/treasury';
+    final Uri $url = Uri.parse('/api/v1/treasury');
     final Request $request = Request(
       'GET',
       $url,
@@ -246,8 +246,8 @@ class _$Openapi extends Openapi {
   Future<Response<MessageResponse>>
       _apiV1TransactionsTransactionIdIncludedMessageGet(
           {required String? transactionId}) {
-    final String $url =
-        '/api/v1/transactions/${transactionId}/included-message';
+    final Uri $url =
+        Uri.parse('/api/v1/transactions/${transactionId}/included-message');
     final Request $request = Request(
       'GET',
       $url,
@@ -259,7 +259,7 @@ class _$Openapi extends Openapi {
   @override
   Future<Response<MilestoneResponse>> _apiV1MilestonesIndexGet(
       {required num? index}) {
-    final String $url = '/api/v1/milestones/${index}';
+    final Uri $url = Uri.parse('/api/v1/milestones/${index}');
     final Request $request = Request(
       'GET',
       $url,
@@ -271,7 +271,7 @@ class _$Openapi extends Openapi {
   @override
   Future<Response<UTXOChangesResponse>> _apiV1MilestonesIndexUtxoChangesGet(
       {required num? index}) {
-    final String $url = '/api/v1/milestones/${index}/utxo-changes';
+    final Uri $url = Uri.parse('/api/v1/milestones/${index}/utxo-changes');
     final Request $request = Request(
       'GET',
       $url,
@@ -282,7 +282,7 @@ class _$Openapi extends Openapi {
 
   @override
   Future<Response<PeersResponse>> _apiV1PeersGet() {
-    final String $url = '/api/v1/peers';
+    final Uri $url = Uri.parse('/api/v1/peers');
     final Request $request = Request(
       'GET',
       $url,
@@ -294,7 +294,7 @@ class _$Openapi extends Openapi {
   @override
   Future<Response<AddPeerResponse>> _apiV1PeersPost(
       {required AddPeerRequest? body}) {
-    final String $url = '/api/v1/peers';
+    final Uri $url = Uri.parse('/api/v1/peers');
     final $body = body;
     final Request $request = Request(
       'POST',
@@ -308,7 +308,7 @@ class _$Openapi extends Openapi {
   @override
   Future<Response<PeerResponse>> _apiV1PeersPeerIdGet(
       {required String? peerId}) {
-    final String $url = '/api/v1/peers/${peerId}';
+    final Uri $url = Uri.parse('/api/v1/peers/${peerId}');
     final Request $request = Request(
       'GET',
       $url,
@@ -319,7 +319,7 @@ class _$Openapi extends Openapi {
 
   @override
   Future<Response<dynamic>> _apiV1PeersPeerIdDelete({required String? peerId}) {
-    final String $url = '/api/v1/peers/${peerId}';
+    final Uri $url = Uri.parse('/api/v1/peers/${peerId}');
     final Request $request = Request(
       'DELETE',
       $url,

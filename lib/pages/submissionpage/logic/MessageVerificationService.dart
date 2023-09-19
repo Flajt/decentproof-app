@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'package:convert/convert.dart';
 import 'dart:typed_data';
 import 'package:basic_utils/basic_utils.dart';
+import 'package:pointycastle/asn1/asn1_parser.dart';
+import 'package:pointycastle/asn1/primitives/asn1_integer.dart';
 import 'package:pointycastle/signers/ecdsa_signer.dart';
 
 class MessageVerificationService {

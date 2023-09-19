@@ -1,9 +1,7 @@
 import 'dart:io';
-
+import "package:flutter_donation_buttons/flutter_donation_buttons.dart";
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_donation_buttons/donationButtons/buyMeACoffeButton.dart';
-import 'package:flutter_donation_buttons/donationButtons/ko-fiButton.dart';
 import 'package:simple_icons/simple_icons.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -35,10 +33,10 @@ class SupportDialog extends StatelessWidget {
                     )
                   : Container(),
               !Platform.isIOS
-                  ? BuyMeACoffeButton(
-                      buyMeACoffeName: "flajt",
+                  ? BuyMeACoffeeButton(
+                      buyMeACoffeeName: "flajt",
                       text: "supportPage.help".tr(),
-                      color: BuyMeACoffeColor.Green,
+                      color: BuyMeACoffeeColor.Green,
                     )
                   : Container(),
               ElevatedButton.icon(

@@ -851,9 +851,9 @@ MessageMetadataResponse$Data _$MessageMetadataResponse$DataFromJson(
       isSolid: json['isSolid'] as bool,
       referencedByMilestoneIndex: json['referencedByMilestoneIndex'] as int?,
       milestoneIndex: json['milestoneIndex'] as int?,
-      ledgerInclusionState: $enumDecodeNullable(
-          _$MessageMetadataResponse$DataLedgerInclusionStateEnumMap,
-          json['ledgerInclusionState']),
+      ledgerInclusionState:
+          messageMetadataResponse$DataLedgerInclusionStateFromJson(
+              json['ledgerInclusionState']),
       conflictReason: json['conflictReason'] as int?,
       shouldPromote: json['shouldPromote'] as bool?,
       shouldReattach: json['shouldReattach'] as bool?,
@@ -868,28 +868,20 @@ Map<String, dynamic> _$MessageMetadataResponse$DataToJson(
       'referencedByMilestoneIndex': instance.referencedByMilestoneIndex,
       'milestoneIndex': instance.milestoneIndex,
       'ledgerInclusionState':
-          _$MessageMetadataResponse$DataLedgerInclusionStateEnumMap[
-              instance.ledgerInclusionState],
+          messageMetadataResponse$DataLedgerInclusionStateToJson(
+              instance.ledgerInclusionState),
       'conflictReason': instance.conflictReason,
       'shouldPromote': instance.shouldPromote,
       'shouldReattach': instance.shouldReattach,
     };
 
-const _$MessageMetadataResponse$DataLedgerInclusionStateEnumMap = {
-  MessageMetadataResponse$DataLedgerInclusionState.swaggerGeneratedUnknown:
-      'swaggerGeneratedUnknown',
-  MessageMetadataResponse$DataLedgerInclusionState.included: 'included',
-  MessageMetadataResponse$DataLedgerInclusionState.conflicting: 'conflicting',
-  MessageMetadataResponse$DataLedgerInclusionState.notransaction:
-      'noTransaction',
-};
-
-MessageResponse$Data _$MessageResponse$DataFromJson(Map<String, dynamic> json) {
-  return MessageResponse$Data(
-    allOf: Message.fromJson(
-        json), //allOf is not a key in the json, idk where it's comming from
-  );
-}
+MessageResponse$Data _$MessageResponse$DataFromJson(
+        Map<String, dynamic> json) =>
+    MessageResponse$Data(
+      allOf: json['allOf'] == null
+          ? null
+          : Message.fromJson(json['allOf'] as Map<String, dynamic>),
+    );
 
 Map<String, dynamic> _$MessageResponse$DataToJson(
         MessageResponse$Data instance) =>
