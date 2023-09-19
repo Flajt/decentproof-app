@@ -6,7 +6,7 @@ import 'package:decentproof/features/intro/logic/firstTimeUserCheck.dart';
 import 'package:decentproof/features/settings/pages/SettingsPage.dart';
 import 'package:decentproof/features/hashing/pages/SubmissionPage.dart';
 import 'package:decentproof/features/verification/pages/VerificationPage.dart';
-import 'package:decentproof/pages/videoimagepage/VideoImagePage.dart';
+import 'package:decentproof/features/hashing/pages/VideoImagePage.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';

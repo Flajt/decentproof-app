@@ -1,6 +1,6 @@
 import 'package:decentproof/pages/videoimagepage/logic/ImageManger.dart';
-import 'package:decentproof/pages/videoimagepage/logic/ImagePickerWrapper.dart';
-import 'package:decentproof/pages/videoimagepage/logic/VideoImageHashManager.dart';
+import 'package:decentproof/features/hashing/logic/ImagePickerWrapper.dart';
+import 'package:decentproof/features/hashing/logic/hasher/VideoImageHashManager.dart';
 import 'package:decentproof/pages/videoimagepage/logic/VideoManager.dart';
 import 'package:decentproof/pages/videoimagepage/uiblocks/ImageButton.dart';
 import 'package:decentproof/pages/videoimagepage/uiblocks/VideoButton.dart';

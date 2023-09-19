@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
 
-import '../../../shared/HashLogic.dart';
+import '../../../../shared/HashLogic.dart';
 
 class VideoImageHashManager {
   const VideoImageHashManager(HashLogic hashLogic) : _hashLogic = hashLogic;
