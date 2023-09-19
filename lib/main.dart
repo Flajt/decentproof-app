@@ -1,8 +1,8 @@
 import 'package:decentproof/firebase_options.dart';
 import 'package:decentproof/features/hashing/pages/AudioPage.dart';
 import 'package:decentproof/pages/homepage/HomePage.dart';
-import 'package:decentproof/pages/intropage/IntroPage.dart';
-import 'package:decentproof/pages/intropage/logic/firstTimeUserCheck.dart';
+import 'package:decentproof/features/intro/pages/IntroPage.dart';
+import 'package:decentproof/features/intro/logic/firstTimeUserCheck.dart';
 import 'package:decentproof/pages/settingspage/SettingsPage.dart';
 import 'package:decentproof/pages/submissionpage/SubmissionPage.dart';
 import 'package:decentproof/pages/verificationpage/VerificationPage.dart';

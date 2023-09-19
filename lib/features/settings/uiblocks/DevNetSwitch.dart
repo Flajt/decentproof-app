@@ -1,5 +1,6 @@
-import 'package:decentproof/pages/settingspage/logic/DevNetLogic.dart';
 import 'package:flutter/material.dart';
+
+import '../logic/DevNetLogic.dart';
 
 class DevNetSwitch extends StatefulWidget {
   const DevNetSwitch({Key? key}) : super(key: key);
