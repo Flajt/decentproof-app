@@ -1,10 +1,10 @@
 import 'package:decentproof/firebase_options.dart';
 import 'package:decentproof/features/hashing/pages/AudioPage.dart';
-import 'package:decentproof/pages/homepage/HomePage.dart';
+import 'package:decentproof/features/home/pages/HomePage.dart';
 import 'package:decentproof/features/intro/pages/IntroPage.dart';
 import 'package:decentproof/features/intro/logic/firstTimeUserCheck.dart';
 import 'package:decentproof/features/settings/pages/SettingsPage.dart';
-import 'package:decentproof/pages/submissionpage/SubmissionPage.dart';
+import 'package:decentproof/features/hashing/pages/SubmissionPage.dart';
 import 'package:decentproof/features/verification/pages/VerificationPage.dart';
 import 'package:decentproof/pages/videoimagepage/VideoImagePage.dart';
 import 'package:easy_localization/easy_localization.dart';

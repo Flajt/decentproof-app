@@ -1,5 +1,6 @@
-import 'package:decentproof/pages/homepage/uiblocks/OptionTile.dart';
 import 'package:flutter/material.dart';
+
+import 'OptionTile.dart';
 
 class OptionsMenu extends StatelessWidget {
   const OptionsMenu({Key? key}) : super(key: key);

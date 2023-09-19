@@ -1,5 +1,6 @@
-import 'package:decentproof/pages/homepage/uiblocks/SupportDialog.dart';
 import 'package:flutter/material.dart';
+
+import 'SupportDialog.dart';
 
 class SupportButton extends StatelessWidget {
   const SupportButton({Key? key}) : super(key: key);
