@@ -1,14 +1,15 @@
-import 'package:decentproof/pages/settingspage/logic/DevNetLogic.dart';
 import 'package:decentproof/pages/submissionpage/logic/ShowInExplorer.dart';
 import 'package:decentproof/pages/submissionpage/logic/MessageVerificationService.dart';
-import 'package:decentproof/pages/verificationpage/logic/FileSelectionLogic.dart';
-import 'package:decentproof/pages/verificationpage/logic/SelectHashAndVerifyLogic.dart';
-import 'package:decentproof/pages/verificationpage/logic/VerificationLogic.dart';
+import 'package:decentproof/features/verification/logic/FileSelectionLogic.dart';
+import 'package:decentproof/features/verification/logic/SelectHashAndVerifyLogic.dart';
+import 'package:decentproof/features/verification/logic/VerificationLogic.dart';
 import 'package:decentproof/shared/ErrorDialog.dart';
 import 'package:decentproof/shared/HashLogic.dart';
 import 'package:decentproof/shared/ProcessingDialog.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+
+import '../../settings/logic/DevNetLogic.dart';
 
 class VerificationPage extends StatefulWidget {
   const VerificationPage({Key? key}) : super(key: key);
