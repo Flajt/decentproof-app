@@ -1,8 +1,9 @@
 import 'package:audio_waveforms/audio_waveforms.dart';
-import 'package:decentproof/pages/audiopage/logic/AudioManager.dart';
 import 'package:decentproof/shared/ProcessingDialog.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+
+import '../logic/AudioManager.dart';
 import '../logic/HashAudioManager.dart';
 
 class RecordingButton extends StatefulWidget {

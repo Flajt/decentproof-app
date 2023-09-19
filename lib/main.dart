@@ -1,5 +1,5 @@
 import 'package:decentproof/firebase_options.dart';
-import 'package:decentproof/pages/audiopage/AudioPage.dart';
+import 'package:decentproof/features/hashing/pages/AudioPage.dart';
 import 'package:decentproof/pages/homepage/HomePage.dart';
 import 'package:decentproof/pages/intropage/IntroPage.dart';
 import 'package:decentproof/pages/intropage/logic/firstTimeUserCheck.dart';
