@@ -1,12 +1,13 @@
-import 'package:decentproof/pages/videoimagepage/logic/ImageManger.dart';
 import 'package:decentproof/features/hashing/logic/ImagePickerWrapper.dart';
 import 'package:decentproof/features/hashing/logic/hasher/VideoImageHashManager.dart';
-import 'package:decentproof/pages/videoimagepage/logic/VideoManager.dart';
-import 'package:decentproof/pages/videoimagepage/uiblocks/ImageButton.dart';
-import 'package:decentproof/pages/videoimagepage/uiblocks/VideoButton.dart';
 import 'package:decentproof/shared/ExifWrapper.dart';
 import 'package:decentproof/shared/HashLogic.dart';
 import 'package:flutter/material.dart';
+
+import '../logic/ImageManger.dart';
+import '../logic/VideoManager.dart';
+import '../uiblocks/ImageButton.dart';
+import '../uiblocks/VideoButton.dart';
 
 class VideoImagePage extends StatefulWidget {
   const VideoImagePage({Key? key}) : super(key: key);
