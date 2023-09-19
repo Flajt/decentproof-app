@@ -3,7 +3,6 @@ import 'package:decentproof/pages/audiopage/logic/AudioManager.dart';
 import 'package:decentproof/shared/ProcessingDialog.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-
 import '../logic/HashAudioManager.dart';
 
 class RecordingButton extends StatefulWidget {
@@ -27,11 +26,13 @@ class _RecordingButtonState extends State<RecordingButton> {
   Widget build(BuildContext context) {
     return FloatingActionButton(
         onPressed: () async {
+          if (!widget.controller.hasPermission) {
+            await widget.controller.checkPermission();
+          }
           isRecording = !isRecording;
           String savePath = await widget.audioManager.audioPath;
-          setState(() {});
           if (isRecording) {
-            await widget.controller.record(savePath);
+            await widget.controller.record(path: savePath);
           } else {
             String path = await widget.controller.stop(true) as String;
             showDialog(
@@ -39,9 +40,11 @@ class _RecordingButtonState extends State<RecordingButton> {
                 builder: (context) => const ProcessingDialog());
             String hash =
                 await compute(widget.hashAudioManager.hashAudio, path);
-            Navigator.of(context)
-                .pushNamed("/submissionPage", arguments: {"hash": hash});
+            Navigator.of(context).pop();
+            Navigator.of(context).pushNamed("/submissionPage",
+                arguments: {"hash": hash, "path": path});
           }
+          setState(() {});
         },
         child: isRecording ? const Icon(Icons.stop) : const Icon(Icons.mic));
   }

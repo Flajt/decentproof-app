@@ -1,9 +1,12 @@
-import 'package:decentproof/pages/Integrety/SecureStorageWrapper.dart';
+import 'package:decentproof/shared/Integrety/SecureStorageWrapper.dart';
 import 'package:decentproof/pages/settingspage/logic/DevNetLogic.dart';
 import 'package:decentproof/pages/submissionpage/logic/MessageSigningService.dart';
 import 'package:decentproof/pages/submissionpage/logic/SaveToTangleLogic.dart';
 import 'package:decentproof/pages/submissionpage/logic/ShowInExplorer.dart';
 import 'package:decentproof/pages/submissionpage/uiblocks/BackToHomeButton.dart';
+import 'package:decentproof/pages/submissionpage/uiblocks/ShareButton.dart';
+import 'package:decentproof/shared/ErrorDialog.dart';
+import 'package:decentproof/shared/ProcessingDialog.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
@@ -17,9 +20,10 @@ class _SubmissionPageState extends State<SubmissionPage> {
   bool hasMessageId = false;
   String? messageId;
   final DevNetLogic devNetLogic = DevNetLogic();
-  late final bool shouldUseDevNet;
+  late bool shouldUseDevNet;
   late final ShowInExplorer showInExplorer = ShowInExplorer();
   final signingService = MessageSigningService(SecureStorageWrapper());
+  bool hasSubmitted = false;
 
   @override
   void didChangeDependencies() async {
@@ -34,9 +38,16 @@ class _SubmissionPageState extends State<SubmissionPage> {
         ModalRoute.of(context)!.settings.arguments as Map<String, String>;
     return Scaffold(
         body: SafeArea(
-            child: SizedBox(
+            child: SizedBox.fromSize(
+      size: size,
       child: Stack(
         children: [
+          Align(
+            alignment: Alignment.topRight,
+            child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ShareButton(filePath: args["path"]!)),
+          ),
           const Align(
             alignment: Alignment.topLeft,
             child: Padding(
@@ -45,7 +56,7 @@ class _SubmissionPageState extends State<SubmissionPage> {
             ),
           ),
           Positioned(
-            height: size.height * .1,
+            height: size.height * .2,
             width: size.width - 10,
             top: size.height * .2,
             child: Text(
@@ -63,7 +74,7 @@ class _SubmissionPageState extends State<SubmissionPage> {
                   child: TextButton(
                       onPressed: () =>
                           showInExplorer.show(messageId!, shouldUseDevNet),
-                      child: Text(
+                      child: SelectableText(
                         "${"submissionPage.messageid".tr()}\n\n $messageId",
                         style: const TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 18.0),
@@ -74,16 +85,33 @@ class _SubmissionPageState extends State<SubmissionPage> {
               alignment: Alignment.bottomCenter,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
+                //TODO: Extract button into own widget
                 child: ElevatedButton(
                     onPressed: () async {
-                      final DateTime dateTime = DateTime.now();
-                      String signature = await signingService.signMessage(
-                          args["hash"] as String, dateTime);
-                      messageId = await SaveToTangleLogic(
-                              signature, dateTime, shouldUseDevNet)
-                          .save(args["hash"] as String);
-                      hasMessageId = true;
-                      setState(() {});
+                      try {
+                        if (!hasSubmitted) {
+                          hasSubmitted = !hasSubmitted;
+                          showDialog(
+                              context: context,
+                              builder: (context) => const ProcessingDialog());
+                          final DateTime dateTime = DateTime.now();
+                          String signature = await signingService.signMessage(
+                              args["hash"] as String, dateTime);
+                          messageId = await SaveToTangleLogic(
+                                  signature, dateTime, shouldUseDevNet)
+                              .save(args["hash"] as String);
+                          hasMessageId = true;
+                          Navigator.of(context).pop();
+                          setState(() {});
+                        }
+                      } catch (e) {
+                        hasSubmitted = false;
+                        Navigator.of(context).pop();
+                        showDialog(
+                            context: context,
+                            builder: (context) =>
+                                ErrorDialog(size: size, error: e.toString()));
+                      }
                     },
                     child: const Text("submissionPage.submitt").tr()),
               ))

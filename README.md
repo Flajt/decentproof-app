@@ -1,6 +1,6 @@
 # decentproof
 
-A new Flutter project.
+For general information please checkout the [wiki](https://github.com/Flajt/decentproof-app/wiki) tab . I will update the README soon!
 
 ## Getting Started
 

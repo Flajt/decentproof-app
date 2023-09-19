@@ -1,17 +1,19 @@
 import 'dart:convert';
 import 'package:chopper/chopper.dart';
-import 'package:decentproof/pages/submissionpage/logic/VerificationService.dart';
+import 'package:decentproof/pages/submissionpage/logic/MessageVerificationService.dart';
 import 'package:decentproof/shared/generated/openapi.swagger.dart';
 import 'package:convert/convert.dart';
+import 'package:http_certificate_pinning/http_certificate_pinning.dart';
 import 'package:pointycastle/pointycastle.dart';
 
 class VerificationLogic {
-  final VerificationService verificationService;
+  final MessageVerificationService verificationService;
   VerificationLogic(this.verificationService, [this.devNet = true]) {
     api = Openapi.create(
-        baseUrl: devNet
+        baseUrl: Uri.tryParse(devNet
             ? "https://api.lb-0.h.chrysalis-devnet.iota.cafe"
-            : "https://chrysalis-nodes.iota.cafe");
+            : "https://chrysalis-nodes.iota.cafe"),
+        interceptors: [SecureHttpClient.build([])]);
   }
   final bool devNet;
   late final Openapi api;

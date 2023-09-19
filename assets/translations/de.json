@@ -13,11 +13,13 @@
         "title3": "Ein Hinweis zum exportieren",
         "title4": "Datein verifizieren",
         "title5": "Ende",
+        "tempTitle":"Audio-aufnahmen",
         "body1": "Mit dieser App können Sie Multimediadateien erstellen und später beweisen, dass diese Datei nicht manipuliert wurde!",
-        "body2": "Wählen Sie einfach eine der 2 Optionen im Hauptmenü und beginnen Sie mit der Erstellung Ihrer Datei. Unterstützt werden: .mp4, .png & .mp3",
-        "body3": "Sie können die Datei von jeder beliebigen App aus teilen, aber wir empfehlen Ihnen, E-Mail, einen Cloud-Speicher oder den direkten Export zu verwenden. Wenn Sie andere Apps wie z. B. eine Chat-App verwenden, gehen möglicherweise Metadaten verloren und Sie können die Datei später nicht verifizieren!",
-        "body4": "Das ist ganz einfach: Wählen Sie einfach den dritten Eintrag im Hauptmenü und wählen Sie Ihre Datei aus. Alles andere ist ",
-        "body5": "Das war's. Wenn Sie die App unterstützen wollen oder mehr Informationen über ihre Funktionsweise wünschen, können Sie das Symbol oben rechts auf der Hauptseite verwenden. Ich würde mich freuen.",
+        "body2": "Wählen Sie einfach eine der 2 Optionen im Hauptmenü und beginnen Sie mit der Erstellung Ihrer Datei. Unterstützt werden: .mp4, .png & .aac",
+        "body3": "Sie können die Datei von jeder beliebigen App aus teilen, aber ich empfehlen Ihnen, E-Mail, einen Cloud-Speicher oder den direkten Export zu verwenden. Wenn Sie andere Apps wie z. B. eine Chat-App verwenden, gehen möglicherweise Metadaten verloren und Sie können die Datei später nicht verifizieren!",
+        "body4": "Das ist ganz einfach: Wählen Sie einfach den dritten Eintrag im Hauptmenü und wählen Sie Ihre Datei aus.",
+        "body5": "Das war's. Wenn Sie die App unterstützen wollen oder mehr Informationen über ihre Funktionsweise wünschen, können Sie das Symbol oben rechts auf der Hauptseite verwenden.",
+        "tempBody": "Aktuell können Audio-aufnahmen nur direkt über den Teil Button geteilt werden! (Auf der einreichen Seite oben rechts zu sehen) Dies wird sobald wie möglich geändert. Für mehr Infos bitte das FAQ in den Einstellungen lesen!",
         "next": "Weiter",
         "skip": "Überspringen",
         "done": "Fertig"
@@ -40,7 +42,7 @@
         "code": "Projekt Code einsehen"
     },
     "verificationPage":{
-        "notModified":"Ihre Datei schein nicht modifiziert zu sein",
+        "notModified":"Ihre Datei scheint nicht modifiziert zu sein",
         "error":"Ein Fehler trat auf",
         "selectFile":"Datei auswählen",
         "hash": "Ihr Hash:",

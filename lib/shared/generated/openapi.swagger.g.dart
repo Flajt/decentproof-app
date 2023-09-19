@@ -387,38 +387,63 @@ Map<String, dynamic> _$ErrorResponseToJson(ErrorResponse instance) =>
     };
 
 ForbiddenResponse _$ForbiddenResponseFromJson(Map<String, dynamic> json) =>
-    ForbiddenResponse();
+    ForbiddenResponse(
+      error: ForbiddenResponse$Error.fromJson(
+          json['error'] as Map<String, dynamic>),
+    );
 
 Map<String, dynamic> _$ForbiddenResponseToJson(ForbiddenResponse instance) =>
-    <String, dynamic>{};
+    <String, dynamic>{
+      'error': instance.error.toJson(),
+    };
 
 ServiceUnavailableResponse _$ServiceUnavailableResponseFromJson(
         Map<String, dynamic> json) =>
-    ServiceUnavailableResponse();
+    ServiceUnavailableResponse(
+      error: ServiceUnavailableResponse$Error.fromJson(
+          json['error'] as Map<String, dynamic>),
+    );
 
 Map<String, dynamic> _$ServiceUnavailableResponseToJson(
         ServiceUnavailableResponse instance) =>
-    <String, dynamic>{};
+    <String, dynamic>{
+      'error': instance.error.toJson(),
+    };
 
 BadRequestResponse _$BadRequestResponseFromJson(Map<String, dynamic> json) =>
-    BadRequestResponse();
+    BadRequestResponse(
+      error: BadRequestResponse$Error.fromJson(
+          json['error'] as Map<String, dynamic>),
+    );
 
 Map<String, dynamic> _$BadRequestResponseToJson(BadRequestResponse instance) =>
-    <String, dynamic>{};
+    <String, dynamic>{
+      'error': instance.error.toJson(),
+    };
 
 NotFoundResponse _$NotFoundResponseFromJson(Map<String, dynamic> json) =>
-    NotFoundResponse();
+    NotFoundResponse(
+      error: NotFoundResponse$Error.fromJson(
+          json['error'] as Map<String, dynamic>),
+    );
 
 Map<String, dynamic> _$NotFoundResponseToJson(NotFoundResponse instance) =>
-    <String, dynamic>{};
+    <String, dynamic>{
+      'error': instance.error.toJson(),
+    };
 
 InternalErrorResponse _$InternalErrorResponseFromJson(
         Map<String, dynamic> json) =>
-    InternalErrorResponse();
+    InternalErrorResponse(
+      error: InternalErrorResponse$Error.fromJson(
+          json['error'] as Map<String, dynamic>),
+    );
 
 Map<String, dynamic> _$InternalErrorResponseToJson(
         InternalErrorResponse instance) =>
-    <String, dynamic>{};
+    <String, dynamic>{
+      'error': instance.error.toJson(),
+    };
 
 InfoResponse _$InfoResponseFromJson(Map<String, dynamic> json) => InfoResponse(
       data: InfoResponse$Data.fromJson(json['data'] as Map<String, dynamic>),
@@ -826,9 +851,9 @@ MessageMetadataResponse$Data _$MessageMetadataResponse$DataFromJson(
       isSolid: json['isSolid'] as bool,
       referencedByMilestoneIndex: json['referencedByMilestoneIndex'] as int?,
       milestoneIndex: json['milestoneIndex'] as int?,
-      ledgerInclusionState: $enumDecodeNullable(
-          _$MessageMetadataResponse$DataLedgerInclusionStateEnumMap,
-          json['ledgerInclusionState']),
+      ledgerInclusionState:
+          messageMetadataResponse$DataLedgerInclusionStateFromJson(
+              json['ledgerInclusionState']),
       conflictReason: json['conflictReason'] as int?,
       shouldPromote: json['shouldPromote'] as bool?,
       shouldReattach: json['shouldReattach'] as bool?,
@@ -843,28 +868,20 @@ Map<String, dynamic> _$MessageMetadataResponse$DataToJson(
       'referencedByMilestoneIndex': instance.referencedByMilestoneIndex,
       'milestoneIndex': instance.milestoneIndex,
       'ledgerInclusionState':
-          _$MessageMetadataResponse$DataLedgerInclusionStateEnumMap[
-              instance.ledgerInclusionState],
+          messageMetadataResponse$DataLedgerInclusionStateToJson(
+              instance.ledgerInclusionState),
       'conflictReason': instance.conflictReason,
       'shouldPromote': instance.shouldPromote,
       'shouldReattach': instance.shouldReattach,
     };
 
-const _$MessageMetadataResponse$DataLedgerInclusionStateEnumMap = {
-  MessageMetadataResponse$DataLedgerInclusionState.swaggerGeneratedUnknown:
-      'swaggerGeneratedUnknown',
-  MessageMetadataResponse$DataLedgerInclusionState.included: 'included',
-  MessageMetadataResponse$DataLedgerInclusionState.conflicting: 'conflicting',
-  MessageMetadataResponse$DataLedgerInclusionState.notransaction:
-      'noTransaction',
-};
-
-MessageResponse$Data _$MessageResponse$DataFromJson(Map<String, dynamic> json) {
-  return MessageResponse$Data(
-    allOf: Message.fromJson(
-        json), //allOf is not a key in the json, idk where it's comming from
-  );
-}
+MessageResponse$Data _$MessageResponse$DataFromJson(
+        Map<String, dynamic> json) =>
+    MessageResponse$Data(
+      allOf: json['allOf'] == null
+          ? null
+          : Message.fromJson(json['allOf'] as Map<String, dynamic>),
+    );
 
 Map<String, dynamic> _$MessageResponse$DataToJson(
         MessageResponse$Data instance) =>

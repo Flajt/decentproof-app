@@ -15,10 +15,10 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 1.0.0+1
+version: 1.1.1+11
 
 environment:
-  sdk: ">=2.17.5 <3.0.0"
+  sdk: ">=3.0.5 <4.0.0"
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -34,27 +34,30 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
-  image_picker: ^0.8.5+3
-  native_exif: ^0.2.1
+  image_picker: ^1.0.4
+  native_exif: ^0.5.0
   path_provider: ^2.0.11
   nanoid: ^1.0.0
   pointycastle: ^3.6.1
-  audio_waveforms: ^0.1.3
-  chopper: ^4.0.1
+  audio_waveforms: ^1.0.4
+  chopper: ^7.0.6
   json_annotation: ^4.4.0
   url_launcher: ^6.1.5
   file_picker: ^5.2.0+1
-  flutter_donation_buttons: ^0.0.5
+  flutter_donation_buttons: ^0.4.7
   simple_icons: ^7.1.0
   shared_preferences: ^2.0.15
-  firebase_core: ^1.24.0
-  firebase_app_check: ^0.0.9
-  dio: ^4.0.6
+  firebase_core: ^2.4.0
+  firebase_app_check: ^0.1.1+6
+  dio: ^5.3.2
   http_certificate_pinning: ^2.0.4
-  flutter_secure_storage: ^6.0.0
+  flutter_secure_storage: ^9.0.0
   basic_utils: ^5.3.0
   introduction_screen: ^3.0.2
   easy_localization: ^3.0.1
+  flutter_dotenv: ^5.0.2
+  share_plus: ^7.1.0
+  photo_manager: ^2.5.1+1
 
 dev_dependencies:
   flutter_test:
@@ -66,10 +69,17 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
   build_runner: ^2.1.7
-  chopper_generator: ^4.0.5
+  chopper_generator: ^7.0.4
   json_serializable: ^6.1.4
-  swagger_dart_code_generator: ^2.4.6
+  swagger_dart_code_generator: ^2.8.5
+  flutter_launcher_icons: ^0.13.1
 
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/icon/icon.png"
+  remove_alpha_ios: true
+  
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
@@ -84,6 +94,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/translations/
+    - .env
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

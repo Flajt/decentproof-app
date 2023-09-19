@@ -33,14 +33,14 @@ class VideoButton extends StatelessWidget {
                 String path = await videoManager.saveVideo();
                 String hash =
                     await compute(videoImageHashManager.hashVideo, path);
-                Navigator.of(context)
-                    .pushNamed("/submissionPage", arguments: {"hash": hash});
+                Navigator.of(context).pushNamed("/submissionPage",
+                    arguments: {"hash": hash, "path": path});
               } catch (e) {
                 Navigator.of(context).pop();
               }
             },
             radius: size.width,
-            splashColor: Colors.lightGreenAccent,
+            splashColor: Colors.orangeAccent,
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [

@@ -19,7 +19,9 @@ class _AudioPageState extends State<AudioPage> {
   void initState() {
     super.initState();
     recorderController = RecorderController()
-      ..androidOutputFormat = AndroidOutputFormat.mpeg4
+      ..androidOutputFormat = AndroidOutputFormat.aac_adts
+      ..bitRate = 48000
+      ..sampleRate = 44100
       ..shouldClearLabels;
   }
 
@@ -40,7 +42,6 @@ class _AudioPageState extends State<AudioPage> {
         child: Stack(children: [
           Align(
             child: AudioWaveforms(
-              enableGesture: true,
               size: Size(size.width * .8, 150),
               recorderController: recorderController,
               waveStyle: WaveStyle(

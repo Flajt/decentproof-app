@@ -7,9 +7,10 @@ import 'dart:convert';
 import 'package:chopper/chopper.dart';
 
 import 'client_mapping.dart';
+import 'dart:async';
+import 'package:http/http.dart' as http;
 import 'package:chopper/chopper.dart' as chopper;
 import 'openapi.enums.swagger.dart' as enums;
-import 'openapi.enums.swagger.dart';
 export 'openapi.enums.swagger.dart';
 
 part 'openapi.swagger.chopper.dart';
@@ -21,21 +22,25 @@ part 'openapi.swagger.g.dart';
 
 @ChopperApi()
 abstract class Openapi extends ChopperService {
-  static Openapi create(
-      {ChopperClient? client,
-      Authenticator? authenticator,
-      String? baseUrl,
-      Iterable<dynamic>? interceptors}) {
+  static Openapi create({
+    ChopperClient? client,
+    http.Client? httpClient,
+    Authenticator? authenticator,
+    Converter? converter,
+    Uri? baseUrl,
+    Iterable<dynamic>? interceptors,
+  }) {
     if (client != null) {
       return _$Openapi(client);
     }
 
     final newClient = ChopperClient(
         services: [_$Openapi()],
-        converter: $JsonSerializableConverter(),
+        converter: converter ?? $JsonSerializableConverter(),
         interceptors: interceptors ?? [],
+        client: httpClient,
         authenticator: authenticator,
-        baseUrl: baseUrl ?? 'http://');
+        baseUrl: baseUrl ?? Uri.parse('http://'));
     return _$Openapi(newClient);
   }
 
@@ -82,7 +87,10 @@ abstract class Openapi extends ChopperService {
   }
 
   ///Submit a message.
-  @Post(path: '/api/v1/messages')
+  @Post(
+    path: '/api/v1/messages',
+    optionalBody: true,
+  )
   Future<chopper.Response<SubmitMessageResponse>> _apiV1MessagesPost(
       {@Body() required SubmitMessageRequest? body});
 
@@ -219,8 +227,11 @@ abstract class Openapi extends ChopperService {
   ///@param include-spent Set to true to also include the known spent outputs for the given address.
   ///@param type Allows to filter the results by output type. Set to value `0` to filter outputs of type `SigLockedSingleOutput`. Set to value `1` to filter outputs of type `SigLockedDustAllowanceOutput`.
   Future<chopper.Response<OutputsAddressResponse>>
-      apiV1AddressesAddressOutputsGet(
-          {required String? address, bool? includeSpent, int? type}) {
+      apiV1AddressesAddressOutputsGet({
+    required String? address,
+    bool? includeSpent,
+    int? type,
+  }) {
     generatedMapping.putIfAbsent(
         OutputsAddressResponse, () => OutputsAddressResponse.fromJsonFactory);
 
@@ -234,18 +245,22 @@ abstract class Openapi extends ChopperService {
   ///@param type Allows to filter the results by output type. Set to value `0` to filter outputs of type `SigLockedSingleOutput`. Set to value `1` to filter outputs of type `SigLockedDustAllowanceOutput`.
   @Get(path: '/api/v1/addresses/{address}/outputs')
   Future<chopper.Response<OutputsAddressResponse>>
-      _apiV1AddressesAddressOutputsGet(
-          {@Path('address') required String? address,
-          @Query('include-spent') bool? includeSpent,
-          @Query('type') int? type});
+      _apiV1AddressesAddressOutputsGet({
+    @Path('address') required String? address,
+    @Query('include-spent') bool? includeSpent,
+    @Query('type') int? type,
+  });
 
   ///Get all outputs that use a given hex-encoded Ed25519 address.
   ///@param address hex-encoded Ed25519 address that is referenced by the outputs.
   ///@param include-spent Set to true to also include the known spent outputs for the given address.
   ///@param type Allows to filter the results by output type. Set to value `0` to filter outputs of type `SigLockedSingleOutput`. Set to value `1` to filter outputs of type `SigLockedDustAllowanceOutput`.
   Future<chopper.Response<OutputsAddressResponse>>
-      apiV1AddressesEd25519AddressOutputsGet(
-          {required String? address, bool? includeSpent, int? type}) {
+      apiV1AddressesEd25519AddressOutputsGet({
+    required String? address,
+    bool? includeSpent,
+    int? type,
+  }) {
     generatedMapping.putIfAbsent(
         OutputsAddressResponse, () => OutputsAddressResponse.fromJsonFactory);
 
@@ -259,10 +274,11 @@ abstract class Openapi extends ChopperService {
   ///@param type Allows to filter the results by output type. Set to value `0` to filter outputs of type `SigLockedSingleOutput`. Set to value `1` to filter outputs of type `SigLockedDustAllowanceOutput`.
   @Get(path: '/api/v1/addresses/ed25519/{address}/outputs')
   Future<chopper.Response<OutputsAddressResponse>>
-      _apiV1AddressesEd25519AddressOutputsGet(
-          {@Path('address') required String? address,
-          @Query('include-spent') bool? includeSpent,
-          @Query('type') int? type});
+      _apiV1AddressesEd25519AddressOutputsGet({
+    @Path('address') required String? address,
+    @Query('include-spent') bool? includeSpent,
+    @Query('type') int? type,
+  });
 
   ///Returns all stored receipts.
   Future<chopper.Response<ReceiptsResponse>> apiV1ReceiptsGet() {
@@ -377,7 +393,10 @@ abstract class Openapi extends ChopperService {
   }
 
   ///Add a given peer to the node.
-  @Post(path: '/api/v1/peers')
+  @Post(
+    path: '/api/v1/peers',
+    optionalBody: true,
+  )
   Future<chopper.Response<AddPeerResponse>> _apiV1PeersPost(
       {@Body() required AddPeerRequest? body});
 
@@ -422,6 +441,9 @@ class Message {
   factory Message.fromJson(Map<String, dynamic> json) =>
       _$MessageFromJson(json);
 
+  static const toJsonFactory = _$MessageToJson;
+  Map<String, dynamic> toJson() => _$MessageToJson(this);
+
   @JsonKey(name: 'networkId')
   final String networkId;
   @JsonKey(name: 'parentMessageIds', defaultValue: <String>[])
@@ -431,11 +453,6 @@ class Message {
   @JsonKey(name: 'nonce')
   final String nonce;
   static const fromJsonFactory = _$MessageFromJson;
-  static const toJsonFactory = _$MessageToJson;
-  Map<String, dynamic> toJson() => _$MessageToJson(this);
-
-  @override
-  String toString() => jsonEncode(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -453,6 +470,9 @@ class Message {
             (identical(other.nonce, nonce) ||
                 const DeepCollectionEquality().equals(other.nonce, nonce)));
   }
+
+  @override
+  String toString() => jsonEncode(this);
 
   @override
   int get hashCode =>
@@ -475,6 +495,20 @@ extension $MessageExtension on Message {
         payload: payload ?? this.payload,
         nonce: nonce ?? this.nonce);
   }
+
+  Message copyWithWrapped(
+      {Wrapped<String>? networkId,
+      Wrapped<List<String>>? parentMessageIds,
+      Wrapped<dynamic>? payload,
+      Wrapped<String>? nonce}) {
+    return Message(
+        networkId: (networkId != null ? networkId.value : this.networkId),
+        parentMessageIds: (parentMessageIds != null
+            ? parentMessageIds.value
+            : this.parentMessageIds),
+        payload: (payload != null ? payload.value : this.payload),
+        nonce: (nonce != null ? nonce.value : this.nonce));
+  }
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -488,6 +522,9 @@ class TransactionPayload {
   factory TransactionPayload.fromJson(Map<String, dynamic> json) =>
       _$TransactionPayloadFromJson(json);
 
+  static const toJsonFactory = _$TransactionPayloadToJson;
+  Map<String, dynamic> toJson() => _$TransactionPayloadToJson(this);
+
   @JsonKey(name: 'type')
   final int type;
   @JsonKey(name: 'essence')
@@ -495,11 +532,6 @@ class TransactionPayload {
   @JsonKey(name: 'unlockBlocks', defaultValue: <Object>[])
   final List<Object> unlockBlocks;
   static const fromJsonFactory = _$TransactionPayloadFromJson;
-  static const toJsonFactory = _$TransactionPayloadToJson;
-  Map<String, dynamic> toJson() => _$TransactionPayloadToJson(this);
-
-  @override
-  String toString() => jsonEncode(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -514,6 +546,9 @@ class TransactionPayload {
                 const DeepCollectionEquality()
                     .equals(other.unlockBlocks, unlockBlocks)));
   }
+
+  @override
+  String toString() => jsonEncode(this);
 
   @override
   int get hashCode =>
@@ -531,6 +566,17 @@ extension $TransactionPayloadExtension on TransactionPayload {
         essence: essence ?? this.essence,
         unlockBlocks: unlockBlocks ?? this.unlockBlocks);
   }
+
+  TransactionPayload copyWithWrapped(
+      {Wrapped<int>? type,
+      Wrapped<Object>? essence,
+      Wrapped<List<Object>>? unlockBlocks}) {
+    return TransactionPayload(
+        type: (type != null ? type.value : this.type),
+        essence: (essence != null ? essence.value : this.essence),
+        unlockBlocks:
+            (unlockBlocks != null ? unlockBlocks.value : this.unlockBlocks));
+  }
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -545,6 +591,9 @@ class TransactionEssence {
   factory TransactionEssence.fromJson(Map<String, dynamic> json) =>
       _$TransactionEssenceFromJson(json);
 
+  static const toJsonFactory = _$TransactionEssenceToJson;
+  Map<String, dynamic> toJson() => _$TransactionEssenceToJson(this);
+
   @JsonKey(name: 'type')
   final int type;
   @JsonKey(name: 'inputs', defaultValue: <Object>[])
@@ -554,11 +603,6 @@ class TransactionEssence {
   @JsonKey(name: 'payload')
   final dynamic payload;
   static const fromJsonFactory = _$TransactionEssenceFromJson;
-  static const toJsonFactory = _$TransactionEssenceToJson;
-  Map<String, dynamic> toJson() => _$TransactionEssenceToJson(this);
-
-  @override
-  String toString() => jsonEncode(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -574,6 +618,9 @@ class TransactionEssence {
             (identical(other.payload, payload) ||
                 const DeepCollectionEquality().equals(other.payload, payload)));
   }
+
+  @override
+  String toString() => jsonEncode(this);
 
   @override
   int get hashCode =>
@@ -596,6 +643,18 @@ extension $TransactionEssenceExtension on TransactionEssence {
         outputs: outputs ?? this.outputs,
         payload: payload ?? this.payload);
   }
+
+  TransactionEssence copyWithWrapped(
+      {Wrapped<int>? type,
+      Wrapped<List<Object>>? inputs,
+      Wrapped<List<Object>>? outputs,
+      Wrapped<dynamic>? payload}) {
+    return TransactionEssence(
+        type: (type != null ? type.value : this.type),
+        inputs: (inputs != null ? inputs.value : this.inputs),
+        outputs: (outputs != null ? outputs.value : this.outputs),
+        payload: (payload != null ? payload.value : this.payload));
+  }
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -609,6 +668,9 @@ class UTXOInput {
   factory UTXOInput.fromJson(Map<String, dynamic> json) =>
       _$UTXOInputFromJson(json);
 
+  static const toJsonFactory = _$UTXOInputToJson;
+  Map<String, dynamic> toJson() => _$UTXOInputToJson(this);
+
   @JsonKey(name: 'type')
   final int type;
   @JsonKey(name: 'transactionId')
@@ -616,11 +678,6 @@ class UTXOInput {
   @JsonKey(name: 'transactionOutputIndex')
   final int transactionOutputIndex;
   static const fromJsonFactory = _$UTXOInputFromJson;
-  static const toJsonFactory = _$UTXOInputToJson;
-  Map<String, dynamic> toJson() => _$UTXOInputToJson(this);
-
-  @override
-  String toString() => jsonEncode(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -635,6 +692,9 @@ class UTXOInput {
                 const DeepCollectionEquality().equals(
                     other.transactionOutputIndex, transactionOutputIndex)));
   }
+
+  @override
+  String toString() => jsonEncode(this);
 
   @override
   int get hashCode =>
@@ -653,6 +713,19 @@ extension $UTXOInputExtension on UTXOInput {
         transactionOutputIndex:
             transactionOutputIndex ?? this.transactionOutputIndex);
   }
+
+  UTXOInput copyWithWrapped(
+      {Wrapped<int>? type,
+      Wrapped<String>? transactionId,
+      Wrapped<int>? transactionOutputIndex}) {
+    return UTXOInput(
+        type: (type != null ? type.value : this.type),
+        transactionId:
+            (transactionId != null ? transactionId.value : this.transactionId),
+        transactionOutputIndex: (transactionOutputIndex != null
+            ? transactionOutputIndex.value
+            : this.transactionOutputIndex));
+  }
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -666,6 +739,9 @@ class SigLockedSingleOutput {
   factory SigLockedSingleOutput.fromJson(Map<String, dynamic> json) =>
       _$SigLockedSingleOutputFromJson(json);
 
+  static const toJsonFactory = _$SigLockedSingleOutputToJson;
+  Map<String, dynamic> toJson() => _$SigLockedSingleOutputToJson(this);
+
   @JsonKey(name: 'type')
   final int type;
   @JsonKey(name: 'address')
@@ -673,11 +749,6 @@ class SigLockedSingleOutput {
   @JsonKey(name: 'amount')
   final int amount;
   static const fromJsonFactory = _$SigLockedSingleOutputFromJson;
-  static const toJsonFactory = _$SigLockedSingleOutputToJson;
-  Map<String, dynamic> toJson() => _$SigLockedSingleOutputToJson(this);
-
-  @override
-  String toString() => jsonEncode(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -691,6 +762,9 @@ class SigLockedSingleOutput {
             (identical(other.amount, amount) ||
                 const DeepCollectionEquality().equals(other.amount, amount)));
   }
+
+  @override
+  String toString() => jsonEncode(this);
 
   @override
   int get hashCode =>
@@ -707,6 +781,14 @@ extension $SigLockedSingleOutputExtension on SigLockedSingleOutput {
         address: address ?? this.address,
         amount: amount ?? this.amount);
   }
+
+  SigLockedSingleOutput copyWithWrapped(
+      {Wrapped<int>? type, Wrapped<dynamic>? address, Wrapped<int>? amount}) {
+    return SigLockedSingleOutput(
+        type: (type != null ? type.value : this.type),
+        address: (address != null ? address.value : this.address),
+        amount: (amount != null ? amount.value : this.amount));
+  }
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -720,6 +802,9 @@ class SigLockedDustAllowanceOutput {
   factory SigLockedDustAllowanceOutput.fromJson(Map<String, dynamic> json) =>
       _$SigLockedDustAllowanceOutputFromJson(json);
 
+  static const toJsonFactory = _$SigLockedDustAllowanceOutputToJson;
+  Map<String, dynamic> toJson() => _$SigLockedDustAllowanceOutputToJson(this);
+
   @JsonKey(name: 'type')
   final int type;
   @JsonKey(name: 'address')
@@ -727,11 +812,6 @@ class SigLockedDustAllowanceOutput {
   @JsonKey(name: 'amount')
   final int amount;
   static const fromJsonFactory = _$SigLockedDustAllowanceOutputFromJson;
-  static const toJsonFactory = _$SigLockedDustAllowanceOutputToJson;
-  Map<String, dynamic> toJson() => _$SigLockedDustAllowanceOutputToJson(this);
-
-  @override
-  String toString() => jsonEncode(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -745,6 +825,9 @@ class SigLockedDustAllowanceOutput {
             (identical(other.amount, amount) ||
                 const DeepCollectionEquality().equals(other.amount, amount)));
   }
+
+  @override
+  String toString() => jsonEncode(this);
 
   @override
   int get hashCode =>
@@ -763,6 +846,14 @@ extension $SigLockedDustAllowanceOutputExtension
         address: address ?? this.address,
         amount: amount ?? this.amount);
   }
+
+  SigLockedDustAllowanceOutput copyWithWrapped(
+      {Wrapped<int>? type, Wrapped<dynamic>? address, Wrapped<int>? amount}) {
+    return SigLockedDustAllowanceOutput(
+        type: (type != null ? type.value : this.type),
+        address: (address != null ? address.value : this.address),
+        amount: (amount != null ? amount.value : this.amount));
+  }
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -775,16 +866,14 @@ class Ed25519Address {
   factory Ed25519Address.fromJson(Map<String, dynamic> json) =>
       _$Ed25519AddressFromJson(json);
 
+  static const toJsonFactory = _$Ed25519AddressToJson;
+  Map<String, dynamic> toJson() => _$Ed25519AddressToJson(this);
+
   @JsonKey(name: 'type')
   final int type;
   @JsonKey(name: 'address')
   final String address;
   static const fromJsonFactory = _$Ed25519AddressFromJson;
-  static const toJsonFactory = _$Ed25519AddressToJson;
-  Map<String, dynamic> toJson() => _$Ed25519AddressToJson(this);
-
-  @override
-  String toString() => jsonEncode(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -795,6 +884,9 @@ class Ed25519Address {
             (identical(other.address, address) ||
                 const DeepCollectionEquality().equals(other.address, address)));
   }
+
+  @override
+  String toString() => jsonEncode(this);
 
   @override
   int get hashCode =>
@@ -808,6 +900,13 @@ extension $Ed25519AddressExtension on Ed25519Address {
     return Ed25519Address(
         type: type ?? this.type, address: address ?? this.address);
   }
+
+  Ed25519Address copyWithWrapped(
+      {Wrapped<int>? type, Wrapped<String>? address}) {
+    return Ed25519Address(
+        type: (type != null ? type.value : this.type),
+        address: (address != null ? address.value : this.address));
+  }
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -820,16 +919,14 @@ class SignatureUnlockBlock {
   factory SignatureUnlockBlock.fromJson(Map<String, dynamic> json) =>
       _$SignatureUnlockBlockFromJson(json);
 
+  static const toJsonFactory = _$SignatureUnlockBlockToJson;
+  Map<String, dynamic> toJson() => _$SignatureUnlockBlockToJson(this);
+
   @JsonKey(name: 'type')
   final int type;
   @JsonKey(name: 'signature')
   final Object signature;
   static const fromJsonFactory = _$SignatureUnlockBlockFromJson;
-  static const toJsonFactory = _$SignatureUnlockBlockToJson;
-  Map<String, dynamic> toJson() => _$SignatureUnlockBlockToJson(this);
-
-  @override
-  String toString() => jsonEncode(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -843,6 +940,9 @@ class SignatureUnlockBlock {
   }
 
   @override
+  String toString() => jsonEncode(this);
+
+  @override
   int get hashCode =>
       const DeepCollectionEquality().hash(type) ^
       const DeepCollectionEquality().hash(signature) ^
@@ -853,6 +953,13 @@ extension $SignatureUnlockBlockExtension on SignatureUnlockBlock {
   SignatureUnlockBlock copyWith({int? type, Object? signature}) {
     return SignatureUnlockBlock(
         type: type ?? this.type, signature: signature ?? this.signature);
+  }
+
+  SignatureUnlockBlock copyWithWrapped(
+      {Wrapped<int>? type, Wrapped<Object>? signature}) {
+    return SignatureUnlockBlock(
+        type: (type != null ? type.value : this.type),
+        signature: (signature != null ? signature.value : this.signature));
   }
 }
 
@@ -867,6 +974,9 @@ class Ed25519Signature {
   factory Ed25519Signature.fromJson(Map<String, dynamic> json) =>
       _$Ed25519SignatureFromJson(json);
 
+  static const toJsonFactory = _$Ed25519SignatureToJson;
+  Map<String, dynamic> toJson() => _$Ed25519SignatureToJson(this);
+
   @JsonKey(name: 'type')
   final int type;
   @JsonKey(name: 'publicKey')
@@ -874,11 +984,6 @@ class Ed25519Signature {
   @JsonKey(name: 'signature')
   final String signature;
   static const fromJsonFactory = _$Ed25519SignatureFromJson;
-  static const toJsonFactory = _$Ed25519SignatureToJson;
-  Map<String, dynamic> toJson() => _$Ed25519SignatureToJson(this);
-
-  @override
-  String toString() => jsonEncode(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -895,6 +1000,9 @@ class Ed25519Signature {
   }
 
   @override
+  String toString() => jsonEncode(this);
+
+  @override
   int get hashCode =>
       const DeepCollectionEquality().hash(type) ^
       const DeepCollectionEquality().hash(publicKey) ^
@@ -909,6 +1017,16 @@ extension $Ed25519SignatureExtension on Ed25519Signature {
         publicKey: publicKey ?? this.publicKey,
         signature: signature ?? this.signature);
   }
+
+  Ed25519Signature copyWithWrapped(
+      {Wrapped<int>? type,
+      Wrapped<String>? publicKey,
+      Wrapped<String>? signature}) {
+    return Ed25519Signature(
+        type: (type != null ? type.value : this.type),
+        publicKey: (publicKey != null ? publicKey.value : this.publicKey),
+        signature: (signature != null ? signature.value : this.signature));
+  }
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -921,16 +1039,14 @@ class ReferenceUnlockBlock {
   factory ReferenceUnlockBlock.fromJson(Map<String, dynamic> json) =>
       _$ReferenceUnlockBlockFromJson(json);
 
+  static const toJsonFactory = _$ReferenceUnlockBlockToJson;
+  Map<String, dynamic> toJson() => _$ReferenceUnlockBlockToJson(this);
+
   @JsonKey(name: 'type')
   final int type;
   @JsonKey(name: 'reference')
   final int reference;
   static const fromJsonFactory = _$ReferenceUnlockBlockFromJson;
-  static const toJsonFactory = _$ReferenceUnlockBlockToJson;
-  Map<String, dynamic> toJson() => _$ReferenceUnlockBlockToJson(this);
-
-  @override
-  String toString() => jsonEncode(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -944,6 +1060,9 @@ class ReferenceUnlockBlock {
   }
 
   @override
+  String toString() => jsonEncode(this);
+
+  @override
   int get hashCode =>
       const DeepCollectionEquality().hash(type) ^
       const DeepCollectionEquality().hash(reference) ^
@@ -954,6 +1073,13 @@ extension $ReferenceUnlockBlockExtension on ReferenceUnlockBlock {
   ReferenceUnlockBlock copyWith({int? type, int? reference}) {
     return ReferenceUnlockBlock(
         type: type ?? this.type, reference: reference ?? this.reference);
+  }
+
+  ReferenceUnlockBlock copyWithWrapped(
+      {Wrapped<int>? type, Wrapped<int>? reference}) {
+    return ReferenceUnlockBlock(
+        type: (type != null ? type.value : this.type),
+        reference: (reference != null ? reference.value : this.reference));
   }
 }
 
@@ -974,6 +1100,9 @@ class MilestonePayload {
   factory MilestonePayload.fromJson(Map<String, dynamic> json) =>
       _$MilestonePayloadFromJson(json);
 
+  static const toJsonFactory = _$MilestonePayloadToJson;
+  Map<String, dynamic> toJson() => _$MilestonePayloadToJson(this);
+
   @JsonKey(name: 'type')
   final int type;
   @JsonKey(name: 'index')
@@ -993,11 +1122,6 @@ class MilestonePayload {
   @JsonKey(name: 'signatures', defaultValue: <String>[])
   final List<String> signatures;
   static const fromJsonFactory = _$MilestonePayloadFromJson;
-  static const toJsonFactory = _$MilestonePayloadToJson;
-  Map<String, dynamic> toJson() => _$MilestonePayloadToJson(this);
-
-  @override
-  String toString() => jsonEncode(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -1031,6 +1155,9 @@ class MilestonePayload {
                 const DeepCollectionEquality()
                     .equals(other.signatures, signatures)));
   }
+
+  @override
+  String toString() => jsonEncode(this);
 
   @override
   int get hashCode =>
@@ -1069,6 +1196,33 @@ extension $MilestonePayloadExtension on MilestonePayload {
         publicKeys: publicKeys ?? this.publicKeys,
         signatures: signatures ?? this.signatures);
   }
+
+  MilestonePayload copyWithWrapped(
+      {Wrapped<int>? type,
+      Wrapped<int>? index,
+      Wrapped<int>? timestamp,
+      Wrapped<List<String>>? parents,
+      Wrapped<String>? inclusionMerkleProof,
+      Wrapped<double>? nextPoWScore,
+      Wrapped<double>? nextPoWScoreMilestoneIndex,
+      Wrapped<List<String>>? publicKeys,
+      Wrapped<List<String>>? signatures}) {
+    return MilestonePayload(
+        type: (type != null ? type.value : this.type),
+        index: (index != null ? index.value : this.index),
+        timestamp: (timestamp != null ? timestamp.value : this.timestamp),
+        parents: (parents != null ? parents.value : this.parents),
+        inclusionMerkleProof: (inclusionMerkleProof != null
+            ? inclusionMerkleProof.value
+            : this.inclusionMerkleProof),
+        nextPoWScore:
+            (nextPoWScore != null ? nextPoWScore.value : this.nextPoWScore),
+        nextPoWScoreMilestoneIndex: (nextPoWScoreMilestoneIndex != null
+            ? nextPoWScoreMilestoneIndex.value
+            : this.nextPoWScoreMilestoneIndex),
+        publicKeys: (publicKeys != null ? publicKeys.value : this.publicKeys),
+        signatures: (signatures != null ? signatures.value : this.signatures));
+  }
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -1082,6 +1236,9 @@ class IndexationPayload {
   factory IndexationPayload.fromJson(Map<String, dynamic> json) =>
       _$IndexationPayloadFromJson(json);
 
+  static const toJsonFactory = _$IndexationPayloadToJson;
+  Map<String, dynamic> toJson() => _$IndexationPayloadToJson(this);
+
   @JsonKey(name: 'type')
   final int type;
   @JsonKey(name: 'index')
@@ -1089,11 +1246,6 @@ class IndexationPayload {
   @JsonKey(name: 'data')
   final String data;
   static const fromJsonFactory = _$IndexationPayloadFromJson;
-  static const toJsonFactory = _$IndexationPayloadToJson;
-  Map<String, dynamic> toJson() => _$IndexationPayloadToJson(this);
-
-  @override
-  String toString() => jsonEncode(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -1106,6 +1258,9 @@ class IndexationPayload {
             (identical(other.data, data) ||
                 const DeepCollectionEquality().equals(other.data, data)));
   }
+
+  @override
+  String toString() => jsonEncode(this);
 
   @override
   int get hashCode =>
@@ -1122,6 +1277,14 @@ extension $IndexationPayloadExtension on IndexationPayload {
         index: index ?? this.index,
         data: data ?? this.data);
   }
+
+  IndexationPayload copyWithWrapped(
+      {Wrapped<int>? type, Wrapped<String>? index, Wrapped<String>? data}) {
+    return IndexationPayload(
+        type: (type != null ? type.value : this.type),
+        index: (index != null ? index.value : this.index),
+        data: (data != null ? data.value : this.data));
+  }
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -1135,6 +1298,9 @@ class TreasuryTransactionPayload {
   factory TreasuryTransactionPayload.fromJson(Map<String, dynamic> json) =>
       _$TreasuryTransactionPayloadFromJson(json);
 
+  static const toJsonFactory = _$TreasuryTransactionPayloadToJson;
+  Map<String, dynamic> toJson() => _$TreasuryTransactionPayloadToJson(this);
+
   @JsonKey(name: 'type')
   final int type;
   @JsonKey(name: 'input')
@@ -1142,11 +1308,6 @@ class TreasuryTransactionPayload {
   @JsonKey(name: 'output')
   final TreasuryOutput output;
   static const fromJsonFactory = _$TreasuryTransactionPayloadFromJson;
-  static const toJsonFactory = _$TreasuryTransactionPayloadToJson;
-  Map<String, dynamic> toJson() => _$TreasuryTransactionPayloadToJson(this);
-
-  @override
-  String toString() => jsonEncode(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -1159,6 +1320,9 @@ class TreasuryTransactionPayload {
             (identical(other.output, output) ||
                 const DeepCollectionEquality().equals(other.output, output)));
   }
+
+  @override
+  String toString() => jsonEncode(this);
 
   @override
   int get hashCode =>
@@ -1176,6 +1340,16 @@ extension $TreasuryTransactionPayloadExtension on TreasuryTransactionPayload {
         input: input ?? this.input,
         output: output ?? this.output);
   }
+
+  TreasuryTransactionPayload copyWithWrapped(
+      {Wrapped<int>? type,
+      Wrapped<TreasuryInput>? input,
+      Wrapped<TreasuryOutput>? output}) {
+    return TreasuryTransactionPayload(
+        type: (type != null ? type.value : this.type),
+        input: (input != null ? input.value : this.input),
+        output: (output != null ? output.value : this.output));
+  }
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -1188,16 +1362,14 @@ class TreasuryInput {
   factory TreasuryInput.fromJson(Map<String, dynamic> json) =>
       _$TreasuryInputFromJson(json);
 
+  static const toJsonFactory = _$TreasuryInputToJson;
+  Map<String, dynamic> toJson() => _$TreasuryInputToJson(this);
+
   @JsonKey(name: 'type')
   final int type;
   @JsonKey(name: 'milestoneId')
   final String milestoneId;
   static const fromJsonFactory = _$TreasuryInputFromJson;
-  static const toJsonFactory = _$TreasuryInputToJson;
-  Map<String, dynamic> toJson() => _$TreasuryInputToJson(this);
-
-  @override
-  String toString() => jsonEncode(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -1211,6 +1383,9 @@ class TreasuryInput {
   }
 
   @override
+  String toString() => jsonEncode(this);
+
+  @override
   int get hashCode =>
       const DeepCollectionEquality().hash(type) ^
       const DeepCollectionEquality().hash(milestoneId) ^
@@ -1221,6 +1396,14 @@ extension $TreasuryInputExtension on TreasuryInput {
   TreasuryInput copyWith({int? type, String? milestoneId}) {
     return TreasuryInput(
         type: type ?? this.type, milestoneId: milestoneId ?? this.milestoneId);
+  }
+
+  TreasuryInput copyWithWrapped(
+      {Wrapped<int>? type, Wrapped<String>? milestoneId}) {
+    return TreasuryInput(
+        type: (type != null ? type.value : this.type),
+        milestoneId:
+            (milestoneId != null ? milestoneId.value : this.milestoneId));
   }
 }
 
@@ -1234,16 +1417,14 @@ class TreasuryOutput {
   factory TreasuryOutput.fromJson(Map<String, dynamic> json) =>
       _$TreasuryOutputFromJson(json);
 
+  static const toJsonFactory = _$TreasuryOutputToJson;
+  Map<String, dynamic> toJson() => _$TreasuryOutputToJson(this);
+
   @JsonKey(name: 'type')
   final int type;
   @JsonKey(name: 'amount')
   final int amount;
   static const fromJsonFactory = _$TreasuryOutputFromJson;
-  static const toJsonFactory = _$TreasuryOutputToJson;
-  Map<String, dynamic> toJson() => _$TreasuryOutputToJson(this);
-
-  @override
-  String toString() => jsonEncode(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -1256,6 +1437,9 @@ class TreasuryOutput {
   }
 
   @override
+  String toString() => jsonEncode(this);
+
+  @override
   int get hashCode =>
       const DeepCollectionEquality().hash(type) ^
       const DeepCollectionEquality().hash(amount) ^
@@ -1266,6 +1450,12 @@ extension $TreasuryOutputExtension on TreasuryOutput {
   TreasuryOutput copyWith({int? type, int? amount}) {
     return TreasuryOutput(
         type: type ?? this.type, amount: amount ?? this.amount);
+  }
+
+  TreasuryOutput copyWithWrapped({Wrapped<int>? type, Wrapped<int>? amount}) {
+    return TreasuryOutput(
+        type: (type != null ? type.value : this.type),
+        amount: (amount != null ? amount.value : this.amount));
   }
 }
 
@@ -1282,6 +1472,9 @@ class Peer {
 
   factory Peer.fromJson(Map<String, dynamic> json) => _$PeerFromJson(json);
 
+  static const toJsonFactory = _$PeerToJson;
+  Map<String, dynamic> toJson() => _$PeerToJson(this);
+
   @JsonKey(name: 'id')
   final String id;
   @JsonKey(name: 'multiAddresses', defaultValue: <String>[])
@@ -1289,20 +1482,16 @@ class Peer {
   @JsonKey(name: 'alias')
   final String? alias;
   @JsonKey(
-      name: 'relation',
-      toJson: peerRelationToJson,
-      fromJson: peerRelationFromJson)
+    name: 'relation',
+    toJson: peerRelationToJson,
+    fromJson: peerRelationFromJson,
+  )
   final enums.PeerRelation relation;
   @JsonKey(name: 'connected')
   final bool connected;
   @JsonKey(name: 'gossip')
   final Gossip gossip;
   static const fromJsonFactory = _$PeerFromJson;
-  static const toJsonFactory = _$PeerToJson;
-  Map<String, dynamic> toJson() => _$PeerToJson(this);
-
-  @override
-  String toString() => jsonEncode(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -1324,6 +1513,9 @@ class Peer {
             (identical(other.gossip, gossip) ||
                 const DeepCollectionEquality().equals(other.gossip, gossip)));
   }
+
+  @override
+  String toString() => jsonEncode(this);
 
   @override
   int get hashCode =>
@@ -1352,6 +1544,24 @@ extension $PeerExtension on Peer {
         connected: connected ?? this.connected,
         gossip: gossip ?? this.gossip);
   }
+
+  Peer copyWithWrapped(
+      {Wrapped<String>? id,
+      Wrapped<List<String>>? multiAddresses,
+      Wrapped<String?>? alias,
+      Wrapped<enums.PeerRelation>? relation,
+      Wrapped<bool>? connected,
+      Wrapped<Gossip>? gossip}) {
+    return Peer(
+        id: (id != null ? id.value : this.id),
+        multiAddresses: (multiAddresses != null
+            ? multiAddresses.value
+            : this.multiAddresses),
+        alias: (alias != null ? alias.value : this.alias),
+        relation: (relation != null ? relation.value : this.relation),
+        connected: (connected != null ? connected.value : this.connected),
+        gossip: (gossip != null ? gossip.value : this.gossip));
+  }
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -1363,16 +1573,14 @@ class Gossip {
 
   factory Gossip.fromJson(Map<String, dynamic> json) => _$GossipFromJson(json);
 
+  static const toJsonFactory = _$GossipToJson;
+  Map<String, dynamic> toJson() => _$GossipToJson(this);
+
   @JsonKey(name: 'heartbeat')
   final Heartbeat? heartbeat;
   @JsonKey(name: 'metrics')
   final Metrics? metrics;
   static const fromJsonFactory = _$GossipFromJson;
-  static const toJsonFactory = _$GossipToJson;
-  Map<String, dynamic> toJson() => _$GossipToJson(this);
-
-  @override
-  String toString() => jsonEncode(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -1386,6 +1594,9 @@ class Gossip {
   }
 
   @override
+  String toString() => jsonEncode(this);
+
+  @override
   int get hashCode =>
       const DeepCollectionEquality().hash(heartbeat) ^
       const DeepCollectionEquality().hash(metrics) ^
@@ -1397,6 +1608,13 @@ extension $GossipExtension on Gossip {
     return Gossip(
         heartbeat: heartbeat ?? this.heartbeat,
         metrics: metrics ?? this.metrics);
+  }
+
+  Gossip copyWithWrapped(
+      {Wrapped<Heartbeat?>? heartbeat, Wrapped<Metrics?>? metrics}) {
+    return Gossip(
+        heartbeat: (heartbeat != null ? heartbeat.value : this.heartbeat),
+        metrics: (metrics != null ? metrics.value : this.metrics));
   }
 }
 
@@ -1413,6 +1631,9 @@ class Heartbeat {
   factory Heartbeat.fromJson(Map<String, dynamic> json) =>
       _$HeartbeatFromJson(json);
 
+  static const toJsonFactory = _$HeartbeatToJson;
+  Map<String, dynamic> toJson() => _$HeartbeatToJson(this);
+
   @JsonKey(name: 'solidMilestoneIndex')
   final int? solidMilestoneIndex;
   @JsonKey(name: 'prunedMilestoneIndex')
@@ -1424,11 +1645,6 @@ class Heartbeat {
   @JsonKey(name: 'syncedNeighbors')
   final int? syncedNeighbors;
   static const fromJsonFactory = _$HeartbeatFromJson;
-  static const toJsonFactory = _$HeartbeatToJson;
-  Map<String, dynamic> toJson() => _$HeartbeatToJson(this);
-
-  @override
-  String toString() => jsonEncode(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -1450,6 +1666,9 @@ class Heartbeat {
                 const DeepCollectionEquality()
                     .equals(other.syncedNeighbors, syncedNeighbors)));
   }
+
+  @override
+  String toString() => jsonEncode(this);
 
   @override
   int get hashCode =>
@@ -1475,6 +1694,30 @@ extension $HeartbeatExtension on Heartbeat {
         connectedNeighbors: connectedNeighbors ?? this.connectedNeighbors,
         syncedNeighbors: syncedNeighbors ?? this.syncedNeighbors);
   }
+
+  Heartbeat copyWithWrapped(
+      {Wrapped<int?>? solidMilestoneIndex,
+      Wrapped<int?>? prunedMilestoneIndex,
+      Wrapped<int?>? latestMilestoneIndex,
+      Wrapped<int?>? connectedNeighbors,
+      Wrapped<int?>? syncedNeighbors}) {
+    return Heartbeat(
+        solidMilestoneIndex: (solidMilestoneIndex != null
+            ? solidMilestoneIndex.value
+            : this.solidMilestoneIndex),
+        prunedMilestoneIndex: (prunedMilestoneIndex != null
+            ? prunedMilestoneIndex.value
+            : this.prunedMilestoneIndex),
+        latestMilestoneIndex: (latestMilestoneIndex != null
+            ? latestMilestoneIndex.value
+            : this.latestMilestoneIndex),
+        connectedNeighbors: (connectedNeighbors != null
+            ? connectedNeighbors.value
+            : this.connectedNeighbors),
+        syncedNeighbors: (syncedNeighbors != null
+            ? syncedNeighbors.value
+            : this.syncedNeighbors));
+  }
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -1495,6 +1738,9 @@ class Metrics {
 
   factory Metrics.fromJson(Map<String, dynamic> json) =>
       _$MetricsFromJson(json);
+
+  static const toJsonFactory = _$MetricsToJson;
+  Map<String, dynamic> toJson() => _$MetricsToJson(this);
 
   @JsonKey(name: 'newMessages')
   final int newMessages;
@@ -1519,11 +1765,6 @@ class Metrics {
   @JsonKey(name: 'droppedPackets')
   final int droppedPackets;
   static const fromJsonFactory = _$MetricsFromJson;
-  static const toJsonFactory = _$MetricsToJson;
-  Map<String, dynamic> toJson() => _$MetricsToJson(this);
-
-  @override
-  String toString() => jsonEncode(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -1566,6 +1807,9 @@ class Metrics {
                 const DeepCollectionEquality()
                     .equals(other.droppedPackets, droppedPackets)));
   }
+
+  @override
+  String toString() => jsonEncode(this);
 
   @override
   int get hashCode =>
@@ -1612,6 +1856,51 @@ extension $MetricsExtension on Metrics {
         sentHeartbeats: sentHeartbeats ?? this.sentHeartbeats,
         droppedPackets: droppedPackets ?? this.droppedPackets);
   }
+
+  Metrics copyWithWrapped(
+      {Wrapped<int>? newMessages,
+      Wrapped<int>? knownMessages,
+      Wrapped<int>? receivedMessages,
+      Wrapped<int>? receivedMessageRequests,
+      Wrapped<int>? receivedMilestoneRequests,
+      Wrapped<int>? receivedHeartbeats,
+      Wrapped<int>? sentMessages,
+      Wrapped<int>? sentMessageRequests,
+      Wrapped<int>? sentMilestoneRequests,
+      Wrapped<int>? sentHeartbeats,
+      Wrapped<int>? droppedPackets}) {
+    return Metrics(
+        newMessages:
+            (newMessages != null ? newMessages.value : this.newMessages),
+        knownMessages:
+            (knownMessages != null ? knownMessages.value : this.knownMessages),
+        receivedMessages: (receivedMessages != null
+            ? receivedMessages.value
+            : this.receivedMessages),
+        receivedMessageRequests: (receivedMessageRequests != null
+            ? receivedMessageRequests.value
+            : this.receivedMessageRequests),
+        receivedMilestoneRequests: (receivedMilestoneRequests != null
+            ? receivedMilestoneRequests.value
+            : this.receivedMilestoneRequests),
+        receivedHeartbeats: (receivedHeartbeats != null
+            ? receivedHeartbeats.value
+            : this.receivedHeartbeats),
+        sentMessages:
+            (sentMessages != null ? sentMessages.value : this.sentMessages),
+        sentMessageRequests: (sentMessageRequests != null
+            ? sentMessageRequests.value
+            : this.sentMessageRequests),
+        sentMilestoneRequests: (sentMilestoneRequests != null
+            ? sentMilestoneRequests.value
+            : this.sentMilestoneRequests),
+        sentHeartbeats: (sentHeartbeats != null
+            ? sentHeartbeats.value
+            : this.sentHeartbeats),
+        droppedPackets: (droppedPackets != null
+            ? droppedPackets.value
+            : this.droppedPackets));
+  }
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -1624,16 +1913,14 @@ class ReceiptTuple {
   factory ReceiptTuple.fromJson(Map<String, dynamic> json) =>
       _$ReceiptTupleFromJson(json);
 
+  static const toJsonFactory = _$ReceiptTupleToJson;
+  Map<String, dynamic> toJson() => _$ReceiptTupleToJson(this);
+
   @JsonKey(name: 'receipt')
   final ReceiptPayload receipt;
   @JsonKey(name: 'milestoneIndex')
   final int milestoneIndex;
   static const fromJsonFactory = _$ReceiptTupleFromJson;
-  static const toJsonFactory = _$ReceiptTupleToJson;
-  Map<String, dynamic> toJson() => _$ReceiptTupleToJson(this);
-
-  @override
-  String toString() => jsonEncode(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -1648,6 +1935,9 @@ class ReceiptTuple {
   }
 
   @override
+  String toString() => jsonEncode(this);
+
+  @override
   int get hashCode =>
       const DeepCollectionEquality().hash(receipt) ^
       const DeepCollectionEquality().hash(milestoneIndex) ^
@@ -1659,6 +1949,15 @@ extension $ReceiptTupleExtension on ReceiptTuple {
     return ReceiptTuple(
         receipt: receipt ?? this.receipt,
         milestoneIndex: milestoneIndex ?? this.milestoneIndex);
+  }
+
+  ReceiptTuple copyWithWrapped(
+      {Wrapped<ReceiptPayload>? receipt, Wrapped<int>? milestoneIndex}) {
+    return ReceiptTuple(
+        receipt: (receipt != null ? receipt.value : this.receipt),
+        milestoneIndex: (milestoneIndex != null
+            ? milestoneIndex.value
+            : this.milestoneIndex));
   }
 }
 
@@ -1674,6 +1973,9 @@ class ReceiptPayload {
   factory ReceiptPayload.fromJson(Map<String, dynamic> json) =>
       _$ReceiptPayloadFromJson(json);
 
+  static const toJsonFactory = _$ReceiptPayloadToJson;
+  Map<String, dynamic> toJson() => _$ReceiptPayloadToJson(this);
+
   @JsonKey(name: 'migratedAt')
   final int migratedAt;
   @JsonKey(name: 'final')
@@ -1683,11 +1985,6 @@ class ReceiptPayload {
   @JsonKey(name: 'transaction')
   final TreasuryTransactionPayload transaction;
   static const fromJsonFactory = _$ReceiptPayloadFromJson;
-  static const toJsonFactory = _$ReceiptPayloadToJson;
-  Map<String, dynamic> toJson() => _$ReceiptPayloadToJson(this);
-
-  @override
-  String toString() => jsonEncode(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -1704,6 +2001,9 @@ class ReceiptPayload {
                 const DeepCollectionEquality()
                     .equals(other.transaction, transaction)));
   }
+
+  @override
+  String toString() => jsonEncode(this);
 
   @override
   int get hashCode =>
@@ -1726,6 +2026,19 @@ extension $ReceiptPayloadExtension on ReceiptPayload {
         funds: funds ?? this.funds,
         transaction: transaction ?? this.transaction);
   }
+
+  ReceiptPayload copyWithWrapped(
+      {Wrapped<int>? migratedAt,
+      Wrapped<bool>? $final,
+      Wrapped<List<MigratedFundsEntry>>? funds,
+      Wrapped<TreasuryTransactionPayload>? transaction}) {
+    return ReceiptPayload(
+        migratedAt: (migratedAt != null ? migratedAt.value : this.migratedAt),
+        $final: ($final != null ? $final.value : this.$final),
+        funds: (funds != null ? funds.value : this.funds),
+        transaction:
+            (transaction != null ? transaction.value : this.transaction));
+  }
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -1739,6 +2052,9 @@ class MigratedFundsEntry {
   factory MigratedFundsEntry.fromJson(Map<String, dynamic> json) =>
       _$MigratedFundsEntryFromJson(json);
 
+  static const toJsonFactory = _$MigratedFundsEntryToJson;
+  Map<String, dynamic> toJson() => _$MigratedFundsEntryToJson(this);
+
   @JsonKey(name: 'tailTransactionHash')
   final String tailTransactionHash;
   @JsonKey(name: 'address')
@@ -1746,11 +2062,6 @@ class MigratedFundsEntry {
   @JsonKey(name: 'deposit')
   final int deposit;
   static const fromJsonFactory = _$MigratedFundsEntryFromJson;
-  static const toJsonFactory = _$MigratedFundsEntryToJson;
-  Map<String, dynamic> toJson() => _$MigratedFundsEntryToJson(this);
-
-  @override
-  String toString() => jsonEncode(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -1765,6 +2076,9 @@ class MigratedFundsEntry {
             (identical(other.deposit, deposit) ||
                 const DeepCollectionEquality().equals(other.deposit, deposit)));
   }
+
+  @override
+  String toString() => jsonEncode(this);
 
   @override
   int get hashCode =>
@@ -1782,6 +2096,18 @@ extension $MigratedFundsEntryExtension on MigratedFundsEntry {
         address: address ?? this.address,
         deposit: deposit ?? this.deposit);
   }
+
+  MigratedFundsEntry copyWithWrapped(
+      {Wrapped<String>? tailTransactionHash,
+      Wrapped<dynamic>? address,
+      Wrapped<int>? deposit}) {
+    return MigratedFundsEntry(
+        tailTransactionHash: (tailTransactionHash != null
+            ? tailTransactionHash.value
+            : this.tailTransactionHash),
+        address: (address != null ? address.value : this.address),
+        deposit: (deposit != null ? deposit.value : this.deposit));
+  }
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -1793,14 +2119,12 @@ class ErrorResponse {
   factory ErrorResponse.fromJson(Map<String, dynamic> json) =>
       _$ErrorResponseFromJson(json);
 
-  @JsonKey(name: 'error')
-  final ErrorResponse$Error error;
-  static const fromJsonFactory = _$ErrorResponseFromJson;
   static const toJsonFactory = _$ErrorResponseToJson;
   Map<String, dynamic> toJson() => _$ErrorResponseToJson(this);
 
-  @override
-  String toString() => jsonEncode(this);
+  @JsonKey(name: 'error')
+  final ErrorResponse$Error error;
+  static const fromJsonFactory = _$ErrorResponseFromJson;
 
   @override
   bool operator ==(dynamic other) {
@@ -1811,6 +2135,9 @@ class ErrorResponse {
   }
 
   @override
+  String toString() => jsonEncode(this);
+
+  @override
   int get hashCode =>
       const DeepCollectionEquality().hash(error) ^ runtimeType.hashCode;
 }
@@ -1819,96 +2146,227 @@ extension $ErrorResponseExtension on ErrorResponse {
   ErrorResponse copyWith({ErrorResponse$Error? error}) {
     return ErrorResponse(error: error ?? this.error);
   }
+
+  ErrorResponse copyWithWrapped({Wrapped<ErrorResponse$Error>? error}) {
+    return ErrorResponse(error: (error != null ? error.value : this.error));
+  }
 }
 
 @JsonSerializable(explicitToJson: true)
 class ForbiddenResponse {
-  ForbiddenResponse();
+  ForbiddenResponse({
+    required this.error,
+  });
 
   factory ForbiddenResponse.fromJson(Map<String, dynamic> json) =>
       _$ForbiddenResponseFromJson(json);
 
-  static const fromJsonFactory = _$ForbiddenResponseFromJson;
   static const toJsonFactory = _$ForbiddenResponseToJson;
   Map<String, dynamic> toJson() => _$ForbiddenResponseToJson(this);
+
+  @JsonKey(name: 'error')
+  final ForbiddenResponse$Error error;
+  static const fromJsonFactory = _$ForbiddenResponseFromJson;
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is ForbiddenResponse &&
+            (identical(other.error, error) ||
+                const DeepCollectionEquality().equals(other.error, error)));
+  }
 
   @override
   String toString() => jsonEncode(this);
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode =>
+      const DeepCollectionEquality().hash(error) ^ runtimeType.hashCode;
+}
+
+extension $ForbiddenResponseExtension on ForbiddenResponse {
+  ForbiddenResponse copyWith({ForbiddenResponse$Error? error}) {
+    return ForbiddenResponse(error: error ?? this.error);
+  }
+
+  ForbiddenResponse copyWithWrapped({Wrapped<ForbiddenResponse$Error>? error}) {
+    return ForbiddenResponse(error: (error != null ? error.value : this.error));
+  }
 }
 
 @JsonSerializable(explicitToJson: true)
 class ServiceUnavailableResponse {
-  ServiceUnavailableResponse();
+  ServiceUnavailableResponse({
+    required this.error,
+  });
 
   factory ServiceUnavailableResponse.fromJson(Map<String, dynamic> json) =>
       _$ServiceUnavailableResponseFromJson(json);
 
-  static const fromJsonFactory = _$ServiceUnavailableResponseFromJson;
   static const toJsonFactory = _$ServiceUnavailableResponseToJson;
   Map<String, dynamic> toJson() => _$ServiceUnavailableResponseToJson(this);
+
+  @JsonKey(name: 'error')
+  final ServiceUnavailableResponse$Error error;
+  static const fromJsonFactory = _$ServiceUnavailableResponseFromJson;
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is ServiceUnavailableResponse &&
+            (identical(other.error, error) ||
+                const DeepCollectionEquality().equals(other.error, error)));
+  }
 
   @override
   String toString() => jsonEncode(this);
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode =>
+      const DeepCollectionEquality().hash(error) ^ runtimeType.hashCode;
+}
+
+extension $ServiceUnavailableResponseExtension on ServiceUnavailableResponse {
+  ServiceUnavailableResponse copyWith(
+      {ServiceUnavailableResponse$Error? error}) {
+    return ServiceUnavailableResponse(error: error ?? this.error);
+  }
+
+  ServiceUnavailableResponse copyWithWrapped(
+      {Wrapped<ServiceUnavailableResponse$Error>? error}) {
+    return ServiceUnavailableResponse(
+        error: (error != null ? error.value : this.error));
+  }
 }
 
 @JsonSerializable(explicitToJson: true)
 class BadRequestResponse {
-  BadRequestResponse();
+  BadRequestResponse({
+    required this.error,
+  });
 
   factory BadRequestResponse.fromJson(Map<String, dynamic> json) =>
       _$BadRequestResponseFromJson(json);
 
-  static const fromJsonFactory = _$BadRequestResponseFromJson;
   static const toJsonFactory = _$BadRequestResponseToJson;
   Map<String, dynamic> toJson() => _$BadRequestResponseToJson(this);
+
+  @JsonKey(name: 'error')
+  final BadRequestResponse$Error error;
+  static const fromJsonFactory = _$BadRequestResponseFromJson;
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is BadRequestResponse &&
+            (identical(other.error, error) ||
+                const DeepCollectionEquality().equals(other.error, error)));
+  }
 
   @override
   String toString() => jsonEncode(this);
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode =>
+      const DeepCollectionEquality().hash(error) ^ runtimeType.hashCode;
+}
+
+extension $BadRequestResponseExtension on BadRequestResponse {
+  BadRequestResponse copyWith({BadRequestResponse$Error? error}) {
+    return BadRequestResponse(error: error ?? this.error);
+  }
+
+  BadRequestResponse copyWithWrapped(
+      {Wrapped<BadRequestResponse$Error>? error}) {
+    return BadRequestResponse(
+        error: (error != null ? error.value : this.error));
+  }
 }
 
 @JsonSerializable(explicitToJson: true)
 class NotFoundResponse {
-  NotFoundResponse();
+  NotFoundResponse({
+    required this.error,
+  });
 
   factory NotFoundResponse.fromJson(Map<String, dynamic> json) =>
       _$NotFoundResponseFromJson(json);
 
-  static const fromJsonFactory = _$NotFoundResponseFromJson;
   static const toJsonFactory = _$NotFoundResponseToJson;
   Map<String, dynamic> toJson() => _$NotFoundResponseToJson(this);
+
+  @JsonKey(name: 'error')
+  final NotFoundResponse$Error error;
+  static const fromJsonFactory = _$NotFoundResponseFromJson;
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is NotFoundResponse &&
+            (identical(other.error, error) ||
+                const DeepCollectionEquality().equals(other.error, error)));
+  }
 
   @override
   String toString() => jsonEncode(this);
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode =>
+      const DeepCollectionEquality().hash(error) ^ runtimeType.hashCode;
+}
+
+extension $NotFoundResponseExtension on NotFoundResponse {
+  NotFoundResponse copyWith({NotFoundResponse$Error? error}) {
+    return NotFoundResponse(error: error ?? this.error);
+  }
+
+  NotFoundResponse copyWithWrapped({Wrapped<NotFoundResponse$Error>? error}) {
+    return NotFoundResponse(error: (error != null ? error.value : this.error));
+  }
 }
 
 @JsonSerializable(explicitToJson: true)
 class InternalErrorResponse {
-  InternalErrorResponse();
+  InternalErrorResponse({
+    required this.error,
+  });
 
   factory InternalErrorResponse.fromJson(Map<String, dynamic> json) =>
       _$InternalErrorResponseFromJson(json);
 
-  static const fromJsonFactory = _$InternalErrorResponseFromJson;
   static const toJsonFactory = _$InternalErrorResponseToJson;
   Map<String, dynamic> toJson() => _$InternalErrorResponseToJson(this);
+
+  @JsonKey(name: 'error')
+  final InternalErrorResponse$Error error;
+  static const fromJsonFactory = _$InternalErrorResponseFromJson;
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is InternalErrorResponse &&
+            (identical(other.error, error) ||
+                const DeepCollectionEquality().equals(other.error, error)));
+  }
 
   @override
   String toString() => jsonEncode(this);
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode =>
+      const DeepCollectionEquality().hash(error) ^ runtimeType.hashCode;
+}
+
+extension $InternalErrorResponseExtension on InternalErrorResponse {
+  InternalErrorResponse copyWith({InternalErrorResponse$Error? error}) {
+    return InternalErrorResponse(error: error ?? this.error);
+  }
+
+  InternalErrorResponse copyWithWrapped(
+      {Wrapped<InternalErrorResponse$Error>? error}) {
+    return InternalErrorResponse(
+        error: (error != null ? error.value : this.error));
+  }
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -1920,14 +2378,12 @@ class InfoResponse {
   factory InfoResponse.fromJson(Map<String, dynamic> json) =>
       _$InfoResponseFromJson(json);
 
-  @JsonKey(name: 'data')
-  final InfoResponse$Data data;
-  static const fromJsonFactory = _$InfoResponseFromJson;
   static const toJsonFactory = _$InfoResponseToJson;
   Map<String, dynamic> toJson() => _$InfoResponseToJson(this);
 
-  @override
-  String toString() => jsonEncode(this);
+  @JsonKey(name: 'data')
+  final InfoResponse$Data data;
+  static const fromJsonFactory = _$InfoResponseFromJson;
 
   @override
   bool operator ==(dynamic other) {
@@ -1938,6 +2394,9 @@ class InfoResponse {
   }
 
   @override
+  String toString() => jsonEncode(this);
+
+  @override
   int get hashCode =>
       const DeepCollectionEquality().hash(data) ^ runtimeType.hashCode;
 }
@@ -1945,6 +2404,10 @@ class InfoResponse {
 extension $InfoResponseExtension on InfoResponse {
   InfoResponse copyWith({InfoResponse$Data? data}) {
     return InfoResponse(data: data ?? this.data);
+  }
+
+  InfoResponse copyWithWrapped({Wrapped<InfoResponse$Data>? data}) {
+    return InfoResponse(data: (data != null ? data.value : this.data));
   }
 }
 
@@ -1957,14 +2420,12 @@ class TipsResponse {
   factory TipsResponse.fromJson(Map<String, dynamic> json) =>
       _$TipsResponseFromJson(json);
 
-  @JsonKey(name: 'data')
-  final TipsResponse$Data data;
-  static const fromJsonFactory = _$TipsResponseFromJson;
   static const toJsonFactory = _$TipsResponseToJson;
   Map<String, dynamic> toJson() => _$TipsResponseToJson(this);
 
-  @override
-  String toString() => jsonEncode(this);
+  @JsonKey(name: 'data')
+  final TipsResponse$Data data;
+  static const fromJsonFactory = _$TipsResponseFromJson;
 
   @override
   bool operator ==(dynamic other) {
@@ -1975,6 +2436,9 @@ class TipsResponse {
   }
 
   @override
+  String toString() => jsonEncode(this);
+
+  @override
   int get hashCode =>
       const DeepCollectionEquality().hash(data) ^ runtimeType.hashCode;
 }
@@ -1982,6 +2446,10 @@ class TipsResponse {
 extension $TipsResponseExtension on TipsResponse {
   TipsResponse copyWith({TipsResponse$Data? data}) {
     return TipsResponse(data: data ?? this.data);
+  }
+
+  TipsResponse copyWithWrapped({Wrapped<TipsResponse$Data>? data}) {
+    return TipsResponse(data: (data != null ? data.value : this.data));
   }
 }
 
@@ -1997,6 +2465,9 @@ class SubmitMessageRequest {
   factory SubmitMessageRequest.fromJson(Map<String, dynamic> json) =>
       _$SubmitMessageRequestFromJson(json);
 
+  static const toJsonFactory = _$SubmitMessageRequestToJson;
+  Map<String, dynamic> toJson() => _$SubmitMessageRequestToJson(this);
+
   @JsonKey(name: 'networkId')
   final String? networkId;
   @JsonKey(name: 'parentMessageIds', defaultValue: <String>[])
@@ -2006,11 +2477,6 @@ class SubmitMessageRequest {
   @JsonKey(name: 'nonce')
   final String? nonce;
   static const fromJsonFactory = _$SubmitMessageRequestFromJson;
-  static const toJsonFactory = _$SubmitMessageRequestToJson;
-  Map<String, dynamic> toJson() => _$SubmitMessageRequestToJson(this);
-
-  @override
-  String toString() => jsonEncode(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -2028,6 +2494,9 @@ class SubmitMessageRequest {
             (identical(other.nonce, nonce) ||
                 const DeepCollectionEquality().equals(other.nonce, nonce)));
   }
+
+  @override
+  String toString() => jsonEncode(this);
 
   @override
   int get hashCode =>
@@ -2050,6 +2519,20 @@ extension $SubmitMessageRequestExtension on SubmitMessageRequest {
         payload: payload ?? this.payload,
         nonce: nonce ?? this.nonce);
   }
+
+  SubmitMessageRequest copyWithWrapped(
+      {Wrapped<String?>? networkId,
+      Wrapped<List<String>?>? parentMessageIds,
+      Wrapped<dynamic>? payload,
+      Wrapped<String?>? nonce}) {
+    return SubmitMessageRequest(
+        networkId: (networkId != null ? networkId.value : this.networkId),
+        parentMessageIds: (parentMessageIds != null
+            ? parentMessageIds.value
+            : this.parentMessageIds),
+        payload: (payload != null ? payload.value : this.payload),
+        nonce: (nonce != null ? nonce.value : this.nonce));
+  }
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -2061,14 +2544,12 @@ class SubmitMessageResponse {
   factory SubmitMessageResponse.fromJson(Map<String, dynamic> json) =>
       _$SubmitMessageResponseFromJson(json);
 
-  @JsonKey(name: 'data')
-  final SubmitMessageResponse$Data data;
-  static const fromJsonFactory = _$SubmitMessageResponseFromJson;
   static const toJsonFactory = _$SubmitMessageResponseToJson;
   Map<String, dynamic> toJson() => _$SubmitMessageResponseToJson(this);
 
-  @override
-  String toString() => jsonEncode(this);
+  @JsonKey(name: 'data')
+  final SubmitMessageResponse$Data data;
+  static const fromJsonFactory = _$SubmitMessageResponseFromJson;
 
   @override
   bool operator ==(dynamic other) {
@@ -2079,6 +2560,9 @@ class SubmitMessageResponse {
   }
 
   @override
+  String toString() => jsonEncode(this);
+
+  @override
   int get hashCode =>
       const DeepCollectionEquality().hash(data) ^ runtimeType.hashCode;
 }
@@ -2086,6 +2570,11 @@ class SubmitMessageResponse {
 extension $SubmitMessageResponseExtension on SubmitMessageResponse {
   SubmitMessageResponse copyWith({SubmitMessageResponse$Data? data}) {
     return SubmitMessageResponse(data: data ?? this.data);
+  }
+
+  SubmitMessageResponse copyWithWrapped(
+      {Wrapped<SubmitMessageResponse$Data>? data}) {
+    return SubmitMessageResponse(data: (data != null ? data.value : this.data));
   }
 }
 
@@ -2098,14 +2587,12 @@ class MessagesFindResponse {
   factory MessagesFindResponse.fromJson(Map<String, dynamic> json) =>
       _$MessagesFindResponseFromJson(json);
 
-  @JsonKey(name: 'data')
-  final MessagesFindResponse$Data data;
-  static const fromJsonFactory = _$MessagesFindResponseFromJson;
   static const toJsonFactory = _$MessagesFindResponseToJson;
   Map<String, dynamic> toJson() => _$MessagesFindResponseToJson(this);
 
-  @override
-  String toString() => jsonEncode(this);
+  @JsonKey(name: 'data')
+  final MessagesFindResponse$Data data;
+  static const fromJsonFactory = _$MessagesFindResponseFromJson;
 
   @override
   bool operator ==(dynamic other) {
@@ -2116,6 +2603,9 @@ class MessagesFindResponse {
   }
 
   @override
+  String toString() => jsonEncode(this);
+
+  @override
   int get hashCode =>
       const DeepCollectionEquality().hash(data) ^ runtimeType.hashCode;
 }
@@ -2123,6 +2613,11 @@ class MessagesFindResponse {
 extension $MessagesFindResponseExtension on MessagesFindResponse {
   MessagesFindResponse copyWith({MessagesFindResponse$Data? data}) {
     return MessagesFindResponse(data: data ?? this.data);
+  }
+
+  MessagesFindResponse copyWithWrapped(
+      {Wrapped<MessagesFindResponse$Data>? data}) {
+    return MessagesFindResponse(data: (data != null ? data.value : this.data));
   }
 }
 
@@ -2135,14 +2630,12 @@ class MessageMetadataResponse {
   factory MessageMetadataResponse.fromJson(Map<String, dynamic> json) =>
       _$MessageMetadataResponseFromJson(json);
 
-  @JsonKey(name: 'data')
-  final MessageMetadataResponse$Data data;
-  static const fromJsonFactory = _$MessageMetadataResponseFromJson;
   static const toJsonFactory = _$MessageMetadataResponseToJson;
   Map<String, dynamic> toJson() => _$MessageMetadataResponseToJson(this);
 
-  @override
-  String toString() => jsonEncode(this);
+  @JsonKey(name: 'data')
+  final MessageMetadataResponse$Data data;
+  static const fromJsonFactory = _$MessageMetadataResponseFromJson;
 
   @override
   bool operator ==(dynamic other) {
@@ -2153,6 +2646,9 @@ class MessageMetadataResponse {
   }
 
   @override
+  String toString() => jsonEncode(this);
+
+  @override
   int get hashCode =>
       const DeepCollectionEquality().hash(data) ^ runtimeType.hashCode;
 }
@@ -2160,6 +2656,12 @@ class MessageMetadataResponse {
 extension $MessageMetadataResponseExtension on MessageMetadataResponse {
   MessageMetadataResponse copyWith({MessageMetadataResponse$Data? data}) {
     return MessageMetadataResponse(data: data ?? this.data);
+  }
+
+  MessageMetadataResponse copyWithWrapped(
+      {Wrapped<MessageMetadataResponse$Data>? data}) {
+    return MessageMetadataResponse(
+        data: (data != null ? data.value : this.data));
   }
 }
 
@@ -2172,14 +2674,12 @@ class MessageResponse {
   factory MessageResponse.fromJson(Map<String, dynamic> json) =>
       _$MessageResponseFromJson(json);
 
-  @JsonKey(name: 'data')
-  final MessageResponse$Data data;
-  static const fromJsonFactory = _$MessageResponseFromJson;
   static const toJsonFactory = _$MessageResponseToJson;
   Map<String, dynamic> toJson() => _$MessageResponseToJson(this);
 
-  @override
-  String toString() => jsonEncode(this);
+  @JsonKey(name: 'data')
+  final MessageResponse$Data data;
+  static const fromJsonFactory = _$MessageResponseFromJson;
 
   @override
   bool operator ==(dynamic other) {
@@ -2190,6 +2690,9 @@ class MessageResponse {
   }
 
   @override
+  String toString() => jsonEncode(this);
+
+  @override
   int get hashCode =>
       const DeepCollectionEquality().hash(data) ^ runtimeType.hashCode;
 }
@@ -2197,6 +2700,10 @@ class MessageResponse {
 extension $MessageResponseExtension on MessageResponse {
   MessageResponse copyWith({MessageResponse$Data? data}) {
     return MessageResponse(data: data ?? this.data);
+  }
+
+  MessageResponse copyWithWrapped({Wrapped<MessageResponse$Data>? data}) {
+    return MessageResponse(data: (data != null ? data.value : this.data));
   }
 }
 
@@ -2209,14 +2716,12 @@ class MessageChildrenResponse {
   factory MessageChildrenResponse.fromJson(Map<String, dynamic> json) =>
       _$MessageChildrenResponseFromJson(json);
 
-  @JsonKey(name: 'data')
-  final MessageChildrenResponse$Data data;
-  static const fromJsonFactory = _$MessageChildrenResponseFromJson;
   static const toJsonFactory = _$MessageChildrenResponseToJson;
   Map<String, dynamic> toJson() => _$MessageChildrenResponseToJson(this);
 
-  @override
-  String toString() => jsonEncode(this);
+  @JsonKey(name: 'data')
+  final MessageChildrenResponse$Data data;
+  static const fromJsonFactory = _$MessageChildrenResponseFromJson;
 
   @override
   bool operator ==(dynamic other) {
@@ -2227,6 +2732,9 @@ class MessageChildrenResponse {
   }
 
   @override
+  String toString() => jsonEncode(this);
+
+  @override
   int get hashCode =>
       const DeepCollectionEquality().hash(data) ^ runtimeType.hashCode;
 }
@@ -2234,6 +2742,12 @@ class MessageChildrenResponse {
 extension $MessageChildrenResponseExtension on MessageChildrenResponse {
   MessageChildrenResponse copyWith({MessageChildrenResponse$Data? data}) {
     return MessageChildrenResponse(data: data ?? this.data);
+  }
+
+  MessageChildrenResponse copyWithWrapped(
+      {Wrapped<MessageChildrenResponse$Data>? data}) {
+    return MessageChildrenResponse(
+        data: (data != null ? data.value : this.data));
   }
 }
 
@@ -2246,14 +2760,12 @@ class OutputResponse {
   factory OutputResponse.fromJson(Map<String, dynamic> json) =>
       _$OutputResponseFromJson(json);
 
-  @JsonKey(name: 'data')
-  final OutputResponse$Data data;
-  static const fromJsonFactory = _$OutputResponseFromJson;
   static const toJsonFactory = _$OutputResponseToJson;
   Map<String, dynamic> toJson() => _$OutputResponseToJson(this);
 
-  @override
-  String toString() => jsonEncode(this);
+  @JsonKey(name: 'data')
+  final OutputResponse$Data data;
+  static const fromJsonFactory = _$OutputResponseFromJson;
 
   @override
   bool operator ==(dynamic other) {
@@ -2264,6 +2776,9 @@ class OutputResponse {
   }
 
   @override
+  String toString() => jsonEncode(this);
+
+  @override
   int get hashCode =>
       const DeepCollectionEquality().hash(data) ^ runtimeType.hashCode;
 }
@@ -2271,6 +2786,10 @@ class OutputResponse {
 extension $OutputResponseExtension on OutputResponse {
   OutputResponse copyWith({OutputResponse$Data? data}) {
     return OutputResponse(data: data ?? this.data);
+  }
+
+  OutputResponse copyWithWrapped({Wrapped<OutputResponse$Data>? data}) {
+    return OutputResponse(data: (data != null ? data.value : this.data));
   }
 }
 
@@ -2283,14 +2802,12 @@ class BalanceAddressResponse {
   factory BalanceAddressResponse.fromJson(Map<String, dynamic> json) =>
       _$BalanceAddressResponseFromJson(json);
 
-  @JsonKey(name: 'data')
-  final BalanceAddressResponse$Data data;
-  static const fromJsonFactory = _$BalanceAddressResponseFromJson;
   static const toJsonFactory = _$BalanceAddressResponseToJson;
   Map<String, dynamic> toJson() => _$BalanceAddressResponseToJson(this);
 
-  @override
-  String toString() => jsonEncode(this);
+  @JsonKey(name: 'data')
+  final BalanceAddressResponse$Data data;
+  static const fromJsonFactory = _$BalanceAddressResponseFromJson;
 
   @override
   bool operator ==(dynamic other) {
@@ -2301,6 +2818,9 @@ class BalanceAddressResponse {
   }
 
   @override
+  String toString() => jsonEncode(this);
+
+  @override
   int get hashCode =>
       const DeepCollectionEquality().hash(data) ^ runtimeType.hashCode;
 }
@@ -2308,6 +2828,12 @@ class BalanceAddressResponse {
 extension $BalanceAddressResponseExtension on BalanceAddressResponse {
   BalanceAddressResponse copyWith({BalanceAddressResponse$Data? data}) {
     return BalanceAddressResponse(data: data ?? this.data);
+  }
+
+  BalanceAddressResponse copyWithWrapped(
+      {Wrapped<BalanceAddressResponse$Data>? data}) {
+    return BalanceAddressResponse(
+        data: (data != null ? data.value : this.data));
   }
 }
 
@@ -2320,14 +2846,12 @@ class OutputsAddressResponse {
   factory OutputsAddressResponse.fromJson(Map<String, dynamic> json) =>
       _$OutputsAddressResponseFromJson(json);
 
-  @JsonKey(name: 'data')
-  final OutputsAddressResponse$Data data;
-  static const fromJsonFactory = _$OutputsAddressResponseFromJson;
   static const toJsonFactory = _$OutputsAddressResponseToJson;
   Map<String, dynamic> toJson() => _$OutputsAddressResponseToJson(this);
 
-  @override
-  String toString() => jsonEncode(this);
+  @JsonKey(name: 'data')
+  final OutputsAddressResponse$Data data;
+  static const fromJsonFactory = _$OutputsAddressResponseFromJson;
 
   @override
   bool operator ==(dynamic other) {
@@ -2338,6 +2862,9 @@ class OutputsAddressResponse {
   }
 
   @override
+  String toString() => jsonEncode(this);
+
+  @override
   int get hashCode =>
       const DeepCollectionEquality().hash(data) ^ runtimeType.hashCode;
 }
@@ -2345,6 +2872,12 @@ class OutputsAddressResponse {
 extension $OutputsAddressResponseExtension on OutputsAddressResponse {
   OutputsAddressResponse copyWith({OutputsAddressResponse$Data? data}) {
     return OutputsAddressResponse(data: data ?? this.data);
+  }
+
+  OutputsAddressResponse copyWithWrapped(
+      {Wrapped<OutputsAddressResponse$Data>? data}) {
+    return OutputsAddressResponse(
+        data: (data != null ? data.value : this.data));
   }
 }
 
@@ -2357,14 +2890,12 @@ class ReceiptsResponse {
   factory ReceiptsResponse.fromJson(Map<String, dynamic> json) =>
       _$ReceiptsResponseFromJson(json);
 
-  @JsonKey(name: 'data')
-  final ReceiptsResponse$Data data;
-  static const fromJsonFactory = _$ReceiptsResponseFromJson;
   static const toJsonFactory = _$ReceiptsResponseToJson;
   Map<String, dynamic> toJson() => _$ReceiptsResponseToJson(this);
 
-  @override
-  String toString() => jsonEncode(this);
+  @JsonKey(name: 'data')
+  final ReceiptsResponse$Data data;
+  static const fromJsonFactory = _$ReceiptsResponseFromJson;
 
   @override
   bool operator ==(dynamic other) {
@@ -2375,6 +2906,9 @@ class ReceiptsResponse {
   }
 
   @override
+  String toString() => jsonEncode(this);
+
+  @override
   int get hashCode =>
       const DeepCollectionEquality().hash(data) ^ runtimeType.hashCode;
 }
@@ -2382,6 +2916,10 @@ class ReceiptsResponse {
 extension $ReceiptsResponseExtension on ReceiptsResponse {
   ReceiptsResponse copyWith({ReceiptsResponse$Data? data}) {
     return ReceiptsResponse(data: data ?? this.data);
+  }
+
+  ReceiptsResponse copyWithWrapped({Wrapped<ReceiptsResponse$Data>? data}) {
+    return ReceiptsResponse(data: (data != null ? data.value : this.data));
   }
 }
 
@@ -2394,14 +2932,12 @@ class TreasuryResponse {
   factory TreasuryResponse.fromJson(Map<String, dynamic> json) =>
       _$TreasuryResponseFromJson(json);
 
-  @JsonKey(name: 'data')
-  final TreasuryResponse$Data data;
-  static const fromJsonFactory = _$TreasuryResponseFromJson;
   static const toJsonFactory = _$TreasuryResponseToJson;
   Map<String, dynamic> toJson() => _$TreasuryResponseToJson(this);
 
-  @override
-  String toString() => jsonEncode(this);
+  @JsonKey(name: 'data')
+  final TreasuryResponse$Data data;
+  static const fromJsonFactory = _$TreasuryResponseFromJson;
 
   @override
   bool operator ==(dynamic other) {
@@ -2412,6 +2948,9 @@ class TreasuryResponse {
   }
 
   @override
+  String toString() => jsonEncode(this);
+
+  @override
   int get hashCode =>
       const DeepCollectionEquality().hash(data) ^ runtimeType.hashCode;
 }
@@ -2419,6 +2958,10 @@ class TreasuryResponse {
 extension $TreasuryResponseExtension on TreasuryResponse {
   TreasuryResponse copyWith({TreasuryResponse$Data? data}) {
     return TreasuryResponse(data: data ?? this.data);
+  }
+
+  TreasuryResponse copyWithWrapped({Wrapped<TreasuryResponse$Data>? data}) {
+    return TreasuryResponse(data: (data != null ? data.value : this.data));
   }
 }
 
@@ -2431,14 +2974,12 @@ class MilestoneResponse {
   factory MilestoneResponse.fromJson(Map<String, dynamic> json) =>
       _$MilestoneResponseFromJson(json);
 
-  @JsonKey(name: 'data')
-  final MilestoneResponse$Data data;
-  static const fromJsonFactory = _$MilestoneResponseFromJson;
   static const toJsonFactory = _$MilestoneResponseToJson;
   Map<String, dynamic> toJson() => _$MilestoneResponseToJson(this);
 
-  @override
-  String toString() => jsonEncode(this);
+  @JsonKey(name: 'data')
+  final MilestoneResponse$Data data;
+  static const fromJsonFactory = _$MilestoneResponseFromJson;
 
   @override
   bool operator ==(dynamic other) {
@@ -2449,6 +2990,9 @@ class MilestoneResponse {
   }
 
   @override
+  String toString() => jsonEncode(this);
+
+  @override
   int get hashCode =>
       const DeepCollectionEquality().hash(data) ^ runtimeType.hashCode;
 }
@@ -2456,6 +3000,10 @@ class MilestoneResponse {
 extension $MilestoneResponseExtension on MilestoneResponse {
   MilestoneResponse copyWith({MilestoneResponse$Data? data}) {
     return MilestoneResponse(data: data ?? this.data);
+  }
+
+  MilestoneResponse copyWithWrapped({Wrapped<MilestoneResponse$Data>? data}) {
+    return MilestoneResponse(data: (data != null ? data.value : this.data));
   }
 }
 
@@ -2468,14 +3016,12 @@ class UTXOChangesResponse {
   factory UTXOChangesResponse.fromJson(Map<String, dynamic> json) =>
       _$UTXOChangesResponseFromJson(json);
 
-  @JsonKey(name: 'data')
-  final UTXOChangesResponse$Data data;
-  static const fromJsonFactory = _$UTXOChangesResponseFromJson;
   static const toJsonFactory = _$UTXOChangesResponseToJson;
   Map<String, dynamic> toJson() => _$UTXOChangesResponseToJson(this);
 
-  @override
-  String toString() => jsonEncode(this);
+  @JsonKey(name: 'data')
+  final UTXOChangesResponse$Data data;
+  static const fromJsonFactory = _$UTXOChangesResponseFromJson;
 
   @override
   bool operator ==(dynamic other) {
@@ -2486,6 +3032,9 @@ class UTXOChangesResponse {
   }
 
   @override
+  String toString() => jsonEncode(this);
+
+  @override
   int get hashCode =>
       const DeepCollectionEquality().hash(data) ^ runtimeType.hashCode;
 }
@@ -2493,6 +3042,11 @@ class UTXOChangesResponse {
 extension $UTXOChangesResponseExtension on UTXOChangesResponse {
   UTXOChangesResponse copyWith({UTXOChangesResponse$Data? data}) {
     return UTXOChangesResponse(data: data ?? this.data);
+  }
+
+  UTXOChangesResponse copyWithWrapped(
+      {Wrapped<UTXOChangesResponse$Data>? data}) {
+    return UTXOChangesResponse(data: (data != null ? data.value : this.data));
   }
 }
 
@@ -2505,14 +3059,12 @@ class PeersResponse {
   factory PeersResponse.fromJson(Map<String, dynamic> json) =>
       _$PeersResponseFromJson(json);
 
-  @JsonKey(name: 'data', defaultValue: <Peer>[])
-  final List<Peer> data;
-  static const fromJsonFactory = _$PeersResponseFromJson;
   static const toJsonFactory = _$PeersResponseToJson;
   Map<String, dynamic> toJson() => _$PeersResponseToJson(this);
 
-  @override
-  String toString() => jsonEncode(this);
+  @JsonKey(name: 'data', defaultValue: <Peer>[])
+  final List<Peer> data;
+  static const fromJsonFactory = _$PeersResponseFromJson;
 
   @override
   bool operator ==(dynamic other) {
@@ -2523,6 +3075,9 @@ class PeersResponse {
   }
 
   @override
+  String toString() => jsonEncode(this);
+
+  @override
   int get hashCode =>
       const DeepCollectionEquality().hash(data) ^ runtimeType.hashCode;
 }
@@ -2530,6 +3085,10 @@ class PeersResponse {
 extension $PeersResponseExtension on PeersResponse {
   PeersResponse copyWith({List<Peer>? data}) {
     return PeersResponse(data: data ?? this.data);
+  }
+
+  PeersResponse copyWithWrapped({Wrapped<List<Peer>>? data}) {
+    return PeersResponse(data: (data != null ? data.value : this.data));
   }
 }
 
@@ -2542,14 +3101,12 @@ class PeerResponse {
   factory PeerResponse.fromJson(Map<String, dynamic> json) =>
       _$PeerResponseFromJson(json);
 
-  @JsonKey(name: 'data')
-  final Peer data;
-  static const fromJsonFactory = _$PeerResponseFromJson;
   static const toJsonFactory = _$PeerResponseToJson;
   Map<String, dynamic> toJson() => _$PeerResponseToJson(this);
 
-  @override
-  String toString() => jsonEncode(this);
+  @JsonKey(name: 'data')
+  final Peer data;
+  static const fromJsonFactory = _$PeerResponseFromJson;
 
   @override
   bool operator ==(dynamic other) {
@@ -2560,6 +3117,9 @@ class PeerResponse {
   }
 
   @override
+  String toString() => jsonEncode(this);
+
+  @override
   int get hashCode =>
       const DeepCollectionEquality().hash(data) ^ runtimeType.hashCode;
 }
@@ -2567,6 +3127,10 @@ class PeerResponse {
 extension $PeerResponseExtension on PeerResponse {
   PeerResponse copyWith({Peer? data}) {
     return PeerResponse(data: data ?? this.data);
+  }
+
+  PeerResponse copyWithWrapped({Wrapped<Peer>? data}) {
+    return PeerResponse(data: (data != null ? data.value : this.data));
   }
 }
 
@@ -2580,16 +3144,14 @@ class AddPeerRequest {
   factory AddPeerRequest.fromJson(Map<String, dynamic> json) =>
       _$AddPeerRequestFromJson(json);
 
+  static const toJsonFactory = _$AddPeerRequestToJson;
+  Map<String, dynamic> toJson() => _$AddPeerRequestToJson(this);
+
   @JsonKey(name: 'multiAddress')
   final String multiAddress;
   @JsonKey(name: 'alias')
   final String? alias;
   static const fromJsonFactory = _$AddPeerRequestFromJson;
-  static const toJsonFactory = _$AddPeerRequestToJson;
-  Map<String, dynamic> toJson() => _$AddPeerRequestToJson(this);
-
-  @override
-  String toString() => jsonEncode(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -2601,6 +3163,9 @@ class AddPeerRequest {
             (identical(other.alias, alias) ||
                 const DeepCollectionEquality().equals(other.alias, alias)));
   }
+
+  @override
+  String toString() => jsonEncode(this);
 
   @override
   int get hashCode =>
@@ -2615,6 +3180,14 @@ extension $AddPeerRequestExtension on AddPeerRequest {
         multiAddress: multiAddress ?? this.multiAddress,
         alias: alias ?? this.alias);
   }
+
+  AddPeerRequest copyWithWrapped(
+      {Wrapped<String>? multiAddress, Wrapped<String?>? alias}) {
+    return AddPeerRequest(
+        multiAddress:
+            (multiAddress != null ? multiAddress.value : this.multiAddress),
+        alias: (alias != null ? alias.value : this.alias));
+  }
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -2626,14 +3199,12 @@ class AddPeerResponse {
   factory AddPeerResponse.fromJson(Map<String, dynamic> json) =>
       _$AddPeerResponseFromJson(json);
 
-  @JsonKey(name: 'data')
-  final Peer data;
-  static const fromJsonFactory = _$AddPeerResponseFromJson;
   static const toJsonFactory = _$AddPeerResponseToJson;
   Map<String, dynamic> toJson() => _$AddPeerResponseToJson(this);
 
-  @override
-  String toString() => jsonEncode(this);
+  @JsonKey(name: 'data')
+  final Peer data;
+  static const fromJsonFactory = _$AddPeerResponseFromJson;
 
   @override
   bool operator ==(dynamic other) {
@@ -2644,6 +3215,9 @@ class AddPeerResponse {
   }
 
   @override
+  String toString() => jsonEncode(this);
+
+  @override
   int get hashCode =>
       const DeepCollectionEquality().hash(data) ^ runtimeType.hashCode;
 }
@@ -2651,6 +3225,10 @@ class AddPeerResponse {
 extension $AddPeerResponseExtension on AddPeerResponse {
   AddPeerResponse copyWith({Peer? data}) {
     return AddPeerResponse(data: data ?? this.data);
+  }
+
+  AddPeerResponse copyWithWrapped({Wrapped<Peer>? data}) {
+    return AddPeerResponse(data: (data != null ? data.value : this.data));
   }
 }
 
@@ -2664,16 +3242,14 @@ class ErrorResponse$Error {
   factory ErrorResponse$Error.fromJson(Map<String, dynamic> json) =>
       _$ErrorResponse$ErrorFromJson(json);
 
+  static const toJsonFactory = _$ErrorResponse$ErrorToJson;
+  Map<String, dynamic> toJson() => _$ErrorResponse$ErrorToJson(this);
+
   @JsonKey(name: 'code')
   final String code;
   @JsonKey(name: 'message')
   final String message;
   static const fromJsonFactory = _$ErrorResponse$ErrorFromJson;
-  static const toJsonFactory = _$ErrorResponse$ErrorToJson;
-  Map<String, dynamic> toJson() => _$ErrorResponse$ErrorToJson(this);
-
-  @override
-  String toString() => jsonEncode(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -2684,6 +3260,9 @@ class ErrorResponse$Error {
             (identical(other.message, message) ||
                 const DeepCollectionEquality().equals(other.message, message)));
   }
+
+  @override
+  String toString() => jsonEncode(this);
 
   @override
   int get hashCode =>
@@ -2697,6 +3276,13 @@ extension $ErrorResponse$ErrorExtension on ErrorResponse$Error {
     return ErrorResponse$Error(
         code: code ?? this.code, message: message ?? this.message);
   }
+
+  ErrorResponse$Error copyWithWrapped(
+      {Wrapped<String>? code, Wrapped<String>? message}) {
+    return ErrorResponse$Error(
+        code: (code != null ? code.value : this.code),
+        message: (message != null ? message.value : this.message));
+  }
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -2709,16 +3295,14 @@ class ForbiddenResponse$Error {
   factory ForbiddenResponse$Error.fromJson(Map<String, dynamic> json) =>
       _$ForbiddenResponse$ErrorFromJson(json);
 
+  static const toJsonFactory = _$ForbiddenResponse$ErrorToJson;
+  Map<String, dynamic> toJson() => _$ForbiddenResponse$ErrorToJson(this);
+
   @JsonKey(name: 'code')
   final String code;
   @JsonKey(name: 'message')
   final String message;
   static const fromJsonFactory = _$ForbiddenResponse$ErrorFromJson;
-  static const toJsonFactory = _$ForbiddenResponse$ErrorToJson;
-  Map<String, dynamic> toJson() => _$ForbiddenResponse$ErrorToJson(this);
-
-  @override
-  String toString() => jsonEncode(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -2731,6 +3315,9 @@ class ForbiddenResponse$Error {
   }
 
   @override
+  String toString() => jsonEncode(this);
+
+  @override
   int get hashCode =>
       const DeepCollectionEquality().hash(code) ^
       const DeepCollectionEquality().hash(message) ^
@@ -2741,6 +3328,13 @@ extension $ForbiddenResponse$ErrorExtension on ForbiddenResponse$Error {
   ForbiddenResponse$Error copyWith({String? code, String? message}) {
     return ForbiddenResponse$Error(
         code: code ?? this.code, message: message ?? this.message);
+  }
+
+  ForbiddenResponse$Error copyWithWrapped(
+      {Wrapped<String>? code, Wrapped<String>? message}) {
+    return ForbiddenResponse$Error(
+        code: (code != null ? code.value : this.code),
+        message: (message != null ? message.value : this.message));
   }
 }
 
@@ -2755,17 +3349,15 @@ class ServiceUnavailableResponse$Error {
           Map<String, dynamic> json) =>
       _$ServiceUnavailableResponse$ErrorFromJson(json);
 
+  static const toJsonFactory = _$ServiceUnavailableResponse$ErrorToJson;
+  Map<String, dynamic> toJson() =>
+      _$ServiceUnavailableResponse$ErrorToJson(this);
+
   @JsonKey(name: 'code')
   final String code;
   @JsonKey(name: 'message')
   final String message;
   static const fromJsonFactory = _$ServiceUnavailableResponse$ErrorFromJson;
-  static const toJsonFactory = _$ServiceUnavailableResponse$ErrorToJson;
-  Map<String, dynamic> toJson() =>
-      _$ServiceUnavailableResponse$ErrorToJson(this);
-
-  @override
-  String toString() => jsonEncode(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -2776,6 +3368,9 @@ class ServiceUnavailableResponse$Error {
             (identical(other.message, message) ||
                 const DeepCollectionEquality().equals(other.message, message)));
   }
+
+  @override
+  String toString() => jsonEncode(this);
 
   @override
   int get hashCode =>
@@ -2790,6 +3385,13 @@ extension $ServiceUnavailableResponse$ErrorExtension
     return ServiceUnavailableResponse$Error(
         code: code ?? this.code, message: message ?? this.message);
   }
+
+  ServiceUnavailableResponse$Error copyWithWrapped(
+      {Wrapped<String>? code, Wrapped<String>? message}) {
+    return ServiceUnavailableResponse$Error(
+        code: (code != null ? code.value : this.code),
+        message: (message != null ? message.value : this.message));
+  }
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -2802,16 +3404,14 @@ class BadRequestResponse$Error {
   factory BadRequestResponse$Error.fromJson(Map<String, dynamic> json) =>
       _$BadRequestResponse$ErrorFromJson(json);
 
+  static const toJsonFactory = _$BadRequestResponse$ErrorToJson;
+  Map<String, dynamic> toJson() => _$BadRequestResponse$ErrorToJson(this);
+
   @JsonKey(name: 'code')
   final String code;
   @JsonKey(name: 'message')
   final String message;
   static const fromJsonFactory = _$BadRequestResponse$ErrorFromJson;
-  static const toJsonFactory = _$BadRequestResponse$ErrorToJson;
-  Map<String, dynamic> toJson() => _$BadRequestResponse$ErrorToJson(this);
-
-  @override
-  String toString() => jsonEncode(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -2822,6 +3422,9 @@ class BadRequestResponse$Error {
             (identical(other.message, message) ||
                 const DeepCollectionEquality().equals(other.message, message)));
   }
+
+  @override
+  String toString() => jsonEncode(this);
 
   @override
   int get hashCode =>
@@ -2835,6 +3438,13 @@ extension $BadRequestResponse$ErrorExtension on BadRequestResponse$Error {
     return BadRequestResponse$Error(
         code: code ?? this.code, message: message ?? this.message);
   }
+
+  BadRequestResponse$Error copyWithWrapped(
+      {Wrapped<String>? code, Wrapped<String>? message}) {
+    return BadRequestResponse$Error(
+        code: (code != null ? code.value : this.code),
+        message: (message != null ? message.value : this.message));
+  }
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -2847,16 +3457,14 @@ class NotFoundResponse$Error {
   factory NotFoundResponse$Error.fromJson(Map<String, dynamic> json) =>
       _$NotFoundResponse$ErrorFromJson(json);
 
+  static const toJsonFactory = _$NotFoundResponse$ErrorToJson;
+  Map<String, dynamic> toJson() => _$NotFoundResponse$ErrorToJson(this);
+
   @JsonKey(name: 'code')
   final String code;
   @JsonKey(name: 'message')
   final String message;
   static const fromJsonFactory = _$NotFoundResponse$ErrorFromJson;
-  static const toJsonFactory = _$NotFoundResponse$ErrorToJson;
-  Map<String, dynamic> toJson() => _$NotFoundResponse$ErrorToJson(this);
-
-  @override
-  String toString() => jsonEncode(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -2867,6 +3475,9 @@ class NotFoundResponse$Error {
             (identical(other.message, message) ||
                 const DeepCollectionEquality().equals(other.message, message)));
   }
+
+  @override
+  String toString() => jsonEncode(this);
 
   @override
   int get hashCode =>
@@ -2880,6 +3491,13 @@ extension $NotFoundResponse$ErrorExtension on NotFoundResponse$Error {
     return NotFoundResponse$Error(
         code: code ?? this.code, message: message ?? this.message);
   }
+
+  NotFoundResponse$Error copyWithWrapped(
+      {Wrapped<String>? code, Wrapped<String>? message}) {
+    return NotFoundResponse$Error(
+        code: (code != null ? code.value : this.code),
+        message: (message != null ? message.value : this.message));
+  }
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -2892,16 +3510,14 @@ class InternalErrorResponse$Error {
   factory InternalErrorResponse$Error.fromJson(Map<String, dynamic> json) =>
       _$InternalErrorResponse$ErrorFromJson(json);
 
+  static const toJsonFactory = _$InternalErrorResponse$ErrorToJson;
+  Map<String, dynamic> toJson() => _$InternalErrorResponse$ErrorToJson(this);
+
   @JsonKey(name: 'code')
   final String code;
   @JsonKey(name: 'message')
   final String message;
   static const fromJsonFactory = _$InternalErrorResponse$ErrorFromJson;
-  static const toJsonFactory = _$InternalErrorResponse$ErrorToJson;
-  Map<String, dynamic> toJson() => _$InternalErrorResponse$ErrorToJson(this);
-
-  @override
-  String toString() => jsonEncode(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -2914,6 +3530,9 @@ class InternalErrorResponse$Error {
   }
 
   @override
+  String toString() => jsonEncode(this);
+
+  @override
   int get hashCode =>
       const DeepCollectionEquality().hash(code) ^
       const DeepCollectionEquality().hash(message) ^
@@ -2924,6 +3543,13 @@ extension $InternalErrorResponse$ErrorExtension on InternalErrorResponse$Error {
   InternalErrorResponse$Error copyWith({String? code, String? message}) {
     return InternalErrorResponse$Error(
         code: code ?? this.code, message: message ?? this.message);
+  }
+
+  InternalErrorResponse$Error copyWithWrapped(
+      {Wrapped<String>? code, Wrapped<String>? message}) {
+    return InternalErrorResponse$Error(
+        code: (code != null ? code.value : this.code),
+        message: (message != null ? message.value : this.message));
   }
 }
 
@@ -2948,6 +3574,9 @@ class InfoResponse$Data {
 
   factory InfoResponse$Data.fromJson(Map<String, dynamic> json) =>
       _$InfoResponse$DataFromJson(json);
+
+  static const toJsonFactory = _$InfoResponse$DataToJson;
+  Map<String, dynamic> toJson() => _$InfoResponse$DataToJson(this);
 
   @JsonKey(name: 'name')
   final String name;
@@ -2978,11 +3607,6 @@ class InfoResponse$Data {
   @JsonKey(name: 'features', defaultValue: <String>[])
   final List<String> features;
   static const fromJsonFactory = _$InfoResponse$DataFromJson;
-  static const toJsonFactory = _$InfoResponse$DataToJson;
-  Map<String, dynamic> toJson() => _$InfoResponse$DataToJson(this);
-
-  @override
-  String toString() => jsonEncode(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -3034,6 +3658,9 @@ class InfoResponse$Data {
                 const DeepCollectionEquality()
                     .equals(other.features, features)));
   }
+
+  @override
+  String toString() => jsonEncode(this);
 
   @override
   int get hashCode =>
@@ -3089,6 +3716,52 @@ extension $InfoResponse$DataExtension on InfoResponse$Data {
         pruningIndex: pruningIndex ?? this.pruningIndex,
         features: features ?? this.features);
   }
+
+  InfoResponse$Data copyWithWrapped(
+      {Wrapped<String>? name,
+      Wrapped<String>? version,
+      Wrapped<bool>? isHealthy,
+      Wrapped<String>? networkId,
+      Wrapped<String>? bech32HRP,
+      Wrapped<double>? minPoWScore,
+      Wrapped<double>? messagesPerSecond,
+      Wrapped<double>? referencedMessagesPerSecond,
+      Wrapped<double>? referencedRate,
+      Wrapped<int>? latestMilestoneTimestamp,
+      Wrapped<int>? latestMilestoneIndex,
+      Wrapped<int>? confirmedMilestoneIndex,
+      Wrapped<int>? pruningIndex,
+      Wrapped<List<String>>? features}) {
+    return InfoResponse$Data(
+        name: (name != null ? name.value : this.name),
+        version: (version != null ? version.value : this.version),
+        isHealthy: (isHealthy != null ? isHealthy.value : this.isHealthy),
+        networkId: (networkId != null ? networkId.value : this.networkId),
+        bech32HRP: (bech32HRP != null ? bech32HRP.value : this.bech32HRP),
+        minPoWScore:
+            (minPoWScore != null ? minPoWScore.value : this.minPoWScore),
+        messagesPerSecond: (messagesPerSecond != null
+            ? messagesPerSecond.value
+            : this.messagesPerSecond),
+        referencedMessagesPerSecond: (referencedMessagesPerSecond != null
+            ? referencedMessagesPerSecond.value
+            : this.referencedMessagesPerSecond),
+        referencedRate: (referencedRate != null
+            ? referencedRate.value
+            : this.referencedRate),
+        latestMilestoneTimestamp: (latestMilestoneTimestamp != null
+            ? latestMilestoneTimestamp.value
+            : this.latestMilestoneTimestamp),
+        latestMilestoneIndex: (latestMilestoneIndex != null
+            ? latestMilestoneIndex.value
+            : this.latestMilestoneIndex),
+        confirmedMilestoneIndex: (confirmedMilestoneIndex != null
+            ? confirmedMilestoneIndex.value
+            : this.confirmedMilestoneIndex),
+        pruningIndex:
+            (pruningIndex != null ? pruningIndex.value : this.pruningIndex),
+        features: (features != null ? features.value : this.features));
+  }
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -3100,14 +3773,12 @@ class TipsResponse$Data {
   factory TipsResponse$Data.fromJson(Map<String, dynamic> json) =>
       _$TipsResponse$DataFromJson(json);
 
-  @JsonKey(name: 'tipMessageIds', defaultValue: <String>[])
-  final List<String> tipMessageIds;
-  static const fromJsonFactory = _$TipsResponse$DataFromJson;
   static const toJsonFactory = _$TipsResponse$DataToJson;
   Map<String, dynamic> toJson() => _$TipsResponse$DataToJson(this);
 
-  @override
-  String toString() => jsonEncode(this);
+  @JsonKey(name: 'tipMessageIds', defaultValue: <String>[])
+  final List<String> tipMessageIds;
+  static const fromJsonFactory = _$TipsResponse$DataFromJson;
 
   @override
   bool operator ==(dynamic other) {
@@ -3119,6 +3790,9 @@ class TipsResponse$Data {
   }
 
   @override
+  String toString() => jsonEncode(this);
+
+  @override
   int get hashCode =>
       const DeepCollectionEquality().hash(tipMessageIds) ^ runtimeType.hashCode;
 }
@@ -3127,6 +3801,12 @@ extension $TipsResponse$DataExtension on TipsResponse$Data {
   TipsResponse$Data copyWith({List<String>? tipMessageIds}) {
     return TipsResponse$Data(
         tipMessageIds: tipMessageIds ?? this.tipMessageIds);
+  }
+
+  TipsResponse$Data copyWithWrapped({Wrapped<List<String>>? tipMessageIds}) {
+    return TipsResponse$Data(
+        tipMessageIds:
+            (tipMessageIds != null ? tipMessageIds.value : this.tipMessageIds));
   }
 }
 
@@ -3139,14 +3819,12 @@ class SubmitMessageResponse$Data {
   factory SubmitMessageResponse$Data.fromJson(Map<String, dynamic> json) =>
       _$SubmitMessageResponse$DataFromJson(json);
 
-  @JsonKey(name: 'messageId')
-  final String messageId;
-  static const fromJsonFactory = _$SubmitMessageResponse$DataFromJson;
   static const toJsonFactory = _$SubmitMessageResponse$DataToJson;
   Map<String, dynamic> toJson() => _$SubmitMessageResponse$DataToJson(this);
 
-  @override
-  String toString() => jsonEncode(this);
+  @JsonKey(name: 'messageId')
+  final String messageId;
+  static const fromJsonFactory = _$SubmitMessageResponse$DataFromJson;
 
   @override
   bool operator ==(dynamic other) {
@@ -3158,6 +3836,9 @@ class SubmitMessageResponse$Data {
   }
 
   @override
+  String toString() => jsonEncode(this);
+
+  @override
   int get hashCode =>
       const DeepCollectionEquality().hash(messageId) ^ runtimeType.hashCode;
 }
@@ -3165,6 +3846,11 @@ class SubmitMessageResponse$Data {
 extension $SubmitMessageResponse$DataExtension on SubmitMessageResponse$Data {
   SubmitMessageResponse$Data copyWith({String? messageId}) {
     return SubmitMessageResponse$Data(messageId: messageId ?? this.messageId);
+  }
+
+  SubmitMessageResponse$Data copyWithWrapped({Wrapped<String>? messageId}) {
+    return SubmitMessageResponse$Data(
+        messageId: (messageId != null ? messageId.value : this.messageId));
   }
 }
 
@@ -3180,6 +3866,9 @@ class MessagesFindResponse$Data {
   factory MessagesFindResponse$Data.fromJson(Map<String, dynamic> json) =>
       _$MessagesFindResponse$DataFromJson(json);
 
+  static const toJsonFactory = _$MessagesFindResponse$DataToJson;
+  Map<String, dynamic> toJson() => _$MessagesFindResponse$DataToJson(this);
+
   @JsonKey(name: 'index')
   final String index;
   @JsonKey(name: 'maxResults')
@@ -3189,11 +3878,6 @@ class MessagesFindResponse$Data {
   @JsonKey(name: 'messageIds', defaultValue: <String>[])
   final List<String> messageIds;
   static const fromJsonFactory = _$MessagesFindResponse$DataFromJson;
-  static const toJsonFactory = _$MessagesFindResponse$DataToJson;
-  Map<String, dynamic> toJson() => _$MessagesFindResponse$DataToJson(this);
-
-  @override
-  String toString() => jsonEncode(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -3212,6 +3896,9 @@ class MessagesFindResponse$Data {
   }
 
   @override
+  String toString() => jsonEncode(this);
+
+  @override
   int get hashCode =>
       const DeepCollectionEquality().hash(index) ^
       const DeepCollectionEquality().hash(maxResults) ^
@@ -3228,6 +3915,18 @@ extension $MessagesFindResponse$DataExtension on MessagesFindResponse$Data {
         maxResults: maxResults ?? this.maxResults,
         count: count ?? this.count,
         messageIds: messageIds ?? this.messageIds);
+  }
+
+  MessagesFindResponse$Data copyWithWrapped(
+      {Wrapped<String>? index,
+      Wrapped<int>? maxResults,
+      Wrapped<int>? count,
+      Wrapped<List<String>>? messageIds}) {
+    return MessagesFindResponse$Data(
+        index: (index != null ? index.value : this.index),
+        maxResults: (maxResults != null ? maxResults.value : this.maxResults),
+        count: (count != null ? count.value : this.count),
+        messageIds: (messageIds != null ? messageIds.value : this.messageIds));
   }
 }
 
@@ -3248,6 +3947,9 @@ class MessageMetadataResponse$Data {
   factory MessageMetadataResponse$Data.fromJson(Map<String, dynamic> json) =>
       _$MessageMetadataResponse$DataFromJson(json);
 
+  static const toJsonFactory = _$MessageMetadataResponse$DataToJson;
+  Map<String, dynamic> toJson() => _$MessageMetadataResponse$DataToJson(this);
+
   @JsonKey(name: 'messageId')
   final String messageId;
   @JsonKey(name: 'parentMessageIds', defaultValue: <String>[])
@@ -3258,7 +3960,11 @@ class MessageMetadataResponse$Data {
   final int? referencedByMilestoneIndex;
   @JsonKey(name: 'milestoneIndex')
   final int? milestoneIndex;
-  @JsonKey(name: 'ledgerInclusionState')
+  @JsonKey(
+    name: 'ledgerInclusionState',
+    toJson: messageMetadataResponse$DataLedgerInclusionStateToJson,
+    fromJson: messageMetadataResponse$DataLedgerInclusionStateFromJson,
+  )
   final enums.MessageMetadataResponse$DataLedgerInclusionState?
       ledgerInclusionState;
   @JsonKey(name: 'conflictReason')
@@ -3268,11 +3974,6 @@ class MessageMetadataResponse$Data {
   @JsonKey(name: 'shouldReattach')
   final bool? shouldReattach;
   static const fromJsonFactory = _$MessageMetadataResponse$DataFromJson;
-  static const toJsonFactory = _$MessageMetadataResponse$DataToJson;
-  Map<String, dynamic> toJson() => _$MessageMetadataResponse$DataToJson(this);
-
-  @override
-  String toString() => jsonEncode(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -3308,6 +4009,9 @@ class MessageMetadataResponse$Data {
                 const DeepCollectionEquality()
                     .equals(other.shouldReattach, shouldReattach)));
   }
+
+  @override
+  String toString() => jsonEncode(this);
 
   @override
   int get hashCode =>
@@ -3348,6 +4052,42 @@ extension $MessageMetadataResponse$DataExtension
         shouldPromote: shouldPromote ?? this.shouldPromote,
         shouldReattach: shouldReattach ?? this.shouldReattach);
   }
+
+  MessageMetadataResponse$Data copyWithWrapped(
+      {Wrapped<String>? messageId,
+      Wrapped<List<String>>? parentMessageIds,
+      Wrapped<bool>? isSolid,
+      Wrapped<int?>? referencedByMilestoneIndex,
+      Wrapped<int?>? milestoneIndex,
+      Wrapped<enums.MessageMetadataResponse$DataLedgerInclusionState?>?
+          ledgerInclusionState,
+      Wrapped<int?>? conflictReason,
+      Wrapped<bool?>? shouldPromote,
+      Wrapped<bool?>? shouldReattach}) {
+    return MessageMetadataResponse$Data(
+        messageId: (messageId != null ? messageId.value : this.messageId),
+        parentMessageIds: (parentMessageIds != null
+            ? parentMessageIds.value
+            : this.parentMessageIds),
+        isSolid: (isSolid != null ? isSolid.value : this.isSolid),
+        referencedByMilestoneIndex: (referencedByMilestoneIndex != null
+            ? referencedByMilestoneIndex.value
+            : this.referencedByMilestoneIndex),
+        milestoneIndex: (milestoneIndex != null
+            ? milestoneIndex.value
+            : this.milestoneIndex),
+        ledgerInclusionState: (ledgerInclusionState != null
+            ? ledgerInclusionState.value
+            : this.ledgerInclusionState),
+        conflictReason: (conflictReason != null
+            ? conflictReason.value
+            : this.conflictReason),
+        shouldPromote:
+            (shouldPromote != null ? shouldPromote.value : this.shouldPromote),
+        shouldReattach: (shouldReattach != null
+            ? shouldReattach.value
+            : this.shouldReattach));
+  }
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -3359,14 +4099,12 @@ class MessageResponse$Data {
   factory MessageResponse$Data.fromJson(Map<String, dynamic> json) =>
       _$MessageResponse$DataFromJson(json);
 
-  @JsonKey(name: 'allOf')
-  final Message? allOf;
-  static const fromJsonFactory = _$MessageResponse$DataFromJson;
   static const toJsonFactory = _$MessageResponse$DataToJson;
   Map<String, dynamic> toJson() => _$MessageResponse$DataToJson(this);
 
-  @override
-  String toString() => jsonEncode(this);
+  @JsonKey(name: 'allOf')
+  final Message? allOf;
+  static const fromJsonFactory = _$MessageResponse$DataFromJson;
 
   @override
   bool operator ==(dynamic other) {
@@ -3377,6 +4115,9 @@ class MessageResponse$Data {
   }
 
   @override
+  String toString() => jsonEncode(this);
+
+  @override
   int get hashCode =>
       const DeepCollectionEquality().hash(allOf) ^ runtimeType.hashCode;
 }
@@ -3384,6 +4125,11 @@ class MessageResponse$Data {
 extension $MessageResponse$DataExtension on MessageResponse$Data {
   MessageResponse$Data copyWith({Message? allOf}) {
     return MessageResponse$Data(allOf: allOf ?? this.allOf);
+  }
+
+  MessageResponse$Data copyWithWrapped({Wrapped<Message?>? allOf}) {
+    return MessageResponse$Data(
+        allOf: (allOf != null ? allOf.value : this.allOf));
   }
 }
 
@@ -3399,6 +4145,9 @@ class MessageChildrenResponse$Data {
   factory MessageChildrenResponse$Data.fromJson(Map<String, dynamic> json) =>
       _$MessageChildrenResponse$DataFromJson(json);
 
+  static const toJsonFactory = _$MessageChildrenResponse$DataToJson;
+  Map<String, dynamic> toJson() => _$MessageChildrenResponse$DataToJson(this);
+
   @JsonKey(name: 'messageId')
   final String messageId;
   @JsonKey(name: 'maxResults')
@@ -3408,11 +4157,6 @@ class MessageChildrenResponse$Data {
   @JsonKey(name: 'childrenMessageIds', defaultValue: <String>[])
   final List<String> childrenMessageIds;
   static const fromJsonFactory = _$MessageChildrenResponse$DataFromJson;
-  static const toJsonFactory = _$MessageChildrenResponse$DataToJson;
-  Map<String, dynamic> toJson() => _$MessageChildrenResponse$DataToJson(this);
-
-  @override
-  String toString() => jsonEncode(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -3430,6 +4174,9 @@ class MessageChildrenResponse$Data {
                 const DeepCollectionEquality()
                     .equals(other.childrenMessageIds, childrenMessageIds)));
   }
+
+  @override
+  String toString() => jsonEncode(this);
 
   @override
   int get hashCode =>
@@ -3453,6 +4200,20 @@ extension $MessageChildrenResponse$DataExtension
         count: count ?? this.count,
         childrenMessageIds: childrenMessageIds ?? this.childrenMessageIds);
   }
+
+  MessageChildrenResponse$Data copyWithWrapped(
+      {Wrapped<String>? messageId,
+      Wrapped<int>? maxResults,
+      Wrapped<int>? count,
+      Wrapped<List<String>>? childrenMessageIds}) {
+    return MessageChildrenResponse$Data(
+        messageId: (messageId != null ? messageId.value : this.messageId),
+        maxResults: (maxResults != null ? maxResults.value : this.maxResults),
+        count: (count != null ? count.value : this.count),
+        childrenMessageIds: (childrenMessageIds != null
+            ? childrenMessageIds.value
+            : this.childrenMessageIds));
+  }
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -3469,6 +4230,9 @@ class OutputResponse$Data {
   factory OutputResponse$Data.fromJson(Map<String, dynamic> json) =>
       _$OutputResponse$DataFromJson(json);
 
+  static const toJsonFactory = _$OutputResponse$DataToJson;
+  Map<String, dynamic> toJson() => _$OutputResponse$DataToJson(this);
+
   @JsonKey(name: 'messageId')
   final String messageId;
   @JsonKey(name: 'transactionId')
@@ -3482,11 +4246,6 @@ class OutputResponse$Data {
   @JsonKey(name: 'ledgerIndex')
   final int ledgerIndex;
   static const fromJsonFactory = _$OutputResponse$DataFromJson;
-  static const toJsonFactory = _$OutputResponse$DataToJson;
-  Map<String, dynamic> toJson() => _$OutputResponse$DataToJson(this);
-
-  @override
-  String toString() => jsonEncode(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -3510,6 +4269,9 @@ class OutputResponse$Data {
                 const DeepCollectionEquality()
                     .equals(other.ledgerIndex, ledgerIndex)));
   }
+
+  @override
+  String toString() => jsonEncode(this);
 
   @override
   int get hashCode =>
@@ -3538,6 +4300,25 @@ extension $OutputResponse$DataExtension on OutputResponse$Data {
         output: output ?? this.output,
         ledgerIndex: ledgerIndex ?? this.ledgerIndex);
   }
+
+  OutputResponse$Data copyWithWrapped(
+      {Wrapped<String>? messageId,
+      Wrapped<String>? transactionId,
+      Wrapped<int>? outputIndex,
+      Wrapped<bool>? isSpent,
+      Wrapped<dynamic>? output,
+      Wrapped<int>? ledgerIndex}) {
+    return OutputResponse$Data(
+        messageId: (messageId != null ? messageId.value : this.messageId),
+        transactionId:
+            (transactionId != null ? transactionId.value : this.transactionId),
+        outputIndex:
+            (outputIndex != null ? outputIndex.value : this.outputIndex),
+        isSpent: (isSpent != null ? isSpent.value : this.isSpent),
+        output: (output != null ? output.value : this.output),
+        ledgerIndex:
+            (ledgerIndex != null ? ledgerIndex.value : this.ledgerIndex));
+  }
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -3553,6 +4334,9 @@ class BalanceAddressResponse$Data {
   factory BalanceAddressResponse$Data.fromJson(Map<String, dynamic> json) =>
       _$BalanceAddressResponse$DataFromJson(json);
 
+  static const toJsonFactory = _$BalanceAddressResponse$DataToJson;
+  Map<String, dynamic> toJson() => _$BalanceAddressResponse$DataToJson(this);
+
   @JsonKey(name: 'addressType')
   final int addressType;
   @JsonKey(name: 'address')
@@ -3564,11 +4348,6 @@ class BalanceAddressResponse$Data {
   @JsonKey(name: 'ledgerIndex')
   final int ledgerIndex;
   static const fromJsonFactory = _$BalanceAddressResponse$DataFromJson;
-  static const toJsonFactory = _$BalanceAddressResponse$DataToJson;
-  Map<String, dynamic> toJson() => _$BalanceAddressResponse$DataToJson(this);
-
-  @override
-  String toString() => jsonEncode(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -3590,6 +4369,9 @@ class BalanceAddressResponse$Data {
                 const DeepCollectionEquality()
                     .equals(other.ledgerIndex, ledgerIndex)));
   }
+
+  @override
+  String toString() => jsonEncode(this);
 
   @override
   int get hashCode =>
@@ -3615,6 +4397,23 @@ extension $BalanceAddressResponse$DataExtension on BalanceAddressResponse$Data {
         dustAllowed: dustAllowed ?? this.dustAllowed,
         ledgerIndex: ledgerIndex ?? this.ledgerIndex);
   }
+
+  BalanceAddressResponse$Data copyWithWrapped(
+      {Wrapped<int>? addressType,
+      Wrapped<String>? address,
+      Wrapped<int>? balance,
+      Wrapped<bool>? dustAllowed,
+      Wrapped<int>? ledgerIndex}) {
+    return BalanceAddressResponse$Data(
+        addressType:
+            (addressType != null ? addressType.value : this.addressType),
+        address: (address != null ? address.value : this.address),
+        balance: (balance != null ? balance.value : this.balance),
+        dustAllowed:
+            (dustAllowed != null ? dustAllowed.value : this.dustAllowed),
+        ledgerIndex:
+            (ledgerIndex != null ? ledgerIndex.value : this.ledgerIndex));
+  }
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -3631,6 +4430,9 @@ class OutputsAddressResponse$Data {
   factory OutputsAddressResponse$Data.fromJson(Map<String, dynamic> json) =>
       _$OutputsAddressResponse$DataFromJson(json);
 
+  static const toJsonFactory = _$OutputsAddressResponse$DataToJson;
+  Map<String, dynamic> toJson() => _$OutputsAddressResponse$DataToJson(this);
+
   @JsonKey(name: 'addressType')
   final int addressType;
   @JsonKey(name: 'address')
@@ -3644,11 +4446,6 @@ class OutputsAddressResponse$Data {
   @JsonKey(name: 'ledgerIndex')
   final int ledgerIndex;
   static const fromJsonFactory = _$OutputsAddressResponse$DataFromJson;
-  static const toJsonFactory = _$OutputsAddressResponse$DataToJson;
-  Map<String, dynamic> toJson() => _$OutputsAddressResponse$DataToJson(this);
-
-  @override
-  String toString() => jsonEncode(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -3672,6 +4469,9 @@ class OutputsAddressResponse$Data {
                 const DeepCollectionEquality()
                     .equals(other.ledgerIndex, ledgerIndex)));
   }
+
+  @override
+  String toString() => jsonEncode(this);
 
   @override
   int get hashCode =>
@@ -3700,6 +4500,24 @@ extension $OutputsAddressResponse$DataExtension on OutputsAddressResponse$Data {
         outputIds: outputIds ?? this.outputIds,
         ledgerIndex: ledgerIndex ?? this.ledgerIndex);
   }
+
+  OutputsAddressResponse$Data copyWithWrapped(
+      {Wrapped<int>? addressType,
+      Wrapped<String>? address,
+      Wrapped<int>? maxResults,
+      Wrapped<int>? count,
+      Wrapped<List<String>>? outputIds,
+      Wrapped<int>? ledgerIndex}) {
+    return OutputsAddressResponse$Data(
+        addressType:
+            (addressType != null ? addressType.value : this.addressType),
+        address: (address != null ? address.value : this.address),
+        maxResults: (maxResults != null ? maxResults.value : this.maxResults),
+        count: (count != null ? count.value : this.count),
+        outputIds: (outputIds != null ? outputIds.value : this.outputIds),
+        ledgerIndex:
+            (ledgerIndex != null ? ledgerIndex.value : this.ledgerIndex));
+  }
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -3711,14 +4529,12 @@ class ReceiptsResponse$Data {
   factory ReceiptsResponse$Data.fromJson(Map<String, dynamic> json) =>
       _$ReceiptsResponse$DataFromJson(json);
 
-  @JsonKey(name: 'receipts', defaultValue: <ReceiptTuple>[])
-  final List<ReceiptTuple> receipts;
-  static const fromJsonFactory = _$ReceiptsResponse$DataFromJson;
   static const toJsonFactory = _$ReceiptsResponse$DataToJson;
   Map<String, dynamic> toJson() => _$ReceiptsResponse$DataToJson(this);
 
-  @override
-  String toString() => jsonEncode(this);
+  @JsonKey(name: 'receipts', defaultValue: <ReceiptTuple>[])
+  final List<ReceiptTuple> receipts;
+  static const fromJsonFactory = _$ReceiptsResponse$DataFromJson;
 
   @override
   bool operator ==(dynamic other) {
@@ -3730,6 +4546,9 @@ class ReceiptsResponse$Data {
   }
 
   @override
+  String toString() => jsonEncode(this);
+
+  @override
   int get hashCode =>
       const DeepCollectionEquality().hash(receipts) ^ runtimeType.hashCode;
 }
@@ -3737,6 +4556,12 @@ class ReceiptsResponse$Data {
 extension $ReceiptsResponse$DataExtension on ReceiptsResponse$Data {
   ReceiptsResponse$Data copyWith({List<ReceiptTuple>? receipts}) {
     return ReceiptsResponse$Data(receipts: receipts ?? this.receipts);
+  }
+
+  ReceiptsResponse$Data copyWithWrapped(
+      {Wrapped<List<ReceiptTuple>>? receipts}) {
+    return ReceiptsResponse$Data(
+        receipts: (receipts != null ? receipts.value : this.receipts));
   }
 }
 
@@ -3750,16 +4575,14 @@ class TreasuryResponse$Data {
   factory TreasuryResponse$Data.fromJson(Map<String, dynamic> json) =>
       _$TreasuryResponse$DataFromJson(json);
 
+  static const toJsonFactory = _$TreasuryResponse$DataToJson;
+  Map<String, dynamic> toJson() => _$TreasuryResponse$DataToJson(this);
+
   @JsonKey(name: 'milestoneId')
   final String milestoneId;
   @JsonKey(name: 'amount')
   final int amount;
   static const fromJsonFactory = _$TreasuryResponse$DataFromJson;
-  static const toJsonFactory = _$TreasuryResponse$DataToJson;
-  Map<String, dynamic> toJson() => _$TreasuryResponse$DataToJson(this);
-
-  @override
-  String toString() => jsonEncode(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -3771,6 +4594,9 @@ class TreasuryResponse$Data {
             (identical(other.amount, amount) ||
                 const DeepCollectionEquality().equals(other.amount, amount)));
   }
+
+  @override
+  String toString() => jsonEncode(this);
 
   @override
   int get hashCode =>
@@ -3785,6 +4611,14 @@ extension $TreasuryResponse$DataExtension on TreasuryResponse$Data {
         milestoneId: milestoneId ?? this.milestoneId,
         amount: amount ?? this.amount);
   }
+
+  TreasuryResponse$Data copyWithWrapped(
+      {Wrapped<String>? milestoneId, Wrapped<int>? amount}) {
+    return TreasuryResponse$Data(
+        milestoneId:
+            (milestoneId != null ? milestoneId.value : this.milestoneId),
+        amount: (amount != null ? amount.value : this.amount));
+  }
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -3798,6 +4632,9 @@ class MilestoneResponse$Data {
   factory MilestoneResponse$Data.fromJson(Map<String, dynamic> json) =>
       _$MilestoneResponse$DataFromJson(json);
 
+  static const toJsonFactory = _$MilestoneResponse$DataToJson;
+  Map<String, dynamic> toJson() => _$MilestoneResponse$DataToJson(this);
+
   @JsonKey(name: 'index')
   final int index;
   @JsonKey(name: 'messageId')
@@ -3805,11 +4642,6 @@ class MilestoneResponse$Data {
   @JsonKey(name: 'timestamp')
   final int timestamp;
   static const fromJsonFactory = _$MilestoneResponse$DataFromJson;
-  static const toJsonFactory = _$MilestoneResponse$DataToJson;
-  Map<String, dynamic> toJson() => _$MilestoneResponse$DataToJson(this);
-
-  @override
-  String toString() => jsonEncode(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -3824,6 +4656,9 @@ class MilestoneResponse$Data {
                 const DeepCollectionEquality()
                     .equals(other.timestamp, timestamp)));
   }
+
+  @override
+  String toString() => jsonEncode(this);
 
   @override
   int get hashCode =>
@@ -3841,6 +4676,16 @@ extension $MilestoneResponse$DataExtension on MilestoneResponse$Data {
         messageId: messageId ?? this.messageId,
         timestamp: timestamp ?? this.timestamp);
   }
+
+  MilestoneResponse$Data copyWithWrapped(
+      {Wrapped<int>? index,
+      Wrapped<String>? messageId,
+      Wrapped<int>? timestamp}) {
+    return MilestoneResponse$Data(
+        index: (index != null ? index.value : this.index),
+        messageId: (messageId != null ? messageId.value : this.messageId),
+        timestamp: (timestamp != null ? timestamp.value : this.timestamp));
+  }
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -3854,6 +4699,9 @@ class UTXOChangesResponse$Data {
   factory UTXOChangesResponse$Data.fromJson(Map<String, dynamic> json) =>
       _$UTXOChangesResponse$DataFromJson(json);
 
+  static const toJsonFactory = _$UTXOChangesResponse$DataToJson;
+  Map<String, dynamic> toJson() => _$UTXOChangesResponse$DataToJson(this);
+
   @JsonKey(name: 'index')
   final int index;
   @JsonKey(name: 'createdOutputs', defaultValue: <String>[])
@@ -3861,11 +4709,6 @@ class UTXOChangesResponse$Data {
   @JsonKey(name: 'consumedOutputs', defaultValue: <String>[])
   final List<String> consumedOutputs;
   static const fromJsonFactory = _$UTXOChangesResponse$DataFromJson;
-  static const toJsonFactory = _$UTXOChangesResponse$DataToJson;
-  Map<String, dynamic> toJson() => _$UTXOChangesResponse$DataToJson(this);
-
-  @override
-  String toString() => jsonEncode(this);
 
   @override
   bool operator ==(dynamic other) {
@@ -3880,6 +4723,9 @@ class UTXOChangesResponse$Data {
                 const DeepCollectionEquality()
                     .equals(other.consumedOutputs, consumedOutputs)));
   }
+
+  @override
+  String toString() => jsonEncode(this);
 
   @override
   int get hashCode =>
@@ -3899,33 +4745,32 @@ extension $UTXOChangesResponse$DataExtension on UTXOChangesResponse$Data {
         createdOutputs: createdOutputs ?? this.createdOutputs,
         consumedOutputs: consumedOutputs ?? this.consumedOutputs);
   }
+
+  UTXOChangesResponse$Data copyWithWrapped(
+      {Wrapped<int>? index,
+      Wrapped<List<String>>? createdOutputs,
+      Wrapped<List<String>>? consumedOutputs}) {
+    return UTXOChangesResponse$Data(
+        index: (index != null ? index.value : this.index),
+        createdOutputs: (createdOutputs != null
+            ? createdOutputs.value
+            : this.createdOutputs),
+        consumedOutputs: (consumedOutputs != null
+            ? consumedOutputs.value
+            : this.consumedOutputs));
+  }
 }
 
 String? peerRelationToJson(enums.PeerRelation? peerRelation) {
-  return enums.$PeerRelationMap[peerRelation];
+  return peerRelation?.value;
 }
 
 enums.PeerRelation peerRelationFromJson(
   Object? peerRelation, [
   enums.PeerRelation? defaultValue,
 ]) {
-  if (peerRelation is String) {
-    return enums.$PeerRelationMap.entries
-        .firstWhere(
-            (element) =>
-                element.value.toLowerCase() == peerRelation.toLowerCase(),
-            orElse: () =>
-                const MapEntry(enums.PeerRelation.swaggerGeneratedUnknown, ''))
-        .key;
-  }
-
-  final parsedResult = defaultValue == null
-      ? null
-      : enums.$PeerRelationMap.entries
-          .firstWhereOrNull((element) => element.value == defaultValue)
-          ?.key;
-
-  return parsedResult ??
+  return enums.PeerRelation.values
+          .firstWhereOrNull((e) => e.value == peerRelation) ??
       defaultValue ??
       enums.PeerRelation.swaggerGeneratedUnknown;
 }
@@ -3935,7 +4780,7 @@ List<String> peerRelationListToJson(List<enums.PeerRelation>? peerRelation) {
     return [];
   }
 
-  return peerRelation.map((e) => enums.$PeerRelationMap[e]!).toList();
+  return peerRelation.map((e) => e.value!).toList();
 }
 
 List<enums.PeerRelation> peerRelationListFromJson(
@@ -3947,6 +4792,78 @@ List<enums.PeerRelation> peerRelationListFromJson(
   }
 
   return peerRelation.map((e) => peerRelationFromJson(e.toString())).toList();
+}
+
+List<enums.PeerRelation>? peerRelationNullableListFromJson(
+  List? peerRelation, [
+  List<enums.PeerRelation>? defaultValue,
+]) {
+  if (peerRelation == null) {
+    return defaultValue;
+  }
+
+  return peerRelation.map((e) => peerRelationFromJson(e.toString())).toList();
+}
+
+String? messageMetadataResponse$DataLedgerInclusionStateToJson(
+    enums.MessageMetadataResponse$DataLedgerInclusionState?
+        messageMetadataResponse$DataLedgerInclusionState) {
+  return messageMetadataResponse$DataLedgerInclusionState?.value;
+}
+
+enums.MessageMetadataResponse$DataLedgerInclusionState
+    messageMetadataResponse$DataLedgerInclusionStateFromJson(
+  Object? messageMetadataResponse$DataLedgerInclusionState, [
+  enums.MessageMetadataResponse$DataLedgerInclusionState? defaultValue,
+]) {
+  return enums.MessageMetadataResponse$DataLedgerInclusionState.values
+          .firstWhereOrNull((e) =>
+              e.value == messageMetadataResponse$DataLedgerInclusionState) ??
+      defaultValue ??
+      enums.MessageMetadataResponse$DataLedgerInclusionState
+          .swaggerGeneratedUnknown;
+}
+
+List<String> messageMetadataResponse$DataLedgerInclusionStateListToJson(
+    List<enums.MessageMetadataResponse$DataLedgerInclusionState>?
+        messageMetadataResponse$DataLedgerInclusionState) {
+  if (messageMetadataResponse$DataLedgerInclusionState == null) {
+    return [];
+  }
+
+  return messageMetadataResponse$DataLedgerInclusionState
+      .map((e) => e.value!)
+      .toList();
+}
+
+List<enums.MessageMetadataResponse$DataLedgerInclusionState>
+    messageMetadataResponse$DataLedgerInclusionStateListFromJson(
+  List? messageMetadataResponse$DataLedgerInclusionState, [
+  List<enums.MessageMetadataResponse$DataLedgerInclusionState>? defaultValue,
+]) {
+  if (messageMetadataResponse$DataLedgerInclusionState == null) {
+    return defaultValue ?? [];
+  }
+
+  return messageMetadataResponse$DataLedgerInclusionState
+      .map((e) => messageMetadataResponse$DataLedgerInclusionStateFromJson(
+          e.toString()))
+      .toList();
+}
+
+List<enums.MessageMetadataResponse$DataLedgerInclusionState>?
+    messageMetadataResponse$DataLedgerInclusionStateNullableListFromJson(
+  List? messageMetadataResponse$DataLedgerInclusionState, [
+  List<enums.MessageMetadataResponse$DataLedgerInclusionState>? defaultValue,
+]) {
+  if (messageMetadataResponse$DataLedgerInclusionState == null) {
+    return defaultValue;
+  }
+
+  return messageMetadataResponse$DataLedgerInclusionState
+      .map((e) => messageMetadataResponse$DataLedgerInclusionStateFromJson(
+          e.toString()))
+      .toList();
 }
 
 typedef $JsonFactory<T> = T Function(Map<String, dynamic> json);
@@ -3995,15 +4912,15 @@ class $CustomJsonDecoder {
 
 class $JsonSerializableConverter extends chopper.JsonConverter {
   @override
-  chopper.Response<ResultType> convertResponse<ResultType, Item>(
-      chopper.Response response) {
+  FutureOr<chopper.Response<ResultType>> convertResponse<ResultType, Item>(
+      chopper.Response response) async {
     if (response.bodyString.isEmpty) {
       // In rare cases, when let's say 204 (no content) is returned -
       // we cannot decode the missing json with the result type specified
       return chopper.Response(response.base, null, error: response.error);
     }
 
-    final jsonRes = super.convertResponse(response);
+    final jsonRes = await super.convertResponse(response);
     return jsonRes.copyWith<ResultType>(
         body: $jsonDecoder.decode<Item>(jsonRes.body) as ResultType);
   }
@@ -4022,4 +4939,9 @@ String? _dateToJson(DateTime? date) {
   final day = date.day < 10 ? '0${date.day}' : date.day.toString();
 
   return '$year-$month-$day';
+}
+
+class Wrapped<T> {
+  final T value;
+  const Wrapped.value(this.value);
 }

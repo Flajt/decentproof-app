@@ -1,13 +1,13 @@
 import 'package:decentproof/pages/settingspage/logic/DevNetLogic.dart';
 import 'package:decentproof/pages/submissionpage/logic/ShowInExplorer.dart';
-import 'package:decentproof/pages/submissionpage/logic/VerificationService.dart';
+import 'package:decentproof/pages/submissionpage/logic/MessageVerificationService.dart';
 import 'package:decentproof/pages/verificationpage/logic/FileSelectionLogic.dart';
 import 'package:decentproof/pages/verificationpage/logic/SelectHashAndVerifyLogic.dart';
 import 'package:decentproof/pages/verificationpage/logic/VerificationLogic.dart';
+import 'package:decentproof/shared/ErrorDialog.dart';
 import 'package:decentproof/shared/HashLogic.dart';
 import 'package:decentproof/shared/ProcessingDialog.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class VerificationPage extends StatefulWidget {
@@ -41,7 +41,7 @@ class _VerificationPageState extends State<VerificationPage> {
     super.didChangeDependencies();
     shouldUseDevNet = await devNetLogic.shouldUseDevNet;
     verificationLogic =
-        VerificationLogic(VerificationService(), shouldUseDevNet);
+        VerificationLogic(MessageVerificationService(), shouldUseDevNet);
     selectHashAndVerifyLogic = SelectHashAndVerifyLogic(
         hashLogic, verificationLogic, fileSelectionLogic);
   }
@@ -76,7 +76,6 @@ class _VerificationPageState extends State<VerificationPage> {
                               builder: (context) => const ProcessingDialog());
                           Map<String, String>? data =
                               await selectHashAndVerifyLogic.check();
-                          print(data);
                           if (data != null) {
                             Navigator.of(context).pop();
                             hash = data["hash"];
@@ -86,38 +85,14 @@ class _VerificationPageState extends State<VerificationPage> {
                           setState(() {});
                         } catch (e, stack) {
                           Navigator.of(context).pop();
+                          isVerfied = false;
+                          messageId = null;
+                          hash = null;
+                          setState(() {});
                           showDialog(
                               context: context,
-                              builder: (context) => Dialog(
-                                    child: SizedBox(
-                                      width: size.width * .4,
-                                      height: size.height * .4,
-                                      child: Stack(
-                                        children: [
-                                          Align(
-                                              alignment: Alignment.topCenter,
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.all(12.0),
-                                                child: Text(
-                                                  "verificationPage.error".tr(),
-                                                  style: const TextStyle(
-                                                      fontSize: 25.0,
-                                                      color: Colors.black,
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                ),
-                                              )),
-                                          Center(
-                                            child: Text(e.toString(),
-                                                style: const TextStyle(
-                                                    fontSize: 16.0),
-                                                textAlign: TextAlign.center),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ));
+                              builder: (context) =>
+                                  ErrorDialog(size: size, error: e.toString()));
                         }
                         //Navigator.of(context).pop();
                       },
@@ -127,7 +102,7 @@ class _VerificationPageState extends State<VerificationPage> {
                   width: size.width,
                   top: size.height * .25,
                   child: hash != null
-                      ? Text(
+                      ? SelectableText(
                           "${"verificationPage.hash".tr()}\n\n$hash",
                           style: const TextStyle(fontSize: 20),
                           textAlign: TextAlign.center,
@@ -146,7 +121,7 @@ class _VerificationPageState extends State<VerificationPage> {
                         child: TextButton(
                             onPressed: () => showInExplorer.show(
                                 messageId!, shouldUseDevNet),
-                            child: Text(
+                            child: SelectableText(
                               "${"verificationPage.id".tr()}:\n\n $messageId",
                               style: const TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 18.0),

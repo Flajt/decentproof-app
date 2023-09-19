@@ -50,20 +50,20 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyAHf5u12s0L-kR82E6CZZ9bXwzKEec7dBY',
-    appId: '1:874981793699:android:a0e991058daef81a498416',
-    messagingSenderId: '874981793699',
-    projectId: 'decentproof-66628',
-    storageBucket: 'decentproof-66628.appspot.com',
+    apiKey: 'AIzaSyAw-PTlEGp8hjBgB0yDsxjyqpqgCa6s1PA',
+    appId: '1:446653633041:android:d97b5ad8caa3862c92d7b0',
+    messagingSenderId: '446653633041',
+    projectId: 'decentproof',
+    storageBucket: 'decentproof.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyAKxl3vr7KomU0dBb3pJNkiKEKGw1DTUsY',
-    appId: '1:874981793699:ios:bf3410f4138c5a59498416',
-    messagingSenderId: '874981793699',
-    projectId: 'decentproof-66628',
-    storageBucket: 'decentproof-66628.appspot.com',
-    iosClientId: '874981793699-3tlh8ti4mu5kao8buq6fnu0usc2donnu.apps.googleusercontent.com',
+    apiKey: 'AIzaSyDfM6jnh2CSXN1SI4CEHlE-KYEs0F2dTek',
+    appId: '1:446653633041:ios:03d2e83adf25770892d7b0',
+    messagingSenderId: '446653633041',
+    projectId: 'decentproof',
+    storageBucket: 'decentproof.appspot.com',
+    iosClientId: '446653633041-loccnmlb1vvm5mq7oli2io5si71taqs7.apps.googleusercontent.com',
     iosBundleId: 'de.triskalion.decentproof.decentproof',
   );
 }

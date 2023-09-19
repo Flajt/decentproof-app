@@ -2,7 +2,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 class ShowInExplorer {
   final String _baseUrl = "https://explorer.iota.org/";
-  Future<void> show(String messageId, [bool devNet = true]) async {
+  Future<void> show(String messageId, [bool devNet = false]) async {
     String netType = "mainnet";
     if (devNet) {
       netType = "devnet";

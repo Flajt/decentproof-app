@@ -1,8 +1,4 @@
-import 'dart:math';
 import 'package:decentproof/firebase_options.dart';
-import 'package:decentproof/pages/Integrety/ApiKeyManager.dart';
-import 'package:decentproof/pages/Integrety/AppCheckWrapper.dart';
-import 'package:decentproof/pages/Integrety/SecureStorageWrapper.dart';
 import 'package:decentproof/pages/audiopage/AudioPage.dart';
 import 'package:decentproof/pages/homepage/HomePage.dart';
 import 'package:decentproof/pages/intropage/IntroPage.dart';
@@ -14,19 +10,20 @@ import 'package:decentproof/pages/videoimagepage/VideoImagePage.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
+  await dotenv.load();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  await FirebaseAppCheck.instance.activate();
-  final ApiKeyManager apiKeyManager =
-      ApiKeyManager(SecureStorageWrapper(), AppcheckWrapper());
-  //used ONLY for appcheck and nothing more
-  if (Random().nextInt(2) == 1) await apiKeyManager.updateIfNewKey();
+  await FirebaseAppCheck.instance.activate(
+      androidProvider:
+          kReleaseMode ? AndroidProvider.playIntegrity : AndroidProvider.debug);
   runApp(EasyLocalization(
       useOnlyLangCode: true,
       fallbackLocale: const Locale("en"),
@@ -48,6 +45,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       locale: context.locale,
@@ -59,18 +57,18 @@ class MyApp extends StatelessWidget {
         "/settingsPage": (context) => const SettingsPage()
       },
       title: 'Decentproof',
-      theme: ThemeData(
-        primarySwatch: Colors.lightGreen,
-        primaryColor: Colors.lightGreenAccent,
-      ),
-      home: FutureBuilder(
-          future: isFirstTimeUser(),
-          builder: (context, snapshot) {
-            if (snapshot.data == true) {
-              return const IntroPage();
-            }
-            return const HomePage();
-          }),
+      theme:
+          ThemeData(primaryColor: Colors.black, primarySwatch: Colors.orange),
+      home: Builder(builder: (context) {
+        return FutureBuilder(
+            future: isFirstTimeUser(),
+            builder: (context, snapshot) {
+              if (snapshot.data == true) {
+                return const IntroPage();
+              }
+              return const HomePage();
+            });
+      }),
     );
   }
 }
