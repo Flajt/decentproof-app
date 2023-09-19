@@ -1,5 +1,3 @@
-import 'package:decentproof/pages/submissionpage/logic/ShowInExplorer.dart';
-import 'package:decentproof/pages/submissionpage/logic/MessageVerificationService.dart';
 import 'package:decentproof/features/verification/logic/FileSelectionLogic.dart';
 import 'package:decentproof/features/verification/logic/SelectHashAndVerifyLogic.dart';
 import 'package:decentproof/features/verification/logic/VerificationLogic.dart';
@@ -9,6 +7,8 @@ import 'package:decentproof/shared/ProcessingDialog.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
+import '../../hashing/logic/blockchain/MessageVerificationService.dart';
+import '../../hashing/logic/blockchain/ShowInExplorer.dart';
 import '../../settings/logic/DevNetLogic.dart';
 
 class VerificationPage extends StatefulWidget {

@@ -1,15 +1,15 @@
 import 'package:decentproof/shared/Integrety/SecureStorageWrapper.dart';
-import 'package:decentproof/pages/submissionpage/logic/MessageSigningService.dart';
-import 'package:decentproof/pages/submissionpage/logic/SaveToTangleLogic.dart';
-import 'package:decentproof/pages/submissionpage/logic/ShowInExplorer.dart';
-import 'package:decentproof/pages/submissionpage/uiblocks/BackToHomeButton.dart';
-import 'package:decentproof/pages/submissionpage/uiblocks/ShareButton.dart';
 import 'package:decentproof/shared/ErrorDialog.dart';
 import 'package:decentproof/shared/ProcessingDialog.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
-import '../../features/settings/logic/DevNetLogic.dart';
+import '../../settings/logic/DevNetLogic.dart';
+import '../logic/blockchain/MessageSigningService.dart';
+import '../logic/blockchain/SaveToTangleLogic.dart';
+import '../logic/blockchain/ShowInExplorer.dart';
+import '../uiblocks/BackToHomeButton.dart';
+import '../uiblocks/ShareButton.dart';
 
 class SubmissionPage extends StatefulWidget {
   const SubmissionPage({Key? key}) : super(key: key);
