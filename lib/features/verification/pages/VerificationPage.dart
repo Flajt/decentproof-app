@@ -1,7 +1,7 @@
 import 'package:decentproof/features/verification/logic/FileSelectionLogic.dart';
 import 'package:decentproof/features/verification/logic/SelectHashAndVerifyLogic.dart';
 import 'package:decentproof/features/verification/logic/VerificationLogic.dart';
-import 'package:decentproof/shared/ErrorDialog.dart';
+import 'package:decentproof/shared/uiblocks/ErrorDialog.dart';
 import 'package:decentproof/shared/HashLogic.dart';
 import 'package:decentproof/shared/ProcessingDialog.dart';
 import 'package:easy_localization/easy_localization.dart';

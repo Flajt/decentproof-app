@@ -1,5 +1,5 @@
 import 'package:decentproof/shared/integrety/SecureStorageWrapper.dart';
-import 'package:decentproof/shared/ErrorDialog.dart';
+import 'package:decentproof/shared/uiblocks/ErrorDialog.dart';
 import 'package:decentproof/shared/ProcessingDialog.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
