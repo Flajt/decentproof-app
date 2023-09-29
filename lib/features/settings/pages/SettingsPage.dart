@@ -31,7 +31,7 @@ class SettingsPage extends StatelessWidget {
                     alignment: Alignment.topCenter,
                     child: Text(
                       "settingsPage.title".tr(),
-                      style: Theme.of(context).textTheme.headline5,
+                      style: Theme.of(context).textTheme.titleSmall,
                       textAlign: TextAlign.center,
                     ),
                   ),
