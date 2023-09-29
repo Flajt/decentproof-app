@@ -3,7 +3,7 @@ import 'package:decentproof/features/verification/logic/SelectHashAndVerifyLogic
 import 'package:decentproof/features/verification/logic/VerificationLogic.dart';
 import 'package:decentproof/shared/uiblocks/ErrorDialog.dart';
 import 'package:decentproof/shared/HashLogic.dart';
-import 'package:decentproof/shared/ProcessingDialog.dart';
+import 'package:decentproof/shared/uiblocks/ProcessingDialog.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 

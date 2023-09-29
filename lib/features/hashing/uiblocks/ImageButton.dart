@@ -2,7 +2,7 @@ import 'package:decentproof/features/hashing/interfaces/IHashingService.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
-import '../../../shared/ProcessingDialog.dart';
+import '../../../shared/uiblocks/ProcessingDialog.dart';
 import '../logic/ImageManger.dart';
 
 class ImageButton extends StatelessWidget {

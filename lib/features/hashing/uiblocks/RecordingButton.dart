@@ -1,6 +1,6 @@
 import 'package:audio_waveforms/audio_waveforms.dart';
 import 'package:decentproof/features/hashing/logic/hasher/AudioHashingService.dart';
-import 'package:decentproof/shared/ProcessingDialog.dart';
+import 'package:decentproof/shared/uiblocks/ProcessingDialog.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
