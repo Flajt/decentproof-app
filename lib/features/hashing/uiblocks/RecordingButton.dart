@@ -1,10 +1,9 @@
 import 'package:audio_waveforms/audio_waveforms.dart';
+import 'package:decentproof/features/hashing/interfaces/IFileSavingService.dart';
 import 'package:decentproof/features/hashing/logic/hasher/AudioHashingService.dart';
 import 'package:decentproof/shared/uiblocks/ProcessingDialog.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-
-import '../logic/AudioManager.dart';
 
 class RecordingButton extends StatefulWidget {
   const RecordingButton(
@@ -14,7 +13,7 @@ class RecordingButton extends StatefulWidget {
       required this.hashAudioManager})
       : super(key: key);
   final RecorderController controller;
-  final AudioManager audioManager;
+  final IFileSavingService audioManager;
   final AudioHashingService hashAudioManager;
   @override
   _RecordingButtonState createState() => _RecordingButtonState();
@@ -31,7 +30,9 @@ class _RecordingButtonState extends State<RecordingButton> {
             await widget.controller.checkPermission();
           }
           isRecording = !isRecording;
-          String savePath = await widget.audioManager.audioPath;
+          String savePath = await widget
+              .audioManager // This one here is just returning the save path for now
+              .saveFile();
           if (isRecording) {
             await widget.controller.record(path: savePath);
           } else {

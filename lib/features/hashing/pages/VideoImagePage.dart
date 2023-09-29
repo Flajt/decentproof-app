@@ -4,7 +4,7 @@ import 'package:decentproof/features/hashing/logic/hasher/VideoHashingService.da
 import 'package:decentproof/shared/HashLogic.dart';
 import 'package:flutter/material.dart';
 
-import '../logic/ImageManger.dart';
+import '../logic/ImageSavingService.dart';
 import '../logic/VideoManager.dart';
 import '../uiblocks/ImageButton.dart';
 import '../uiblocks/VideoButton.dart';
@@ -17,8 +17,9 @@ class VideoImagePage extends StatefulWidget {
 }
 
 class _VideoImagePageState extends State<VideoImagePage> {
-  final imageManager = ImageManager(imagePickerWrapper: ImagePickerWrapper());
-  final VideoManager videoManager = VideoManager(ImagePickerWrapper());
+  final imageSavingService =
+      ImageSavingService(imagePickerWrapper: ImagePickerWrapper());
+  final videoSavingService = VideoSavingService(ImagePickerWrapper());
   final VideoHashingService videoHashingService =
       VideoHashingService(HashLogic());
   final imageHashingService = ImageHashingService(HashLogic());
@@ -34,11 +35,11 @@ class _VideoImagePageState extends State<VideoImagePage> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               ImageButton(
-                imageManager: imageManager,
+                imageManager: imageSavingService,
                 hashingService: imageHashingService,
               ),
               VideoButton(
-                videoManager: videoManager,
+                videoSavingService: videoSavingService,
                 videoHashingService: videoHashingService,
               )
             ],

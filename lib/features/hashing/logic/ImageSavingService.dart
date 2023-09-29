@@ -5,11 +5,13 @@ import 'package:nanoid/async.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:photo_manager/photo_manager.dart';
 
-class ImageManager {
-  const ImageManager({required this.imagePickerWrapper});
-  final ImagePickerWrapper imagePickerWrapper;
+import '../interfaces/IFileSavingService.dart';
 
-  Future<String> saveImage() async {
+class ImageSavingService implements IFileSavingService {
+  const ImageSavingService({required this.imagePickerWrapper});
+  final ImagePickerWrapper imagePickerWrapper;
+  @override
+  Future<String> saveFile() async {
     Uint8List imageAsBytes = await imagePickerWrapper.getImageAsBytes();
     String path = Platform.isAndroid
         ? (await getExternalStorageDirectories(
