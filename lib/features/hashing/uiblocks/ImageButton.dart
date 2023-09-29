@@ -1,5 +1,4 @@
 import 'package:decentproof/features/hashing/interfaces/IHashingService.dart';
-import 'package:decentproof/features/hashing/logic/hasher/ImageHashingService.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
