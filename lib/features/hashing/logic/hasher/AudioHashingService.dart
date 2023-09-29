@@ -1,11 +1,13 @@
 import 'dart:io';
 
+import 'package:decentproof/features/interfaces/IHashingService.dart';
 import 'package:decentproof/shared/HashLogic.dart';
 
-class HashAudioManager {
+class AudioHashingService implements IHashingService {
   final HashLogic _hashLogic;
-  const HashAudioManager(HashLogic hashLogic) : _hashLogic = hashLogic;
-  Future<String> hashAudio(String path) async {
+  const AudioHashingService(HashLogic hashLogic) : _hashLogic = hashLogic;
+  @override
+  Future<String> hash(String path) async {
     File audioFile = File(path);
     Stream<List<int>> audioFileAsBytes = audioFile.openRead();
     String hash =
