@@ -1,16 +1,13 @@
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:decentproof/features/hashing/logic/ImagePickerWrapper.dart';
-import 'package:decentproof/shared/ExifWrapper.dart';
 import 'package:nanoid/async.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:photo_manager/photo_manager.dart';
 
 class ImageManager {
-  const ImageManager(
-      {required this.imagePickerWrapper, required this.exifWrapper});
+  const ImageManager({required this.imagePickerWrapper});
   final ImagePickerWrapper imagePickerWrapper;
-  final ExifWrapper exifWrapper;
 
   Future<String> saveImage() async {
     Uint8List imageAsBytes = await imagePickerWrapper.getImageAsBytes();

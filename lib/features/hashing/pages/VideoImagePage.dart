@@ -1,7 +1,6 @@
 import 'package:decentproof/features/hashing/logic/ImagePickerWrapper.dart';
 import 'package:decentproof/features/hashing/logic/hasher/ImageHashingService.dart';
 import 'package:decentproof/features/hashing/logic/hasher/VideoHashingService.dart';
-import 'package:decentproof/shared/ExifWrapper.dart';
 import 'package:decentproof/shared/HashLogic.dart';
 import 'package:flutter/material.dart';
 
@@ -18,8 +17,7 @@ class VideoImagePage extends StatefulWidget {
 }
 
 class _VideoImagePageState extends State<VideoImagePage> {
-  final imageManager = ImageManager(
-      imagePickerWrapper: ImagePickerWrapper(), exifWrapper: ExifWrapper());
+  final imageManager = ImageManager(imagePickerWrapper: ImagePickerWrapper());
   final VideoManager videoManager = VideoManager(ImagePickerWrapper());
   final VideoHashingService videoHashingService =
       VideoHashingService(HashLogic());
