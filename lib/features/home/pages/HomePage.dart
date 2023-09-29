@@ -1,8 +1,8 @@
+import 'package:decentproof/shared/integrety/AppCheck.dart';
 import 'package:flutter/material.dart';
 
-import '../../../shared/Integrety/ApiKeyManager.dart';
-import '../../../shared/Integrety/AppCheckWrapper.dart';
-import '../../../shared/Integrety/SecureStorageWrapper.dart';
+import '../../../shared/integrety/ApiKeyManager.dart';
+import '../../../shared/integrety/SecureStorageWrapper.dart';
 import '../uiblocks/OptionsMenu.dart';
 import '../uiblocks/SettingsButton.dart';
 import '../uiblocks/SupportButton.dart';
@@ -14,7 +14,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     final ApiKeyManager apiKeyManager =
-        ApiKeyManager(SecureStorageWrapper(), AppcheckWrapper());
+        ApiKeyManager(SecureStorageWrapper(), AppCheck());
     return Scaffold(
       body: SafeArea(
           child: SizedBox(

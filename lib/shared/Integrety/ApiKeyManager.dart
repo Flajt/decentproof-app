@@ -1,20 +1,19 @@
-import 'dart:convert';
 import 'dart:math';
 
 import 'package:decentproof/constants.dart';
-import 'package:decentproof/shared/Integrety/AppCheckWrapper.dart';
-import 'package:decentproof/shared/Integrety/SecureStorageWrapper.dart';
+import 'package:decentproof/shared/integrety/SecureStorageWrapper.dart';
+import 'package:decentproof/shared/integrety/interfaces/IDeviceIntegrity.dart';
 import 'package:dio/dio.dart';
 import 'package:http_certificate_pinning/http_certificate_pinning.dart';
 
 class ApiKeyManager {
-  late final AppcheckWrapper? _appCheckWrapper;
+  late final IDeviceIntegrety? _appCheckWrapper;
   late final Dio _checkKeyRequestManager;
   late final Dio _getKeyRequestManager;
   late final SecureStorageWrapper _secureStorageWrapper;
 
   ApiKeyManager(SecureStorageWrapper secureStorageWrapper,
-      [AppcheckWrapper? wrapper]) {
+      [IDeviceIntegrety? wrapper]) {
     //TODO: Provide URL via class constructor?
     _checkKeyRequestManager = Dio(BaseOptions(baseUrl: CHECK_KEY_URL));
     _checkKeyRequestManager.interceptors
@@ -69,12 +68,12 @@ class ApiKeyManager {
       if (Random().nextInt(2) == 1) {
         bool hasNew = await checkForNewApiKey();
         if (hasNew) {
-          String token = await _appCheckWrapper!.getAppToken();
+          String token = await _appCheckWrapper!.getIntegrityToken();
           await getNewNewKey(token);
         }
       }
     } else {
-      String token = await _appCheckWrapper!.getAppToken();
+      String token = await _appCheckWrapper!.getIntegrityToken();
       await getNewNewKey(token);
     }
   }
