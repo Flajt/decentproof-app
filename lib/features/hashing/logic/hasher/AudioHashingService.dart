@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:decentproof/features/interfaces/IHashingService.dart';
+import 'package:decentproof/features/hashing/interfaces/IHashingService.dart';
 import 'package:decentproof/shared/HashLogic.dart';
 
 class AudioHashingService implements IHashingService {
