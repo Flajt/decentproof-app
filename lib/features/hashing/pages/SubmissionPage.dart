@@ -23,7 +23,7 @@ class _SubmissionPageState extends State<SubmissionPage> {
   final DevNetLogic devNetLogic = DevNetLogic();
   late bool shouldUseDevNet;
   late final ShowInExplorer showInExplorer = ShowInExplorer();
-  final signingService = MessageSigningService(SecureStorageWrapper());
+  final signingService = MessageSigningService(SecureStorageService());
   bool hasSubmitted = false;
 
   @override

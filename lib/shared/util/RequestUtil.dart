@@ -4,6 +4,7 @@ import 'package:basic_utils/basic_utils.dart';
 import 'package:decentproof/shared/integrety/ApiKeyRequestService.dart';
 import 'package:decentproof/shared/integrety/SecureStorageWrapper.dart';
 import 'package:decentproof/shared/integrety/interfaces/IDeviceIntegrity.dart';
+import 'package:decentproof/shared/integrety/interfaces/ISecureStorageService.dart';
 
 import '../integrety/AppCheck.dart';
 import '../integrety/interfaces/IApiKeyRequestService.dart';
@@ -12,7 +13,7 @@ import '../integrety/interfaces/IApiKeyRequestService.dart';
 class RequestUtil {
   static Future<void> updateOrRetriveKey() async {
     final IApiKeyRequestService apiKeyManager = ApiKeyRequestService();
-    final SecureStorageWrapper storageWrapper = SecureStorageWrapper();
+    final ISecureStorageService storageWrapper = SecureStorageService();
     final IDeviceIntegrety appCheck = AppCheck();
     String? apiKey = await storageWrapper.retriveApiKey();
     bool hasKey = apiKey != null;
