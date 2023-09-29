@@ -1,5 +1,6 @@
 import 'package:decentproof/features/hashing/logic/ImagePickerWrapper.dart';
-import 'package:decentproof/features/hashing/logic/hasher/VideoImageHashManager.dart';
+import 'package:decentproof/features/hashing/logic/hasher/ImageHashingService.dart';
+import 'package:decentproof/features/hashing/logic/hasher/VideoHashingService.dart';
 import 'package:decentproof/shared/ExifWrapper.dart';
 import 'package:decentproof/shared/HashLogic.dart';
 import 'package:flutter/material.dart';
@@ -21,8 +22,9 @@ class _VideoImagePageState extends State<VideoImagePage> {
       imagePickerWrapper: ImagePickerWrapper(), exifWrapper: ExifWrapper());
   final VideoManager videoManager =
       VideoManager(ImagePickerWrapper(), ExifWrapper());
-  final VideoImageHashManager videoImageHashManager =
-      VideoImageHashManager(HashLogic());
+  final VideoHashingService videoHashingService =
+      VideoHashingService(HashLogic());
+  final imageHashingService = ImageHashingService(HashLogic());
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -36,11 +38,11 @@ class _VideoImagePageState extends State<VideoImagePage> {
             children: [
               ImageButton(
                 imageManager: imageManager,
-                videoImageHashManager: videoImageHashManager,
+                hashingService: imageHashingService,
               ),
               VideoButton(
                 videoManager: videoManager,
-                videoImageHashManager: videoImageHashManager,
+                videoHashingService: videoHashingService,
               )
             ],
           )),

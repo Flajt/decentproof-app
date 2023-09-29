@@ -1,4 +1,4 @@
-import 'package:decentproof/features/hashing/logic/hasher/VideoImageHashManager.dart';
+import 'package:decentproof/features/hashing/interfaces/IHashingService.dart';
 import 'package:decentproof/shared/ProcessingDialog.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
@@ -7,12 +7,10 @@ import '../logic/VideoManager.dart';
 
 class VideoButton extends StatelessWidget {
   const VideoButton(
-      {Key? key,
-      required this.videoManager,
-      required this.videoImageHashManager})
+      {Key? key, required this.videoManager, required this.videoHashingService})
       : super(key: key);
   final VideoManager videoManager;
-  final VideoImageHashManager videoImageHashManager;
+  final IHashingService videoHashingService;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -31,8 +29,7 @@ class VideoButton extends StatelessWidget {
                   builder: (context) => const ProcessingDialog());
               try {
                 String path = await videoManager.saveVideo();
-                String hash =
-                    await compute(videoImageHashManager.hashVideo, path);
+                String hash = await compute(videoHashingService.hash, path);
                 Navigator.of(context).pushNamed("/submissionPage",
                     arguments: {"hash": hash, "path": path});
               } catch (e) {
