@@ -1,18 +1,15 @@
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:decentproof/features/hashing/logic/ImagePickerWrapper.dart';
-import 'package:decentproof/shared/ExifWrapper.dart';
 import 'package:nanoid/async.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:photo_manager/photo_manager.dart';
 
 class VideoManager {
-  const VideoManager(
-      ImagePickerWrapper imagePickerWrapper, ExifWrapper exifWrapper)
-      : _imagePickerWrapper = imagePickerWrapper,
-        _exifWrapper = exifWrapper;
+  const VideoManager(ImagePickerWrapper imagePickerWrapper)
+      : _imagePickerWrapper = imagePickerWrapper;
+
   final ImagePickerWrapper _imagePickerWrapper;
-  final ExifWrapper _exifWrapper;
 
   Future<String> saveVideo() async {
     String imageId = await nanoid(16);

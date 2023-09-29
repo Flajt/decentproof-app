@@ -20,8 +20,7 @@ class VideoImagePage extends StatefulWidget {
 class _VideoImagePageState extends State<VideoImagePage> {
   final imageManager = ImageManager(
       imagePickerWrapper: ImagePickerWrapper(), exifWrapper: ExifWrapper());
-  final VideoManager videoManager =
-      VideoManager(ImagePickerWrapper(), ExifWrapper());
+  final VideoManager videoManager = VideoManager(ImagePickerWrapper());
   final VideoHashingService videoHashingService =
       VideoHashingService(HashLogic());
   final imageHashingService = ImageHashingService(HashLogic());
