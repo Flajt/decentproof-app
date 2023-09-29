@@ -1,4 +1,4 @@
-import 'package:decentproof/features/verification/logic/FileSelectionLogic.dart';
+import 'package:decentproof/features/verification/interfaces/IFileSelectionService.dart';
 import 'package:decentproof/features/verification/logic/VerificationLogic.dart';
 import 'package:decentproof/shared/HashLogic.dart';
 
@@ -7,7 +7,7 @@ class SelectHashAndVerifyLogic {
       this.hashLogic, this.verificationLogic, this.fileSelectionLogic);
   final HashLogic hashLogic;
   final VerificationLogic verificationLogic;
-  final FileSelectionLogic fileSelectionLogic;
+  final IFileSelectionService fileSelectionLogic;
   Future<Map<String, String>>? check() async {
     Stream<List<int>>? byteStream =
         await fileSelectionLogic.selectFileAsStream();

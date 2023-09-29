@@ -1,4 +1,5 @@
-import 'package:decentproof/features/verification/logic/FileSelectionLogic.dart';
+import 'package:decentproof/features/verification/interfaces/IFileSelectionService.dart';
+import 'package:decentproof/features/verification/logic/FileSelectionService.dart';
 import 'package:decentproof/features/verification/logic/SelectHashAndVerifyLogic.dart';
 import 'package:decentproof/features/verification/logic/VerificationLogic.dart';
 import 'package:decentproof/shared/uiblocks/ErrorDialog.dart';
@@ -25,7 +26,7 @@ class _VerificationPageState extends State<VerificationPage> {
   late final ShowInExplorer showInExplorer;
   late final HashLogic hashLogic;
   late final VerificationLogic verificationLogic;
-  late final FileSelectionLogic fileSelectionLogic;
+  late final IFileSelectionService fileSelectionLogic;
   late final SelectHashAndVerifyLogic selectHashAndVerifyLogic;
   late final bool shouldUseDevNet;
   final DevNetLogic devNetLogic = DevNetLogic();
@@ -34,7 +35,7 @@ class _VerificationPageState extends State<VerificationPage> {
     super.initState();
     showInExplorer = ShowInExplorer();
     hashLogic = HashLogic();
-    fileSelectionLogic = FileSelectionLogic();
+    fileSelectionLogic = FileSelectionService();
   }
 
   @override

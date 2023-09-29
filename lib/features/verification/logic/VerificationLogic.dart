@@ -7,6 +7,7 @@ import 'package:pointycastle/pointycastle.dart';
 
 import '../../hashing/logic/blockchain/MessageVerificationService.dart';
 
+//TODO: REWORK
 class VerificationLogic {
   final MessageVerificationService verificationService;
   VerificationLogic(this.verificationService, [this.devNet = true]) {
