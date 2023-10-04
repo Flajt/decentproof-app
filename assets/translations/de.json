@@ -26,8 +26,8 @@
     },
     "settingsPage":{
         "title": "Einstellungen",
-        "devnet": "DevNet",
-        "description": "Wenn du Daten im DevNet speichern willst. Nicht empfohlen!"
+        "addEmail": "E-Mail hinzufügen",
+        "description": "Wenn Sie ein Beweis Zertifikat bekommen wollen um Ihre Datei selber zu verifizieren"
     },
     "submissionPage":{
         "hash": "Ihr Hash",
@@ -55,7 +55,8 @@
 
     },
     "other":{
-        "home":"Zur Home Page"
+        "home":"Zur Home Page",
+        "submit": "Bestätigen"
  
     }
 }
