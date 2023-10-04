@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:basic_utils/basic_utils.dart';
-import 'package:decentproof/pages/submissionpage/logic/MessageVerificationService.dart';
+import 'package:decentproof/features/hashing/logic/blockchain/MessageVerificationService.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
