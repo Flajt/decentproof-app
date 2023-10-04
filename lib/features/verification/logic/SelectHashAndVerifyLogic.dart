@@ -2,6 +2,7 @@ import 'package:decentproof/features/verification/interfaces/IFileSelectionServi
 import 'package:decentproof/features/verification/logic/VerificationLogic.dart';
 import 'package:decentproof/shared/HashLogic.dart';
 
+//TODO: Rework this class, maybe delete it in favour of bloc
 class SelectHashAndVerifyLogic {
   const SelectHashAndVerifyLogic(
       this.hashLogic, this.verificationLogic, this.fileSelectionLogic);

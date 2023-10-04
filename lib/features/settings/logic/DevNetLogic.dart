@@ -1,5 +1,6 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
+//TODO: DELETE
 class DevNetLogic {
   Future<bool> get shouldUseDevNet async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
