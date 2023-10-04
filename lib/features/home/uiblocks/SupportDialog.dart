@@ -19,7 +19,7 @@ class SupportDialog extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Text("supportPage.title".tr(),
-                  style: Theme.of(context).textTheme.headline5),
+                  style: Theme.of(context).textTheme.headlineSmall),
               const Text(
                 "supportPage.description",
                 textAlign: TextAlign.center,
