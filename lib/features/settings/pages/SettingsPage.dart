@@ -1,9 +1,8 @@
+import 'package:decentproof/features/settings/uiblocks/AddEmailDialog.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:decentproof/constants.dart';
 import 'package:url_launcher/url_launcher_string.dart';
-
-import '../uiblocks/DevNetSwitch.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({Key? key}) : super(key: key);
@@ -31,7 +30,7 @@ class SettingsPage extends StatelessWidget {
                     alignment: Alignment.topCenter,
                     child: Text(
                       "settingsPage.title".tr(),
-                      style: Theme.of(context).textTheme.titleSmall,
+                      style: Theme.of(context).textTheme.headlineSmall,
                       textAlign: TextAlign.center,
                     ),
                   ),
@@ -40,14 +39,14 @@ class SettingsPage extends StatelessWidget {
             ),
             const Divider(),
             ListTile(
-              title: Text("settingsPage.devnet".tr()),
+              title: Text("settingsPage.addEmail".tr()),
               subtitle: Text("settingsPage.description".tr()),
-              trailing: const DevNetSwitch(),
+              onTap: () => showDialog(
+                  context: context,
+                  builder: (context) => const AddEmailDialog()),
             ),
             const Divider(),
-            const AboutListTile(
-              applicationLegalese: "Copyright 2022, Tjalf Bartel",
-            ),
+            const AboutListTile(),
             const Divider(),
             ListTile(
               title: const Text("FAQ"),
