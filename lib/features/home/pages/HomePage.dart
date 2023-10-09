@@ -29,7 +29,11 @@ class HomePage extends StatelessWidget {
                 future: RequestUtil.updateOrRetriveKey(),
                 builder: (context, snapshot) {
                   if (snapshot.hasError) {
-                    return Center(child: Text(snapshot.error.toString()));
+                    return Center(
+                        child: Text(
+                      snapshot.error.toString(),
+                      textAlign: TextAlign.center,
+                    ));
                   } else if (snapshot.hasError == false &&
                       snapshot.connectionState == ConnectionState.done) {
                     return const OptionsMenu();

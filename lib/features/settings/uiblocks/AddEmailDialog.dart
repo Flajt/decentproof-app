@@ -1,6 +1,11 @@
+import 'package:decentproof/features/settings/bloc/SecureStorageBloc.dart';
+import 'package:decentproof/features/settings/bloc/SecureStorageBlocEvents.dart';
+import 'package:decentproof/features/settings/bloc/SecureStorageBlocState.dart';
+import 'package:decentproof/shared/uiblocks/ErrorDialog.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AddEmailDialog extends StatelessWidget {
   const AddEmailDialog({super.key});
@@ -33,13 +38,25 @@ class AddEmailDialog extends StatelessWidget {
                   labelText: 'Email',
                 )),
           ),
-          ElevatedButton(
-            onPressed: () {
-              if (emailController.text.isNotEmpty &&
-                  emailController.text.contains(RegExp(
-                      r"^[a-zA-Z0-9]+(?:\.[a-zA-Z0-9]+)*@[a-zA-Z0-9]+(?:\.[a-zA-Z0-9]+)*$"))) {}
+          BlocListener<SecureStorageBloc, SecureStorageState>(
+            listener: (context, state) {
+              if (state is EmailSavedState) {
+                Navigator.of(context).pop();
+              } else if (state is ErrorState) {
+                showDialog(
+                    context: context,
+                    builder: (context) => ErrorDialog(
+                        size: const Size(300, 450), error: state.errorMessage));
+              }
             },
-            child: const Text('other.submit').tr(),
+            child: ElevatedButton(
+              onPressed: () {
+                context
+                    .read<SecureStorageBloc>()
+                    .add(SaveEmailEvent(emailController.text));
+              },
+              child: const Text('other.submit').tr(),
+            ),
           ),
         ],
       ),
