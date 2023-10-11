@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 
 import '../../settings/logic/DevNetLogic.dart';
 import '../logic/blockchain/MessageSigningService.dart';
-import '../logic/blockchain/SaveToTangleLogic.dart';
 import '../logic/blockchain/ShowInExplorer.dart';
 import '../uiblocks/BackToHomeButton.dart';
 import '../uiblocks/ShareButton.dart';
@@ -98,9 +97,7 @@ class _SubmissionPageState extends State<SubmissionPage> {
                           final DateTime dateTime = DateTime.now();
                           String signature = await signingService.signMessage(
                               args["hash"] as String, dateTime);
-                          messageId = await SaveToTangleLogic(
-                                  signature, dateTime, shouldUseDevNet)
-                              .save(args["hash"] as String);
+
                           hasMessageId = true;
                           Navigator.of(context).pop();
                           setState(() {});
