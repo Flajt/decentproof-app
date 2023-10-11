@@ -5,8 +5,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../../settings/logic/DevNetLogic.dart';
-import '../logic/blockchain/MessageSigningService.dart';
-import '../logic/blockchain/ShowInExplorer.dart';
+import '../logic/backend/MessageSigningService.dart';
+import '../logic/backend/ShowInExplorer.dart';
 import '../uiblocks/BackToHomeButton.dart';
 import '../uiblocks/ShareButton.dart';
 
