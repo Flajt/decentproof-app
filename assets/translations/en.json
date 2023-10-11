@@ -26,7 +26,7 @@
     },
     "settingsPage":{
         "title": "Settings",
-        "devnet": "DevNet",
+        "addEmail": "Add E-Mail",
         "description": "If you want to save data in the DevNet. Not recommended!"
     },
     "submissionPage":{
@@ -37,7 +37,7 @@
     },
     "supportPage":{
         "title": "Support Development",
-        "description":"If you like this project, consider checking one of these links out. This will help immensely.",
+        "description":"If you would like to get proof certificate to verify the file yourself",
         "support": "Support development",
         "help": "Help development",
         "code": "Checkout the code"
@@ -55,6 +55,7 @@
         "video": "Take a video"
     },
     "other":{
-        "home":"Back to Home"
+        "home":"Back to Home",
+        "submit": "Submit"
     }
 }

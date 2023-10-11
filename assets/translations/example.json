@@ -26,7 +26,7 @@
     },
     "settingsPage":{
         "title": "",
-        "devnet": "",
+        "addEmail": "",
         "description": ""
     },
     "submissionPage":{
@@ -54,6 +54,7 @@
         "video": ""
     },
     "other":{
-        "home":""
+        "home":"",
+        "submit": ""
     }
 }

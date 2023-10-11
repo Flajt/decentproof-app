@@ -26,8 +26,8 @@
     },
     "settingsPage":{
         "title": "设置",
-        "devnet": "DevNet",
-        "description": "如果你想在DevNet中保存数据。不推荐！"
+        "addEmail": "添加电子邮件",
+        "description": "如果您想获得证明证书，以自行验证您的文件"
     },
     "submissionPage":{
         "hash": "你的哈希值：",
@@ -55,6 +55,7 @@
         "video": "拍摄一段视频"
     },
     "other":{
-        "home": "返回首页"
+        "home": "返回首页",
+        "submit": "确认"
     }
 }

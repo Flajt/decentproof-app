@@ -26,8 +26,8 @@
     },
     "settingsPage":{
         "title": "Settings",
-        "devnet": "DevNet",
-        "description": "Si quieres guardar datos en el DevNet. No se recomienda"
+        "addEmail": "Añadir correo electrónico",
+        "description": "Si desea obtener un certificado de prueba para verificar usted mismo su expediente"
     },
     "submissionPage":{
         "hash": "Su Hash:",
@@ -55,6 +55,7 @@
         "video": "Take a video"
     },
     "other":{
-        "home": "Volver a casa"
+        "home": "Volver a casa",
+        "submit": "Confirme"
     }
 }

@@ -20,14 +20,12 @@ class SecureStorageService implements ISecureStorageService {
   }
 
   @override
-  Future<String?> retriveEmail() {
-    // TODO: implement retriveEmail
-    throw UnimplementedError();
+  Future<String?> retriveEmail() async {
+    return await _secureStorage.read(key: "email");
   }
 
   @override
-  Future<void> saveEmail(String email) {
-    // TODO: implement saveEmail
-    throw UnimplementedError();
+  Future<void> saveEmail(String email) async {
+    await _secureStorage.write(key: "email", value: email);
   }
 }

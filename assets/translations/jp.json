@@ -26,8 +26,8 @@
     },
     "settingsPage":{
         "title": "設定",
-        "devnet": "DevNet",
-        "description": "DevNetにデータを保存したい場合。推奨しません！"
+        "addEmail": "電子メールの追加",
+        "description": "ご自身でファイルを確認するために証明書を取得したい場合"
     },
     "submissionPage":{
         "hash": "あなたのハッシュ:",
@@ -55,6 +55,7 @@
         "video": "動画を撮影する"
     },
     "other":{
-        "home": "ホームに戻る"
+        "home": "ホームに戻る",
+        "submit": "確認"
     }
 }
