@@ -48,7 +48,9 @@
         "selectFile": "选择一个文件",
         "hash": "你的哈希值：",
         "noFile": "没有选择文件！",
-        "id": "您的信息ID:"
+        "id": "您的信息ID:",
+        "showInExplorer": "显示交易",
+        "reset": "重置"
     },
     "videoImagePage":{
         "photo": "拍一张照片",

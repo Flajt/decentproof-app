@@ -48,7 +48,9 @@
         "selectFile": "ファイルを選択してください",
         "hash": "あなたのハッシュ:",
         "noFile": "選択されたファイルはありません！",
-        "id": "あなたのメッセージID:"
+        "id": "あなたのメッセージID:",
+        "showInExplorer": "トランザクションの表示",
+        "reset": "リセット"
     },
     "videoImagePage":{
         "photo": "写真を撮る",
