@@ -1,3 +1,4 @@
+import 'package:decentproof/features/hashing/logic/backend/ShowInExplorer.dart';
 import 'package:decentproof/features/verification/bloc/VerificationBloc.dart';
 import 'package:decentproof/features/verification/bloc/VerificationBlocEvents.dart';
 import 'package:decentproof/features/verification/bloc/VerificationBlocStates.dart';
@@ -28,7 +29,7 @@ class VerificationPage extends StatelessWidget {
       }, builder: (context, state) {
         if (state is InitialState) {
           return Center(
-              child: ElevatedButton(
+              child: FilledButton(
             onPressed: () =>
                 context.read<VerificationBloc>().add(VerifyHashEvent()),
             child: const Text("verificationPage.selectFile").tr(),
@@ -36,7 +37,28 @@ class VerificationPage extends StatelessWidget {
         } else if (state is VerifiedState) {
           return Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [CheckMarkTable(statusModel: state.statusModel)],
+            children: [
+              Align(
+                alignment: Alignment.topRight,
+                child: IconButton(
+                    icon: const Icon(Icons.arrow_back),
+                    onPressed: () => Navigator.of(context).pop()),
+              ),
+              CheckMarkTable(statusModel: state.statusModel),
+              Row(
+                children: [
+                  OutlinedButton(
+                    onPressed: () =>
+                        context.read<VerificationBloc>().add(ResetEvent()),
+                    child: const Text("verificationPage.reset").tr(),
+                  ),
+                  FilledButton(
+                      onPressed: () => ShowInExplorer()
+                          .show(hash: state.statusModel.transaction),
+                      child: const Text("verificationPage.showInExplorer").tr())
+                ],
+              )
+            ],
           );
         }
         return const Center(child: CircularProgressIndicator.adaptive());

@@ -1,5 +1,5 @@
 abstract class VerificationBlocEvents {}
 
-class VerifyHashEvent extends VerificationBlocEvents {
-  VerifyHashEvent();
-}
+class VerifyHashEvent extends VerificationBlocEvents {}
+
+class ResetEvent extends VerificationBlocEvents {}

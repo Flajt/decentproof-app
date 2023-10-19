@@ -3,7 +3,6 @@ import 'package:decentproof/features/verification/bloc/VerificationBlocStates.da
 import 'package:decentproof/features/verification/interfaces/IFileSelectionService.dart';
 import 'package:decentproof/features/verification/interfaces/IVerificationService.dart';
 import 'package:decentproof/features/verification/models/VerificationStatusModel.dart';
-import 'package:decentproof/shared/HashLogic.dart';
 import 'package:decentproof/shared/interface/IHashLogic.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -34,5 +33,6 @@ class VerificationBloc
         emit(ErrorState(e.toString()));
       }
     });
+    on<ResetEvent>((event, emit) => emit(InitialState()));
   }
 }

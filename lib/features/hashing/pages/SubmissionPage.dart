@@ -66,21 +66,6 @@ class _SubmissionPageState extends State<SubmissionPage> {
                   const TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0),
             ),
           ),
-          hasMessageId
-              ? Positioned(
-                  width: size.width - 10,
-                  height: size.height * .2,
-                  bottom: size.height * .2,
-                  child: TextButton(
-                      onPressed: () =>
-                          showInExplorer.show(messageId!, shouldUseDevNet),
-                      child: SelectableText(
-                        "${"submissionPage.messageid".tr()}\n\n $messageId",
-                        style: const TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 18.0),
-                        textAlign: TextAlign.center,
-                      )))
-              : Container(),
           Align(
               alignment: Alignment.bottomCenter,
               child: Padding(
