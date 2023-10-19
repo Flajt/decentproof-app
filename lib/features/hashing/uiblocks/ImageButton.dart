@@ -4,7 +4,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../../../shared/uiblocks/ProcessingDialog.dart';
-import '../logic/ImageSavingService.dart';
 
 class ImageButton extends StatelessWidget {
   const ImageButton(
@@ -26,12 +25,15 @@ class ImageButton extends StatelessWidget {
           child: InkWell(
             onTap: () async {
               String path = await imageManager.saveFile();
-              showDialog(
-                  context: context,
-                  builder: (context) => const ProcessingDialog());
-              String hash = await hashingService.hash(path);
-              Navigator.of(context).pushNamed("/submissionPage",
-                  arguments: {"hash": hash, "path": path});
+              if (context.mounted) {
+                showDialog(
+                    context: context,
+                    builder: (context) => const ProcessingDialog());
+                String hash = await hashingService.hash(path);
+                // ignore: use_build_context_synchronously
+                Navigator.of(context).pushNamed("/submissionPage",
+                    arguments: {"hash": hash, "path": path});
+              }
             },
             radius: size.width,
             splashColor: Colors.orangeAccent,
