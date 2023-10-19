@@ -28,6 +28,8 @@ class VerificationBloc
           VerificationStatusModel model =
               await _verificationService.verify(hash);
           emit(VerifiedState(model));
+        } else {
+          emit(InitialState());
         }
       } catch (e) {
         emit(ErrorState(e.toString()));
