@@ -1,4 +1,5 @@
 import 'package:decentproof/features/settings/bloc/SecureStorageBloc.dart';
+import 'package:decentproof/features/verification/bloc/VerificationBloc.dart';
 import 'package:decentproof/firebase_options.dart';
 import 'package:decentproof/features/hashing/pages/AudioPage.dart';
 import 'package:decentproof/features/home/pages/HomePage.dart';
@@ -49,7 +50,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-      providers: [BlocProvider(create: (context) => SecureStorageBloc())],
+      providers: [
+        BlocProvider(create: (context) => SecureStorageBloc()),
+        BlocProvider(create: (context) => VerificationBloc())
+      ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         localizationsDelegates: context.localizationDelegates,
