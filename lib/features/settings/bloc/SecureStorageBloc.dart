@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:decentproof/features/settings/bloc/SecureStorageBlocEvents.dart';
 import 'package:decentproof/features/settings/bloc/SecureStorageBlocState.dart';
-import 'package:decentproof/shared/integrety/interfaces/ISecureStorageService.dart';
+import 'package:decentproof/shared/Integrety/interfaces/ISecureStorageService.dart';
 import 'package:get_it/get_it.dart';
 
 class SecureStorageBloc

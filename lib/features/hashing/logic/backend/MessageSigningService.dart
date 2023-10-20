@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:decentproof/constants.dart';
-import 'package:decentproof/shared/integrety/interfaces/ISecureStorageService.dart';
+import 'package:decentproof/shared/Integrety/interfaces/ISecureStorageService.dart';
 import 'package:dio/dio.dart';
 import 'package:http_certificate_pinning/http_certificate_pinning.dart';
 

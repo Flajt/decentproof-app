@@ -1,7 +1,8 @@
 import 'package:decentproof/constants.dart';
-import 'package:decentproof/shared/integrety/interfaces/IApiKeyRequestService.dart';
 import 'package:dio/dio.dart';
 import 'package:http_certificate_pinning/http_certificate_pinning.dart';
+
+import 'interfaces/IApiKeyRequestService.dart';
 
 class ApiKeyRequestService implements IApiKeyRequestService {
   late final Dio _checkKeyRequestManager;

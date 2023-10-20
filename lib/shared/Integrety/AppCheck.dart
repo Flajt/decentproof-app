@@ -1,5 +1,6 @@
-import 'package:decentproof/shared/integrety/interfaces/IDeviceIntegrity.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
+
+import 'interfaces/IDeviceIntegrity.dart';
 
 class AppCheck implements IDeviceIntegrety {
   @override

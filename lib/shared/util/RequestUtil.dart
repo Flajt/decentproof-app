@@ -1,13 +1,13 @@
 import 'dart:math';
 
 import 'package:basic_utils/basic_utils.dart';
-import 'package:decentproof/shared/integrety/ApiKeyRequestService.dart';
-import 'package:decentproof/shared/integrety/SecureStorageWrapper.dart';
-import 'package:decentproof/shared/integrety/interfaces/IDeviceIntegrity.dart';
-import 'package:decentproof/shared/integrety/interfaces/ISecureStorageService.dart';
 
-import '../integrety/AppCheck.dart';
-import '../integrety/interfaces/IApiKeyRequestService.dart';
+import '../Integrety/ApiKeyRequestService.dart';
+import '../Integrety/AppCheck.dart';
+import '../Integrety/SecureStorageWrapper.dart';
+import '../Integrety/interfaces/IApiKeyRequestService.dart';
+import '../Integrety/interfaces/IDeviceIntegrity.dart';
+import '../Integrety/interfaces/ISecureStorageService.dart';
 
 ///Utility class for different Request methods
 class RequestUtil {

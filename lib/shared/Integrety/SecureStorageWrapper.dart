@@ -1,5 +1,6 @@
-import 'package:decentproof/shared/integrety/interfaces/ISecureStorageService.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
+import 'interfaces/ISecureStorageService.dart';
 
 ///Handles sensitive data storage
 class SecureStorageService implements ISecureStorageService {

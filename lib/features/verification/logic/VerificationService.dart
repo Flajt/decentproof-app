@@ -4,7 +4,7 @@ import 'package:decentproof/constants.dart';
 import 'package:decentproof/features/verification/interfaces/ISignatureVerifcationService.dart';
 import 'package:decentproof/features/verification/interfaces/IVerificationService.dart';
 import 'package:decentproof/features/verification/models/VerificationStatusResponse.dart';
-import 'package:decentproof/shared/integrety/interfaces/ISecureStorageService.dart';
+import 'package:decentproof/shared/Integrety/interfaces/ISecureStorageService.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 

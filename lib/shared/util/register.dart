@@ -5,10 +5,11 @@ import 'package:decentproof/features/verification/logic/FileSelectionService.dar
 import 'package:decentproof/features/verification/logic/SignatureVerificationService.dart';
 import 'package:decentproof/features/verification/logic/VerificationService.dart';
 import 'package:decentproof/shared/HashLogic.dart';
-import 'package:decentproof/shared/integrety/SecureStorageWrapper.dart';
-import 'package:decentproof/shared/integrety/interfaces/ISecureStorageService.dart';
 import 'package:decentproof/shared/interface/IHashLogic.dart';
 import 'package:get_it/get_it.dart';
+
+import '../Integrety/SecureStorageWrapper.dart';
+import '../Integrety/interfaces/ISecureStorageService.dart';
 
 /// Register classed for dependency injection
 Future<void> registar() async {
