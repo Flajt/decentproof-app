@@ -47,7 +47,9 @@
         "selectFile":"",
         "hash": "",
         "noFile":"",
-        "id": ""
+        "id": "",
+        "showInExplorer": "",
+        "reset": ""
     },
     "videoImagePage":{
         "photo": "",

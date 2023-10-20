@@ -47,7 +47,9 @@
         "selectFile":"Datei auswählen",
         "hash": "Ihr Hash:",
         "noFile":"Keine Datei ausgewählt!",
-        "id": "Nachriten ID"
+        "id": "Nachrichten ID",
+        "showInExplorer": "Transaktion anzeigen",
+        "reset": "Zurücksetzen"
     },
     "videoImagePage":{
         "photo": "Ein Foto machen",

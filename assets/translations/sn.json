@@ -48,7 +48,9 @@
         "selectFile": "Selecciona un archivo",
         "hash": "Su Hash:",
         "noFile": "¡No se ha seleccionado ningún archivo!",
-        "id": "Su ID de mensaje:"
+        "id": "Su ID de mensaje:",
+        "showInExplorer" : "Mostrar transacción",
+        "reset": "Restablecer"
     },
     "videoImagePage":{
         "photo": "Toma una foto",

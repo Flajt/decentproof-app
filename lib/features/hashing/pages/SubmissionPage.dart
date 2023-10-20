@@ -5,9 +5,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../../settings/logic/DevNetLogic.dart';
-import '../logic/blockchain/MessageSigningService.dart';
-import '../logic/blockchain/SaveToTangleLogic.dart';
-import '../logic/blockchain/ShowInExplorer.dart';
+import '../logic/backend/MessageSigningService.dart';
+import '../logic/backend/ShowInExplorer.dart';
 import '../uiblocks/BackToHomeButton.dart';
 import '../uiblocks/ShareButton.dart';
 
@@ -67,21 +66,6 @@ class _SubmissionPageState extends State<SubmissionPage> {
                   const TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0),
             ),
           ),
-          hasMessageId
-              ? Positioned(
-                  width: size.width - 10,
-                  height: size.height * .2,
-                  bottom: size.height * .2,
-                  child: TextButton(
-                      onPressed: () =>
-                          showInExplorer.show(messageId!, shouldUseDevNet),
-                      child: SelectableText(
-                        "${"submissionPage.messageid".tr()}\n\n $messageId",
-                        style: const TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 18.0),
-                        textAlign: TextAlign.center,
-                      )))
-              : Container(),
           Align(
               alignment: Alignment.bottomCenter,
               child: Padding(
@@ -98,9 +82,7 @@ class _SubmissionPageState extends State<SubmissionPage> {
                           final DateTime dateTime = DateTime.now();
                           String signature = await signingService.signMessage(
                               args["hash"] as String, dateTime);
-                          messageId = await SaveToTangleLogic(
-                                  signature, dateTime, shouldUseDevNet)
-                              .save(args["hash"] as String);
+
                           hasMessageId = true;
                           Navigator.of(context).pop();
                           setState(() {});
