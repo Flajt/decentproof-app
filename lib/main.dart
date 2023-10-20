@@ -76,7 +76,7 @@ class MyApp extends StatelessWidget {
                 if (snapshot.data == true) {
                   return const IntroPage();
                 }
-                return const HomePage();
+                return HomePage();
               });
         }),
       ),
