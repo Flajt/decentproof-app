@@ -47,8 +47,8 @@ dependencies:
   flutter_donation_buttons: ^0.4.7
   simple_icons: ^7.1.0
   shared_preferences: ^2.0.15
-  firebase_core: ^2.4.0
-  firebase_app_check: ^0.1.1+6
+  firebase_core: ^2.19.0
+  firebase_app_check: ^0.2.1+1
   dio: ^5.3.2
   http_certificate_pinning: ^2.0.4
   flutter_secure_storage: ^9.0.0
