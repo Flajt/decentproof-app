@@ -6,8 +6,8 @@ import '../uiblocks/SettingsButton.dart';
 import '../uiblocks/SupportButton.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
-
+  HomePage({Key? key}) : super(key: key);
+  final Future<void> request = RequestUtil.updateOrRetriveKey();
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -26,7 +26,7 @@ class HomePage extends StatelessWidget {
           Align(
               alignment: Alignment.center,
               child: FutureBuilder(
-                future: RequestUtil.updateOrRetriveKey(),
+                future: request,
                 builder: (context, snapshot) {
                   if (snapshot.hasError) {
                     return Center(

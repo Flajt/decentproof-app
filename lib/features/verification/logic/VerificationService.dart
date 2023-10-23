@@ -37,9 +37,8 @@ class VerificatinService implements IVerificationService {
           "Content-Type": "application/json"
         }));
     if (resp.statusCode == 200) {
-      Map<String, dynamic> jsonBody = jsonDecode(resp.data);
       VerificationStatusResponsModel responseModel =
-          VerificationStatusResponsModel.fromJson(jsonBody);
+          VerificationStatusResponsModel.fromJson(resp.data);
       VerificationStatusModel statusModel = VerificationStatusModel(
           hash == responseModel.data.hashString,
           await verifySignature(hash, responseModel.data.comment),

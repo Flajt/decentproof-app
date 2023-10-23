@@ -30,9 +30,12 @@
         "description": ""
     },
     "submissionPage":{
+        "title":"",
         "hash": "",
         "messageid": "",
-        "submitt": ""
+        "submitt": "",
+        "submissionSuccess": ""
+
     },
     "supportPage":{
         "title": "",

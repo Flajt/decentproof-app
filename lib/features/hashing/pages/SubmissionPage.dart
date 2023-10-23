@@ -1,105 +1,100 @@
-import 'package:decentproof/shared/Integrety/SecureStorageWrapper.dart';
+import 'package:decentproof/features/hashing/bloc/SubmissionBloc.dart';
+import 'package:decentproof/features/hashing/bloc/SubmissionEvents.dart';
+import 'package:decentproof/features/hashing/bloc/SubmissionState.dart';
 import 'package:decentproof/shared/uiblocks/ErrorDialog.dart';
-import 'package:decentproof/shared/uiblocks/ProcessingDialog.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../settings/logic/DevNetLogic.dart';
-import '../logic/backend/MessageSigningService.dart';
-import '../logic/backend/ShowInExplorer.dart';
 import '../uiblocks/BackToHomeButton.dart';
 import '../uiblocks/ShareButton.dart';
 
-class SubmissionPage extends StatefulWidget {
+class SubmissionPage extends StatelessWidget {
   const SubmissionPage({Key? key}) : super(key: key);
-  @override
-  State<SubmissionPage> createState() => _SubmissionPageState();
-}
-
-class _SubmissionPageState extends State<SubmissionPage> {
-  bool hasMessageId = false;
-  String? messageId;
-  final DevNetLogic devNetLogic = DevNetLogic();
-  late bool shouldUseDevNet;
-  late final ShowInExplorer showInExplorer = ShowInExplorer();
-  final signingService = MessageSigningService(SecureStorageService());
-  bool hasSubmitted = false;
-
-  @override
-  void didChangeDependencies() async {
-    super.didChangeDependencies();
-    shouldUseDevNet = await devNetLogic.shouldUseDevNet;
-  }
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     Map<String, String> args =
         ModalRoute.of(context)!.settings.arguments as Map<String, String>;
     return Scaffold(
+        resizeToAvoidBottomInset: false,
         body: SafeArea(
             child: SizedBox.fromSize(
-      size: size,
-      child: Stack(
-        children: [
-          Align(
-            alignment: Alignment.topRight,
-            child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ShareButton(filePath: args["path"]!)),
-          ),
-          const Align(
-            alignment: Alignment.topLeft,
-            child: Padding(
-              padding: EdgeInsets.all(8.0),
-              child: BackToHomeButton(),
+          size: size,
+          child: BlocListener<SubmissionBloc, SubmissionStates>(
+            listener: (context, state) {
+              if (state is SubmissionError) {
+                showDialog(
+                    context: context,
+                    builder: (context) => ErrorDialog(
+                          error: state.message,
+                          size: size,
+                        ));
+              }
+            },
+            child: Stack(
+              children: [
+                Align(
+                  alignment: Alignment.topRight,
+                  child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ShareButton(filePath: args["path"]!)),
+                ),
+                const Align(
+                  alignment: Alignment.topLeft,
+                  child: Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: BackToHomeButton(),
+                  ),
+                ),
+                Positioned(
+                  height: size.height * .4,
+                  width: size.width - 10,
+                  top: size.height * .2,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: SelectableText(
+                      "${"submissionPage.hash".tr()}\n\n ${args["hash"]}",
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.headlineSmall,
+                    ),
+                  ),
+                ),
+                BlocBuilder<SubmissionBloc, SubmissionStates>(
+                    builder: (context, state) {
+                  if (state is SubmissionInitial) {
+                    return Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: ElevatedButton(
+                              onPressed: () async {
+                                context
+                                    .read<SubmissionBloc>()
+                                    .add(SubmitHash(args["hash"]!));
+                              },
+                              child: const Text("submissionPage.submitt").tr()),
+                        ));
+                  } else if (state is SubmissionSuccessfull) {
+                    return Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Text("submissionPage.submissionSuccess",
+                                  style: Theme.of(context).textTheme.bodyLarge)
+                              .tr(),
+                          const BackToHomeButton()
+                        ],
+                      ),
+                    );
+                  }
+                  return const Center(
+                      child: CircularProgressIndicator.adaptive());
+                })
+              ],
             ),
           ),
-          Positioned(
-            height: size.height * .2,
-            width: size.width - 10,
-            top: size.height * .2,
-            child: Text(
-              "${"submissionPage.hash".tr()}\n\n ${args["hash"]}",
-              textAlign: TextAlign.center,
-              style:
-                  const TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0),
-            ),
-          ),
-          Align(
-              alignment: Alignment.bottomCenter,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                //TODO: Extract button into own widget
-                child: ElevatedButton(
-                    onPressed: () async {
-                      try {
-                        if (!hasSubmitted) {
-                          hasSubmitted = !hasSubmitted;
-                          showDialog(
-                              context: context,
-                              builder: (context) => const ProcessingDialog());
-                          final DateTime dateTime = DateTime.now();
-                          String signature = await signingService.signMessage(
-                              args["hash"] as String, dateTime);
-
-                          hasMessageId = true;
-                          Navigator.of(context).pop();
-                          setState(() {});
-                        }
-                      } catch (e) {
-                        hasSubmitted = false;
-                        Navigator.of(context).pop();
-                        showDialog(
-                            context: context,
-                            builder: (context) =>
-                                ErrorDialog(size: size, error: e.toString()));
-                      }
-                    },
-                    child: const Text("submissionPage.submitt").tr()),
-              ))
-        ],
-      ),
-    )));
+        )));
   }
 }

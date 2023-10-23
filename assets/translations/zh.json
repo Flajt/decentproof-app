@@ -32,7 +32,9 @@
     "submissionPage":{
         "hash": "你的哈希值：",
         "messageid": "Message ID",
-        "submitt": "提交"
+        "submitt": "提交",
+        "submissionSuccess": "成功提交"
+
 
     },
     "supportPage":{
@@ -43,6 +45,7 @@
         "code": "查看代码"
     },
     "verifyPage":{
+        "title": "验证文件",
         "notModified": "看来你的文件还没有被修改",
         "error": "发生了一个错误",
         "selectFile": "选择一个文件",

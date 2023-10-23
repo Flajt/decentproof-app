@@ -25,7 +25,7 @@ class VerificationStatusData {
         created = json["created"],
         dateCreated = json["date_created"],
         hashString = json["hash_string"],
-        timestamps = json["timestamps"]
+        timestamps = ((json["timestamps"] as List<dynamic>)
             .map((e) => OriginstampTimeStampModel.fromJson(e))
-            .toList();
+            .toList());
 }

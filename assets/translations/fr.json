@@ -32,7 +32,9 @@
     "submissionPage":{
         "hash" : "Your Hash :",
         "messageid" : "ID du message",
-        "submitt" : "Submitt"
+        "submitt" : "Submitt",
+        "submissionSuccess": "Soumis avec succès"
+
 
     },
     "supportPage":{
@@ -43,6 +45,7 @@
         "code" : "Vérifier le code"
     },
     "verificationPage":{
+        "title": "Vérifier le fichier",
         "notModified" : "Il semble que votre fichier n'ait pas été modifié",
         "error" : "Une erreur s'est produite",
         "selectFile" : "Sélectionnez un fichier",
