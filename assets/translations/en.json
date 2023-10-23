@@ -26,35 +26,41 @@
     },
     "settingsPage":{
         "title": "Settings",
-        "devnet": "DevNet",
+        "addEmail": "Add E-Mail",
         "description": "If you want to save data in the DevNet. Not recommended!"
     },
     "submissionPage":{
         "hash": "Your Hash:",
         "messageid": "Message ID",
-        "submitt": "Submitt"
+        "submitt": "Submit",
+        "submissionSuccess": "Submission successfull!"
+
 
     },
     "supportPage":{
         "title": "Support Development",
-        "description":"If you like this project, consider checking one of these links out. This will help immensely.",
+        "description":"If you would like to get proof certificate to verify the file yourself",
         "support": "Support development",
         "help": "Help development",
         "code": "Checkout the code"
     },
     "verificationPage":{
+        "title": "Verify File",
         "notModified":"It seems that your file hasn't been modified",
         "error":"An error has occured",
         "selectFile":"Select a file",
         "hash": "Your Hash:",
         "noFile":"No file selected!",
-        "id": "Your Message ID:"
+        "id": "Your Message ID:",
+        "showInExplorer": "View Transaction",
+        "reset": "Reset"
     },
     "videoImagePage":{
         "photo": "Take a photo",
         "video": "Take a video"
     },
     "other":{
-        "home":"Back to Home"
+        "home":"Back to Home",
+        "submit": "Submit"
     }
 }

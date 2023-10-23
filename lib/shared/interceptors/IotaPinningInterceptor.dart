@@ -3,8 +3,7 @@ import 'dart:async';
 import 'package:chopper/chopper.dart';
 import 'package:http_certificate_pinning/http_certificate_pinning.dart';
 
-class IotaSSLPinningInterceptor extends RequestInterceptor {
-  @override
+class IotaSSLPinningInterceptor {
   FutureOr<Request> onRequest(Request request) async {
     String secure = await HttpCertificatePinning.check(
         headerHttp: request.headers,

@@ -26,13 +26,16 @@
     },
     "settingsPage":{
         "title": "",
-        "devnet": "",
+        "addEmail": "",
         "description": ""
     },
     "submissionPage":{
+        "title":"",
         "hash": "",
         "messageid": "",
-        "submitt": ""
+        "submitt": "",
+        "submissionSuccess": ""
+
     },
     "supportPage":{
         "title": "",
@@ -47,13 +50,16 @@
         "selectFile":"",
         "hash": "",
         "noFile":"",
-        "id": ""
+        "id": "",
+        "showInExplorer": "",
+        "reset": ""
     },
     "videoImagePage":{
         "photo": "",
         "video": ""
     },
     "other":{
-        "home":""
+        "home":"",
+        "submit": ""
     }
 }

@@ -26,14 +26,14 @@
     },
     "settingsPage":{
         "title": "設定",
-        "devnet": "DevNet",
-        "description": "DevNetにデータを保存したい場合。推奨しません！"
+        "addEmail": "電子メールの追加",
+        "description": "ご自身でファイルを確認するために証明書を取得したい場合"
     },
     "submissionPage":{
         "hash": "あなたのハッシュ:",
         "messageid": "メッセージID",
-        "submitt": "送信"
-
+        "submitt": "送信",
+        "submissionSuccess": "提出に成功"
     },
     "supportpage":{
         "title": "サポート開発",
@@ -43,18 +43,22 @@
         "code": "コードのチェックアウト"
     },
     "verificationPage":{
+        "title": "ベリファイファイル",
         "notModified": "ファイルが変更されていないようです",
         "error": "エラーが発生しました",
         "selectFile": "ファイルを選択してください",
         "hash": "あなたのハッシュ:",
         "noFile": "選択されたファイルはありません！",
-        "id": "あなたのメッセージID:"
+        "id": "あなたのメッセージID:",
+        "showInExplorer": "トランザクションの表示",
+        "reset": "リセット"
     },
     "videoImagePage":{
         "photo": "写真を撮る",
         "video": "動画を撮影する"
     },
     "other":{
-        "home": "ホームに戻る"
+        "home": "ホームに戻る",
+        "submit": "確認"
     }
 }

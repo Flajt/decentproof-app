@@ -26,13 +26,15 @@
     },
     "settingsPage":{
         "title" : "Paramètres",
-        "devnet" : "DevNet",
-        "description" : "Si vous voulez enregistrer des données dans le DevNet. Non recommandé !"
+        "addEmail" : "Ajouter un email",
+        "description" : "Si vous voulez obtenir un certificat de preuve pour vérifier votre fichier vous-même"
     },
     "submissionPage":{
         "hash" : "Your Hash :",
         "messageid" : "ID du message",
-        "submitt" : "Submitt"
+        "submitt" : "Submitt",
+        "submissionSuccess": "Soumis avec succès"
+
 
     },
     "supportPage":{
@@ -43,18 +45,22 @@
         "code" : "Vérifier le code"
     },
     "verificationPage":{
+        "title": "Vérifier le fichier",
         "notModified" : "Il semble que votre fichier n'ait pas été modifié",
         "error" : "Une erreur s'est produite",
         "selectFile" : "Sélectionnez un fichier",
         "hash" : "Your Hash :",
         "noFile" : "Aucun fichier sélectionné !",
-        "id" : "Your Message ID :"
+        "id" : "Your Message ID :",
+        "showInExplorer": "Afficher la transaction",
+        "reset": "Réinitialiser"
     },
     "videoImagePage":{
         "photo" : "Prendre une photo",
         "video" : "Prendre une vidéo"
     },
     "other":{
-        "home" : "Retour à l'accueil"
+        "home" : "Retour à l'accueil",
+        "submit": "Confirmer"
     }
 }

@@ -26,13 +26,15 @@
     },
     "settingsPage":{
         "title": "设置",
-        "devnet": "DevNet",
-        "description": "如果你想在DevNet中保存数据。不推荐！"
+        "addEmail": "添加电子邮件",
+        "description": "如果您想获得证明证书，以自行验证您的文件"
     },
     "submissionPage":{
         "hash": "你的哈希值：",
         "messageid": "Message ID",
-        "submitt": "提交"
+        "submitt": "提交",
+        "submissionSuccess": "成功提交"
+
 
     },
     "supportPage":{
@@ -43,18 +45,22 @@
         "code": "查看代码"
     },
     "verifyPage":{
+        "title": "验证文件",
         "notModified": "看来你的文件还没有被修改",
         "error": "发生了一个错误",
         "selectFile": "选择一个文件",
         "hash": "你的哈希值：",
         "noFile": "没有选择文件！",
-        "id": "您的信息ID:"
+        "id": "您的信息ID:",
+        "showInExplorer": "显示交易",
+        "reset": "重置"
     },
     "videoImagePage":{
         "photo": "拍一张照片",
         "video": "拍摄一段视频"
     },
     "other":{
-        "home": "返回首页"
+        "home": "返回首页",
+        "submit": "确认"
     }
 }
