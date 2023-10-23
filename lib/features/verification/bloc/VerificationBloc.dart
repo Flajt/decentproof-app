@@ -33,6 +33,7 @@ class VerificationBloc
         }
       } catch (e) {
         emit(ErrorState(e.toString()));
+        emit(InitialState());
       }
     });
     on<ResetEvent>((event, emit) => emit(InitialState()));
