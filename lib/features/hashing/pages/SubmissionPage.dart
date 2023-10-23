@@ -5,7 +5,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../../settings/logic/DevNetLogic.dart';
-import '../logic/backend/MessageSigningService.dart';
+import '../logic/backend/HashSubmissionService.dart';
 import '../logic/backend/ShowInExplorer.dart';
 import '../uiblocks/BackToHomeButton.dart';
 import '../uiblocks/ShareButton.dart';
@@ -22,7 +22,7 @@ class _SubmissionPageState extends State<SubmissionPage> {
   final DevNetLogic devNetLogic = DevNetLogic();
   late bool shouldUseDevNet;
   late final ShowInExplorer showInExplorer = ShowInExplorer();
-  final signingService = MessageSigningService(SecureStorageService());
+  final signingService = HashSubmissionService();
   bool hasSubmitted = false;
 
   @override
@@ -80,8 +80,8 @@ class _SubmissionPageState extends State<SubmissionPage> {
                               context: context,
                               builder: (context) => const ProcessingDialog());
                           final DateTime dateTime = DateTime.now();
-                          String signature = await signingService.signMessage(
-                              args["hash"] as String, dateTime);
+                          String signature = await signingService.submitHash(
+                              args["hash"] as String, "");
 
                           hasMessageId = true;
                           Navigator.of(context).pop();

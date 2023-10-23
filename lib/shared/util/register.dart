@@ -1,3 +1,5 @@
+import 'package:decentproof/features/hashing/interfaces/IHashSubmissionService.dart';
+import 'package:decentproof/features/hashing/logic/backend/HashSubmissionService.dart';
 import 'package:decentproof/features/verification/interfaces/IFileSelectionService.dart';
 import 'package:decentproof/features/verification/interfaces/ISignatureVerifcationService.dart';
 import 'package:decentproof/features/verification/interfaces/IVerificationService.dart';
@@ -23,4 +25,5 @@ Future<void> registar() async {
   getIt.registerFactory<IVerificationService>(() => VerificatinService());
   getIt.registerFactory<IFileSelectionService>(() => FileSelectionService());
   getIt.registerFactory<IHashLogic>(() => HashLogic());
+  getIt.registerFactory<IHashSubmissionService>(() => HashSubmissionService());
 }
