@@ -1,3 +1,4 @@
+import 'package:decentproof/features/hashing/bloc/SubmissionBloc.dart';
 import 'package:decentproof/features/settings/bloc/SecureStorageBloc.dart';
 import 'package:decentproof/features/verification/bloc/VerificationBloc.dart';
 import 'package:decentproof/firebase_options.dart';
@@ -52,7 +53,8 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => SecureStorageBloc()),
-        BlocProvider(create: (context) => VerificationBloc())
+        BlocProvider(create: (context) => VerificationBloc()),
+        BlocProvider(create: (context) => SubmissionBloc())
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

@@ -1,36 +1,17 @@
-import 'package:decentproof/shared/Integrety/SecureStorageWrapper.dart';
+import 'package:decentproof/features/hashing/bloc/SubmissionState.dart';
 import 'package:decentproof/shared/uiblocks/ErrorDialog.dart';
 import 'package:decentproof/shared/uiblocks/ProcessingDialog.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../settings/logic/DevNetLogic.dart';
 import '../logic/backend/HashSubmissionService.dart';
 import '../logic/backend/ShowInExplorer.dart';
 import '../uiblocks/BackToHomeButton.dart';
 import '../uiblocks/ShareButton.dart';
 
-class SubmissionPage extends StatefulWidget {
+class SubmissionPage extends StatelessWidget {
   const SubmissionPage({Key? key}) : super(key: key);
-  @override
-  State<SubmissionPage> createState() => _SubmissionPageState();
-}
-
-class _SubmissionPageState extends State<SubmissionPage> {
-  bool hasMessageId = false;
-  String? messageId;
-  final DevNetLogic devNetLogic = DevNetLogic();
-  late bool shouldUseDevNet;
-  late final ShowInExplorer showInExplorer = ShowInExplorer();
-  final signingService = HashSubmissionService();
-  bool hasSubmitted = false;
-
-  @override
-  void didChangeDependencies() async {
-    super.didChangeDependencies();
-    shouldUseDevNet = await devNetLogic.shouldUseDevNet;
-  }
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -66,38 +47,32 @@ class _SubmissionPageState extends State<SubmissionPage> {
                   const TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0),
             ),
           ),
-          Align(
-              alignment: Alignment.bottomCenter,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                //TODO: Extract button into own widget
-                child: ElevatedButton(
-                    onPressed: () async {
-                      try {
-                        if (!hasSubmitted) {
-                          hasSubmitted = !hasSubmitted;
-                          showDialog(
-                              context: context,
-                              builder: (context) => const ProcessingDialog());
-                          final DateTime dateTime = DateTime.now();
-                          String signature = await signingService.submitHash(
-                              args["hash"] as String, "");
-
-                          hasMessageId = true;
-                          Navigator.of(context).pop();
-                          setState(() {});
-                        }
-                      } catch (e) {
-                        hasSubmitted = false;
-                        Navigator.of(context).pop();
-                        showDialog(
-                            context: context,
-                            builder: (context) =>
-                                ErrorDialog(size: size, error: e.toString()));
-                      }
-                    },
-                    child: const Text("submissionPage.submitt").tr()),
-              ))
+          BlocBuilder(builder: (context, state) {
+            if (state is SubmissionInitial) {
+              return Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ElevatedButton(
+                        onPressed: () async {},
+                        child: const Text("submissionPage.submitt").tr()),
+                  ));
+            } else if (state is SubmissionSuccessfull) {
+              return Align(
+                alignment: Alignment.bottomCenter,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Text("submissionPage.submissionSuccess",
+                            style: Theme.of(context).textTheme.headlineMedium)
+                        .tr(),
+                    const BackToHomeButton()
+                  ],
+                ),
+              );
+            }
+            return const Center(child: CircularProgressIndicator.adaptive());
+          })
         ],
       ),
     )));
