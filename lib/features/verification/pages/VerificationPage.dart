@@ -29,17 +29,39 @@ class VerificationPage extends StatelessWidget {
           }
         }, builder: (context, state) {
           if (state is InitialState) {
-            return Center(
-                child: FilledButton(
-              onPressed: () =>
-                  context.read<VerificationBloc>().add(VerifyHashEvent()),
-              child: const Text("verificationPage.selectFile").tr(),
-            ));
+            return Column(
+              children: [
+                Expanded(
+                    flex: 1,
+                    child: FractionallySizedBox(
+                      heightFactor: .5,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text("verificationPage.title",
+                                style:
+                                    Theme.of(context).textTheme.headlineLarge)
+                            .tr(),
+                      ),
+                    )),
+                Expanded(
+                  flex: 1,
+                  child: Center(
+                      child: FilledButton(
+                    onPressed: () =>
+                        context.read<VerificationBloc>().add(VerifyHashEvent()),
+                    child: const Text("verificationPage.selectFile").tr(),
+                  )),
+                ),
+              ],
+            );
           } else if (state is VerifiedState) {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
+                Text("verificationPage.title",
+                        style: Theme.of(context).textTheme.headlineLarge)
+                    .tr(),
                 CheckMarkTable(statusModel: state.statusModel),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
