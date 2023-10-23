@@ -9,12 +9,25 @@ class CheckMarkTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
+        margin: const EdgeInsets.all(8.0),
         child: Row(
-      children: [
-        value ? const Icon(Icons.check) : const Icon(Icons.close),
-        Text(title)
-      ],
-    ));
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            value
+                ? const Icon(
+                    Icons.check,
+                    color: Colors.greenAccent,
+                  )
+                : const Icon(
+                    Icons.close,
+                    color: Colors.redAccent,
+                  ),
+            Text(
+              title,
+              style: Theme.of(context).textTheme.titleLarge,
+            )
+          ],
+        ));
   }
 }
