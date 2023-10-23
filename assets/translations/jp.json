@@ -32,8 +32,8 @@
     "submissionPage":{
         "hash": "あなたのハッシュ:",
         "messageid": "メッセージID",
-        "submitt": "送信"
-
+        "submitt": "送信",
+        "submissionSuccess": "提出に成功"
     },
     "supportpage":{
         "title": "サポート開発",

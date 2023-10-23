@@ -32,7 +32,9 @@
     "submissionPage":{
         "hash": "Su Hash:",
         "messageid": "Message ID",
-        "submitt": "Submitt"
+        "submitt": "Enviar",
+        "submissionSuccess": "Enviado con éxito"
+
 
     },
     "supportPage":{

@@ -32,7 +32,9 @@
     "submissionPage":{
         "hash": "",
         "messageid": "",
-        "submitt": ""
+        "submitt": "",
+        "submissionSuccess": ""
+
     },
     "supportPage":{
         "title": "",

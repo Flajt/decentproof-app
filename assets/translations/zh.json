@@ -32,7 +32,9 @@
     "submissionPage":{
         "hash": "你的哈希值：",
         "messageid": "Message ID",
-        "submitt": "提交"
+        "submitt": "提交",
+        "submissionSuccess": "成功提交"
+
 
     },
     "supportPage":{

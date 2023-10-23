@@ -32,7 +32,8 @@
     "submissionPage":{
         "hash": "Ihr Hash",
         "messageid": "Nachrichten ID",
-        "submitt": "Einreichen"
+        "submitt": "Einreichen",
+        "submissionSuccess": "Erfolgreich eingereicht"
     },
     "supportPage":{
         "title": "Unterstützung",
