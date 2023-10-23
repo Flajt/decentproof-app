@@ -14,55 +14,54 @@ class VerificationPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: SafeArea(
-          child: BlocConsumer<VerificationBloc, VerificationBlocStates>(
-              listener: (context, state) {
-        if (state is ErrorState) {
-          showDialog(
-              context: context,
-              builder: (context) => ErrorDialog(
-                    size: const Size(300, 350),
-                    error: state.message,
-                  ));
-        }
-      }, builder: (context, state) {
-        if (state is InitialState) {
-          return Center(
-              child: FilledButton(
-            onPressed: () =>
-                context.read<VerificationBloc>().add(VerifyHashEvent()),
-            child: const Text("verificationPage.selectFile").tr(),
-          ));
-        } else if (state is VerifiedState) {
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Align(
-                alignment: Alignment.topRight,
-                child: IconButton(
-                    icon: const Icon(Icons.arrow_back),
-                    onPressed: () => Navigator.of(context).pop()),
-              ),
-              CheckMarkTable(statusModel: state.statusModel),
-              Row(
-                children: [
-                  OutlinedButton(
-                    onPressed: () =>
-                        context.read<VerificationBloc>().add(ResetEvent()),
-                    child: const Text("verificationPage.reset").tr(),
-                  ),
-                  FilledButton(
-                      onPressed: () => ShowInExplorer()
-                          .show(hash: state.statusModel.transaction),
-                      child: const Text("verificationPage.showInExplorer").tr())
-                ],
-              )
-            ],
-          );
-        }
-        return const Center(child: CircularProgressIndicator.adaptive());
-      })),
+        child: BlocConsumer<VerificationBloc, VerificationBlocStates>(
+            listener: (context, state) {
+          if (state is ErrorState) {
+            showDialog(
+                context: context,
+                builder: (context) => ErrorDialog(
+                      size: size,
+                      error: state.message,
+                    ));
+          }
+        }, builder: (context, state) {
+          if (state is InitialState) {
+            return Center(
+                child: FilledButton(
+              onPressed: () =>
+                  context.read<VerificationBloc>().add(VerifyHashEvent()),
+              child: const Text("verificationPage.selectFile").tr(),
+            ));
+          } else if (state is VerifiedState) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                CheckMarkTable(statusModel: state.statusModel),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    OutlinedButton(
+                      onPressed: () =>
+                          context.read<VerificationBloc>().add(ResetEvent()),
+                      child: const Text("verificationPage.reset").tr(),
+                    ),
+                    FilledButton(
+                        onPressed: () => ShowInExplorer()
+                            .show(hash: state.statusModel.transaction),
+                        child:
+                            const Text("verificationPage.showInExplorer").tr())
+                  ],
+                )
+              ],
+            );
+          }
+          return const Center(child: CircularProgressIndicator.adaptive());
+        }),
+      ),
     );
   }
 }
