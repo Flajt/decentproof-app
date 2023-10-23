@@ -18,7 +18,7 @@ class HashSubmissionService implements IHashSubmissionService {
   }
 
   @override
-  Future<String> submitHash(String hash, String? email) async {
+  Future<void> submitHash(String hash, String? email) async {
     String? apiKey = await _secureStorageService.retriveApiKey();
     if (apiKey == null) {
       throw "No API KEY";
@@ -26,9 +26,6 @@ class HashSubmissionService implements IHashSubmissionService {
     Response resp = await _dio.post("/",
         data: jsonEncode({"data": hash, "email": email ?? ""}),
         options: Options(headers: {"Authorization": "basic $apiKey"}));
-    if (resp.statusCode == 200) {
-      return resp.data["signature"];
-    }
-    throw resp.statusCode.toString();
+    if (resp.statusCode != 200) throw resp.statusCode.toString();
   }
 }
