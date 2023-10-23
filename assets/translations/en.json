@@ -45,6 +45,7 @@
         "code": "Checkout the code"
     },
     "verificationPage":{
+        "title": "Verify File",
         "notModified":"It seems that your file hasn't been modified",
         "error":"An error has occured",
         "selectFile":"Select a file",

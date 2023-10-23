@@ -43,6 +43,7 @@
         "code": "コードのチェックアウト"
     },
     "verificationPage":{
+        "title": "ベリファイファイル",
         "notModified": "ファイルが変更されていないようです",
         "error": "エラーが発生しました",
         "selectFile": "ファイルを選択してください",

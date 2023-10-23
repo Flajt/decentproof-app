@@ -43,6 +43,7 @@
         "code": "Projekt Code einsehen"
     },
     "verificationPage":{
+        "title": "Datei Verifizieren",
         "notModified":"Ihre Datei scheint nicht modifiziert zu sein",
         "error":"Ein Fehler trat auf",
         "selectFile":"Datei auswählen",

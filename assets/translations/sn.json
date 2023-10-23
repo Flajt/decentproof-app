@@ -45,6 +45,7 @@
         "code": "Comprobar el código"
     },
     "verificationPage":{
+        "title": "Verificar archivo",
         "notModified": "Parece que su archivo no ha sido modificado",
         "error": "Se ha producido un error",
         "selectFile": "Selecciona un archivo",

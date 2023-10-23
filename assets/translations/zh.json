@@ -45,6 +45,7 @@
         "code": "查看代码"
     },
     "verifyPage":{
+        "title": "验证文件",
         "notModified": "看来你的文件还没有被修改",
         "error": "发生了一个错误",
         "selectFile": "选择一个文件",
