@@ -9,22 +9,19 @@ class CheckMarkTable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(builder: (context, constraints) {
-      return Container(
-        width: constraints.maxWidth * .4,
-        height: constraints.maxHeight * .5,
-        decoration: BoxDecoration(
-            border: Border.all(color: Colors.black),
-            borderRadius: const BorderRadius.all(Radius.circular(10))),
-        child: ListView(children: [
-          CheckMarkTile(
-              title: "Hashes Matching?", value: statusModel.matchingHashes),
-          const Divider(color: Colors.grey),
-          CheckMarkTile(
-              title: "Signature Verified?",
-              value: statusModel.verifiedSignature),
-        ]),
-      );
-    });
+    return Container(
+      width: 250,
+      height: 220,
+      decoration: BoxDecoration(
+          border: Border.all(color: Colors.black),
+          borderRadius: const BorderRadius.all(Radius.circular(10))),
+      child: ListView(children: [
+        CheckMarkTile(
+            title: "Hashes Matching?", value: statusModel.matchingHashes),
+        const Divider(color: Colors.grey),
+        CheckMarkTile(
+            title: "Signature Verified?", value: statusModel.verifiedSignature),
+      ]),
+    );
   }
 }
