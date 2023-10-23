@@ -6,7 +6,7 @@
             "verify": "验证"
         }
     },
-    "introductionPage":{
+    "introPage":{
         "title0": "欢迎来到Decentproof",
         "title1": "你能做什么？",
         "title2": "它是如何工作的？",
@@ -44,7 +44,7 @@
         "help": "帮助开发",
         "code": "查看代码"
     },
-    "verifyPage":{
+    "verificationPage":{
         "title": "验证文件",
         "notModified": "看来你的文件还没有被修改",
         "error": "发生了一个错误",
