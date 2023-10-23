@@ -21,7 +21,7 @@ class ApiKeyRequestService implements IApiKeyRequestService {
           "Content-Type": "application/json"
         }, responseType: ResponseType.json));
     if (resp.statusCode == 200) {
-      bool hasNewer = resp.data["hasNewer"];
+      bool hasNewer = resp.data["hasNewKey"];
       return hasNewer;
     }
     throw resp.statusCode.toString();
