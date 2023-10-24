@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:decentproof/features/hashing/interfaces/IMediaPickerService.dart';
+import 'package:get_it/get_it.dart';
 import 'package:nanoid/async.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:photo_manager/photo_manager.dart';
@@ -8,8 +9,8 @@ import 'package:photo_manager/photo_manager.dart';
 import '../interfaces/IFileSavingService.dart';
 
 class ImageSavingService implements IFileSavingService {
-  const ImageSavingService({required this.imagePickerWrapper});
-  final IMediaPickerService imagePickerWrapper;
+  final IMediaPickerService imagePickerWrapper =
+      GetIt.I.get<IMediaPickerService>();
   @override
   Future<String> saveFile() async {
     Uint8List imageAsBytes = await imagePickerWrapper.getImageAsBytes();

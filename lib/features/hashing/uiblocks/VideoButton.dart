@@ -4,15 +4,18 @@ import 'package:decentproof/shared/uiblocks/ProcessingDialog.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 
 class VideoButton extends StatelessWidget {
-  const VideoButton(
-      {Key? key,
-      required this.videoSavingService,
-      required this.videoHashingService})
-      : super(key: key);
-  final IFileSavingService videoSavingService;
-  final IHashingService videoHashingService;
+  VideoButton({Key? key}) : super(key: key) {
+    videoHashingService =
+        getIt.get<IHashingService>(instanceName: "VideoHashing");
+    videoSavingService =
+        getIt.get<IFileSavingService>(instanceName: "VideoSaving");
+  }
+  final getIt = GetIt.I;
+  late final IFileSavingService videoSavingService;
+  late final IHashingService videoHashingService;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;

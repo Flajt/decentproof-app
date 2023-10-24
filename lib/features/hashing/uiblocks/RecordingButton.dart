@@ -37,13 +37,17 @@ class _RecordingButtonState extends State<RecordingButton> {
             await widget.controller.record(path: savePath);
           } else {
             String path = await widget.controller.stop(true) as String;
-            showDialog(
-                context: context,
-                builder: (context) => const ProcessingDialog());
+            if (context.mounted) {
+              showDialog(
+                  context: context,
+                  builder: (context) => const ProcessingDialog());
+            }
             String hash = await compute(widget.hashAudioManager.hash, path);
-            Navigator.of(context).pop();
-            Navigator.of(context).pushNamed("/submissionPage",
-                arguments: {"hash": hash, "path": path});
+            if (context.mounted) {
+              Navigator.of(context).pop();
+              Navigator.of(context).pushNamed("/submissionPage",
+                  arguments: {"hash": hash, "path": path});
+            }
           }
           setState(() {});
         },

@@ -1,12 +1,12 @@
 import 'dart:io';
 
 import 'package:decentproof/features/hashing/interfaces/IHashingService.dart';
+import 'package:get_it/get_it.dart';
 
-import '../../../../shared/HashLogic.dart';
+import '../../../../shared/interface/IHashLogic.dart';
 
 class VideoHashingService implements IHashingService {
-  const VideoHashingService(HashLogic hashLogic) : _hashLogic = hashLogic;
-  final HashLogic _hashLogic;
+  final IHashLogic _hashLogic = GetIt.I.get<IHashLogic>();
   @override
   Future<String> hash(String path) async {
     File file = File(path);

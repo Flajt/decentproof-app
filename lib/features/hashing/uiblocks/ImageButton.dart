@@ -2,15 +2,18 @@ import 'package:decentproof/features/hashing/interfaces/IFileSavingService.dart'
 import 'package:decentproof/features/hashing/interfaces/IHashingService.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 
 import '../../../shared/uiblocks/ProcessingDialog.dart';
 
 class ImageButton extends StatelessWidget {
-  const ImageButton(
-      {Key? key, required this.imageManager, required this.hashingService})
-      : super(key: key);
-  final IFileSavingService imageManager;
-  final IHashingService hashingService;
+  ImageButton({Key? key}) : super(key: key) {
+    imageManager = getIt.get<IFileSavingService>(instanceName: "ImageSaving");
+    hashingService = getIt.get<IHashingService>(instanceName: "ImageHashing");
+  }
+  final getIt = GetIt.I;
+  late final IFileSavingService imageManager;
+  late final IHashingService hashingService;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
