@@ -1,3 +1,3 @@
 abstract class IWaterMarkService {
-  Future<void> addWaterMark(String filePath);
+  Future<String> addWaterMark(String filePath);
 }
