@@ -23,3 +23,13 @@ class MetaDataIsSuccessfull extends MetaDataState {
   @override
   List<Object?> get props => [hash, path];
 }
+
+class MetaDataIsAplyingWaterMark extends MetaDataState {
+  @override
+  List<Object?> get props => [];
+}
+
+class MetaDataIsHashing extends MetaDataState {
+  @override
+  List<Object?> get props => [];
+}

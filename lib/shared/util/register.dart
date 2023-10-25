@@ -53,4 +53,8 @@ Future<void> registar() async {
       instanceName: "VideoWaterMark");
   getIt.registerFactory<IWaterMarkService>(() => ImageWaterMarkService(),
       instanceName: "ImageWaterMark");
+  getIt.registerFactory<IFileSavingService>(() => VideoSavingService(),
+      instanceName: "VideoSaving");
+  getIt.registerFactory<IFileSavingService>(() => ImageSavingService(),
+      instanceName: "ImageSaving");
 }
