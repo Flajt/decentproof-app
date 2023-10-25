@@ -6,7 +6,6 @@ import 'package:decentproof/shared/util/PathUtil.dart';
 import 'package:get_it/get_it.dart';
 import 'package:nanoid/async.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:photo_manager/photo_manager.dart';
 
 class VideoSavingService implements IFileSavingService {
   final IMediaPickerService _imagePickerWrapper =
