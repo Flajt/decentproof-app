@@ -23,7 +23,7 @@ class MetaDataBloc extends Bloc<MetaDataEvents, MetaDataState> {
   MetaDataBloc() : super(InitalMetdataBlocState()) {
     getIt = GetIt.I;
     videoSavingService =
-        getIt.get<IFileSavingService>(instanceName: "VideSaving");
+        getIt.get<IFileSavingService>(instanceName: "VideoSaving");
     imageSavingService =
         getIt.get<IFileSavingService>(instanceName: "ImageSaving");
     imageHashingService =
@@ -72,11 +72,11 @@ class MetaDataBloc extends Bloc<MetaDataEvents, MetaDataState> {
       final initalFile = File(initalPath);
       final title = outPutFile.path.split("/").last.split(".").first;
       if (video) {
-        await PhotoManager.editor.saveVideo(outPutFile, title: title);
+        await PhotoManager.editor.saveVideo(outPutFile, title: "$title.mkv");
         await initalFile.delete();
       } else {
         Uint8List data = await outPutFile.readAsBytes();
-        await PhotoManager.editor.saveImage(data, title: title);
+        await PhotoManager.editor.saveImage(data, title: "$title.png");
         await initalFile.delete();
       }
     }

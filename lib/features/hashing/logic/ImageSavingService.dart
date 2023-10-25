@@ -5,10 +5,8 @@ import 'package:decentproof/shared/util/PathUtil.dart';
 import 'package:get_it/get_it.dart';
 import 'package:nanoid/async.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:photo_manager/photo_manager.dart';
 
 import '../interfaces/IFileSavingService.dart';
-import '../interfaces/IWaterMarkService.dart';
 
 class ImageSavingService implements IFileSavingService {
   final IMediaPickerService imagePickerWrapper =

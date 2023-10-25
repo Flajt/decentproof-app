@@ -13,7 +13,7 @@ class VideoImagePage extends StatelessWidget {
       child: SizedBox(
           width: size.width,
           height: size.height,
-          child: Column(
+          child: const Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [ImageButton(), VideoButton()],
           )),
