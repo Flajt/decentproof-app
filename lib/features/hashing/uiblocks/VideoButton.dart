@@ -1,5 +1,6 @@
 import 'package:decentproof/features/hashing/interfaces/IFileSavingService.dart';
 import 'package:decentproof/features/hashing/interfaces/IHashingService.dart';
+import 'package:decentproof/features/hashing/interfaces/IWaterMarkService.dart';
 import 'package:decentproof/shared/uiblocks/ProcessingDialog.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
@@ -35,8 +36,10 @@ class VideoButton extends StatelessWidget {
               try {
                 String path = await videoSavingService.saveFile();
                 String hash = await compute(videoHashingService.hash, path);
-                Navigator.of(context).pushNamed("/submissionPage",
-                    arguments: {"hash": hash, "path": path});
+                if (context.mounted) {
+                  Navigator.of(context).pushNamed("/submissionPage",
+                      arguments: {"hash": hash, "path": path});
+                }
               } catch (e) {
                 Navigator.of(context).pop();
               }

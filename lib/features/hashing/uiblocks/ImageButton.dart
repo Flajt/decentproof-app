@@ -1,5 +1,6 @@
 import 'package:decentproof/features/hashing/interfaces/IFileSavingService.dart';
 import 'package:decentproof/features/hashing/interfaces/IHashingService.dart';
+import 'package:decentproof/features/hashing/interfaces/IWaterMarkService.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -10,10 +11,13 @@ class ImageButton extends StatelessWidget {
   ImageButton({Key? key}) : super(key: key) {
     imageManager = getIt.get<IFileSavingService>(instanceName: "ImageSaving");
     hashingService = getIt.get<IHashingService>(instanceName: "ImageHashing");
+    waterMarkService =
+        getIt.get<IWaterMarkService>(instanceName: "ImageWaterMark");
   }
   final getIt = GetIt.I;
   late final IFileSavingService imageManager;
   late final IHashingService hashingService;
+  late final IWaterMarkService waterMarkService;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
