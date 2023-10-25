@@ -5,7 +5,7 @@ import 'package:decentproof/features/hashing/interfaces/IMediaPickerService.dart
 import 'package:decentproof/features/hashing/interfaces/IWaterMarkService.dart';
 import 'package:decentproof/features/hashing/logic/ImagePickerWrapper.dart';
 import 'package:decentproof/features/hashing/logic/ImageSavingService.dart';
-import 'package:decentproof/features/hashing/logic/VideoManager.dart';
+import 'package:decentproof/features/hashing/logic/VideoSavingService.dart';
 import 'package:decentproof/features/hashing/logic/backend/HashSubmissionService.dart';
 import 'package:decentproof/features/hashing/logic/hasher/AudioHashingService.dart';
 import 'package:decentproof/features/hashing/logic/hasher/ImageHashingService.dart';
