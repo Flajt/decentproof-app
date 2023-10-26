@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'package:decentproof/features/hashing/bloc/metaDataBloc/MetaDataEvents.dart';
-import 'package:decentproof/features/hashing/bloc/metaDataBloc/MetaDataStates.dart';
+import 'package:decentproof/features/hashing/bloc/perperationBloc/PerperationEvents.dart';
+import 'package:decentproof/features/hashing/bloc/perperationBloc/PerperationStates.dart';
 import 'package:decentproof/features/hashing/interfaces/IFileSavingService.dart';
 import 'package:decentproof/features/hashing/interfaces/IHashingService.dart';
 import 'package:flutter/foundation.dart';
@@ -12,7 +12,7 @@ import 'package:photo_manager/photo_manager.dart';
 import '../../interfaces/IWaterMarkService.dart';
 
 //TODO: Find a better name!
-class MetaDataBloc extends Bloc<MetaDataEvents, MetaDataState> {
+class PreparationBloc extends Bloc<MetaDataEvents, MetaDataState> {
   late final GetIt getIt;
   late final IFileSavingService videoSavingService;
   late final IFileSavingService imageSavingService;
@@ -20,7 +20,7 @@ class MetaDataBloc extends Bloc<MetaDataEvents, MetaDataState> {
   late final IHashingService imageHashingService;
   late final IWaterMarkService videoWaterMarkSerivce;
   late final IWaterMarkService imageWaterMarkService;
-  MetaDataBloc() : super(InitalMetdataBlocState()) {
+  PreparationBloc() : super(InitalPrepareBlocState()) {
     getIt = GetIt.I;
     videoSavingService =
         getIt.get<IFileSavingService>(instanceName: "VideoSaving");
@@ -35,33 +35,33 @@ class MetaDataBloc extends Bloc<MetaDataEvents, MetaDataState> {
     imageWaterMarkService =
         getIt.get<IWaterMarkService>(instanceName: "ImageWaterMark");
 
-    on<ApplyMetaDataToAudio>((event, emit) {
+    on<PerpareAudio>((event, emit) {
       //Will only add location and other metadata later on
     });
-    on<ApplyMetaDataToImage>((event, emit) async {
+    on<PerpareImage>((event, emit) async {
       try {
         String path = await imageSavingService.saveFile();
-        emit(MetaDataIsAplyingWaterMark());
+        emit(PrepareationIsAplyingWaterMark());
         String finalPath = await imageWaterMarkService.addWaterMark(path);
-        emit(MetaDataIsHashing());
+        emit(PrepareationIsHashing());
         String hash = await compute(imageHashingService.hash, finalPath);
         await addToGalleryACleanUp(path, finalPath, false);
-        emit(MetaDataIsSuccessfull(finalPath, hash));
+        emit(PreparationIsSuccessfull(finalPath, hash));
       } catch (e) {
-        emit(MetaDataHasError(e.toString()));
+        emit(PreparationHasError(e.toString()));
       }
     });
-    on<ApplyMetaDataToVideo>((event, emit) async {
+    on<PrepareVideo>((event, emit) async {
       try {
         String path = await videoSavingService.saveFile();
-        emit(MetaDataIsAplyingWaterMark());
+        emit(PrepareationIsAplyingWaterMark());
         String finalPath = await videoWaterMarkSerivce.addWaterMark(path);
-        emit(MetaDataIsHashing());
+        emit(PrepareationIsHashing());
         String hash = await compute(videoHashingService.hash, finalPath);
         await addToGalleryACleanUp(path, finalPath, true);
-        emit(MetaDataIsSuccessfull(finalPath, hash));
+        emit(PreparationIsSuccessfull(finalPath, hash));
       } catch (e) {
-        emit(MetaDataHasError(e.toString()));
+        emit(PreparationHasError(e.toString()));
       }
     });
   }

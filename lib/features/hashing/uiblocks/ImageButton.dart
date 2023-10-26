@@ -1,6 +1,6 @@
-import 'package:decentproof/features/hashing/bloc/metaDataBloc/MetaDataBloc.dart';
-import 'package:decentproof/features/hashing/bloc/metaDataBloc/MetaDataEvents.dart';
-import 'package:decentproof/features/hashing/bloc/metaDataBloc/MetaDataStates.dart';
+import 'package:decentproof/features/hashing/bloc/perperationBloc/PreperationBloc.dart';
+import 'package:decentproof/features/hashing/bloc/perperationBloc/PerperationEvents.dart';
+import 'package:decentproof/features/hashing/bloc/perperationBloc/PerperationStates.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,18 +13,18 @@ class ImageButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return BlocListener<MetaDataBloc, MetaDataState>(
+    return BlocListener<PreparationBloc, MetaDataState>(
       listener: (context, state) {
-        if (state is MetaDataHasError) {
+        if (state is PreparationHasError) {
           Navigator.of(context).pop();
           showDialog(
               context: context,
               builder: (context) =>
                   ErrorDialog(size: size, error: state.errorMsg));
-        } else if (state is MetaDataIsSuccessfull) {
+        } else if (state is PreparationIsSuccessfull) {
           Navigator.of(context).pushNamed("/submissionPage",
               arguments: {"hash": state.hash, "path": state.path});
-        } else if (state is MetaDataIsAplyingWaterMark) {
+        } else if (state is PrepareationIsAplyingWaterMark) {
           showDialog(
               context: context, builder: (context) => const ProcessingDialog());
         }
@@ -38,8 +38,7 @@ class ImageButton extends StatelessWidget {
         child: Material(
             color: Colors.transparent,
             child: InkWell(
-              onTap: () =>
-                  context.read<MetaDataBloc>().add(ApplyMetaDataToImage()),
+              onTap: () => context.read<PreparationBloc>().add(PerpareImage()),
               radius: size.width,
               splashColor: Colors.orangeAccent,
               child: Column(

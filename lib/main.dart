@@ -1,5 +1,5 @@
 import 'package:decentproof/features/hashing/bloc/SubmissionBloc.dart';
-import 'package:decentproof/features/hashing/bloc/metaDataBloc/MetaDataBloc.dart';
+import 'package:decentproof/features/hashing/bloc/perperationBloc/PreperationBloc.dart';
 import 'package:decentproof/features/settings/bloc/SecureStorageBloc.dart';
 import 'package:decentproof/features/verification/bloc/VerificationBloc.dart';
 import 'package:decentproof/firebase_options.dart';
@@ -56,7 +56,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => SecureStorageBloc()),
         BlocProvider(create: (context) => VerificationBloc()),
         BlocProvider(create: (context) => SubmissionBloc()),
-        BlocProvider(create: (context) => MetaDataBloc())
+        BlocProvider(create: (context) => PreparationBloc())
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
