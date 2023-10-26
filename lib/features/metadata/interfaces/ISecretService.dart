@@ -3,7 +3,6 @@
 import 'dart:typed_data';
 
 abstract class ISercretService {
-  Future<bool> saveSecret(String secret);
+  Future<void> saveSecret(String secret);
   Future<Uint8List> get secret;
-  Future<bool> validateSecret(String secret);
 }
