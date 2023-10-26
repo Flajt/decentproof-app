@@ -47,6 +47,8 @@
 	<string>This App requires access to your microphone to allow you to capture videos with sound or capture sound only</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>This App requires access to your library to allow you to verify selected files</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>This allows us to embed your location to you created files.</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
