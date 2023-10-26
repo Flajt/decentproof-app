@@ -29,7 +29,9 @@
         "addEmail": "",
         "description": "",
         "embedLocation": "",
-        "embedLocationSubtitle": ""
+        "embedLocationSubtitle": "",
+        "embedSecret": "",
+        "embedSecretSubtitle": ""
     },
     "submissionPage":{
         "title":"",

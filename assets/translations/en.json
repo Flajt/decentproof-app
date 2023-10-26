@@ -29,7 +29,9 @@
         "addEmail": "Add E-Mail",
         "description": "If you want to save data in the DevNet. Not recommended!",
         "embedLocation": "Embed Location",
-        "embedLocationSubtitle": "Embed the location in created media files"
+        "embedLocationSubtitle": "Embed the location in created media files",
+        "embedSecret": "Embed Secret",
+        "embedSecretSubtitle": "Embed a secret in created media files"
     },
     "submissionPage":{
         "hash": "Your Hash:",
