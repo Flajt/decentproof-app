@@ -1,6 +1,6 @@
 import 'package:decentproof/features/hashing/bloc/SubmissionBloc.dart';
 import 'package:decentproof/features/hashing/bloc/perperationBloc/PreperationBloc.dart';
-import 'package:decentproof/features/settings/bloc/SecureStorageBloc.dart';
+import 'package:decentproof/features/settings/bloc/SettingsBloc.dart';
 import 'package:decentproof/features/verification/bloc/VerificationBloc.dart';
 import 'package:decentproof/firebase_options.dart';
 import 'package:decentproof/features/hashing/pages/AudioPage.dart';
@@ -53,7 +53,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => SecureStorageBloc()),
+        BlocProvider(create: (context) => SettingsBloc()),
         BlocProvider(create: (context) => VerificationBloc()),
         BlocProvider(create: (context) => SubmissionBloc()),
         BlocProvider(create: (context) => PreparationBloc())
