@@ -20,9 +20,8 @@ class ImageSavingService implements IFileSavingService {
     String path = dir.path;
     String imageId = await nanoid(16);
     String fullPath = "$path/$imageId.png";
-    File nonWaterMarkedFile = File(fullPath);
-    nonWaterMarkedFile = await nonWaterMarkedFile.writeAsBytes(imageAsBytes);
-    //exifWrapper.addExifToImage("$path/$imageId.png"); TODO: Decide if it's really required
+    File imgFile = File(fullPath);
+    await imgFile.writeAsBytes(imageAsBytes);
     return fullPath;
   }
 }
