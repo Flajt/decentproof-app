@@ -55,6 +55,10 @@ Future<void> registar() async {
       instanceName: "VideoWaterMark");
   getIt.registerFactory<IWaterMarkService>(() => ImageWaterMarkService(),
       instanceName: "ImageWaterMark");
-  getIt.registerFactory<IMetaDataPermissionService>(
-      () => MetaDataPermissionService());
+  getIt.registerSingleton<IMetaDataPermissionService>(
+      MetaDataPermissionService());
+  await getIt
+      .get<IMetaDataPermissionService>()
+      .init(); // Workaround to fix initalisation issues
+  await getIt.allReady();
 }

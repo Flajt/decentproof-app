@@ -1,6 +1,7 @@
 import 'package:decentproof/features/metadata/interfaces/IMetaDataPermissionService.dart';
 import 'package:decentproof/features/settings/bloc/SettingsBloc.dart';
 import 'package:decentproof/features/settings/bloc/SettingsBlocEvents.dart';
+import 'package:decentproof/features/settings/bloc/SettingsBlocStates.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,16 +12,19 @@ class LocationEmbeddingTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final IMetaDataPermissionService metaDataPermissionService =
-        GetIt.I.get<IMetaDataPermissionService>();
-    return ListTile(
-      title: const Text("settingsPage.embedLocation").tr(),
-      subtitle: const Text("settingsPage.embedLocationSubtitle").tr(),
-      trailing: Checkbox.adaptive(
-          value: metaDataPermissionService.shouldEmbedLocation(),
-          onChanged: (v) => context
-              .read<SettingsBloc>()
-              .add(ModifyLocationEmbeddingPermission(v ?? false))),
-    );
+    final service = GetIt.I.get<IMetaDataPermissionService>();
+
+    return BlocBuilder<SettingsBloc, SettingsBlocStates>(
+        builder: (context, state) {
+      return ListTile(
+        title: const Text("settingsPage.embedLocation").tr(),
+        subtitle: const Text("settingsPage.embedLocationSubtitle").tr(),
+        trailing: Checkbox.adaptive(
+            value: service.shouldEmbedLocation(),
+            onChanged: (v) => context
+                .read<SettingsBloc>()
+                .add(ModifyLocationEmbeddingPermission(v ?? false))),
+      );
+    });
   }
 }
