@@ -1,5 +1,7 @@
+import 'package:decentproof/features/metadata/models/LocationModel.dart';
+
 abstract class ILocationService {
   Future<bool> hasPermission();
   Future<bool> getPermission();
-  Future<bool> requestLocation();
+  Future<LocationModel> requestLocation();
 }
