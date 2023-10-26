@@ -1,6 +1,10 @@
+import 'package:decentproof/features/metadata/uiblocks/EnableLocationWarning.dart';
 import 'package:decentproof/shared/util/RequestUtil.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../metadata/bloc/LocationWarningBloc.dart';
+import '../../metadata/bloc/LocationWarningBlocEvents.dart';
 import '../uiblocks/OptionsMenu.dart';
 import '../uiblocks/SettingsButton.dart';
 import '../uiblocks/SupportButton.dart';
@@ -11,12 +15,18 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    context.read<LocationWarningBloc>().add(CheckLocationService());
     return Scaffold(
       body: SafeArea(
           child: SizedBox(
         width: size.width,
         height: size.height,
         child: Stack(children: [
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: EnableLocationWarning(
+                width: size.width, height: size.height * .08),
+          ),
           const Align(
               alignment: Alignment.topLeft,
               child: Padding(

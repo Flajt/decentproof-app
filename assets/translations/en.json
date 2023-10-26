@@ -3,7 +3,8 @@
         "options":{
             "imageVideo": "Image/Video",
             "audio": "Audio",
-            "verify":"Verify"
+            "verify":"Verify",
+            "locationWarning": "You have enabled location embedding, but disabled the location service"
         }
     },
     "introPage":{

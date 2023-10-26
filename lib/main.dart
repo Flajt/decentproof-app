@@ -1,5 +1,6 @@
 import 'package:decentproof/features/hashing/bloc/SubmissionBloc.dart';
 import 'package:decentproof/features/hashing/bloc/perperationBloc/PreperationBloc.dart';
+import 'package:decentproof/features/metadata/bloc/LocationWarningBloc.dart';
 import 'package:decentproof/features/settings/bloc/SettingsBloc.dart';
 import 'package:decentproof/features/verification/bloc/VerificationBloc.dart';
 import 'package:decentproof/firebase_options.dart';
@@ -56,7 +57,8 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => SettingsBloc()),
         BlocProvider(create: (context) => VerificationBloc()),
         BlocProvider(create: (context) => SubmissionBloc()),
-        BlocProvider(create: (context) => PreparationBloc())
+        BlocProvider(create: (context) => PreparationBloc()),
+        BlocProvider(create: (context) => LocationWarningBloc())
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

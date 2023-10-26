@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:decentproof/features/metadata/interfaces/ILocationService.dart';
 import 'package:decentproof/features/metadata/interfaces/IMetaDataPermissionService.dart';
 import 'package:decentproof/features/settings/bloc/SettingsBlocEvents.dart';
 import 'package:decentproof/features/settings/bloc/SettingsBlocStates.dart';
@@ -12,6 +13,7 @@ class SettingsBloc extends Bloc<SettingsBlocEvents, SettingsBlocStates> {
         getIt.get<ISecureStorageService>();
     final IMetaDataPermissionService metaDataPermissionService =
         getIt.get<IMetaDataPermissionService>();
+    final ILocationService locationService = getIt.get<ILocationService>();
 
     on<SaveEmailEvent>((event, emit) async {
       try {
@@ -47,9 +49,27 @@ class SettingsBloc extends Bloc<SettingsBlocEvents, SettingsBlocStates> {
     });
     on<ModifyLocationEmbeddingPermission>((event, emit) async {
       try {
-        await metaDataPermissionService
-            .allowLocationEmbedding(event.permission);
-        emit(LocationEmbeddingPermissionModified());
+        if (event.permission) {
+          bool hasPermission = await locationService.hasPermission();
+          if (!hasPermission) {
+            bool gotPermission = await locationService.getPermission();
+            if (gotPermission) {
+              await metaDataPermissionService
+                  .allowLocationEmbedding(event.permission);
+              emit(LocationEmbeddingPermissionModified());
+            } else {
+              emit(ErrorState("Location Permission Denied!"));
+            }
+          } else {
+            await metaDataPermissionService
+                .allowLocationEmbedding(event.permission);
+            emit(LocationEmbeddingPermissionModified());
+          }
+        } else {
+          await metaDataPermissionService
+              .allowLocationEmbedding(event.permission);
+          emit(LocationEmbeddingPermissionModified());
+        }
       } catch (e) {
         emit(ErrorState(e.toString()));
       }

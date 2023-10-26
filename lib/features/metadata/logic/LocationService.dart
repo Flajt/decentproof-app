@@ -32,4 +32,9 @@ class LocationService implements ILocationService {
         longitude: locationData.longitude!,
         altitude: locationData.altitude ?? -1.0);
   }
+
+  @override
+  Future<bool> serviceEnabled() async {
+    return await _location.serviceEnabled();
+  }
 }

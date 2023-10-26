@@ -12,7 +12,9 @@ import 'package:decentproof/features/hashing/logic/hasher/ImageHashingService.da
 import 'package:decentproof/features/hashing/logic/hasher/VideoHashingService.dart';
 import 'package:decentproof/features/hashing/logic/water_mark/ImageWaterMarkService.dart';
 import 'package:decentproof/features/hashing/logic/water_mark/VideoWaterMarkService.dart';
+import 'package:decentproof/features/metadata/interfaces/ILocationService.dart';
 import 'package:decentproof/features/metadata/interfaces/IMetaDataPermissionService.dart';
+import 'package:decentproof/features/metadata/logic/LocationService.dart';
 import 'package:decentproof/features/metadata/logic/MetaDataPermissionService.dart';
 import 'package:decentproof/features/verification/interfaces/IFileSelectionService.dart';
 import 'package:decentproof/features/verification/interfaces/ISignatureVerifcationService.dart';
@@ -55,6 +57,7 @@ Future<void> registar() async {
       instanceName: "VideoWaterMark");
   getIt.registerFactory<IWaterMarkService>(() => ImageWaterMarkService(),
       instanceName: "ImageWaterMark");
+  getIt.registerFactory<ILocationService>(() => LocationService());
   getIt.registerSingleton<IMetaDataPermissionService>(
       MetaDataPermissionService());
   await getIt

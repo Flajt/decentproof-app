@@ -3,7 +3,8 @@
         "options":{
             "imageVideo":"",
             "audio": "",
-            "verify":""
+            "verify":"",
+            "locationWarning":""
         }
     },
     "introPage":{
