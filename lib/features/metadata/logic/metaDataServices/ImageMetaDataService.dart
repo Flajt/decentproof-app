@@ -1,5 +1,7 @@
 import 'package:decentproof/features/metadata/interfaces/IMetaDataService.dart';
 import 'package:decentproof/features/metadata/models/LocationModel.dart';
+import 'package:decentproof/features/metadata/models/MetaDataModel.dart';
+import 'package:location/location.dart';
 import 'package:native_exif/native_exif.dart';
 
 class ImageMetaDataService implements IMetaDataService {
@@ -22,7 +24,8 @@ class ImageMetaDataService implements IMetaDataService {
     await exif.writeAttributes({
       "GPSLatitude": locationModel.latitude,
       "GPSLongitude": locationModel.longitude,
-      "USERCOMMENT": secretHash
+      "GPSAltitude": locationModel.altitude,
+      "UserComment": secretHash
     });
     await exif.close();
     return filePath;
@@ -31,8 +34,30 @@ class ImageMetaDataService implements IMetaDataService {
   @override
   Future<String> addSecret(String secretHash, String filePath) async {
     Exif exif = await Exif.fromPath(filePath);
-    await exif.writeAttribute("USERCOMMENT", secretHash);
+    await exif.writeAttribute("UserComment", secretHash);
     await exif.close();
     return filePath;
+  }
+
+  @override
+  Future<MetaDataModel> retriveMetaData(String filePath) async {
+    String? secretHash;
+    LocationModel? location;
+    Exif exif = await Exif.fromPath(filePath);
+    Map<String, Object>? data = await exif.getAttributes();
+    await exif.close();
+    if (data == null) {
+      return MetaDataModel(null, null);
+    }
+    if (data.containsKey("USERCOMMENT")) {
+      secretHash = data["USERCOMMENT"] as String;
+    }
+    if (data.containsKey("GPSLatitude") && data.containsKey("GPSLongitude")) {
+      location = LocationModel(
+          latitude: data["GPSLatitude"] as double,
+          longitude: data["GPSLongitude"] as double,
+          altitude: data["GPSAltitude"] as double);
+    }
+    return MetaDataModel(secretHash, location);
   }
 }

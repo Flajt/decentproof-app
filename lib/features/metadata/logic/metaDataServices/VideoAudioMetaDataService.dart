@@ -3,7 +3,11 @@ import 'dart:io';
 
 import 'package:decentproof/features/metadata/interfaces/IMetaDataService.dart';
 import 'package:decentproof/features/metadata/models/LocationModel.dart';
+import 'package:decentproof/features/metadata/models/MetaDataModel.dart';
+import 'package:ffmpeg_kit_flutter/ffmpeg_kit.dart';
 import 'package:ffmpeg_kit_flutter/ffprobe_kit.dart';
+import 'package:ffmpeg_kit_flutter/media_information.dart';
+import 'package:ffmpeg_kit_flutter/media_information_session.dart';
 import 'package:ffmpeg_kit_flutter/session_state.dart';
 
 class VideoAudioMetaDataService implements IMetaDataService {
@@ -72,5 +76,34 @@ class VideoAudioMetaDataService implements IMetaDataService {
       return filePath;
     }
     throw "Error adding seceret to video";
+  }
+
+  @override
+  Future<MetaDataModel> retriveMetaData(String filePath) async {
+    final data = Completer<Map<dynamic, dynamic>>();
+    String? secretHash;
+    LocationModel? location;
+    await FFprobeKit.getMediaInformationAsync(filePath, (session) {
+      final information = session.getMediaInformation();
+      if (information == null) {
+        data.completeError("Failure to get media information");
+      } else {
+        data.complete(information.getTags());
+      }
+    });
+    Map<dynamic, dynamic> tags = await data.future;
+    print(tags);
+    if (tags.containsKey("comment")) {
+      secretHash = tags["comment"];
+    }
+    if (tags.containsKey("latitude") &&
+        tags.containsKey("longitude") &&
+        tags.containsKey("altitude")) {
+      location = LocationModel(
+          latitude: tags["latitude"],
+          longitude: tags["longitude"],
+          altitude: tags["altitude"]);
+    }
+    return MetaDataModel(secretHash, location);
   }
 }
