@@ -59,7 +59,7 @@ class _AudioPageState extends State<AudioPage> {
               child: RecordingButton(
                 controller: recorderController,
                 audioManager: AudioSavingService(),
-                hashAudioManager: AudioHashingService(HashLogic()),
+                hashAudioManager: AudioHashingService(),
               ),
             ),
           )

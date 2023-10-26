@@ -1,5 +1,17 @@
+import 'package:decentproof/features/hashing/interfaces/IFileSavingService.dart';
 import 'package:decentproof/features/hashing/interfaces/IHashSubmissionService.dart';
+import 'package:decentproof/features/hashing/interfaces/IHashingService.dart';
+import 'package:decentproof/features/hashing/interfaces/IMediaPickerService.dart';
+import 'package:decentproof/features/hashing/interfaces/IWaterMarkService.dart';
+import 'package:decentproof/features/hashing/logic/ImagePickerWrapper.dart';
+import 'package:decentproof/features/hashing/logic/ImageSavingService.dart';
+import 'package:decentproof/features/hashing/logic/VideoSavingService.dart';
 import 'package:decentproof/features/hashing/logic/backend/HashSubmissionService.dart';
+import 'package:decentproof/features/hashing/logic/hasher/AudioHashingService.dart';
+import 'package:decentproof/features/hashing/logic/hasher/ImageHashingService.dart';
+import 'package:decentproof/features/hashing/logic/hasher/VideoHashingService.dart';
+import 'package:decentproof/features/hashing/logic/water_mark/ImageWaterMarkService.dart';
+import 'package:decentproof/features/hashing/logic/water_mark/VideoWaterMarkService.dart';
 import 'package:decentproof/features/verification/interfaces/IFileSelectionService.dart';
 import 'package:decentproof/features/verification/interfaces/ISignatureVerifcationService.dart';
 import 'package:decentproof/features/verification/interfaces/IVerificationService.dart';
@@ -26,4 +38,19 @@ Future<void> registar() async {
   getIt.registerFactory<IFileSelectionService>(() => FileSelectionService());
   getIt.registerFactory<IHashLogic>(() => HashLogic());
   getIt.registerFactory<IHashSubmissionService>(() => HashSubmissionService());
+  getIt.registerFactory<IHashingService>(() => ImageHashingService(),
+      instanceName: "ImageHashing");
+  getIt.registerFactory<IHashingService>(() => VideoHashingService(),
+      instanceName: "VideoHashing");
+  getIt.registerFactory(() => AudioHashingService(),
+      instanceName: "AudioHashing");
+  getIt.registerFactory<IMediaPickerService>(() => ImagePickerWrapper());
+  getIt.registerFactory<IFileSavingService>(() => ImageSavingService(),
+      instanceName: "ImageSaving");
+  getIt.registerFactory<IFileSavingService>(() => VideoSavingService(),
+      instanceName: "VideoSaving");
+  getIt.registerFactory<IWaterMarkService>(() => VideoWaterMarkService(),
+      instanceName: "VideoWaterMark");
+  getIt.registerFactory<IWaterMarkService>(() => ImageWaterMarkService(),
+      instanceName: "ImageWaterMark");
 }

@@ -1,32 +1,27 @@
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:decentproof/features/hashing/interfaces/IMediaPickerService.dart';
+import 'package:decentproof/shared/util/PathUtil.dart';
+import 'package:get_it/get_it.dart';
 import 'package:nanoid/async.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:photo_manager/photo_manager.dart';
 
 import '../interfaces/IFileSavingService.dart';
 
 class ImageSavingService implements IFileSavingService {
-  const ImageSavingService({required this.imagePickerWrapper});
-  final IMediaPickerService imagePickerWrapper;
+  final IMediaPickerService imagePickerWrapper =
+      GetIt.I.get<IMediaPickerService>();
+
   @override
   Future<String> saveFile() async {
     Uint8List imageAsBytes = await imagePickerWrapper.getImageAsBytes();
-    String path = Platform.isAndroid
-        ? (await getExternalStorageDirectories(
-                type: StorageDirectory.pictures))![0]
-            .path
-        : (await getApplicationDocumentsDirectory()).path;
-    Directory(path).createSync(recursive: true);
+    Directory dir = await PathUtil.getStoragePath(StorageDirectory.pictures);
+    dir.createSync(recursive: true);
+    String path = dir.path;
     String imageId = await nanoid(16);
     String fullPath = "$path/$imageId.png";
-    File(fullPath).writeAsBytesSync(imageAsBytes);
-
-    if (Platform.isAndroid) {
-      await PhotoManager.editor.saveImage(imageAsBytes, title: "$imageId.png");
-    }
-    //exifWrapper.addExifToImage("$path/$imageId.png"); TODO: Decide if it's really required
+    File imgFile = File(fullPath);
+    await imgFile.writeAsBytes(imageAsBytes);
     return fullPath;
   }
 }

@@ -1,6 +1,6 @@
-# decentproof
-
 For general information please checkout the [wiki](https://github.com/Flajt/decentproof-app/wiki) tab . I will update the README soon!
+
+[![inlang status badge](https://inlang.com/badge?url=github.com/Flajt/decentproof-app)](https://inlang.com/editor/github.com/Flajt/decentproof-app?ref=badge)
 
 ## Getting Started
 
