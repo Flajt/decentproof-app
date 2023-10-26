@@ -27,7 +27,9 @@
     "settingsPage":{
         "title": "",
         "addEmail": "",
-        "description": ""
+        "description": "",
+        "embedLocation": "",
+        "embedLocationSubtitle": ""
     },
     "submissionPage":{
         "title":"",

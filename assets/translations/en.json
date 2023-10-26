@@ -27,7 +27,9 @@
     "settingsPage":{
         "title": "Settings",
         "addEmail": "Add E-Mail",
-        "description": "If you want to save data in the DevNet. Not recommended!"
+        "description": "If you want to save data in the DevNet. Not recommended!",
+        "embedLocation": "Embed Location",
+        "embedLocationSubtitle": "Embed the location in created media files"
     },
     "submissionPage":{
         "hash": "Your Hash:",
