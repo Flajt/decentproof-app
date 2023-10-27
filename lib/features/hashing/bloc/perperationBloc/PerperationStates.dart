@@ -1,13 +1,13 @@
 import 'package:equatable/equatable.dart';
 
-abstract class MetaDataState extends Equatable {}
+abstract class PreparationState extends Equatable {}
 
-class InitalPrepareBlocState extends MetaDataState {
+class InitalPrepareBlocState extends PreparationState {
   @override
   List<Object?> get props => [];
 }
 
-class PreparationHasError extends MetaDataState {
+class PreparationHasError extends PreparationState {
   final String errorMsg;
 
   PreparationHasError(this.errorMsg);
@@ -15,7 +15,7 @@ class PreparationHasError extends MetaDataState {
   List<Object?> get props => [errorMsg];
 }
 
-class PreparationIsSuccessfull extends MetaDataState {
+class PreparationIsSuccessfull extends PreparationState {
   final String path;
   final String hash;
 
@@ -24,12 +24,17 @@ class PreparationIsSuccessfull extends MetaDataState {
   List<Object?> get props => [hash, path];
 }
 
-class PrepareationIsAplyingWaterMark extends MetaDataState {
+class PrepareationIsAplyingWaterMark extends PreparationState {
   @override
   List<Object?> get props => [];
 }
 
-class PrepareationIsHashing extends MetaDataState {
+class PrepareationIsHashing extends PreparationState {
+  @override
+  List<Object?> get props => [];
+}
+
+class PrepareationIsAddingMetaData extends PreparationState {
   @override
   List<Object?> get props => [];
 }

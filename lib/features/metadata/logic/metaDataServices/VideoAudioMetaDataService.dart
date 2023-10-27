@@ -35,7 +35,7 @@ class VideoAudioMetaDataService implements IMetaDataService {
   Future<String> addLocationAndSecret(
       LocationModel locationModel, String secretHash, String filePath) async {
     final Completer<bool> completer = Completer<bool>();
-    String outputPath = filePath.replaceFirst("n_", "");
+    String outputPath = filePath.replaceFirst("n_", "f_");
 
     await FFprobeKit.executeAsync(
         "-i $filePath -c copy -movflags use_metadata_tags 0 -metadata latitude=${locationModel.latitude} -metadata longitude=${locationModel.longitude} -metadata comment=$secretHash $outputPath",

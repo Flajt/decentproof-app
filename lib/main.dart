@@ -1,5 +1,5 @@
 import 'package:decentproof/features/hashing/bloc/SubmissionBloc.dart';
-import 'package:decentproof/features/hashing/bloc/perperationBloc/PreperationBloc.dart';
+import 'package:decentproof/features/hashing/bloc/perperationBloc/PreparationBloc.dart';
 import 'package:decentproof/features/metadata/bloc/LocationWarningBloc.dart';
 import 'package:decentproof/features/settings/bloc/SettingsBloc.dart';
 import 'package:decentproof/features/verification/bloc/VerificationBloc.dart';

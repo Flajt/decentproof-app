@@ -14,8 +14,11 @@ import 'package:decentproof/features/hashing/logic/water_mark/ImageWaterMarkServ
 import 'package:decentproof/features/hashing/logic/water_mark/VideoWaterMarkService.dart';
 import 'package:decentproof/features/metadata/interfaces/ILocationService.dart';
 import 'package:decentproof/features/metadata/interfaces/IMetaDataPermissionService.dart';
+import 'package:decentproof/features/metadata/interfaces/IMetaDataService.dart';
 import 'package:decentproof/features/metadata/logic/LocationService.dart';
 import 'package:decentproof/features/metadata/logic/MetaDataPermissionService.dart';
+import 'package:decentproof/features/metadata/logic/metaDataServices/ImageMetaDataService.dart';
+import 'package:decentproof/features/metadata/logic/metaDataServices/VideoAudioMetaDataService.dart';
 import 'package:decentproof/features/verification/interfaces/IFileSelectionService.dart';
 import 'package:decentproof/features/verification/interfaces/ISignatureVerifcationService.dart';
 import 'package:decentproof/features/verification/interfaces/IVerificationService.dart';
@@ -63,5 +66,9 @@ Future<void> registar() async {
   await getIt
       .get<IMetaDataPermissionService>()
       .init(); // Workaround to fix initalisation issues
+  getIt.registerFactory<IMetaDataService>(() => ImageMetaDataService(),
+      instanceName: "ImageMetaData");
+  getIt.registerFactory<IMetaDataService>(() => VideoAudioMetaDataService(),
+      instanceName: "VieoAudioMetaData");
   await getIt.allReady();
 }

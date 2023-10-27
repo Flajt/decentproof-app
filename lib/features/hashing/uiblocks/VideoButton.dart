@@ -1,4 +1,4 @@
-import 'package:decentproof/features/hashing/bloc/perperationBloc/PreperationBloc.dart';
+import 'package:decentproof/features/hashing/bloc/perperationBloc/PreparationBloc.dart';
 import 'package:decentproof/features/hashing/bloc/perperationBloc/PerperationEvents.dart';
 import 'package:decentproof/features/hashing/bloc/perperationBloc/PerperationStates.dart';
 import 'package:decentproof/shared/uiblocks/ErrorDialog.dart';
@@ -12,7 +12,7 @@ class VideoButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return BlocListener<PreparationBloc, MetaDataState>(
+    return BlocListener<PreparationBloc, PreparationState>(
       listener: (context, state) {
         if (state is PreparationHasError) {
           Navigator.of(context).pop();
