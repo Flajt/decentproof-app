@@ -44,7 +44,8 @@ class VerificatinService implements IVerificationService {
           await verifySignature(hash, responseModel.data.comment),
           DateTime.fromMillisecondsSinceEpoch(responseModel.data.dateCreated),
           responseModel.data.timestamps[0].submitStatus,
-          responseModel.data.timestamps[0].transaction);
+          responseModel.data.timestamps[0].transaction,
+          null);
       return statusModel;
     } else {
       throw "${resp.statusCode}: ${resp.statusMessage}";
