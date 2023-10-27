@@ -54,7 +54,6 @@ class PreparationBloc extends Bloc<MetaDataEvents, PreparationState> {
     });
     on<PerpareImage>((event, emit) async {
       try {
-        String? afterMetaDataPath;
         String path = await imageSavingService.saveFile();
         emit(PrepareationIsAplyingWaterMark());
         String finalPath = await imageWaterMarkService.addWaterMark(path);
@@ -64,13 +63,11 @@ class PreparationBloc extends Bloc<MetaDataEvents, PreparationState> {
         if (shouldEmbedLocation) {
           emit(PrepareationIsAddingMetaData());
           LocationModel locationModel = await locationService.requestLocation();
-          afterMetaDataPath =
-              await imageMetaDataService.addLocation(locationModel, finalPath);
+          await imageMetaDataService.addLocation(locationModel, finalPath);
         }
         emit(PrepareationIsHashing());
-        String hash = await compute(
-            imageHashingService.hash, afterMetaDataPath ?? finalPath);
-        await addToGalleryACleanUp(path, afterMetaDataPath ?? finalPath, false);
+        String hash = await compute(imageHashingService.hash, finalPath);
+        await addToGalleryACleanUp(path, finalPath, false);
         emit(PreparationIsSuccessfull(finalPath, hash));
       } catch (e) {
         emit(PreparationHasError(e.toString()));
@@ -94,7 +91,7 @@ class PreparationBloc extends Bloc<MetaDataEvents, PreparationState> {
         String hash = await compute(
             videoHashingService.hash, afterMetaDataPath ?? finalPath);
         await addToGalleryACleanUp(path, afterMetaDataPath ?? finalPath, true);
-        emit(PreparationIsSuccessfull(finalPath, hash));
+        emit(PreparationIsSuccessfull(afterMetaDataPath ?? finalPath, hash));
       } catch (e) {
         emit(PreparationHasError(e.toString()));
       }

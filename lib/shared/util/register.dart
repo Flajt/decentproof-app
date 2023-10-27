@@ -69,6 +69,6 @@ Future<void> registar() async {
   getIt.registerFactory<IMetaDataService>(() => ImageMetaDataService(),
       instanceName: "ImageMetaData");
   getIt.registerFactory<IMetaDataService>(() => VideoAudioMetaDataService(),
-      instanceName: "VieoAudioMetaData");
+      instanceName: "AudioVideoMetaData");
   await getIt.allReady();
 }

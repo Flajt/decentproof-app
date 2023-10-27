@@ -1,6 +1,5 @@
 import 'package:decentproof/features/metadata/models/LocationModel.dart';
 import 'package:decentproof/features/metadata/models/MetaDataModel.dart';
-import 'package:location/location.dart';
 
 abstract class IMetaDataService {
   ///Adds location to metadata

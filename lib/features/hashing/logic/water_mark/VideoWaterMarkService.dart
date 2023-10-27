@@ -3,8 +3,8 @@ import 'dart:io';
 
 import 'package:decentproof/features/hashing/interfaces/IWaterMarkService.dart';
 import 'package:decentproof/shared/util/PathUtil.dart';
-import 'package:ffmpeg_kit_flutter/ffmpeg_kit.dart';
-import 'package:ffmpeg_kit_flutter/return_code.dart';
+import 'package:ffmpeg_kit_flutter_full/ffmpeg_kit.dart';
+import 'package:ffmpeg_kit_flutter_full/return_code.dart';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -36,6 +36,4 @@ class VideoWaterMarkService extends IWaterMarkService {
 
     return await completer.future;
   }
-
-  void helper() {}
 }
