@@ -3,6 +3,7 @@ import 'package:decentproof/features/hashing/interfaces/IHashSubmissionService.d
 import 'package:decentproof/features/hashing/interfaces/IHashingService.dart';
 import 'package:decentproof/features/hashing/interfaces/IMediaPickerService.dart';
 import 'package:decentproof/features/hashing/interfaces/IWaterMarkService.dart';
+import 'package:decentproof/features/hashing/logic/AudioSavingService.dart';
 import 'package:decentproof/features/hashing/logic/ImagePickerWrapper.dart';
 import 'package:decentproof/features/hashing/logic/ImageSavingService.dart';
 import 'package:decentproof/features/hashing/logic/VideoSavingService.dart';
@@ -56,6 +57,8 @@ Future<void> registar() async {
       instanceName: "ImageSaving");
   getIt.registerFactory<IFileSavingService>(() => VideoSavingService(),
       instanceName: "VideoSaving");
+  getIt.registerFactory<IFileSavingService>(() => AudioSavingService(),
+      instanceName: "AudioSaving");
   getIt.registerFactory<IWaterMarkService>(() => VideoWaterMarkService(),
       instanceName: "VideoWaterMark");
   getIt.registerFactory<IWaterMarkService>(() => ImageWaterMarkService(),
