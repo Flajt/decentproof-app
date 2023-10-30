@@ -1,6 +1,6 @@
 import 'package:decentproof/features/hashing/bloc/perperationBloc/PreparationBloc.dart';
-import 'package:decentproof/features/hashing/bloc/perperationBloc/PerperationEvents.dart';
-import 'package:decentproof/features/hashing/bloc/perperationBloc/PerperationStates.dart';
+import 'package:decentproof/features/hashing/bloc/perperationBloc/PerparationEvents.dart';
+import 'package:decentproof/features/hashing/bloc/perperationBloc/PerparationStates.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
