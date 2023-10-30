@@ -50,7 +50,7 @@ Future<void> registar() async {
       instanceName: "ImageHashing");
   getIt.registerFactory<IHashingService>(() => VideoHashingService(),
       instanceName: "VideoHashing");
-  getIt.registerFactory(() => AudioHashingService(),
+  getIt.registerFactory<IHashingService>(() => AudioHashingService(),
       instanceName: "AudioHashing");
   getIt.registerFactory<IMediaPickerService>(() => ImagePickerWrapper());
   getIt.registerFactory<IFileSavingService>(() => ImageSavingService(),
