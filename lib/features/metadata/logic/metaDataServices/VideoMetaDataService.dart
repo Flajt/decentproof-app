@@ -8,8 +8,7 @@ import 'package:ffmpeg_kit_flutter_full/ffmpeg_kit.dart';
 import 'package:ffmpeg_kit_flutter_full/ffprobe_kit.dart';
 import 'package:ffmpeg_kit_flutter_full/return_code.dart';
 
-class VideoAudioMetaDataService implements IMetaDataService {
-  //This class can do the work for both audio and video files, it would be duplication to split it
+class VideoMetaDataService implements IMetaDataService {
   @override
   Future<String> addLocation(
       LocationModel locationModel, String filePath) async {
