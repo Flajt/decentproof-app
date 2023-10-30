@@ -19,7 +19,7 @@ import 'package:decentproof/features/metadata/interfaces/IMetaDataService.dart';
 import 'package:decentproof/features/metadata/logic/LocationService.dart';
 import 'package:decentproof/features/metadata/logic/MetaDataPermissionService.dart';
 import 'package:decentproof/features/metadata/logic/metaDataServices/ImageMetaDataService.dart';
-import 'package:decentproof/features/metadata/logic/metaDataServices/VideoAudioMetaDataService.dart';
+import 'package:decentproof/features/metadata/logic/metaDataServices/VideoMetaDataService.dart';
 import 'package:decentproof/features/verification/interfaces/IFileSelectionService.dart';
 import 'package:decentproof/features/verification/interfaces/ISignatureVerifcationService.dart';
 import 'package:decentproof/features/verification/interfaces/IVerificationService.dart';
@@ -30,6 +30,7 @@ import 'package:decentproof/shared/HashLogic.dart';
 import 'package:decentproof/shared/interface/IHashLogic.dart';
 import 'package:get_it/get_it.dart';
 
+import '../../features/metadata/logic/metaDataServices/AudioMetaDataService.dart';
 import '../Integrety/SecureStorageWrapper.dart';
 import '../Integrety/interfaces/ISecureStorageService.dart';
 
@@ -71,7 +72,9 @@ Future<void> registar() async {
       .init(); // Workaround to fix initalisation issues
   getIt.registerFactory<IMetaDataService>(() => ImageMetaDataService(),
       instanceName: "ImageMetaData");
-  getIt.registerFactory<IMetaDataService>(() => VideoAudioMetaDataService(),
-      instanceName: "AudioVideoMetaData");
+  getIt.registerFactory<IMetaDataService>(() => VideoMetaDataService(),
+      instanceName: "VideoMetaData");
+  getIt.registerFactory<IMetaDataService>(() => AudioMetaDataService(),
+      instanceName: "AudioMetaData");
   await getIt.allReady();
 }
