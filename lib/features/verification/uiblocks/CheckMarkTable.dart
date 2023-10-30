@@ -21,6 +21,10 @@ class CheckMarkTable extends StatelessWidget {
         const Divider(color: Colors.grey),
         CheckMarkTile(
             title: "Signature Verified?", value: statusModel.verifiedSignature),
+        const Divider(color: Colors.grey),
+        CheckMarkTile(
+            title: "Location Stored?",
+            value: statusModel.metaDataModel?.location != null)
       ]),
     );
   }

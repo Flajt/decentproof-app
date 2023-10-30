@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:decentproof/features/metadata/interfaces/IMetaDataService.dart';
 import 'package:decentproof/features/verification/bloc/VerificationBlocEvents.dart';
 import 'package:decentproof/features/verification/bloc/VerificationBlocStates.dart';
@@ -8,7 +7,6 @@ import 'package:decentproof/features/verification/interfaces/IVerificationServic
 import 'package:decentproof/features/verification/models/FileDataMode.dart';
 import 'package:decentproof/features/verification/models/VerificationStatusModel.dart';
 import 'package:decentproof/shared/interface/IHashLogic.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:path_provider/path_provider.dart';
@@ -31,10 +29,12 @@ class VerificationBloc
         _getIt.get<IMetaDataService>(instanceName: "ImageMetaData");
     _audioVideoMetaDataService =
         _getIt.get<IMetaDataService>(instanceName: "AudioVideoMetaData");
+
     on<VerifyHashEvent>((event, emit) async {
+      Directory tempFileStorage = await getTemporaryDirectory();
+
       try {
-        MetaDataModel? metaDataModel;
-        Directory tempFileStorage = await getApplicationCacheDirectory();
+        tempFileStorage.createSync();
         emit(LoadingState());
         FileDataModel? fileDataModel =
             await _fileSelectionService.selectFileAsStream();
@@ -43,16 +43,12 @@ class VerificationBloc
               File("${tempFileStorage.path}/${fileDataModel.fileName}");
           String hash = await _hashLogic
               .hashBytesInChunksFromStream(fileDataModel.byteStream);
+          await copyFileToTemp(tempFile, fileDataModel);
           VerificationStatusModel model =
               await _verificationService.verify(hash);
           FileType fileType = isOfType(fileDataModel.fileName);
-          if (fileType == FileType.audio || fileType == FileType.video) {
-            metaDataModel =
-                await _audioVideoMetaDataService.retriveMetaData(tempFile.path);
-          } else if (fileType == FileType.image) {
-            metaDataModel =
-                await _imageMetaDataService.retriveMetaData(tempFile.path);
-          }
+          MetaDataModel metaDataModel =
+              await extractMetaData(fileType, tempFile);
           final finalModel = model.copyWith(metaDataModel: metaDataModel);
           emit(VerifiedState(finalModel));
         } else {
@@ -60,12 +56,30 @@ class VerificationBloc
         }
         await tempFileStorage.delete(recursive: true);
       } catch (e) {
+        await tempFileStorage.delete(recursive: true);
         emit(ErrorState(e.toString()));
         emit(InitialState());
       }
     });
     on<ResetEvent>((event, emit) => emit(InitialState()));
   }
+
+  Future<MetaDataModel> extractMetaData(
+      FileType fileType, File tempFile) async {
+    if (fileType == FileType.audio || fileType == FileType.video) {
+      return await _audioVideoMetaDataService.retriveMetaData(tempFile.path);
+    }
+    return await _imageMetaDataService.retriveMetaData(tempFile.path);
+  }
+
+  Future<void> copyFileToTemp(
+      File tempFile, FileDataModel fileDataModel) async {
+    final sink = tempFile.openWrite();
+    await sink.addStream(fileDataModel.byteStream);
+    await sink.flush();
+    //await sink.close();
+  }
+
   isOfType(String name) {
     String extension = name.split(".").last;
     if (extension == "png") {
