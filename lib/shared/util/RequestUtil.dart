@@ -25,7 +25,7 @@ class RequestUtil {
         if (hasNew) {
           String token = await appCheck.getIntegrityToken();
           String newKey = await apiKeyManager.getNewNewKey(token);
-          storageWrapper.saveApiKey(newKey);
+          await storageWrapper.saveApiKey(newKey);
           newKey = overWriteString(newKey);
         }
       }
