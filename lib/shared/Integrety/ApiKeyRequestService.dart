@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:decentproof/constants.dart';
 import 'package:dio/dio.dart';
 
@@ -21,7 +23,7 @@ class ApiKeyRequestService implements IApiKeyRequestService {
           "Content-Type": "application/json"
         }, responseType: ResponseType.json));
     if (resp.statusCode == 200) {
-      bool hasNewer = resp.data["hasNewKey"];
+      bool hasNewer = jsonDecode(resp.data)["hasNewKey"];
       return hasNewer;
     }
     throw resp.statusCode.toString();
