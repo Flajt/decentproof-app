@@ -1,7 +1,6 @@
 import 'package:decentproof/features/metadata/interfaces/IMetaDataService.dart';
 import 'package:decentproof/features/metadata/models/LocationModel.dart';
 import 'package:decentproof/features/metadata/models/MetaDataModel.dart';
-import 'package:location/location.dart';
 import 'package:native_exif/native_exif.dart';
 
 class ImageMetaDataService implements IMetaDataService {
@@ -49,8 +48,8 @@ class ImageMetaDataService implements IMetaDataService {
     if (data == null) {
       return MetaDataModel(null, null);
     }
-    if (data.containsKey("USERCOMMENT")) {
-      secretHash = data["USERCOMMENT"] as String;
+    if (data.containsKey("UserComment")) {
+      secretHash = data["UserComment"] as String;
     }
     if (data.containsKey("GPSLatitude") && data.containsKey("GPSLongitude")) {
       location = LocationModel(
