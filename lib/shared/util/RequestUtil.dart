@@ -20,7 +20,7 @@ class RequestUtil {
 
     if (hasKey) {
       //Used to prevent overwhelming the service with requsts for a new key, as soon as it's available
-      if (Random().nextInt(2) == 1) {
+      if (Random().nextInt(3) == 1) {
         bool hasNew = await apiKeyManager.checkForNewApiKey(apiKey);
         if (hasNew) {
           String token = await appCheck.getIntegrityToken();
