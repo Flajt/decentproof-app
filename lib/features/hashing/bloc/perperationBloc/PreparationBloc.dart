@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'package:decentproof/features/hashing/bloc/perperationBloc/PerperationEvents.dart';
-import 'package:decentproof/features/hashing/bloc/perperationBloc/PerperationStates.dart';
+import 'package:decentproof/features/hashing/bloc/perperationBloc/PerparationEvents.dart';
+import 'package:decentproof/features/hashing/bloc/perperationBloc/PerparationStates.dart';
 import 'package:decentproof/features/hashing/interfaces/IFileSavingService.dart';
 import 'package:decentproof/features/hashing/interfaces/IHashingService.dart';
 import 'package:decentproof/features/metadata/interfaces/ILocationService.dart';
@@ -23,7 +23,8 @@ class PreparationBloc extends Bloc<MetaDataEvents, PreparationState> {
   late final IHashingService imageHashingService;
   late final IWaterMarkService videoWaterMarkSerivce;
   late final IWaterMarkService imageWaterMarkService;
-  late final IMetaDataService audioVideoMetaDataService;
+  late final IMetaDataService audioMetaDataService;
+  late final IMetaDataService videoMetaDataService;
   late final IMetaDataService imageMetaDataService;
   late final IMetaDataPermissionService metaDataPermissionService;
   late final ILocationService locationService;
@@ -43,8 +44,10 @@ class PreparationBloc extends Bloc<MetaDataEvents, PreparationState> {
         getIt.get<IWaterMarkService>(instanceName: "VideoWaterMark");
     imageWaterMarkService =
         getIt.get<IWaterMarkService>(instanceName: "ImageWaterMark");
-    audioVideoMetaDataService =
-        getIt.get<IMetaDataService>(instanceName: "AudioVideoMetaData");
+    audioMetaDataService =
+        getIt.get<IMetaDataService>(instanceName: "AudioMetaData");
+    videoMetaDataService =
+        getIt.get<IMetaDataService>(instanceName: "VideoMetaData");
     imageMetaDataService =
         getIt.get<IMetaDataService>(instanceName: "ImageMetaData");
     metaDataPermissionService = getIt.get<IMetaDataPermissionService>();
@@ -62,7 +65,7 @@ class PreparationBloc extends Bloc<MetaDataEvents, PreparationState> {
           emit(PrepareationIsAddingMetaData());
           LocationModel locationModel = await locationService.requestLocation();
           afterMetaDataPath =
-              await audioVideoMetaDataService.addLocation(locationModel, path);
+              await audioMetaDataService.addLocation(locationModel, path);
         }
         emit(PrepareationIsHashing());
         String hash =
@@ -104,8 +107,8 @@ class PreparationBloc extends Bloc<MetaDataEvents, PreparationState> {
         if (shouldEmbedLocation) {
           emit(PrepareationIsAddingMetaData());
           LocationModel locationModel = await locationService.requestLocation();
-          afterMetaDataPath = await audioVideoMetaDataService.addLocation(
-              locationModel, finalPath);
+          afterMetaDataPath =
+              await videoMetaDataService.addLocation(locationModel, finalPath);
         }
         emit(PrepareationIsHashing());
         String hash = await compute(
