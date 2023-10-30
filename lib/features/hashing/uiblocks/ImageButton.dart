@@ -38,7 +38,7 @@ class ImageButton extends StatelessWidget {
         child: Material(
             color: Colors.transparent,
             child: InkWell(
-              onTap: () => context.read<PreparationBloc>().add(PerpareImage()),
+              onTap: () => context.read<PreparationBloc>().add(PrepareImage()),
               radius: size.width,
               splashColor: Colors.orangeAccent,
               child: Column(

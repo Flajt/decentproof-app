@@ -27,6 +27,7 @@ class PreparationBloc extends Bloc<MetaDataEvents, PreparationState> {
   late final IMetaDataService imageMetaDataService;
   late final IMetaDataPermissionService metaDataPermissionService;
   late final ILocationService locationService;
+  late final IHashingService audioHashingService;
 
   PreparationBloc() : super(InitalPrepareBlocState()) {
     getIt = GetIt.I;
@@ -47,12 +48,31 @@ class PreparationBloc extends Bloc<MetaDataEvents, PreparationState> {
     imageMetaDataService =
         getIt.get<IMetaDataService>(instanceName: "ImageMetaData");
     metaDataPermissionService = getIt.get<IMetaDataPermissionService>();
+    audioHashingService =
+        getIt.get<IHashingService>(instanceName: "AudioHashing");
     locationService = getIt.get<ILocationService>();
 
-    on<PerpareAudio>((event, emit) {
-      //Will only add location and other metadata later on
+    on<PrepareAudio>((event, emit) async {
+      try {
+        String? afterMetaDataPath;
+        String path = event.filePath;
+        bool shouldEmbedLocation =
+            metaDataPermissionService.shouldEmbedLocation();
+        if (shouldEmbedLocation) {
+          emit(PrepareationIsAddingMetaData());
+          LocationModel locationModel = await locationService.requestLocation();
+          afterMetaDataPath =
+              await audioVideoMetaDataService.addLocation(locationModel, path);
+        }
+        emit(PrepareationIsHashing());
+        String hash =
+            await compute(audioHashingService.hash, afterMetaDataPath ?? path);
+        emit(PreparationIsSuccessfull(afterMetaDataPath ?? path, hash));
+      } catch (e) {
+        emit(PreparationHasError(e.toString()));
+      }
     });
-    on<PerpareImage>((event, emit) async {
+    on<PrepareImage>((event, emit) async {
       try {
         String path = await imageSavingService.saveFile();
         emit(PrepareationIsAplyingWaterMark());
