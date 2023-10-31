@@ -29,4 +29,13 @@ class SecureStorageService implements ISecureStorageService {
   Future<void> saveEmail(String email) async {
     await _secureStorage.write(key: "email", value: email);
   }
+
+  @override
+  Future<String?> retriveSecret() async =>
+      await _secureStorage.read(key: "secret");
+
+  @override
+  Future<void> saveSecret(String secret) async {
+    await _secureStorage.write(key: "secret", value: secret);
+  }
 }

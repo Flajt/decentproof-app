@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:decentproof/constants.dart';
 import 'package:dio/dio.dart';
 
@@ -17,7 +19,7 @@ class ApiKeyRequestService implements IApiKeyRequestService {
   Future<bool> checkForNewApiKey(String? apiKey) async {
     Response resp = await _checkKeyRequestManager.get("/",
         options: Options(headers: {
-          "authorization": "basic $apiKey",
+          "Authorization": "basic $apiKey",
           "Content-Type": "application/json"
         }, responseType: ResponseType.json));
     if (resp.statusCode == 200) {

@@ -3,7 +3,8 @@
         "options":{
             "imageVideo":"",
             "audio": "",
-            "verify":""
+            "verify":"",
+            "locationWarning":""
         }
     },
     "introPage":{
@@ -27,7 +28,11 @@
     "settingsPage":{
         "title": "",
         "addEmail": "",
-        "description": ""
+        "description": "",
+        "embedLocation": "",
+        "embedLocationSubtitle": "",
+        "embedSecret": "",
+        "embedSecretSubtitle": ""
     },
     "submissionPage":{
         "title":"",

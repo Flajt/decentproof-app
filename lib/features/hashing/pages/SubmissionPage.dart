@@ -77,16 +77,10 @@ class SubmissionPage extends StatelessWidget {
                         ));
                   } else if (state is SubmissionSuccessfull) {
                     return Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Text("submissionPage.submissionSuccess",
-                                  style: Theme.of(context).textTheme.bodyLarge)
-                              .tr(),
-                          const BackToHomeButton()
-                        ],
-                      ),
+                      alignment: Alignment.center,
+                      child: Text("submissionPage.submissionSuccess",
+                              style: Theme.of(context).textTheme.headlineMedium)
+                          .tr(),
                     );
                   }
                   return const Center(

@@ -3,7 +3,8 @@
         "options":{
             "imageVideo": "Image/Video",
             "audio": "Audio",
-            "verify":"Verify"
+            "verify":"Verify",
+            "locationWarning": "You have enabled location embedding, but disabled the location service"
         }
     },
     "introPage":{
@@ -27,7 +28,11 @@
     "settingsPage":{
         "title": "Settings",
         "addEmail": "Add E-Mail",
-        "description": "If you want to save data in the DevNet. Not recommended!"
+        "description": "If you want to save data in the DevNet. Not recommended!",
+        "embedLocation": "Embed Location",
+        "embedLocationSubtitle": "Embed the location in created media files",
+        "embedSecret": "Embed Secret",
+        "embedSecretSubtitle": "Embed a secret in created media files"
     },
     "submissionPage":{
         "hash": "Your Hash:",
