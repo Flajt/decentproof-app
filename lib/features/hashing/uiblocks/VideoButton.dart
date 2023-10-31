@@ -34,12 +34,13 @@ class VideoButton extends StatelessWidget {
         decoration: BoxDecoration(
             border: Border.all(color: Colors.black, width: 2.0),
             borderRadius: const BorderRadius.all(Radius.circular(20.0))),
-        child: Material(
+        child: ClipRRect(
+          borderRadius: const BorderRadius.all(Radius.circular(20.0)),
+          child: Material(
             color: Colors.transparent,
             child: InkWell(
               onTap: () => context.read<PreparationBloc>().add(PrepareVideo()),
               radius: size.width,
-              splashColor: Colors.orangeAccent,
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -52,7 +53,9 @@ class VideoButton extends StatelessWidget {
                                 fontWeight: FontWeight.bold, fontSize: 20.0))
                         .tr()
                   ]),
-            )),
+            ),
+          ),
+        ),
       ),
     );
   }

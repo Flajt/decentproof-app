@@ -14,7 +14,7 @@ class OptionTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: Icon(iconData, color: Colors.orangeAccent),
+      leading: Icon(iconData, color: Colors.orange),
       title:
           Text(title.tr(), style: const TextStyle(fontWeight: FontWeight.bold)),
       onTap: () => Navigator.of(context).pushNamed(navigationRoute),

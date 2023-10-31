@@ -72,9 +72,13 @@ class MyApp extends StatelessWidget {
           "/verificationPage": (context) => const VerificationPage(),
           "/settingsPage": (context) => const SettingsPage()
         },
+        darkTheme: ThemeData.from(
+            colorScheme: ColorScheme.fromSeed(
+                brightness: Brightness.dark,
+                onBackground: const Color(0xff191919),
+                seedColor: Colors.orange)),
         title: 'Decentproof',
-        theme:
-            ThemeData(primaryColor: Colors.black, primarySwatch: Colors.orange),
+        theme: ThemeData(useMaterial3: true, colorSchemeSeed: Colors.black),
         home: Builder(builder: (context) {
           return FutureBuilder(
               future: isFirstTimeUser(),
