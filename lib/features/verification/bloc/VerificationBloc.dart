@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:decentproof/features/metadata/interfaces/IMetaDataService.dart';
 import 'package:decentproof/features/verification/bloc/VerificationBlocEvents.dart';
@@ -20,15 +21,19 @@ class VerificationBloc
   late final IFileSelectionService _fileSelectionService;
   late final IHashLogic _hashLogic;
   late final IMetaDataService _imageMetaDataService;
-  late final IMetaDataService _audioVideoMetaDataService;
+  late final IMetaDataService _audioMetaDataService;
+  late final IMetaDataService _videoMetaDataService;
   VerificationBloc() : super(InitialState()) {
     _verificationService = _getIt.get<IVerificationService>();
     _fileSelectionService = _getIt.get<IFileSelectionService>();
     _hashLogic = _getIt.get<IHashLogic>();
     _imageMetaDataService =
         _getIt.get<IMetaDataService>(instanceName: "ImageMetaData");
-    _audioVideoMetaDataService =
-        _getIt.get<IMetaDataService>(instanceName: "AudioVideoMetaData");
+    _audioMetaDataService =
+        _getIt.get<IMetaDataService>(instanceName: "AudioMetaData");
+    _videoMetaDataService = _getIt.get<IMetaDataService>(
+      instanceName: "VideoMetaData",
+    );
 
     on<VerifyHashEvent>((event, emit) async {
       Directory tempFileStorage = await getTemporaryDirectory();
@@ -41,9 +46,11 @@ class VerificationBloc
         if (fileDataModel != null) {
           File tempFile =
               File("${tempFileStorage.path}/${fileDataModel.fileName}");
-          String hash = await _hashLogic
-              .hashBytesInChunksFromStream(fileDataModel.byteStream);
           await copyFileToTemp(tempFile, fileDataModel);
+          Stream<List<int>> tempStream = tempFile
+              .openRead(); // Steams are consumed after beeing done so we need a new one
+          String hash =
+              await _hashLogic.hashBytesInChunksFromStream(tempStream);
           VerificationStatusModel model =
               await _verificationService.verify(hash);
           FileType fileType = isOfType(fileDataModel.fileName);
@@ -66,8 +73,10 @@ class VerificationBloc
 
   Future<MetaDataModel> extractMetaData(
       FileType fileType, File tempFile) async {
-    if (fileType == FileType.audio || fileType == FileType.video) {
-      return await _audioVideoMetaDataService.retriveMetaData(tempFile.path);
+    if (fileType == FileType.audio) {
+      return await _audioMetaDataService.retriveMetaData(tempFile.path);
+    } else if (fileType == FileType.video) {
+      return await _videoMetaDataService.retriveMetaData(tempFile.path);
     }
     return await _imageMetaDataService.retriveMetaData(tempFile.path);
   }
@@ -77,7 +86,7 @@ class VerificationBloc
     final sink = tempFile.openWrite();
     await sink.addStream(fileDataModel.byteStream);
     await sink.flush();
-    //await sink.close();
+    await sink.close();
   }
 
   isOfType(String name) {
