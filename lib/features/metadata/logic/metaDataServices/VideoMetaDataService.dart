@@ -90,13 +90,13 @@ class VideoMetaDataService implements IMetaDataService {
       }
     });
     Map<dynamic, dynamic> tags = await data.future;
-    print(tags);
-    if (tags.containsKey("comment")) {
-      secretHash = tags["comment"];
+    if (tags.containsKey("COMMENT")) {
+      secretHash = tags["COMMENT"];
     }
-    if (tags.containsKey("latitude") && tags.containsKey("longitude")) {
+    if (tags.containsKey("LATITUDE") && tags.containsKey("LONGITUDE")) {
       location = LocationModel(
-          latitude: tags["latitude"], longitude: tags["longitude"]);
+          latitude: double.parse(tags["LATITUDE"]),
+          longitude: double.parse(tags["LONGITUDE"]));
     }
     return MetaDataModel(secretHash, location);
   }
