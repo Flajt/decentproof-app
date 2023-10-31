@@ -21,9 +21,7 @@ class ErrorDialog extends StatelessWidget {
                   child: Text(
                     "verificationPage.error".tr(),
                     style: const TextStyle(
-                        fontSize: 25.0,
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold),
+                        fontSize: 25.0, fontWeight: FontWeight.bold),
                   ),
                 )),
             Center(
