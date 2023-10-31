@@ -23,7 +23,6 @@ class ImageMetaDataService implements IMetaDataService {
     await exif.writeAttributes({
       "GPSLatitude": locationModel.latitude,
       "GPSLongitude": locationModel.longitude,
-      "GPSAltitude": locationModel.altitude,
       "UserComment": secretHash
     });
     await exif.close();
@@ -54,8 +53,7 @@ class ImageMetaDataService implements IMetaDataService {
     if (data.containsKey("GPSLatitude") && data.containsKey("GPSLongitude")) {
       location = LocationModel(
           latitude: data["GPSLatitude"] as double,
-          longitude: data["GPSLongitude"] as double,
-          altitude: data["GPSAltitude"] as double);
+          longitude: data["GPSLongitude"] as double);
     }
     return MetaDataModel(secretHash, location);
   }

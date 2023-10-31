@@ -28,9 +28,7 @@ class LocationService implements ILocationService {
   Future<LocationModel> requestLocation() async {
     LocationData locationData = await _location.getLocation();
     return LocationModel(
-        latitude: locationData.latitude!,
-        longitude: locationData.longitude!,
-        altitude: locationData.altitude ?? -1.0);
+        latitude: locationData.latitude!, longitude: locationData.longitude!);
   }
 
   @override

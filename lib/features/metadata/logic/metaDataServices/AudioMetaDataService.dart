@@ -96,13 +96,11 @@ class AudioMetaDataService implements IMetaDataService {
     if (tags.containsKey("comment")) {
       secretHash = tags["comment"];
     }
-    if (tags.containsKey("latitude") &&
-        tags.containsKey("longitude") &&
-        tags.containsKey("altitude")) {
+    if (tags.containsKey("latitude") && tags.containsKey("longitude")) {
       location = LocationModel(
-          latitude: tags["latitude"],
-          longitude: tags["longitude"],
-          altitude: tags["altitude"]);
+        latitude: tags["latitude"],
+        longitude: tags["longitude"],
+      );
     }
     return MetaDataModel(secretHash, location);
   }
