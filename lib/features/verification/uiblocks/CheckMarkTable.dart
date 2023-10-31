@@ -11,17 +11,16 @@ class CheckMarkTable extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 250,
-      height: 220,
+      height: 150,
       decoration: BoxDecoration(
           border: Border.all(color: Colors.black),
           borderRadius: const BorderRadius.all(Radius.circular(10))),
-      child: ListView(children: [
+      child:
+          Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
         CheckMarkTile(
             title: "Hashes Matching?", value: statusModel.matchingHashes),
-        const Divider(color: Colors.grey),
         CheckMarkTile(
             title: "Signature Verified?", value: statusModel.verifiedSignature),
-        const Divider(color: Colors.grey),
         CheckMarkTile(
             title: "Location Stored?",
             value: statusModel.metaDataModel?.location != null)
