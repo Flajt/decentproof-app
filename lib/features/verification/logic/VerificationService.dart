@@ -32,10 +32,13 @@ class VerificatinService implements IVerificationService {
 
     Response resp = await _dio.post(VERIFY_URL,
         data: jsonEncode(body),
-        options: Options(headers: {
-          "Authorization": "basic $apiKey",
-          "Content-Type": "application/json"
-        }));
+        options: Options(
+            validateStatus: (status) => true,
+            receiveDataWhenStatusError: true,
+            headers: {
+              "Authorization": "basic $apiKey",
+              "Content-Type": "application/json"
+            }));
     if (resp.statusCode == 200) {
       VerificationStatusResponsModel responseModel =
           VerificationStatusResponsModel.fromJson(resp.data);
@@ -48,7 +51,7 @@ class VerificatinService implements IVerificationService {
           null);
       return statusModel;
     } else {
-      throw "${resp.statusCode}: ${resp.statusMessage}";
+      throw "${resp.statusCode}: ${resp.statusMessage}; ${resp.data}";
     }
   }
 
