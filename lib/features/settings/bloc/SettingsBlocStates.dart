@@ -1,23 +1,43 @@
 //abstract state
 
-abstract class SettingsBlocStates {}
+import 'package:equatable/equatable.dart';
 
-class InitialSecureStorageState extends SettingsBlocStates {}
+abstract class SettingsBlocStates extends Equatable {}
+
+class InitialSecureStorageState extends SettingsBlocStates {
+  @override
+  List<Object?> get props => [];
+}
 
 class ErrorState extends SettingsBlocStates {
   final String errorMessage;
 
   ErrorState(this.errorMessage);
+
+  @override
+  List<Object?> get props => [errorMessage];
 }
 
 class EmailSavedState extends SettingsBlocStates {
   final String email;
 
   EmailSavedState(this.email);
+
+  @override
+  List<Object?> get props => [email];
 }
 
-class SecretSavedState extends SettingsBlocStates {}
+class SecretSavedState extends SettingsBlocStates {
+  @override
+  List<Object?> get props => [];
+}
 
-class LocationEmbeddingPermissionModified extends SettingsBlocStates {}
+class LocationEmbeddingPermissionModified extends SettingsBlocStates {
+  @override
+  List<Object?> get props => [];
+}
 
-class SecretEmbeddingPermissionModified extends SettingsBlocStates {}
+class SecretEmbeddingPermissionModified extends SettingsBlocStates {
+  @override
+  List<Object?> get props => [];
+}
