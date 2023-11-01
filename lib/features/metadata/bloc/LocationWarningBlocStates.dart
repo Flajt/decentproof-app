@@ -1,10 +1,21 @@
-abstract class LocationWarningState {}
+import 'package:equatable/equatable.dart';
 
-class LocationServiceEnabled implements LocationWarningState {}
+abstract class LocationWarningState extends Equatable {}
 
-class LocationServiceDisabled implements LocationWarningState {}
+class LocationServiceEnabled extends LocationWarningState {
+  @override
+  List<Object?> get props => [];
+}
 
-class LocationServiceHasError implements LocationWarningState {
+class LocationServiceDisabled extends LocationWarningState {
+  @override
+  List<Object?> get props => [];
+}
+
+class LocationServiceHasError extends LocationWarningState {
   final String message;
   LocationServiceHasError(this.message);
+
+  @override
+  List<Object?> get props => [message];
 }
