@@ -1,21 +1,12 @@
-import 'package:decentproof/shared/Integrety/ApiKeyRequestService.dart';
-import 'package:decentproof/shared/Integrety/AppCheck.dart';
-import 'package:decentproof/shared/Integrety/SecureStorageWrapper.dart';
 import 'package:decentproof/shared/Integrety/interfaces/IApiKeyRequestService.dart';
 import 'package:decentproof/shared/Integrety/interfaces/IDeviceIntegrity.dart';
 import 'package:decentproof/shared/Integrety/interfaces/ISecureStorageService.dart';
 import 'package:decentproof/shared/util/RequestUtil.dart';
 import 'package:get_it/get_it.dart';
-import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 
-@GenerateNiceMocks([
-  MockSpec<AppCheck>(),
-  MockSpec<ApiKeyRequestService>(),
-  MockSpec<SecureStorageService>()
-])
-import "RequestUtil_test.mocks.dart";
+import '../../mocks.mocks.dart';
 
 void main() {
   setUp(() async {

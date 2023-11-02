@@ -1,24 +1,15 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:decentproof/features/metadata/interfaces/ILocationService.dart';
 import 'package:decentproof/features/metadata/interfaces/IMetaDataPermissionService.dart';
-import 'package:decentproof/features/metadata/logic/LocationService.dart';
-import 'package:decentproof/features/metadata/logic/MetaDataPermissionService.dart';
 import 'package:decentproof/features/settings/bloc/SettingsBloc.dart';
 import 'package:decentproof/features/settings/bloc/SettingsBlocEvents.dart';
 import 'package:decentproof/features/settings/bloc/SettingsBlocStates.dart';
-import 'package:decentproof/shared/Integrety/SecureStorageWrapper.dart';
 import 'package:decentproof/shared/Integrety/interfaces/ISecureStorageService.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get_it/get_it.dart';
-import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
-@GenerateNiceMocks([
-  MockSpec<LocationService>(),
-  MockSpec<MetaDataPermissionService>(),
-  MockSpec<SecureStorageService>()
-])
-import "SettingsBloc_test.mocks.dart";
+import '../../mocks.mocks.dart';
 
 void main() {
   final getIt = GetIt.I;

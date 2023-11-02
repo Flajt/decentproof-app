@@ -4,16 +4,11 @@ import 'package:decentproof/features/metadata/bloc/LocationWarningBlocEvents.dar
 import 'package:decentproof/features/metadata/bloc/LocationWarningBlocStates.dart';
 import 'package:decentproof/features/metadata/interfaces/ILocationService.dart';
 import 'package:decentproof/features/metadata/interfaces/IMetaDataPermissionService.dart';
-import 'package:decentproof/features/metadata/logic/LocationService.dart';
-import 'package:decentproof/features/metadata/logic/MetaDataPermissionService.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get_it/get_it.dart';
-import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
-@GenerateNiceMocks(
-    [MockSpec<LocationService>(), MockSpec<MetaDataPermissionService>()])
-import "LocationWarningBloc_test.mocks.dart";
+import '../../mocks.mocks.dart';
 
 void main() {
   final GetIt getIt = GetIt.I;
