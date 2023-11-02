@@ -1,6 +1,5 @@
 import 'dart:typed_data';
 
-import 'package:decentproof/features/settings/bloc/SettingsBloc.dart';
 import 'package:equatable/equatable.dart';
 
 abstract class SettingsBlocEvents extends Equatable {}
