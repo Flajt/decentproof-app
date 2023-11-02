@@ -5,6 +5,8 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i4;
 
+import 'package:decentproof/features/hashing/logic/backend/HashSubmissionService.dart'
+    as _i9;
 import 'package:decentproof/features/metadata/logic/LocationService.dart'
     as _i7;
 import 'package:decentproof/features/metadata/logic/MetaDataPermissionService.dart'
@@ -242,4 +244,27 @@ class MockMetaDataPermissionService extends _i1.Mock
         returnValue: false,
         returnValueForMissingStub: false,
       ) as bool);
+}
+
+/// A class which mocks [HashSubmissionService].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockHashSubmissionService extends _i1.Mock
+    implements _i9.HashSubmissionService {
+  @override
+  _i4.Future<void> submitHash(
+    String? hash,
+    String? email,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #submitHash,
+          [
+            hash,
+            email,
+          ],
+        ),
+        returnValue: _i4.Future<void>.value(),
+        returnValueForMissingStub: _i4.Future<void>.value(),
+      ) as _i4.Future<void>);
 }

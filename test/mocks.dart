@@ -1,3 +1,4 @@
+import 'package:decentproof/features/hashing/logic/backend/HashSubmissionService.dart';
 import 'package:decentproof/features/metadata/logic/LocationService.dart';
 import 'package:decentproof/features/metadata/logic/MetaDataPermissionService.dart';
 import 'package:decentproof/shared/Integrety/ApiKeyRequestService.dart';
@@ -16,6 +17,7 @@ import 'package:mockito/annotations.dart';
   MockSpec<SecureStorageService>(),
   MockSpec<LocationService>(),
   MockSpec<MetaDataPermissionService>(),
+  MockSpec<HashSubmissionService>()
 ])
 // ignore: unused_element
 void main() {}
