@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'package:decentproof/features/hashing/bloc/perperationBloc/PerparationEvents.dart';
-import 'package:decentproof/features/hashing/bloc/perperationBloc/PerparationStates.dart';
+import 'package:decentproof/features/hashing/bloc/PreparationBloc/PerparationEvents.dart';
+import 'package:decentproof/features/hashing/bloc/PreparationBloc/PerparationStates.dart';
 import 'package:decentproof/features/hashing/interfaces/IFileSavingService.dart';
 import 'package:decentproof/features/hashing/interfaces/IHashingService.dart';
 import 'package:decentproof/features/metadata/interfaces/ILocationService.dart';

@@ -1,6 +1,6 @@
 import 'package:audio_waveforms/audio_waveforms.dart';
-import 'package:decentproof/features/hashing/bloc/perperationBloc/PerparationEvents.dart';
-import 'package:decentproof/features/hashing/bloc/perperationBloc/PreparationBloc.dart';
+import 'package:decentproof/features/hashing/bloc/PreparationBloc/PerparationEvents.dart';
+import 'package:decentproof/features/hashing/bloc/PreparationBloc/PreparationBloc.dart';
 import 'package:decentproof/features/hashing/interfaces/IFileSavingService.dart';
 import 'package:decentproof/shared/uiblocks/ProcessingDialog.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../../shared/uiblocks/ErrorDialog.dart';
-import '../bloc/perperationBloc/PerparationStates.dart';
+import '../bloc/PreparationBloc/PerparationStates.dart';
 
 class RecordingButton extends StatefulWidget {
   const RecordingButton({
