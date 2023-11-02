@@ -27,7 +27,7 @@ void main() {
       String expectedHash = CryptoUtils.getHash(bytes);
       expect(hash, equalsIgnoringCase(expectedHash));
     });
-    test("hashBytesFromStream works on string", () async {
+    test("hashBytesInChunksFromStream works on string", () async {
       String randomString = StringUtils.generateRandomString(300);
       final bytes = Uint8List.fromList(randomString.codeUnits);
       Stream<List<int>> byteStream = Stream.fromIterable([bytes]);
