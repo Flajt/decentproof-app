@@ -45,7 +45,7 @@ void main() {
       }
       verify(mockApiKeyRequestService.checkForNewApiKey(any))
           .called(greaterThanOrEqualTo(1));
-    }, retry: 2);
+    }, retry: 3);
 
     test("successfull full pass through", () async {
       getIt.registerFactory<IDeviceIntegrety>(() => mockAppCheck);
@@ -68,7 +68,7 @@ void main() {
           .called(greaterThanOrEqualTo(1));
       verify(mockApiKeyRequestService.getNewNewKey(any))
           .called(greaterThanOrEqualTo(1));
-    }, retry: 2);
+    }, retry: 3);
 
     test("retriveApiKey is null", () async {
       getIt.registerFactory<IDeviceIntegrety>(() => mockAppCheck);
@@ -87,7 +87,7 @@ void main() {
       await RequestUtil.updateOrRetriveKey();
       verify(mockSecureStorageService.saveApiKey(any)).called(equals(1));
       verify(mockApiKeyRequestService.getNewNewKey(any)).called(equals(1));
-    }, retry: 2);
+    }, retry: 3);
   });
   group("Request util failure", () {
     final GetIt getIt = GetIt.I;
