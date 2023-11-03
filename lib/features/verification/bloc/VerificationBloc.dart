@@ -93,7 +93,7 @@ class VerificationBloc
     String extension = name.split(".").last;
     if (extension == "png") {
       return FileType.image;
-    } else if (extension == "mp3") {
+    } else if (extension == "mp3" || extension == "aac") {
       return FileType.audio;
     } else if (extension == "mkv") {
       return FileType.video;
