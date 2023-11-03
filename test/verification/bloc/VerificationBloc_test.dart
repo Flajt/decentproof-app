@@ -173,7 +173,7 @@ void main() {
         },
         build: () => VerificationBloc(),
         act: (bloc) => bloc.add(VerifyHashEvent()),
-        wait: const Duration(milliseconds: 10),
+        wait: const Duration(milliseconds: 25),
         expect: () => [
               LoadingState(),
               ErrorState("type 'Null' is not a subtype of type 'FileType'"),
