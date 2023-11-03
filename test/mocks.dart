@@ -11,10 +11,24 @@ import 'package:decentproof/features/metadata/logic/MetaDataPermissionService.da
 import 'package:decentproof/features/metadata/logic/metaDataServices/AudioMetaDataService.dart';
 import 'package:decentproof/features/metadata/logic/metaDataServices/ImageMetaDataService.dart';
 import 'package:decentproof/features/metadata/logic/metaDataServices/VideoMetaDataService.dart';
+import 'package:decentproof/features/verification/logic/FileSelectionService.dart';
+import 'package:decentproof/features/verification/logic/VerificationService.dart';
+import 'package:decentproof/shared/HashLogic.dart';
 import 'package:decentproof/shared/Integrety/ApiKeyRequestService.dart';
 import 'package:decentproof/shared/Integrety/AppCheck.dart';
 import 'package:decentproof/shared/Integrety/SecureStorageWrapper.dart';
 import 'package:mockito/annotations.dart';
+import 'package:mockito/mockito.dart';
+import 'package:path_provider_platform_interface/path_provider_platform_interface.dart';
+import 'package:plugin_platform_interface/plugin_platform_interface.dart';
+
+const String kTemporaryPath = 'temporaryPath';
+const String kApplicationSupportPath = 'applicationSupportPath';
+const String kDownloadsPath = 'downloadsPath';
+const String kLibraryPath = 'libraryPath';
+const String kApplicationDocumentsPath = 'applicationDocumentsPath';
+const String kExternalCachePath = 'externalCachePath';
+const String kExternalStoragePath = 'externalStoragePath';
 
 ///
 ///This is just a placeholder file for the genertion of mocks
@@ -37,7 +51,56 @@ import 'package:mockito/annotations.dart';
   MockSpec<VideoWaterMarkService>(),
   MockSpec<AudioHashingService>(),
   MockSpec<ImageHashingService>(),
-  MockSpec<VideoHashingService>()
+  MockSpec<VideoHashingService>(),
+  MockSpec<VerificationService>(),
+  MockSpec<FileSelectionService>(),
+  MockSpec<HashLogic>()
 ])
 // ignore: unused_element
 void main() {}
+
+class FakePathProviderPlatform extends Mock
+    with MockPlatformInterfaceMixin
+    implements PathProviderPlatform {
+  @override
+  Future<String?> getTemporaryPath() async {
+    return kTemporaryPath;
+  }
+
+  @override
+  Future<String?> getApplicationSupportPath() async {
+    return kApplicationSupportPath;
+  }
+
+  @override
+  Future<String?> getLibraryPath() async {
+    return kLibraryPath;
+  }
+
+  @override
+  Future<String?> getApplicationDocumentsPath() async {
+    return kApplicationDocumentsPath;
+  }
+
+  @override
+  Future<String?> getExternalStoragePath() async {
+    return kExternalStoragePath;
+  }
+
+  @override
+  Future<List<String>?> getExternalCachePaths() async {
+    return <String>[kExternalCachePath];
+  }
+
+  @override
+  Future<List<String>?> getExternalStoragePaths({
+    StorageDirectory? type,
+  }) async {
+    return <String>[kExternalStoragePath];
+  }
+
+  @override
+  Future<String?> getDownloadsPath() async {
+    return kDownloadsPath;
+  }
+}
