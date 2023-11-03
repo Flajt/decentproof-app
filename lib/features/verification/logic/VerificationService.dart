@@ -13,15 +13,16 @@ import '../models/VerificationStatusModel.dart';
 /// Service for file verification
 /// It uses the backend to retrive verifcation data and analyzes them locally
 /// Depends on: [ISecureStorageService] [ISignatureVerificationService]
-class VerificatinService implements IVerificationService {
+class VerificationService implements IVerificationService {
   final _dio = Dio();
   final _getIt = GetIt.I;
   late final ISignatureVerificationService _signatureVerificationService;
   late final ISecureStorageService _secureStorageService;
-  VerificatinService() {
+  VerificationService() {
     _secureStorageService = _getIt.get<ISecureStorageService>();
     _signatureVerificationService = _getIt.get<ISignatureVerificationService>();
   }
+
   @override
   Future<VerificationStatusModel> verify(String hash) async {
     String? apiKey = await _secureStorageService.retriveApiKey();

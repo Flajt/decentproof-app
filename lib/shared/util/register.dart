@@ -49,7 +49,7 @@ Future<void> registar() async {
   getIt.registerFactory<IDeviceIntegrety>(() => AppCheck());
   getIt.registerFactory<ISignatureVerificationService>(
       () => SignatureVerificationService());
-  getIt.registerFactory<IVerificationService>(() => VerificatinService());
+  getIt.registerFactory<IVerificationService>(() => VerificationService());
   getIt.registerFactory<IFileSelectionService>(() => FileSelectionService());
   getIt.registerFactory<IHashLogic>(() => HashLogic());
   getIt.registerFactory<IHashSubmissionService>(() => HashSubmissionService());
