@@ -90,6 +90,21 @@ void main() {
         expect: () => [ErrorState("Location Permission Denied!")],
         build: () => SettingsBloc());
 
+    blocTest("successfully handle error",
+        setUp: () {
+          getIt.registerFactory<IMetaDataPermissionService>(
+              () => permissionService);
+          getIt.registerFactory<ISecureStorageService>(
+              () => secureStorageService);
+          getIt.registerFactory<ILocationService>(() => locationService);
+          when(permissionService.allowLocationEmbedding(any))
+              .thenAnswer((realInvocation) => Future.value());
+          when(locationService.hasPermission()).thenThrow("Error");
+        },
+        act: (bloc) => bloc.add(ModifyLocationEmbeddingPermission(true)),
+        expect: () => [ErrorState("Error")],
+        build: () => SettingsBloc());
+
     blocTest("success, location permission granted",
         setUp: () {
           getIt.registerFactory<IMetaDataPermissionService>(
