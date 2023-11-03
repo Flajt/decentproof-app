@@ -17,10 +17,13 @@ import 'package:decentproof/shared/HashLogic.dart';
 import 'package:decentproof/shared/Integrety/ApiKeyRequestService.dart';
 import 'package:decentproof/shared/Integrety/AppCheck.dart';
 import 'package:decentproof/shared/Integrety/SecureStorageWrapper.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:file_picker/src/file_picker_result.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:path_provider_platform_interface/path_provider_platform_interface.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
+import 'package:file_picker/src/file_picker.dart';
 
 const String kTemporaryPath = 'temporaryPath';
 const String kApplicationSupportPath = 'applicationSupportPath';
@@ -58,6 +61,46 @@ const String kExternalStoragePath = 'externalStoragePath';
 ])
 // ignore: unused_element
 void main() {}
+
+class FakeFilePickerProviderPlatform extends Mock
+    with MockPlatformInterfaceMixin
+    implements FilePicker {
+  @override
+  Future<FilePickerResult?> pickFiles(
+      {String? dialogTitle,
+      String? initialDirectory,
+      FileType type = FileType.any,
+      List<String>? allowedExtensions,
+      Function(FilePickerStatus p1)? onFileLoading,
+      bool allowCompression = true,
+      bool allowMultiple = false,
+      bool withData = false,
+      bool withReadStream = false,
+      bool lockParentWindow = false}) async {
+    return FilePickerResult([
+      PlatformFile(name: "test.png", size: 0, readStream: const Stream.empty())
+    ]);
+  }
+}
+
+class NullFakeFilePickerProviderPlatform extends Mock
+    with MockPlatformInterfaceMixin
+    implements FilePicker {
+  @override
+  Future<FilePickerResult?> pickFiles(
+      {String? dialogTitle,
+      String? initialDirectory,
+      FileType type = FileType.any,
+      List<String>? allowedExtensions,
+      Function(FilePickerStatus p1)? onFileLoading,
+      bool allowCompression = true,
+      bool allowMultiple = false,
+      bool withData = false,
+      bool withReadStream = false,
+      bool lockParentWindow = false}) {
+    return Future.value(null);
+  }
+}
 
 class FakePathProviderPlatform extends Mock
     with MockPlatformInterfaceMixin
