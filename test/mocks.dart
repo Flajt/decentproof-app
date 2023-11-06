@@ -2,6 +2,7 @@ import 'package:decentproof/features/hashing/logic/ImagePickerWrapper.dart';
 import 'package:decentproof/features/hashing/logic/ImageSavingService.dart';
 import 'package:decentproof/features/hashing/logic/VideoSavingService.dart';
 import 'package:decentproof/features/hashing/logic/backend/HashSubmissionService.dart';
+import 'package:decentproof/features/hashing/logic/backend/ShowInExplorer.dart';
 import 'package:decentproof/features/hashing/logic/hasher/AudioHashingService.dart';
 import 'package:decentproof/features/hashing/logic/hasher/ImageHashingService.dart';
 import 'package:decentproof/features/hashing/logic/hasher/VideoHashingService.dart';
@@ -25,6 +26,8 @@ import 'package:mockito/mockito.dart';
 import 'package:path_provider_platform_interface/path_provider_platform_interface.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 import 'package:file_picker/src/file_picker.dart';
+import 'package:url_launcher_platform_interface/link.dart';
+import 'package:url_launcher_platform_interface/url_launcher_platform_interface.dart';
 
 const String kTemporaryPath = 'temporaryPath';
 const String kApplicationSupportPath = 'applicationSupportPath';
@@ -59,7 +62,8 @@ const String kExternalStoragePath = 'externalStoragePath';
   MockSpec<VerificationService>(),
   MockSpec<FileSelectionService>(),
   MockSpec<HashLogic>(),
-  MockSpec<ImagePickerWrapper>()
+  MockSpec<ImagePickerWrapper>(),
+  MockSpec<ShowInExplorer>()
 ])
 // ignore: unused_element
 void main() {}
@@ -147,5 +151,14 @@ class FakePathProviderPlatform extends Mock
   @override
   Future<String?> getDownloadsPath() async {
     return kDownloadsPath;
+  }
+}
+
+class MockUrlLauncher extends Mock
+    with MockPlatformInterfaceMixin
+    implements UrlLauncherPlatform {
+  @override
+  Future<bool> launchUrl(String url, LaunchOptions options) async {
+    return true;
   }
 }

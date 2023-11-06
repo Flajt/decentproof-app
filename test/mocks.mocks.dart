@@ -10,6 +10,8 @@ import 'package:decentproof/features/hashing/interfaces/IMediaPickerService.dart
     as _i4;
 import 'package:decentproof/features/hashing/logic/backend/HashSubmissionService.dart'
     as _i12;
+import 'package:decentproof/features/hashing/logic/backend/ShowInExplorer.dart'
+    as _i29;
 import 'package:decentproof/features/hashing/logic/hasher/AudioHashingService.dart'
     as _i20;
 import 'package:decentproof/features/hashing/logic/hasher/ImageHashingService.dart'
@@ -825,4 +827,27 @@ class MockImagePickerWrapper extends _i1.Mock
         returnValueForMissingStub:
             _i7.Future<_i27.Uint8List>.value(_i27.Uint8List(0)),
       ) as _i7.Future<_i27.Uint8List>);
+}
+
+/// A class which mocks [ShowInExplorer].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockShowInExplorer extends _i1.Mock implements _i29.ShowInExplorer {
+  @override
+  _i7.Future<String> show({
+    required String? transaction,
+    _i29.Network? network = _i29.Network.bitcoin,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #show,
+          [],
+          {
+            #transaction: transaction,
+            #network: network,
+          },
+        ),
+        returnValue: _i7.Future<String>.value(''),
+        returnValueForMissingStub: _i7.Future<String>.value(''),
+      ) as _i7.Future<String>);
 }
