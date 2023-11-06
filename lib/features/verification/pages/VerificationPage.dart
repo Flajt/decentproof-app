@@ -73,7 +73,7 @@ class VerificationPage extends StatelessWidget {
                     ),
                     FilledButton(
                         onPressed: () => ShowInExplorer()
-                            .show(hash: state.statusModel.transaction),
+                            .show(transaction: state.statusModel.transaction),
                         child:
                             const Text("verificationPage.showInExplorer").tr())
                   ],
