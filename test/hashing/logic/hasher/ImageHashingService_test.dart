@@ -13,12 +13,12 @@ void main() {
     await getIt.reset();
   });
 
-  group("AudioHashingService", () {
+  group("ImageHashingService", () {
     getIt.registerFactory<IHashLogic>(() => HashLogic());
     final ImageHashingService service = ImageHashingService();
 
     group("successfully", () {
-      test("hash audio file", () async {
+      test("hash image file", () async {
         String hash = await service.hash("test/fixtures/icon.png");
         expect(hash, equals(imageHash));
       });

@@ -13,12 +13,12 @@ void main() {
     await getIt.reset();
   });
 
-  group("AudioHashingService", () {
+  group("VideoHashingService", () {
     getIt.registerFactory<IHashLogic>(() => HashLogic());
     final VideoHashingService service = VideoHashingService();
 
     group("successfully", () {
-      test("hash audio file", () async {
+      test("hash video file", () async {
         String hash = await service.hash("test/fixtures/sample.mkv");
         expect(hash, equals(videoHash));
       });
