@@ -1,9 +1,6 @@
-import 'dart:io';
-
 import 'package:decentproof/features/hashing/logic/hasher/ImageHashingService.dart';
 import 'package:decentproof/shared/HashLogic.dart';
 import 'package:decentproof/shared/interface/IHashLogic.dart';
-import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
 import 'package:test/test.dart';
 
