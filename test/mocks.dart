@@ -1,3 +1,4 @@
+import 'package:decentproof/features/hashing/logic/ImagePickerWrapper.dart';
 import 'package:decentproof/features/hashing/logic/ImageSavingService.dart';
 import 'package:decentproof/features/hashing/logic/VideoSavingService.dart';
 import 'package:decentproof/features/hashing/logic/backend/HashSubmissionService.dart';
@@ -57,7 +58,8 @@ const String kExternalStoragePath = 'externalStoragePath';
   MockSpec<VideoHashingService>(),
   MockSpec<VerificationService>(),
   MockSpec<FileSelectionService>(),
-  MockSpec<HashLogic>()
+  MockSpec<HashLogic>(),
+  MockSpec<ImagePickerWrapper>()
 ])
 // ignore: unused_element
 void main() {}

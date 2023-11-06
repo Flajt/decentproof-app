@@ -16,6 +16,8 @@ import 'package:decentproof/features/hashing/logic/hasher/ImageHashingService.da
     as _i21;
 import 'package:decentproof/features/hashing/logic/hasher/VideoHashingService.dart'
     as _i22;
+import 'package:decentproof/features/hashing/logic/ImagePickerWrapper.dart'
+    as _i28;
 import 'package:decentproof/features/hashing/logic/ImageSavingService.dart'
     as _i17;
 import 'package:decentproof/features/hashing/logic/VideoSavingService.dart'
@@ -796,4 +798,31 @@ class MockHashLogic extends _i1.Mock implements _i26.HashLogic {
         returnValue: _i7.Future<String>.value(''),
         returnValueForMissingStub: _i7.Future<String>.value(''),
       ) as _i7.Future<String>);
+}
+
+/// A class which mocks [ImagePickerWrapper].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockImagePickerWrapper extends _i1.Mock
+    implements _i28.ImagePickerWrapper {
+  @override
+  _i7.Future<_i27.Uint8List> getImageAsBytes() => (super.noSuchMethod(
+        Invocation.method(
+          #getImageAsBytes,
+          [],
+        ),
+        returnValue: _i7.Future<_i27.Uint8List>.value(_i27.Uint8List(0)),
+        returnValueForMissingStub:
+            _i7.Future<_i27.Uint8List>.value(_i27.Uint8List(0)),
+      ) as _i7.Future<_i27.Uint8List>);
+  @override
+  _i7.Future<_i27.Uint8List> getVideoAsBytes() => (super.noSuchMethod(
+        Invocation.method(
+          #getVideoAsBytes,
+          [],
+        ),
+        returnValue: _i7.Future<_i27.Uint8List>.value(_i27.Uint8List(0)),
+        returnValueForMissingStub:
+            _i7.Future<_i27.Uint8List>.value(_i27.Uint8List(0)),
+      ) as _i7.Future<_i27.Uint8List>);
 }
