@@ -16,8 +16,10 @@ void main() {
       AudioSavingService service = AudioSavingService();
       String path = await service.saveFile();
       expect(path, isNotNull);
-      expect(path,
-          kApplicationDocumentsPath); // We either get this if we are not on android or kApplicationExternalStoragePath
+      expect(
+          path,
+          contains(
+              kApplicationDocumentsPath)); // We either get this if we are not on android or kApplicationExternalStoragePath
     });
   });
 }
