@@ -7,7 +7,7 @@ class MockSecureStorage implements ISecureStorageService {
   Map<String, dynamic> storage = {};
   @override
   Future<String?> retriveApiKey() {
-    throw UnimplementedError();
+    return Future.value(storage["key"]);
   }
 
   @override
@@ -21,8 +21,8 @@ class MockSecureStorage implements ISecureStorageService {
   }
 
   @override
-  Future<void> saveApiKey(String key) {
-    throw UnimplementedError();
+  Future<void> saveApiKey(String key) async {
+    storage["key"] = key;
   }
 
   @override
@@ -39,7 +39,7 @@ class MockSecureStorage implements ISecureStorageService {
 class ThrowMockSecureStorage implements ISecureStorageService {
   @override
   Future<String?> retriveApiKey() {
-    throw UnimplementedError();
+    return Future.value(null);
   }
 
   @override
