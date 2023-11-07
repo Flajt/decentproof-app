@@ -128,6 +128,18 @@ class MockAppCheck extends _i1.Mock implements _i6.AppCheck {
 class MockApiKeyRequestService extends _i1.Mock
     implements _i8.ApiKeyRequestService {
   @override
+  String get checkKeyURL => (super.noSuchMethod(
+        Invocation.getter(#checkKeyURL),
+        returnValue: '',
+        returnValueForMissingStub: '',
+      ) as String);
+  @override
+  String get getKeyURL => (super.noSuchMethod(
+        Invocation.getter(#getKeyURL),
+        returnValue: '',
+        returnValueForMissingStub: '',
+      ) as String);
+  @override
   _i7.Future<bool> checkForNewApiKey(String? apiKey) => (super.noSuchMethod(
         Invocation.method(
           #checkForNewApiKey,
@@ -713,6 +725,12 @@ class MockVideoHashingService extends _i1.Mock
 /// See the documentation for Mockito's code generation for more information.
 class MockVerificationService extends _i1.Mock
     implements _i23.VerificationService {
+  @override
+  String get url => (super.noSuchMethod(
+        Invocation.getter(#url),
+        returnValue: '',
+        returnValueForMissingStub: '',
+      ) as String);
   @override
   _i7.Future<_i5.VerificationStatusModel> verify(String? hash) =>
       (super.noSuchMethod(
