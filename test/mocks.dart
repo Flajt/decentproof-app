@@ -26,7 +26,6 @@ import 'package:mockito/mockito.dart';
 import 'package:path_provider_platform_interface/path_provider_platform_interface.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 import 'package:file_picker/src/file_picker.dart';
-import 'package:url_launcher_platform_interface/link.dart';
 import 'package:url_launcher_platform_interface/url_launcher_platform_interface.dart';
 
 const String kTemporaryPath = 'temporaryPath';
