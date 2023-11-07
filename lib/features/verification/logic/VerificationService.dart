@@ -1,12 +1,11 @@
 import 'dart:convert';
 
-import 'package:decentproof/constants.dart';
 import 'package:decentproof/features/verification/interfaces/ISignatureVerifcationService.dart';
 import 'package:decentproof/features/verification/interfaces/IVerificationService.dart';
 import 'package:decentproof/features/verification/models/VerificationStatusResponse.dart';
 import 'package:decentproof/shared/Integrety/interfaces/ISecureStorageService.dart';
-import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
+import 'package:http/http.dart' as http;
 
 import '../models/VerificationStatusModel.dart';
 
@@ -14,11 +13,11 @@ import '../models/VerificationStatusModel.dart';
 /// It uses the backend to retrive verifcation data and analyzes them locally
 /// Depends on: [ISecureStorageService] [ISignatureVerificationService]
 class VerificationService implements IVerificationService {
-  final _dio = Dio();
+  final String url;
   final _getIt = GetIt.I;
   late final ISignatureVerificationService _signatureVerificationService;
   late final ISecureStorageService _secureStorageService;
-  VerificationService() {
+  VerificationService({required this.url}) {
     _secureStorageService = _getIt.get<ISecureStorageService>();
     _signatureVerificationService = _getIt.get<ISignatureVerificationService>();
   }
@@ -31,18 +30,15 @@ class VerificationService implements IVerificationService {
     }
     Map<String, dynamic> body = {"hash": hash};
 
-    Response resp = await _dio.post(VERIFY_URL,
-        data: jsonEncode(body),
-        options: Options(
-            validateStatus: (status) => true,
-            receiveDataWhenStatusError: true,
-            headers: {
-              "Authorization": "basic $apiKey",
-              "Content-Type": "application/json"
-            }));
+    http.Response resp = await http.post(Uri.parse("$url/"),
+        body: jsonEncode(body),
+        headers: {
+          "Authorization": "basic $apiKey",
+          "Content-Type": "application/json"
+        });
     if (resp.statusCode == 200) {
       VerificationStatusResponsModel responseModel =
-          VerificationStatusResponsModel.fromJson(resp.data);
+          VerificationStatusResponsModel.fromJson(jsonDecode(resp.body));
       VerificationStatusModel statusModel = VerificationStatusModel(
           hash == responseModel.data.hashString,
           await verifySignature(hash, responseModel.data.comment),
@@ -52,7 +48,7 @@ class VerificationService implements IVerificationService {
           null);
       return statusModel;
     } else {
-      throw "${resp.statusCode}: ${resp.statusMessage}; ${resp.data}";
+      throw "${resp.statusCode}: ${resp.body}}";
     }
   }
 

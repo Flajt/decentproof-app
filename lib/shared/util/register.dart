@@ -46,11 +46,13 @@ Future<void> registar() async {
 
   final getIt = GetIt.I;
   getIt.registerFactory<ISecureStorageService>(() => SecureStorageService());
-  getIt.registerFactory<IApiKeyRequestService>(() => ApiKeyRequestService());
+  getIt.registerFactory<IApiKeyRequestService>(() =>
+      ApiKeyRequestService(checkKeyURL: CHECK_KEY_URL, getKeyURL: GET_KEY_URL));
   getIt.registerFactory<IDeviceIntegrety>(() => AppCheck());
   getIt.registerFactory<ISignatureVerificationService>(
       () => SignatureVerificationService());
-  getIt.registerFactory<IVerificationService>(() => VerificationService());
+  getIt.registerFactory<IVerificationService>(
+      () => VerificationService(url: VERIFY_URL));
   getIt.registerFactory<IFileSelectionService>(() => FileSelectionService());
   getIt.registerFactory<IHashLogic>(() => HashLogic());
   getIt.registerFactory<IHashSubmissionService>(
