@@ -321,6 +321,12 @@ class MockMetaDataPermissionService extends _i1.Mock
 class MockHashSubmissionService extends _i1.Mock
     implements _i12.HashSubmissionService {
   @override
+  String get url => (super.noSuchMethod(
+        Invocation.getter(#url),
+        returnValue: '',
+        returnValueForMissingStub: '',
+      ) as String);
+  @override
   _i7.Future<void> submitHash(
     String? hash,
     String? email,

@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:decentproof/constants.dart';
 import 'package:decentproof/features/hashing/interfaces/IHashSubmissionService.dart';
 import 'package:decentproof/shared/Integrety/interfaces/ISecureStorageService.dart';
 import 'package:dio/dio.dart';
@@ -9,12 +8,11 @@ class HashSubmissionService implements IHashSubmissionService {
   late final Dio _dio;
   final GetIt _getIt = GetIt.instance;
   late final ISecureStorageService _secureStorageService;
+  final String url;
 
-  HashSubmissionService() {
+  HashSubmissionService({Dio? dio, required this.url}) {
     _secureStorageService = _getIt.get<ISecureStorageService>();
-    _dio = Dio(BaseOptions(
-      baseUrl: SIGN_URL,
-    ));
+    _dio = dio ?? Dio(BaseOptions(baseUrl: url));
   }
 
   @override

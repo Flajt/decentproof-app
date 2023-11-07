@@ -1,3 +1,4 @@
+import 'package:decentproof/constants.dart';
 import 'package:decentproof/features/hashing/interfaces/IFileSavingService.dart';
 import 'package:decentproof/features/hashing/interfaces/IHashSubmissionService.dart';
 import 'package:decentproof/features/hashing/interfaces/IHashingService.dart';
@@ -52,7 +53,8 @@ Future<void> registar() async {
   getIt.registerFactory<IVerificationService>(() => VerificationService());
   getIt.registerFactory<IFileSelectionService>(() => FileSelectionService());
   getIt.registerFactory<IHashLogic>(() => HashLogic());
-  getIt.registerFactory<IHashSubmissionService>(() => HashSubmissionService());
+  getIt.registerFactory<IHashSubmissionService>(
+      () => HashSubmissionService(url: SIGN_URL));
   getIt.registerFactory<IHashingService>(() => ImageHashingService(),
       instanceName: "ImageHashing");
   getIt.registerFactory<IHashingService>(() => VideoHashingService(),
