@@ -11,7 +11,7 @@ import '../models/VerificationStatusModel.dart';
 
 /// Service for file verification
 /// It uses the backend to retrive verifcation data and analyzes them locally
-/// Depends on: [ISecureStorageService] [ISignatureVerificationService]
+/// Depends on: [ISecureStorageService] & [ISignatureVerificationService]
 class VerificationService implements IVerificationService {
   final String url;
   final _getIt = GetIt.I;
@@ -26,7 +26,7 @@ class VerificationService implements IVerificationService {
   Future<VerificationStatusModel> verify(String hash) async {
     String? apiKey = await _secureStorageService.retriveApiKey();
     if (apiKey == null) {
-      throw "No API KEY";
+      throw Exception("NO API KEY");
     }
     Map<String, dynamic> body = {"hash": hash};
 
@@ -48,7 +48,8 @@ class VerificationService implements IVerificationService {
           null);
       return statusModel;
     } else {
-      throw "${resp.statusCode}: ${resp.body}}";
+      throw Exception(
+          "${resp.statusCode}: ${jsonDecode(resp.body)['error_code']}");
     }
   }
 
