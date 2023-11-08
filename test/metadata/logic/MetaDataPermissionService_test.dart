@@ -13,12 +13,28 @@ void main() {
       await service.init();
     });
     test("read location flag", () {
-      bool shouldEbmed = service.shouldEmbedLocation();
-      assert(!shouldEbmed);
+      bool shouldEmbed = service.shouldEmbedLocation();
+      assert(!shouldEmbed);
     });
     test("read secret flag", () {
       bool shouldEmbed = service.shouldEmbedSecret();
       assert(shouldEmbed);
+    });
+  });
+  group("write data", () {
+    setUp(() async {
+      SharedPreferences.setMockInitialValues({});
+      await service.init();
+    });
+    test("allow secret emedding", () async {
+      await service.allowSecretEmbedding(true);
+      bool shouldAllow = service.shouldEmbedSecret();
+      expect(shouldAllow, true);
+    });
+    test("allow location embedding", () async {
+      await service.allowLocationEmbedding(true);
+      bool shouldAllow = service.shouldEmbedLocation();
+      expect(shouldAllow, true);
     });
   });
 
