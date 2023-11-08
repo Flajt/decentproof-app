@@ -1,6 +1,6 @@
-import 'package:decentproof/features/hashing/bloc/perperationBloc/PreparationBloc.dart';
-import 'package:decentproof/features/hashing/bloc/perperationBloc/PerparationEvents.dart';
-import 'package:decentproof/features/hashing/bloc/perperationBloc/PerparationStates.dart';
+import 'package:decentproof/features/hashing/bloc/PreparationBloc/PreparationBloc.dart';
+import 'package:decentproof/features/hashing/bloc/PreparationBloc/PerparationEvents.dart';
+import 'package:decentproof/features/hashing/bloc/PreparationBloc/PerparationStates.dart';
 import 'package:decentproof/shared/uiblocks/ErrorDialog.dart';
 import 'package:decentproof/shared/uiblocks/ProcessingDialog.dart';
 import 'package:easy_localization/easy_localization.dart';

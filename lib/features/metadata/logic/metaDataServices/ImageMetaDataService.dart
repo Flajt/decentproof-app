@@ -45,7 +45,7 @@ class ImageMetaDataService implements IMetaDataService {
     Map<String, Object>? data = await exif.getAttributes();
     await exif.close();
     if (data == null) {
-      return MetaDataModel(null, null);
+      return const MetaDataModel(null, null);
     }
     if (data.containsKey("UserComment")) {
       secretHash = data["UserComment"] as String;

@@ -1,29 +1,21 @@
 import 'dart:convert';
-
-import 'package:decentproof/constants.dart';
-import 'package:dio/dio.dart';
-
+import 'package:http/http.dart' as http;
 import 'interfaces/IApiKeyRequestService.dart';
 
 class ApiKeyRequestService implements IApiKeyRequestService {
-  late final Dio _checkKeyRequestManager;
-  late final Dio _getKeyRequestManager;
+  final String checkKeyURL;
+  final String getKeyURL;
 
-  ApiKeyRequestService() {
-    //TODO: Provide URL via class constructor?
-    _checkKeyRequestManager = Dio(BaseOptions(baseUrl: CHECK_KEY_URL));
-
-    _getKeyRequestManager = Dio(BaseOptions(baseUrl: GET_KEY_URL));
-  }
+  ApiKeyRequestService({required this.checkKeyURL, required this.getKeyURL});
   @override
   Future<bool> checkForNewApiKey(String? apiKey) async {
-    Response resp = await _checkKeyRequestManager.get("/",
-        options: Options(headers: {
-          "Authorization": "basic $apiKey",
-          "Content-Type": "application/json"
-        }, responseType: ResponseType.json));
+    http.Response resp = await http.get(Uri.parse("$checkKeyURL/"), headers: {
+      "Authorization": "basic $apiKey",
+      "Content-Type": "application/json"
+    });
     if (resp.statusCode == 200) {
-      bool hasNewer = resp.data["hasNewKey"];
+      Map<String, dynamic> json = jsonDecode(resp.body);
+      bool hasNewer = json["hasNewKey"];
       return hasNewer;
     }
     throw resp.statusCode.toString();
@@ -31,15 +23,14 @@ class ApiKeyRequestService implements IApiKeyRequestService {
 
   @override
   Future<String> getNewNewKey(String token) async {
-    Response resp = await _getKeyRequestManager.get("/",
-        options: Options(headers: {
-          "X-AppCheck": token,
-        }));
+    http.Response resp = await http.get(Uri.parse("$getKeyURL/"), headers: {
+      "X-AppCheck": token,
+    });
     if (resp.statusCode == 200) {
-      String apiKey = resp.data;
+      String apiKey = resp.body;
       return apiKey;
     } else {
-      throw "${resp.statusCode.toString()} + ${resp.statusMessage ?? "Possible Invalid device!"}";
+      throw "${resp.statusCode.toString()} + Possible Invalid device!";
     }
   }
 }

@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 import 'package:decentproof/features/metadata/interfaces/IMetaDataService.dart';
 import 'package:decentproof/features/verification/bloc/VerificationBlocEvents.dart';
@@ -93,7 +92,7 @@ class VerificationBloc
     String extension = name.split(".").last;
     if (extension == "png") {
       return FileType.image;
-    } else if (extension == "mp3") {
+    } else if (extension == "mp3" || extension == "aac") {
       return FileType.audio;
     } else if (extension == "mkv") {
       return FileType.video;

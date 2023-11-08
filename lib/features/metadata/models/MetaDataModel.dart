@@ -1,8 +1,12 @@
 import 'package:decentproof/features/metadata/models/LocationModel.dart';
+import 'package:equatable/equatable.dart';
 
-class MetaDataModel {
+class MetaDataModel extends Equatable {
   final String? secretHash;
   final LocationModel? location;
 
-  MetaDataModel(this.secretHash, this.location);
+  const MetaDataModel(this.secretHash, this.location);
+
+  @override
+  List<Object?> get props => [secretHash, location];
 }

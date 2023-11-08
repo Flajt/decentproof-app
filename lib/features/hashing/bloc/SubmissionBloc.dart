@@ -16,9 +16,13 @@ class SubmissionBloc extends Bloc<SubmissionEvent, SubmissionStates> {
     on<SubmitHash>((event, emit) async {
       try {
         emit(SubmissionInProgress());
-        String? email = await _secureStorageService.retriveEmail();
-        await _hashSubmissionService.submitHash(event.hash, email);
-        emit(SubmissionSuccessfull());
+        if (event.hash.length != 64) {
+          emit(const SubmissionError("Hash is invalid"));
+        } else {
+          String? email = await _secureStorageService.retriveEmail();
+          await _hashSubmissionService.submitHash(event.hash, email);
+          emit(SubmissionSuccessfull());
+        }
       } catch (e) {
         emit(SubmissionError(e.toString()));
       }

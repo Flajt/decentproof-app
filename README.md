@@ -2,10 +2,29 @@ For general information please checkout the [wiki](https://github.com/Flajt/dece
 
 [![inlang status badge](https://inlang.com/badge?url=github.com/Flajt/decentproof-app)](https://inlang.com/editor/github.com/Flajt/decentproof-app?ref=badge)
 
+Test Status: [![Codemagic build status](https://api.codemagic.io/apps/6392139eb2014893a05ed729/654bb4200d6fe202fa7ddce6/status_badge.svg)](https://codemagic.io/apps/6392139eb2014893a05ed729/654bb4200d6fe202fa7ddce6/latest_build)
+
+Build Status: [![Codemagic build status](https://api.codemagic.io/apps/6392139eb2014893a05ed729/6392139eb2014893a05ed728/status_badge.svg)](https://codemagic.io/apps/6392139eb2014893a05ed729/6392139eb2014893a05ed728/latest_build)
+
+This is the offical Github Repository for the decentproof app. Here you can find the whole codebase if you want to inspect it or contribute to it.
+
+## "Design Choices"
+- State Management: [bloc](https://bloclibrary.dev/#/) + setState (the latter in some rare cases)
+- Dependency Injection: [get_it](https://pub.dev/packages/get_it)
+- Architecture: Layered (not perfectly)
+- DB: None
+- Auth Service: None
+- Device Integrity: [AppCheck](https://firebase.google.com/docs/app-check?hl=en) (I'm considering replacing it with [freerasp](https://www.talsec.app/freerasp-in-app-protection-security-talsec))
+- Translation Tool: [Inlang](https://inlang.com)
+- Env Var management: (TODO: Envied)
+
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+TODO
 
+
+
+## Helpfull Ressources
 A few resources to get you started if this is your first Flutter project:
 
 - [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
