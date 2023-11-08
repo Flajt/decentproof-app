@@ -1,8 +1,6 @@
-import 'package:decentproof/features/metadata/models/MetaDataModel.dart';
 import 'package:decentproof/features/verification/interfaces/ISignatureVerifcationService.dart';
 import 'package:decentproof/features/verification/logic/VerificationService.dart';
 import 'package:decentproof/features/verification/models/VerificationStatusModel.dart';
-import 'package:decentproof/features/verification/models/VerificationStatusResponse.dart';
 import 'package:decentproof/shared/Integrety/interfaces/ISecureStorageService.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mockito/mockito.dart';

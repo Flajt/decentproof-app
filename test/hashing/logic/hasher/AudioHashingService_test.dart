@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:decentproof/features/hashing/logic/hasher/AudioHashingService.dart';
 import 'package:decentproof/shared/HashLogic.dart';
 import 'package:decentproof/shared/interface/IHashLogic.dart';

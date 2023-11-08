@@ -8,7 +8,6 @@ import 'package:decentproof/features/hashing/interfaces/IWaterMarkService.dart';
 import 'package:decentproof/features/metadata/interfaces/ILocationService.dart';
 import 'package:decentproof/features/metadata/interfaces/IMetaDataPermissionService.dart';
 import 'package:decentproof/features/metadata/interfaces/IMetaDataService.dart';
-import 'package:decentproof/features/metadata/logic/LocationService.dart';
 import 'package:decentproof/features/metadata/models/LocationModel.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mockito/mockito.dart';
@@ -33,7 +32,7 @@ void main() {
     final metaDataPermissionService = MockMetaDataPermissionService();
     final audioHashingService = MockAudioHashingService();
     final locationService = MockLocationService();
-    final sampleLocationModel = LocationModel(latitude: 0.0, longitude: 0.0);
+    const sampleLocationModel = LocationModel(latitude: 0.0, longitude: 0.0);
 
     group("prepare audio", () {
       blocTest("w. embedded location",

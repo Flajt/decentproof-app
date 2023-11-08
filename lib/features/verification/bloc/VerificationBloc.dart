@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 import 'package:decentproof/features/metadata/interfaces/IMetaDataService.dart';
 import 'package:decentproof/features/verification/bloc/VerificationBlocEvents.dart';

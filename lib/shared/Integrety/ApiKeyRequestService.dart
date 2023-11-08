@@ -1,6 +1,4 @@
 import 'dart:convert';
-
-import 'package:decentproof/constants.dart';
 import 'package:http/http.dart' as http;
 import 'interfaces/IApiKeyRequestService.dart';
 

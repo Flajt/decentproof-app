@@ -1,7 +1,5 @@
 import 'dart:io';
-import 'dart:math';
 import 'dart:typed_data';
-
 import 'package:decentproof/features/hashing/interfaces/IMediaPickerService.dart';
 import 'package:decentproof/features/hashing/logic/VideoSavingService.dart';
 import 'package:get_it/get_it.dart';
