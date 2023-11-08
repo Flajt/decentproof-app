@@ -14,6 +14,7 @@ import 'package:decentproof/features/metadata/logic/metaDataServices/AudioMetaDa
 import 'package:decentproof/features/metadata/logic/metaDataServices/ImageMetaDataService.dart';
 import 'package:decentproof/features/metadata/logic/metaDataServices/VideoMetaDataService.dart';
 import 'package:decentproof/features/verification/logic/FileSelectionService.dart';
+import 'package:decentproof/features/verification/logic/SignatureVerificationService.dart';
 import 'package:decentproof/features/verification/logic/VerificationService.dart';
 import 'package:decentproof/shared/HashLogic.dart';
 import 'package:decentproof/shared/Integrety/ApiKeyRequestService.dart';
@@ -62,7 +63,8 @@ const String kExternalStoragePath = 'externalStoragePath';
   MockSpec<FileSelectionService>(),
   MockSpec<HashLogic>(),
   MockSpec<ImagePickerWrapper>(),
-  MockSpec<ShowInExplorer>()
+  MockSpec<ShowInExplorer>(),
+  MockSpec<SignatureVerificationService>()
 ])
 // ignore: unused_element
 void main() {}
