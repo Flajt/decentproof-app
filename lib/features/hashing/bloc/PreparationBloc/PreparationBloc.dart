@@ -122,18 +122,17 @@ class PreparationBloc extends Bloc<MetaDataEvents, PreparationState> {
   }
   Future<void> addToGalleryACleanUp(
       String initalPath, String finalPath, bool video) async {
-    if (Platform.isAndroid) {
-      final outPutFile = File(finalPath);
-      final initalFile = File(initalPath);
-      final title = outPutFile.path.split("/").last.split(".").first;
-      if (video) {
-        await PhotoManager.editor.saveVideo(outPutFile, title: "$title.mkv");
-        await initalFile.delete();
-      } else {
-        Uint8List data = await outPutFile.readAsBytes();
-        await PhotoManager.editor.saveImage(data, title: "$title.png");
-        await initalFile.delete();
-      }
+    final outPutFile = File(finalPath);
+    final initalFile = File(initalPath);
+    final title = outPutFile.path.split("/").last.split(".").first;
+    if (video) {
+      await PhotoManager.editor.saveVideo(outPutFile, title: "$title.mkv");
+    } else {
+      Uint8List data = await outPutFile.readAsBytes();
+      await PhotoManager.editor.saveImage(data, title: "$title.png");
+    }
+    if (initalPath != finalPath) {
+      await initalFile.delete();
     }
   }
 }

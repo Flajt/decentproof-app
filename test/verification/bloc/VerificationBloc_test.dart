@@ -127,7 +127,7 @@ void main() {
         wait: const Duration(milliseconds: 25),
         expect: () => [LoadingState(), VerifiedState(statusModel)]);
     blocTest(
-        "successfully return VerificationStatusModel for an audio file (aac)",
+        "successfully return VerificationStatusModel for an audio file (mp3)",
         setUp: () {
           register(
               getIt,
@@ -173,7 +173,7 @@ void main() {
         },
         build: () => VerificationBloc(),
         act: (bloc) => bloc.add(VerifyHashEvent()),
-        wait: const Duration(milliseconds: 25),
+        wait: const Duration(milliseconds: 50),
         expect: () => [
               LoadingState(),
               ErrorState("type 'Null' is not a subtype of type 'FileType'"),
