@@ -125,14 +125,17 @@ class PreparationBloc extends Bloc<MetaDataEvents, PreparationState> {
     final outPutFile = File(finalPath);
     final initalFile = File(initalPath);
     final title = outPutFile.path.split("/").last.split(".").first;
-    if (video) {
-      await PhotoManager.editor.saveVideo(outPutFile, title: "$title.mkv");
-    } else {
-      Uint8List data = await outPutFile.readAsBytes();
-      await PhotoManager.editor.saveImage(data, title: "$title.png");
-    }
-    if (initalPath != finalPath) {
-      await initalFile.delete();
+    if (Platform.isAndroid || Platform.isIOS) {
+      //This is to prevent file deletion while running flutter test (since all file paths are fake)
+      if (video) {
+        await PhotoManager.editor.saveVideo(outPutFile, title: "$title.mkv");
+      } else {
+        Uint8List data = await outPutFile.readAsBytes();
+        await PhotoManager.editor.saveImage(data, title: "$title.png");
+      }
+      if (initalPath != finalPath) {
+        await initalFile.delete();
+      }
     }
   }
 }
