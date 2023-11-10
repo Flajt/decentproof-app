@@ -21,10 +21,8 @@ All types of contributions are encouraged and valued. See the [Table of Contents
 - [Suggesting Enhancements](#suggesting-enhancements)
 - [Your First Code Contribution](#your-first-code-contribution)
 - [Improving The Documentation](#improving-the-documentation)
-- [Styleguides](#styleguides)
-- [Commit Messages](#commit-messages)
-- [Join The Project Team](#join-the-project-team)
-
+- [Adding Translations](#adding-translations)
+- [Style Guide](#style-guide)
 
 ## Code of Conduct
 
@@ -171,6 +169,30 @@ If you are unsure feel free to ask questions under the issue.
 6. Wait for me to review and merge it
 7. Congrats, your PR was successfully merged
 
+
+## "Style Guide"
+Some tips on how to write project fitting code. If you find something missing or odd, please, open a discussion.
+
+### Caseing
+- `UpperCamelCase` is the way in this project, from **file names** to **classes**
+- `lowerCamelCase` should be used **functions** and **methods** and **folders**
+
+### Naming
+- `XXXXServiceWrapper` for anything that just wraps a **package** / **native interface**
+- `XXXXService` for any logic related stuff (might need some more speration at some point, thoughts are welcome)
+
+### Folders
+- `util` for utility
+- `logic` for services
+- `uiblocks` for widgets
+- `bloc` or `xxxBloc` for BLOCs
+
+
+#### BLOCs
+Have a look at this: [https://bloclibrary.dev/#/blocnamingconventions](https://bloclibrary.dev/#/blocnamingconventions), ideally everything should be named like this.
+
+### Structure
+This project attempts a feature based structure, you create a top level folder `featureName` followed by the folders you need see [Folders](#folders) for more
 <!-- omit in toc -->
 ## Attribution
 This guide is based on the **contributing-gen**. [Make your own](https://github.com/bttger/contributing-gen)! It has been modified to fit the project.
