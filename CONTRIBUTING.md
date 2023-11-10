@@ -23,6 +23,7 @@ All types of contributions are encouraged and valued. See the [Table of Contents
 - [Improving The Documentation](#improving-the-documentation)
 - [Adding Translations](#adding-translations)
 - [Style Guide](#style-guide)
+- [When To Create](#when-to-create)
 
 ## Code of Conduct
 
@@ -178,21 +179,80 @@ Some tips on how to write project fitting code. If you find something missing or
 - `lowerCamelCase` should be used **functions** and **methods** and **folders**
 
 ### Naming
-- `XXXXServiceWrapper` for anything that just wraps a **package** / **native interface**
+- `XXXXWrapper` for anything that just wraps a **package** / **native interface**
 - `XXXXService` for any logic related stuff (might need some more speration at some point, thoughts are welcome)
+- `XXXPage.dart` for any **page** files
+- `IXXXS` for **interfaces**
 
 ### Folders
 - `util` for utility
 - `logic` for services
 - `uiblocks` for widgets
 - `bloc` or `xxxBloc` for BLOCs
+- `shared` for any shared code (only under lib)
 
 
 #### BLOCs
 Have a look at this: [https://bloclibrary.dev/#/blocnamingconventions](https://bloclibrary.dev/#/blocnamingconventions), ideally everything should be named like this.
 
 ### Structure
-This project attempts a feature based structure, you create a top level folder `featureName` followed by the folders you need see [Folders](#folders) for more
+This project attempts a feature based structure, you create a top level folder `featureName` followed by the folders you need see [Folders](#folders) for more information.
+
+### Interfaces
+Nearly all classes have interface, so make sure yours do as well. This is used for dependency injection via `get_it` if required.
+
+### Dependency Injection
+If you want to use a class in any other class please use dependecy injection with `get_it`.
+
+#### Register a dependency
+To register a class go to [register.dart](/lib/shared/util/register.dart) and register by using `getIt.registerFactory<MyInterface>(()=>MyClass())` if you are not sure check the file for the most common use cases 
+
+#### Using depencies
+- Create a `get_it` instance
+- Use it to retrive class
+E.g.
+
+```dart
+final getIt = GetIt.I;
+
+final myClass = getIt.get<MyInterface>();
+await myClass.myFunction(my-paramerterA, my-parameterB);
+```
+
+### Where To Use Services
+
+Services should used in BLOCs, or other Services, which ideally are used by a BLOC.
+
+BLOCs should be the thing between our Widgets and our Services!
+If there is a dozen Services running in a BLOC, you can consider wrapping it in a Special Service, if you want to do that please open a discussion and tag me so we can find a propper naming convention for that.
+
+Idealy a feature looks like this:
+-----> = Implemented By
+Services can of course implement multiple Wrappers and other services if desired, however try to keep it resonable.
+
+PackageServiceWrapper ------> MyFeatureService ----> My Feature Bloc
+
+
+### When To Create
+Here you can check what you need to create for certain operations.
+
+#### Wrappers
+If you need to abstract a over a package or native logic? Create a wrapper
+Examples: 
+- [ImagePickerWrapper](/lib/features/hashing/logic/ImagePickerWrapper.dart) 
+- [SecureStorageWrapper](/lib/shared/Integrety/SecureStorageWrapper.dart)
+
+#### Services
+A specific feature or subfeature requires logic? Create a Service! (don't forget the interface)
+Examples:
+- [ImageSavingService](lib/features/hashing/logic/ImageSavingService.dart)
+- [MetaDataPermissionService](lib/features/metadata/logic/MetaDataPermissionService.dart)
+
+#### BLOCs
+You need to change state? Use a BLOC
+Examples:
+- [PreparationBloc](/lib/features/hashing/bloc/PreparationBloc/PreparationBloc.dart)
+- [VerificationBloc](/lib/features/verification/bloc/VerificationBloc.dart)
 <!-- omit in toc -->
 ## Attribution
 This guide is based on the **contributing-gen**. [Make your own](https://github.com/bttger/contributing-gen)! It has been modified to fit the project.
