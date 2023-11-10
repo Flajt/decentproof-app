@@ -19,6 +19,8 @@ For general information please checkout the [wiki](https://github.com/Flajt/dece
 Decentproof is an app to allow you the creation of temper proof files. The app supports: aac, mp3, mkv and png files. 
 File hashes are securely and privacy friendly stored in the Bitcoin and Etherium blockchain and can easily and *independantly* verified. 
 
+> Not a **Dev** ? Check out the [wiki](https://github.com/Flajt/decentproof-app/wiki)
+
 ## "Design Choices"
 - State Management: [bloc](https://bloclibrary.dev/#/) + setState (the latter in some rare cases)
 - Dependency Injection: [get_it](https://pub.dev/packages/get_it)
@@ -30,7 +32,8 @@ File hashes are securely and privacy friendly stored in the Bitcoin and Etherium
 - Env Var management: (TODO: Envied)
 
 ## Getting Started
-A guide on how to get started with everything
+A guide on how to get started with everything.
+
 ### Required tooling
 The following things are required to get started:
 - Flutter sdk (see [below](#helpfull-ressources) to get it)
@@ -39,13 +42,15 @@ The following things are required to get started:
 - The backend [repository](https://github.com/Flajt/decentproof-backend)
 
 ### Let's Go
-1. Setup backend by following the README
+1. Setup backend by following the [README](https://github.com/Flajt/decentproof-backend/blob/main/README.md)
 2. Install dependencies via: `flutter pub get`
 3. A firebase account with a project and appcheck enabled
 4. Create a `.env` file as seen below
 5. Checkout the [CONTRIBUTING](/CONTRIBUTING.md) file
 6. Either you setup firebase appcheck with this project or comment out the code related to that while debugging [AppCheck.dart](/lib/shared/Integrety/AppCheck.dart)
-7. You are good to go just use: `flutter run` to run the app
+7. Replace the public key with the one generated in the backend
+8. You are good to go just use: `flutter run` to run the app
+
 
 ### Testing
 
