@@ -1,10 +1,18 @@
+<p align="center">
+     <a href="https://api.codemagic.io/apps/6392139eb2014893a05ed729/654bb4200d6fe202fa7ddce6/status_badge.svg" ><img alt="tests" src="https://api.codemagic.io/apps/6392139eb2014893a05ed729/654bb4200d6fe202fa7ddce6/status_badge.svg"/> 
+     </a>
+     <a href="https://api.codemagic.io/apps/6392139eb2014893a05ed729/6392139eb2014893a05ed728/status_badge.svg"><img alt="release" src="https://api.codemagic.io/apps/6392139eb2014893a05ed729/6392139eb2014893a05ed728/status_badge.svg"/> 
+     </a>
+     <a href="https://www.contributor-covenant.org/"> <img src="https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg"/>
+     </a>
+     <a href="https://inlang.com/editor/github.com/Flajt/decentproof-app"><img alt="inlang translation stats" src="https://inlang.com/badge?url=github.com/Flajt/decentproof-app"/></a>
+     
+</p>
+
 For general information please checkout the [wiki](https://github.com/Flajt/decentproof-app/wiki) tab . I will update the README soon!
 
-[![inlang status badge](https://inlang.com/badge?url=github.com/Flajt/decentproof-app)](https://inlang.com/editor/github.com/Flajt/decentproof-app?ref=badge)
 
-Test Status: [![Codemagic build status](https://api.codemagic.io/apps/6392139eb2014893a05ed729/654bb4200d6fe202fa7ddce6/status_badge.svg)](https://codemagic.io/apps/6392139eb2014893a05ed729/654bb4200d6fe202fa7ddce6/latest_build)
 
-Build Status: [![Codemagic build status](https://api.codemagic.io/apps/6392139eb2014893a05ed729/6392139eb2014893a05ed728/status_badge.svg)](https://codemagic.io/apps/6392139eb2014893a05ed729/6392139eb2014893a05ed728/latest_build)
 
 This is the offical Github Repository for the decentproof app. Here you can find the whole codebase if you want to inspect it or contribute to it.
 
