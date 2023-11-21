@@ -71,7 +71,8 @@ class PreparationBloc extends Bloc<MetaDataEvents, PreparationState> {
         String hash =
             await compute(audioHashingService.hash, afterMetaDataPath ?? path);
         emit(PreparationIsSuccessfull(afterMetaDataPath ?? path, hash));
-      } catch (e) {
+      } catch (e, stackTrace) {
+        addError(e, stackTrace);
         emit(PreparationHasError(e.toString()));
       }
     });
@@ -92,7 +93,8 @@ class PreparationBloc extends Bloc<MetaDataEvents, PreparationState> {
         String hash = await compute(imageHashingService.hash, finalPath);
         await addToGalleryACleanUp(path, finalPath, false);
         emit(PreparationIsSuccessfull(finalPath, hash));
-      } catch (e) {
+      } catch (e, stackTrace) {
+        addError(e, stackTrace);
         emit(PreparationHasError(e.toString()));
       }
     });
@@ -115,7 +117,8 @@ class PreparationBloc extends Bloc<MetaDataEvents, PreparationState> {
             videoHashingService.hash, afterMetaDataPath ?? finalPath);
         await addToGalleryACleanUp(path, afterMetaDataPath ?? finalPath, true);
         emit(PreparationIsSuccessfull(afterMetaDataPath ?? finalPath, hash));
-      } catch (e) {
+      } catch (e, stackTrace) {
+        addError(e, stackTrace);
         emit(PreparationHasError(e.toString()));
       }
     });

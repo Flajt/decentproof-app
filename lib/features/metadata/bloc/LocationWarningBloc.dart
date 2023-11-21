@@ -23,7 +23,8 @@ class LocationWarningBloc
         } else {
           emit(LocationServiceEnabled());
         }
-      } catch (e) {
+      } catch (e, stackTrace) {
+        addError(e, stackTrace);
         emit(LocationServiceHasError(e.toString()));
       }
     });
