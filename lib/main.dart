@@ -2,6 +2,7 @@ import 'package:decentproof/constants.dart';
 import 'package:decentproof/features/hashing/bloc/SubmissionBloc.dart';
 import 'package:decentproof/features/hashing/bloc/PreparationBloc/PreparationBloc.dart';
 import 'package:decentproof/features/metadata/bloc/LocationWarningBloc.dart';
+import 'package:decentproof/features/metrics/bloc/MetricsBlocObserver.dart';
 import 'package:decentproof/features/settings/bloc/SettingsBloc.dart';
 import 'package:decentproof/features/verification/bloc/VerificationBloc.dart';
 import 'package:decentproof/firebase_options.dart';
@@ -57,6 +58,7 @@ void main() async {
             Locale("zn")
           ],
           child: const MyApp())));
+  Bloc.observer = MetricsBlocObserver();
 }
 
 class MyApp extends StatelessWidget {
