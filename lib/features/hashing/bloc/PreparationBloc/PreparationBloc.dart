@@ -11,6 +11,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:photo_manager/photo_manager.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 
 import '../../../metadata/models/LocationModel.dart';
 import '../../interfaces/IWaterMarkService.dart';
@@ -56,6 +57,8 @@ class PreparationBloc extends Bloc<MetaDataEvents, PreparationState> {
     locationService = getIt.get<ILocationService>();
 
     on<PrepareAudio>((event, emit) async {
+      final transaction =
+          Sentry.startTransaction("PreparationBloc", "PrepareAudio");
       try {
         String? afterMetaDataPath;
         String path = event.filePath;
@@ -72,11 +75,17 @@ class PreparationBloc extends Bloc<MetaDataEvents, PreparationState> {
             await compute(audioHashingService.hash, afterMetaDataPath ?? path);
         emit(PreparationIsSuccessfull(afterMetaDataPath ?? path, hash));
       } catch (e, stackTrace) {
+        transaction.throwable = e;
+        transaction.status = const SpanStatus.internalError();
         addError(e, stackTrace);
         emit(PreparationHasError(e.toString()));
+      } finally {
+        transaction.finish();
       }
     });
     on<PrepareImage>((event, emit) async {
+      final transaction =
+          Sentry.startTransaction("PreparationBloc", "PrepareImage");
       try {
         String path = await imageSavingService.saveFile();
         emit(PrepareationIsAplyingWaterMark());
@@ -94,11 +103,17 @@ class PreparationBloc extends Bloc<MetaDataEvents, PreparationState> {
         await addToGalleryACleanUp(path, finalPath, false);
         emit(PreparationIsSuccessfull(finalPath, hash));
       } catch (e, stackTrace) {
+        transaction.throwable = e;
+        transaction.status = const SpanStatus.internalError();
         addError(e, stackTrace);
         emit(PreparationHasError(e.toString()));
+      } finally {
+        await transaction.finish();
       }
     });
     on<PrepareVideo>((event, emit) async {
+      final transaction =
+          Sentry.startTransaction("PreparationBloc", "PrepareVideo");
       try {
         String? afterMetaDataPath;
         String path = await videoSavingService.saveFile();
@@ -118,8 +133,12 @@ class PreparationBloc extends Bloc<MetaDataEvents, PreparationState> {
         await addToGalleryACleanUp(path, afterMetaDataPath ?? finalPath, true);
         emit(PreparationIsSuccessfull(afterMetaDataPath ?? finalPath, hash));
       } catch (e, stackTrace) {
+        transaction.throwable = e;
+        transaction.status = const SpanStatus.internalError();
         addError(e, stackTrace);
         emit(PreparationHasError(e.toString()));
+      } finally {
+        await transaction.finish();
       }
     });
   }
