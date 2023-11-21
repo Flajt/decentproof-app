@@ -26,7 +26,8 @@ class SettingsBloc extends Bloc<SettingsBlocEvents, SettingsBlocStates> {
         } else {
           emit(ErrorState("Invalid Email"));
         }
-      } catch (e) {
+      } catch (e, stackTrace) {
+        addError(e, stackTrace);
         emit(ErrorState(e.toString()));
       }
     });
@@ -43,7 +44,8 @@ class SettingsBloc extends Bloc<SettingsBlocEvents, SettingsBlocStates> {
         } else {
           emit(ErrorState("Invalid Secret"));
         }
-      } catch (e) {
+      } catch (e, stackTrace) {
+        addError(e, stackTrace);
         emit(ErrorState(e.toString()));
       }
     });
@@ -70,7 +72,8 @@ class SettingsBloc extends Bloc<SettingsBlocEvents, SettingsBlocStates> {
               .allowLocationEmbedding(event.permission);
           emit(LocationEmbeddingPermissionModified());
         }
-      } catch (e) {
+      } catch (e, stackTrace) {
+        addError(e, stackTrace);
         emit(ErrorState(e.toString()));
       }
     });
@@ -78,7 +81,8 @@ class SettingsBloc extends Bloc<SettingsBlocEvents, SettingsBlocStates> {
       try {
         metaDataPermissionService.allowSecretEmbedding(event.permission);
         emit(SecretEmbeddingPermissionModified());
-      } catch (e) {
+      } catch (e, stackTrace) {
+        addError(e, stackTrace);
         emit(ErrorState(e.toString()));
       }
     });

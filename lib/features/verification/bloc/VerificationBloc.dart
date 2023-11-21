@@ -61,8 +61,9 @@ class VerificationBloc
           emit(InitialState());
         }
         await tempFileStorage.delete(recursive: true);
-      } catch (e) {
+      } catch (e, stackTrace) {
         await tempFileStorage.delete(recursive: true);
+        addError(e, stackTrace);
         emit(ErrorState(e.toString()));
         emit(InitialState());
       }

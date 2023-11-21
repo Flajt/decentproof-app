@@ -23,7 +23,8 @@ class SubmissionBloc extends Bloc<SubmissionEvent, SubmissionStates> {
           await _hashSubmissionService.submitHash(event.hash, email);
           emit(SubmissionSuccessfull());
         }
-      } catch (e) {
+      } catch (e, stackTrace) {
+        addError(e, stackTrace);
         emit(SubmissionError(e.toString()));
       }
     });

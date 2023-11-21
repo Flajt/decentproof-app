@@ -1,6 +1,10 @@
+import 'dart:async';
+
+import 'package:decentproof/constants.dart';
 import 'package:decentproof/features/hashing/bloc/SubmissionBloc.dart';
 import 'package:decentproof/features/hashing/bloc/PreparationBloc/PreparationBloc.dart';
 import 'package:decentproof/features/metadata/bloc/LocationWarningBloc.dart';
+import 'package:decentproof/features/metrics/bloc/MetricsBlocObserver.dart';
 import 'package:decentproof/features/settings/bloc/SettingsBloc.dart';
 import 'package:decentproof/features/verification/bloc/VerificationBloc.dart';
 import 'package:decentproof/firebase_options.dart';
@@ -20,31 +24,49 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await EasyLocalization.ensureInitialized();
-  await registar();
-  await dotenv.load();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-  await FirebaseAppCheck.instance.activate(
-      androidProvider:
-          kReleaseMode ? AndroidProvider.playIntegrity : AndroidProvider.debug);
-  runApp(EasyLocalization(
-      useOnlyLangCode: true,
-      fallbackLocale: const Locale("en"),
-      path: "assets/translations",
-      supportedLocales: const [
-        Locale("en"),
-        Locale("de"),
-        Locale("sn"),
-        Locale("fr"),
-        Locale("jp"),
-        Locale("zn")
-      ],
-      child: const MyApp()));
+  runZonedGuarded(() async {
+    WidgetsFlutterBinding.ensureInitialized();
+    await EasyLocalization.ensureInitialized();
+    await registar();
+    await dotenv.load();
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+    await FirebaseAppCheck.instance.activate(
+        androidProvider: kReleaseMode
+            ? AndroidProvider.playIntegrity
+            : AndroidProvider.debug);
+    Sentry.init((options) {
+      options.dsn = kReleaseMode ? SENTRY_DSN : "";
+      options.sampleRate = .2;
+      options.tracesSampleRate = .2;
+      options.beforeSend = (event, {hint}) async {
+        if (event.user?.ipAddress != null) {
+          event = event.copyWith(user: event.user?.copyWith(ipAddress: null));
+        }
+        return event;
+      };
+    });
+    runApp(EasyLocalization(
+        useOnlyLangCode: true,
+        fallbackLocale: const Locale("en"),
+        path: "assets/translations",
+        supportedLocales: const [
+          Locale("en"),
+          Locale("de"),
+          Locale("sn"),
+          Locale("fr"),
+          Locale("jp"),
+          Locale("zn")
+        ],
+        child: const MyApp()));
+    Bloc.observer = MetricsBlocObserver();
+  }, (error, stack) {
+    Sentry.captureException(error, stackTrace: stack);
+  });
 }
 
 class MyApp extends StatelessWidget {
@@ -61,6 +83,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => LocationWarningBloc())
       ],
       child: MaterialApp(
+        navigatorObservers: [SentryNavigatorObserver()],
         debugShowCheckedModeBanner: false,
         localizationsDelegates: context.localizationDelegates,
         supportedLocales: context.supportedLocales,
