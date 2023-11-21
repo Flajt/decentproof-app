@@ -36,7 +36,7 @@ void main() async {
       androidProvider:
           kReleaseMode ? AndroidProvider.playIntegrity : AndroidProvider.debug);
   Sentry.init((options) {
-    options.dsn = SENTRY_DSN;
+    options.dsn = kReleaseMode ? SENTRY_DSN : "";
     options.sampleRate = .2;
     options.tracesSampleRate = .2;
     options.beforeSend = (event, {hint}) async {
