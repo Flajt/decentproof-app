@@ -39,9 +39,11 @@ class VerificationService implements IVerificationService {
     if (resp.statusCode == 200) {
       VerificationStatusResponsModel responseModel =
           VerificationStatusResponsModel.fromJson(jsonDecode(resp.body));
+      bool isValidSignature =
+          await verifySignature(hash, responseModel.data.comment);
       VerificationStatusModel statusModel = VerificationStatusModel(
           hash == responseModel.data.hashString,
-          await verifySignature(hash, responseModel.data.comment),
+          isValidSignature,
           DateTime.fromMillisecondsSinceEpoch(responseModel.data.dateCreated),
           responseModel.data.timestamps[0].submitStatus,
           responseModel.data.timestamps[0].transaction,
