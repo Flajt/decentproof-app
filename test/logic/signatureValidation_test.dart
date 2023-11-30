@@ -24,7 +24,7 @@ void main() {
         () {
       final signature = CryptoUtils.ecSign(keyPair.privateKey as ECPrivateKey,
           Uint8List.fromList(utf8.encode(message)),
-          algorithmName: "SHA-224/ECDSA");
+          algorithmName: "SHA-256/ECDSA");
       final encoded = ASN1Sequence(elements: [
         ASN1Integer(signature.r),
         ASN1Integer(signature.s),
