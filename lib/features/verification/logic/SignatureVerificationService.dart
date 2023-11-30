@@ -14,10 +14,10 @@ class SignatureVerificationService implements ISignatureVerificationService {
   }
 
   final String pemPubKey = """
------BEGIN PUBLIC KEY-----
-MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEMGABYxoEQSiFxeidgzS5m9Q9GWtZ
-g5IHK23GwgQNWeEYWTY8QyCLRuRbSvaoS+5TSc35fEut6gFAnElJxs3wuQ==
------END PUBLIC KEY-----
+-----BEGIN EC PUBLIC KEY-----
+MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEq6iOuQeIhlhywCjo5yoABGODOJRZ
+c6/L8XzUYEsocCbc/JHiByGjuB3G9cSU2vUi1HUy5LsCtX2wlHSEObGVBw==
+-----END EC PUBLIC KEY-----
 """;
 
   ECSignature loadAndConvertSignature(String sig) {
@@ -40,7 +40,7 @@ g5IHK23GwgQNWeEYWTY8QyCLRuRbSvaoS+5TSc35fEut6gFAnElJxs3wuQ==
   @override
   bool verify(String hash, String sig) {
     ECSignature convertedSig = loadAndConvertSignature(sig);
-    final ECDSASigner signer = ECDSASigner(Digest("SHA-224"));
+    final ECDSASigner signer = ECDSASigner();
     signer.init(false, PublicKeyParameter<ECPublicKey>(loadAndPrepPubKey()));
     Uint8List messageAsBytes = Uint8List.fromList(utf8.encode(hash));
     return signer.verifySignature(messageAsBytes, convertedSig);
