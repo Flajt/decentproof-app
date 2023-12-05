@@ -24,7 +24,7 @@ import 'package:decentproof/features/metadata/logic/metaDataServices/VideoMetaDa
 import 'package:decentproof/features/verification/interfaces/IFileSelectionService.dart';
 import 'package:decentproof/features/verification/interfaces/ISignatureVerifcationService.dart';
 import 'package:decentproof/features/verification/interfaces/IVerificationService.dart';
-import 'package:decentproof/features/verification/logic/FileSelectionService.dart';
+import 'package:decentproof/features/verification/logic/FilePickerWrapper.dart';
 import 'package:decentproof/features/verification/logic/SignatureVerificationService.dart';
 import 'package:decentproof/features/verification/logic/VerificationService.dart';
 import 'package:decentproof/shared/HashLogic.dart';
@@ -53,7 +53,7 @@ Future<void> registar() async {
       () => SignatureVerificationService());
   getIt.registerFactory<IVerificationService>(
       () => VerificationService(url: VERIFY_URL));
-  getIt.registerFactory<IFileSelectionService>(() => FileSelectionService());
+  getIt.registerFactory<IFileSelectionService>(() => FilePickerWrapper());
   getIt.registerFactory<IHashLogic>(() => HashLogic());
   getIt.registerFactory<IHashSubmissionService>(
       () => HashSubmissionService(url: SIGN_URL));

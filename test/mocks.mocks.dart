@@ -41,7 +41,7 @@ import 'package:decentproof/features/metadata/logic/metaDataServices/VideoMetaDa
     as _i16;
 import 'package:decentproof/features/metadata/models/LocationModel.dart' as _i2;
 import 'package:decentproof/features/metadata/models/MetaDataModel.dart' as _i3;
-import 'package:decentproof/features/verification/logic/FileSelectionService.dart'
+import 'package:decentproof/features/verification/logic/FilePickerWrapper.dart'
     as _i25;
 import 'package:decentproof/features/verification/logic/SignatureVerificationService.dart'
     as _i31;
@@ -798,11 +798,10 @@ class MockVerificationService extends _i1.Mock
       ) as _i8.Future<bool>);
 }
 
-/// A class which mocks [FileSelectionService].
+/// A class which mocks [FilePickerWrapper].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockFileSelectionService extends _i1.Mock
-    implements _i25.FileSelectionService {
+class MockFilePickerWrapper extends _i1.Mock implements _i25.FilePickerWrapper {
   @override
   _i8.Future<_i26.FileDataModel?> selectFileAsStream() => (super.noSuchMethod(
         Invocation.method(

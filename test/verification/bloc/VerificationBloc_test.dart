@@ -21,13 +21,13 @@ void main() {
   group("VerificationBloc", () {
     final GetIt getIt = GetIt.I;
     final verificationService = MockVerificationService();
-    final fileSelectionService = MockFileSelectionService();
+    final fileSelectionService = MockFilePickerWrapper();
     final imageMetaDataService = MockImageMetaDataService();
     final audioMetaDataService = MockAudioMetaDataService();
     final videoMetaDataService = MockVideoMetaDataService();
     final hashLogic = MockHashLogic();
     final statusModel = VerificationStatusModel(
-        true, true, DateTime.now(), 0, "test", MetaDataModel(null, null));
+        true, true, DateTime.now(), 0, "test", const MetaDataModel(null, null));
 
     setUp(() async {
       await GetIt.I.reset();
@@ -202,7 +202,7 @@ void main() {
 void register(
     GetIt getIt,
     MockVerificationService verificationService,
-    MockFileSelectionService fileSelectionService,
+    MockFilePickerWrapper fileSelectionService,
     MockImageMetaDataService imageMetaDataService,
     MockAudioMetaDataService audioMetaDataService,
     MockVideoMetaDataService videoMetaDataService,
