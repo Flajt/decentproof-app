@@ -1,4 +1,5 @@
 import 'package:decentproof/features/metadata/uiblocks/EnableLocationWarning.dart';
+import 'package:decentproof/features/review/logic/InAppReviewWrapper.dart';
 import 'package:decentproof/shared/util/RequestUtil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,8 +11,11 @@ import '../uiblocks/SettingsButton.dart';
 import '../uiblocks/SupportButton.dart';
 
 class HomePage extends StatelessWidget {
-  HomePage({Key? key}) : super(key: key);
-  final Future<void> request = RequestUtil.updateOrRetriveKey();
+  late final Future<void> request;
+  HomePage({Key? key}) : super(key: key) {
+    request = RequestUtil.updateOrRetriveKey();
+    InAppReviewWrapper.requestReview();
+  }
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
