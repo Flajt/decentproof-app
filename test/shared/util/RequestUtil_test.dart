@@ -17,8 +17,8 @@ void main() {
     final MockAppCheck mockAppCheck = MockAppCheck();
     final MockApiKeyRequestService mockApiKeyRequestService =
         MockApiKeyRequestService();
-    final MockSecureStorageService mockSecureStorageService =
-        MockSecureStorageService();
+    final MockSecureStorageWrapper mockSecureStorageService =
+        MockSecureStorageWrapper();
     test("hasKey is true", () async {
       getIt.registerFactory<IDeviceIntegrety>(() => mockAppCheck);
       getIt.registerFactory<ISecureStorageService>(
@@ -94,8 +94,8 @@ void main() {
     final MockAppCheck mockAppCheck = MockAppCheck();
     final MockApiKeyRequestService mockApiKeyRequestService =
         MockApiKeyRequestService();
-    final MockSecureStorageService mockSecureStorageService =
-        MockSecureStorageService();
+    final MockSecureStorageWrapper mockSecureStorageService =
+        MockSecureStorageWrapper();
 
     test("retriveApiKey throws", () async {
       //Retrive ApiKey throws

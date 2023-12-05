@@ -45,7 +45,7 @@ Future<void> registar() async {
   // GetIt.I.registerLazySingleton<ISecureStorageService>(() => SecureStorageService());
 
   final getIt = GetIt.I;
-  getIt.registerFactory<ISecureStorageService>(() => SecureStorageService());
+  getIt.registerFactory<ISecureStorageService>(() => SecureStorageWrapper());
   getIt.registerFactory<IApiKeyRequestService>(() =>
       ApiKeyRequestService(checkKeyURL: CHECK_KEY_URL, getKeyURL: GET_KEY_URL));
   getIt.registerFactory<IDeviceIntegrety>(() => AppCheck());

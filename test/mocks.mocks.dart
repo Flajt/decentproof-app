@@ -182,11 +182,11 @@ class MockApiKeyRequestService extends _i1.Mock
       ) as _i8.Future<String>);
 }
 
-/// A class which mocks [SecureStorageService].
+/// A class which mocks [SecureStorageWrapper].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockSecureStorageService extends _i1.Mock
-    implements _i10.SecureStorageService {
+class MockSecureStorageWrapper extends _i1.Mock
+    implements _i10.SecureStorageWrapper {
   @override
   _i8.Future<void> saveApiKey(String? key) => (super.noSuchMethod(
         Invocation.method(

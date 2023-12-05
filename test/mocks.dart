@@ -45,7 +45,7 @@ const String kExternalStoragePath = 'externalStoragePath';
 @GenerateNiceMocks([
   MockSpec<AppCheck>(),
   MockSpec<ApiKeyRequestService>(),
-  MockSpec<SecureStorageService>(),
+  MockSpec<SecureStorageWrapper>(),
   MockSpec<LocationServiceWrapper>(),
   MockSpec<MetaDataPermissionService>(),
   MockSpec<HashSubmissionService>(),

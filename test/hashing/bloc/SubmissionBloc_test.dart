@@ -17,8 +17,8 @@ void main() {
   setUp(() async => await GetIt.I.reset());
   group("SubmissionBloc success", () {
     final GetIt getIt = GetIt.I;
-    final MockSecureStorageService mockSecureStorageService =
-        MockSecureStorageService();
+    final MockSecureStorageWrapper mockSecureStorageService =
+        MockSecureStorageWrapper();
     final MockHashSubmissionService mockHashSubmissionService =
         MockHashSubmissionService();
     blocTest(
@@ -99,8 +99,8 @@ void main() {
   });
   group("SubmissionBloc error", () {
     final GetIt getIt = GetIt.I;
-    final MockSecureStorageService mockSecureStorageService =
-        MockSecureStorageService();
+    final MockSecureStorageWrapper mockSecureStorageService =
+        MockSecureStorageWrapper();
     final MockHashSubmissionService mockHashSubmissionService =
         MockHashSubmissionService();
     blocTest(

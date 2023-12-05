@@ -15,7 +15,7 @@ void main() {
   final getIt = GetIt.I;
   final locationService = MockLocationServiceWrapper();
   final permissionService = MockMetaDataPermissionService();
-  final secureStorageService = MockSecureStorageService();
+  final secureStorageService = MockSecureStorageWrapper();
   setUp(() async => {
         await getIt.reset(),
       });
@@ -25,7 +25,7 @@ void main() {
           getIt.registerFactory<IMetaDataPermissionService>(
               () => MockMetaDataPermissionService());
           getIt.registerFactory<ISecureStorageService>(
-              () => MockSecureStorageService());
+              () => MockSecureStorageWrapper());
           getIt.registerFactory<ILocationService>(
               () => MockLocationServiceWrapper());
         },
