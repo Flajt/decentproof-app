@@ -17,14 +17,14 @@ import 'package:decentproof/features/hashing/logic/water_mark/VideoWaterMarkServ
 import 'package:decentproof/features/metadata/interfaces/ILocationService.dart';
 import 'package:decentproof/features/metadata/interfaces/IMetaDataPermissionService.dart';
 import 'package:decentproof/features/metadata/interfaces/IMetaDataService.dart';
-import 'package:decentproof/features/metadata/logic/LocationService.dart';
+import 'package:decentproof/features/metadata/logic/LocationServiceWrapper.dart';
 import 'package:decentproof/features/metadata/logic/MetaDataPermissionService.dart';
 import 'package:decentproof/features/metadata/logic/metaDataServices/ImageMetaDataService.dart';
 import 'package:decentproof/features/metadata/logic/metaDataServices/VideoMetaDataService.dart';
 import 'package:decentproof/features/verification/interfaces/IFileSelectionService.dart';
 import 'package:decentproof/features/verification/interfaces/ISignatureVerifcationService.dart';
 import 'package:decentproof/features/verification/interfaces/IVerificationService.dart';
-import 'package:decentproof/features/verification/logic/FileSelectionService.dart';
+import 'package:decentproof/features/verification/logic/FilePickerWrapper.dart';
 import 'package:decentproof/features/verification/logic/SignatureVerificationService.dart';
 import 'package:decentproof/features/verification/logic/VerificationService.dart';
 import 'package:decentproof/shared/HashLogic.dart';
@@ -45,7 +45,7 @@ Future<void> registar() async {
   // GetIt.I.registerLazySingleton<ISecureStorageService>(() => SecureStorageService());
 
   final getIt = GetIt.I;
-  getIt.registerFactory<ISecureStorageService>(() => SecureStorageService());
+  getIt.registerFactory<ISecureStorageService>(() => SecureStorageWrapper());
   getIt.registerFactory<IApiKeyRequestService>(() =>
       ApiKeyRequestService(checkKeyURL: CHECK_KEY_URL, getKeyURL: GET_KEY_URL));
   getIt.registerFactory<IDeviceIntegrety>(() => AppCheck());
@@ -53,7 +53,7 @@ Future<void> registar() async {
       () => SignatureVerificationService());
   getIt.registerFactory<IVerificationService>(
       () => VerificationService(url: VERIFY_URL));
-  getIt.registerFactory<IFileSelectionService>(() => FileSelectionService());
+  getIt.registerFactory<IFileSelectionService>(() => FilePickerWrapper());
   getIt.registerFactory<IHashLogic>(() => HashLogic());
   getIt.registerFactory<IHashSubmissionService>(
       () => HashSubmissionService(url: SIGN_URL));
@@ -74,7 +74,7 @@ Future<void> registar() async {
       instanceName: "VideoWaterMark");
   getIt.registerFactory<IWaterMarkService>(() => ImageWaterMarkService(),
       instanceName: "ImageWaterMark");
-  getIt.registerFactory<ILocationService>(() => LocationService());
+  getIt.registerFactory<ILocationService>(() => LocationServiceWrapper());
   getIt.registerSingleton<IMetaDataPermissionService>(
       MetaDataPermissionService());
   await getIt

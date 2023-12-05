@@ -2,7 +2,7 @@ import 'package:decentproof/features/metadata/interfaces/ILocationService.dart';
 import 'package:decentproof/features/metadata/models/LocationModel.dart';
 import 'package:location/location.dart';
 
-class LocationService implements ILocationService {
+class LocationServiceWrapper implements ILocationService {
   final Location _location = Location();
   @override
   Future<bool> getPermission() async {

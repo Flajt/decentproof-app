@@ -2,8 +2,7 @@ import 'package:decentproof/features/verification/interfaces/IFileSelectionServi
 import 'package:decentproof/features/verification/models/FileDataMode.dart';
 import 'package:file_picker/file_picker.dart';
 
-//TODO: Check if this is actually needed or if it can be handle by the hashing services
-class FileSelectionService implements IFileSelectionService {
+class FilePickerWrapper implements IFileSelectionService {
   @override
   Future<FileDataModel?> selectFileAsStream() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(

@@ -8,12 +8,12 @@ import 'package:decentproof/features/hashing/logic/hasher/ImageHashingService.da
 import 'package:decentproof/features/hashing/logic/hasher/VideoHashingService.dart';
 import 'package:decentproof/features/hashing/logic/water_mark/ImageWaterMarkService.dart';
 import 'package:decentproof/features/hashing/logic/water_mark/VideoWaterMarkService.dart';
-import 'package:decentproof/features/metadata/logic/LocationService.dart';
+import 'package:decentproof/features/metadata/logic/LocationServiceWrapper.dart';
 import 'package:decentproof/features/metadata/logic/MetaDataPermissionService.dart';
 import 'package:decentproof/features/metadata/logic/metaDataServices/AudioMetaDataService.dart';
 import 'package:decentproof/features/metadata/logic/metaDataServices/ImageMetaDataService.dart';
 import 'package:decentproof/features/metadata/logic/metaDataServices/VideoMetaDataService.dart';
-import 'package:decentproof/features/verification/logic/FileSelectionService.dart';
+import 'package:decentproof/features/verification/logic/FilePickerWrapper.dart';
 import 'package:decentproof/features/verification/logic/SignatureVerificationService.dart';
 import 'package:decentproof/features/verification/logic/VerificationService.dart';
 import 'package:decentproof/shared/HashLogic.dart';
@@ -45,8 +45,8 @@ const String kExternalStoragePath = 'externalStoragePath';
 @GenerateNiceMocks([
   MockSpec<AppCheck>(),
   MockSpec<ApiKeyRequestService>(),
-  MockSpec<SecureStorageService>(),
-  MockSpec<LocationService>(),
+  MockSpec<SecureStorageWrapper>(),
+  MockSpec<LocationServiceWrapper>(),
   MockSpec<MetaDataPermissionService>(),
   MockSpec<HashSubmissionService>(),
   MockSpec<ImageMetaDataService>(),
@@ -60,7 +60,7 @@ const String kExternalStoragePath = 'externalStoragePath';
   MockSpec<ImageHashingService>(),
   MockSpec<VideoHashingService>(),
   MockSpec<VerificationService>(),
-  MockSpec<FileSelectionService>(),
+  MockSpec<FilePickerWrapper>(),
   MockSpec<HashLogic>(),
   MockSpec<ImagePickerWrapper>(),
   MockSpec<ShowInExplorer>(),

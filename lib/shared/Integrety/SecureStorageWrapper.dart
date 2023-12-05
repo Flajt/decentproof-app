@@ -3,7 +3,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'interfaces/ISecureStorageService.dart';
 
 ///Handles sensitive data storage
-class SecureStorageService implements ISecureStorageService {
+class SecureStorageWrapper implements ISecureStorageService {
   final FlutterSecureStorage _secureStorage = const FlutterSecureStorage(
       iOptions: IOSOptions(accessibility: KeychainAccessibility.first_unlock),
       aOptions: AndroidOptions(

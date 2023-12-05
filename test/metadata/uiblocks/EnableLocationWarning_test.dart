@@ -14,7 +14,7 @@ import '../../mocks.mocks.dart';
 void main() {
   group("EnableLocationWarning", () {
     final GetIt getIt = GetIt.instance;
-    final locationService = MockLocationService();
+    final locationService = MockLocationServiceWrapper();
     final metaDataPermissionService = MockMetaDataPermissionService();
     setUp(() async => await getIt.reset());
 
