@@ -41,7 +41,7 @@ c6/L8XzUYEsocCbc/JHiByGjuB3G9cSU2vUi1HUy5LsCtX2wlHSEObGVBw==
   bool verify(String hash, String sig) {
     ECSignature convertedSig = loadAndConvertSignature(sig);
     final ECDSASigner signer = ECDSASigner();
-    signer.init(false, PublicKeyParameter<ECPublicKey>(loadAndPrepPubKey()));
+    signer.init(false, PublicKeyParameter<ECPublicKey>(pubKey));
     Uint8List messageAsBytes = Uint8List.fromList(utf8.encode(hash));
     return signer.verifySignature(messageAsBytes, convertedSig);
   }
