@@ -13,7 +13,7 @@ import '../../mocks.mocks.dart';
 
 void main() {
   final getIt = GetIt.I;
-  final locationService = MockLocationService();
+  final locationService = MockLocationServiceWrapper();
   final permissionService = MockMetaDataPermissionService();
   final secureStorageService = MockSecureStorageService();
   setUp(() async => {
@@ -26,7 +26,8 @@ void main() {
               () => MockMetaDataPermissionService());
           getIt.registerFactory<ISecureStorageService>(
               () => MockSecureStorageService());
-          getIt.registerFactory<ILocationService>(() => MockLocationService());
+          getIt.registerFactory<ILocationService>(
+              () => MockLocationServiceWrapper());
         },
         act: (bloc) => bloc.add(SaveEmailEvent("invalid")),
         expect: () => [ErrorState("Invalid Email")],
@@ -51,7 +52,8 @@ void main() {
               () => MockMetaDataPermissionService());
           getIt.registerFactory<ISecureStorageService>(
               () => secureStorageService);
-          getIt.registerFactory<ILocationService>(() => MockLocationService());
+          getIt.registerFactory<ILocationService>(
+              () => MockLocationServiceWrapper());
           when(secureStorageService.saveEmail(any))
               .thenAnswer((realInvocation) => Future.value());
         },

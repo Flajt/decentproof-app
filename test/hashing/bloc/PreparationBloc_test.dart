@@ -31,7 +31,7 @@ void main() {
     final imageMetaDataService = MockImageMetaDataService();
     final metaDataPermissionService = MockMetaDataPermissionService();
     final audioHashingService = MockAudioHashingService();
-    final locationService = MockLocationService();
+    final locationService = MockLocationServiceWrapper();
     const sampleLocationModel = LocationModel(latitude: 0.0, longitude: 0.0);
 
     group("prepare audio", () {
@@ -362,7 +362,7 @@ void register(
     MockVideoMetaDataService videoMetaDataService,
     MockImageMetaDataService imageMetaDataService,
     MockAudioHashingService audioHashingService,
-    MockLocationService locationService,
+    MockLocationServiceWrapper locationService,
     MockMetaDataPermissionService metaDataPermissionService) {
   final GetIt getIt = GetIt.I;
 

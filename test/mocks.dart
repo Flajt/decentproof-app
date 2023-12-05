@@ -8,7 +8,7 @@ import 'package:decentproof/features/hashing/logic/hasher/ImageHashingService.da
 import 'package:decentproof/features/hashing/logic/hasher/VideoHashingService.dart';
 import 'package:decentproof/features/hashing/logic/water_mark/ImageWaterMarkService.dart';
 import 'package:decentproof/features/hashing/logic/water_mark/VideoWaterMarkService.dart';
-import 'package:decentproof/features/metadata/logic/LocationService.dart';
+import 'package:decentproof/features/metadata/logic/LocationServiceWrapper.dart';
 import 'package:decentproof/features/metadata/logic/MetaDataPermissionService.dart';
 import 'package:decentproof/features/metadata/logic/metaDataServices/AudioMetaDataService.dart';
 import 'package:decentproof/features/metadata/logic/metaDataServices/ImageMetaDataService.dart';
@@ -46,7 +46,7 @@ const String kExternalStoragePath = 'externalStoragePath';
   MockSpec<AppCheck>(),
   MockSpec<ApiKeyRequestService>(),
   MockSpec<SecureStorageService>(),
-  MockSpec<LocationService>(),
+  MockSpec<LocationServiceWrapper>(),
   MockSpec<MetaDataPermissionService>(),
   MockSpec<HashSubmissionService>(),
   MockSpec<ImageMetaDataService>(),

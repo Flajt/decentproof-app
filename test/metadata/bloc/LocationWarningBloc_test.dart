@@ -20,7 +20,7 @@ void main() {
       "returns [LocationServiceEnabled] if location service is enabled",
       setUp: () {
         final permissionService = MockMetaDataPermissionService();
-        final locationService = MockLocationService();
+        final locationService = MockLocationServiceWrapper();
 
         when(permissionService.shouldEmbedLocation()).thenReturn(true);
         when(locationService.serviceEnabled())
@@ -45,7 +45,8 @@ void main() {
 
           getIt.registerSingleton<IMetaDataPermissionService>(
               mockPermissionService);
-          getIt.registerFactory<ILocationService>(() => MockLocationService());
+          getIt.registerFactory<ILocationService>(
+              () => MockLocationServiceWrapper());
         },
         build: () => LocationWarningBloc(),
         act: (bloc) {
@@ -63,7 +64,8 @@ void main() {
           when(permissionService.shouldEmbedLocation())
               .thenThrow("Something went wrong");
 
-          getIt.registerFactory<ILocationService>(() => MockLocationService());
+          getIt.registerFactory<ILocationService>(
+              () => MockLocationServiceWrapper());
           getIt.registerFactory<IMetaDataPermissionService>(
               () => permissionService);
         },
@@ -73,7 +75,7 @@ void main() {
   });
   blocTest("in serviceEnabled",
       setUp: () {
-        final locationService = MockLocationService();
+        final locationService = MockLocationServiceWrapper();
         final permissionService = MockMetaDataPermissionService();
 
         when(permissionService.shouldEmbedLocation()).thenReturn(true);

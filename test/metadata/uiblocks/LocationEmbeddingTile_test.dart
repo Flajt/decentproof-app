@@ -17,7 +17,7 @@ void main() {
 
   setUp(() async => await GetIt.I.reset());
   final permissionService = MockMetaDataPermissionService();
-  final locationService = MockLocationService();
+  final locationService = MockLocationServiceWrapper();
   final storageService = MockSecureStorageService();
   group("LocationEmbeddingTile", () {
     testWidgets("should change icon & state on tap", (widgetTester) async {

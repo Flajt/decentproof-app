@@ -29,7 +29,7 @@ import 'package:decentproof/features/hashing/logic/water_mark/ImageWaterMarkServ
     as _i19;
 import 'package:decentproof/features/hashing/logic/water_mark/VideoWaterMarkService.dart'
     as _i20;
-import 'package:decentproof/features/metadata/logic/LocationService.dart'
+import 'package:decentproof/features/metadata/logic/LocationServiceWrapper.dart'
     as _i11;
 import 'package:decentproof/features/metadata/logic/MetaDataPermissionService.dart'
     as _i12;
@@ -243,10 +243,11 @@ class MockSecureStorageService extends _i1.Mock
       ) as _i8.Future<void>);
 }
 
-/// A class which mocks [LocationService].
+/// A class which mocks [LocationServiceWrapper].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockLocationService extends _i1.Mock implements _i11.LocationService {
+class MockLocationServiceWrapper extends _i1.Mock
+    implements _i11.LocationServiceWrapper {
   @override
   _i8.Future<bool> getPermission() => (super.noSuchMethod(
         Invocation.method(
