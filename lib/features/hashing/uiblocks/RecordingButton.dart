@@ -1,6 +1,8 @@
 import 'package:audio_waveforms/audio_waveforms.dart';
 import 'package:decentproof/features/hashing/bloc/PreparationBloc/PerparationEvents.dart';
 import 'package:decentproof/features/hashing/bloc/PreparationBloc/PreparationBloc.dart';
+import 'package:decentproof/features/hashing/bloc/SubmissionBloc.dart';
+import 'package:decentproof/features/hashing/bloc/SubmissionEvents.dart';
 import 'package:decentproof/features/hashing/interfaces/IFileSavingService.dart';
 import 'package:decentproof/shared/uiblocks/ProcessingDialog.dart';
 import 'package:flutter/material.dart';
@@ -43,6 +45,8 @@ class _RecordingButtonState extends State<RecordingButton> {
               builder: (context) =>
                   ErrorDialog(size: size, error: state.errorMsg));
         } else if (state is PreparationIsSuccessfull) {
+          context.read<SubmissionBloc>().add(ResetSubmissionState());
+
           Navigator.of(context).pushNamed("/submissionPage",
               arguments: {"hash": state.hash, "path": state.path});
         } else if (state is PrepareationIsAddingMetaData) {

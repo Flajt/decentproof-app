@@ -68,9 +68,7 @@ void main() {
           expect: () => [
                 PrepareationIsAddingMetaData(),
                 PrepareationIsHashing(),
-                PreparationIsSuccessfull(
-                    "sample/path/to/file.mp3", "cool-hash"),
-                InitalPrepareBlocState()
+                PreparationIsSuccessfull("sample/path/to/file.mp3", "cool-hash")
               ]);
       blocTest("without ebedding location",
           setUp: () {
@@ -98,9 +96,7 @@ void main() {
           wait: const Duration(milliseconds: 100),
           expect: () => [
                 PrepareationIsHashing(),
-                PreparationIsSuccessfull(
-                    "sample/path/to/file.aac", "cool-hash"),
-                InitalPrepareBlocState()
+                PreparationIsSuccessfull("sample/path/to/file.aac", "cool-hash")
               ]);
       blocTest(
         "w. error",
@@ -128,8 +124,7 @@ void main() {
         wait: const Duration(milliseconds: 100),
         expect: () => [
           PrepareationIsHashing(),
-          PreparationHasError("Something went wrong"),
-          InitalPrepareBlocState()
+          PreparationHasError("Something went wrong")
         ],
       );
     });
@@ -171,8 +166,7 @@ void main() {
                 PrepareationIsAddingMetaData(),
                 PrepareationIsHashing(),
                 PreparationIsSuccessfull(
-                    "sample/path/to/video.mkv", "cool-hash"),
-                InitalPrepareBlocState()
+                    "sample/path/to/video.mkv", "cool-hash")
               ]);
 
       blocTest("without ebedding location",
@@ -207,8 +201,7 @@ void main() {
                 PrepareationIsAplyingWaterMark(),
                 PrepareationIsHashing(),
                 PreparationIsSuccessfull(
-                    "sample/path/to/video.mkv", "cool-hash"),
-                InitalPrepareBlocState()
+                    "sample/path/to/video.mkv", "cool-hash")
               ]);
       blocTest(
         "w. error",
@@ -241,8 +234,7 @@ void main() {
         expect: () => [
           PrepareationIsAplyingWaterMark(),
           PrepareationIsHashing(),
-          PreparationHasError("Something went wrong"),
-          InitalPrepareBlocState()
+          PreparationHasError("Something went wrong")
         ],
       );
     });
@@ -284,8 +276,7 @@ void main() {
                 PrepareationIsAddingMetaData(),
                 PrepareationIsHashing(),
                 PreparationIsSuccessfull(
-                    "sample/path/to/image.png", "cool-hash"),
-                InitalPrepareBlocState()
+                    "sample/path/to/image.png", "cool-hash")
               ]);
 
       blocTest("without ebedding location",
@@ -320,8 +311,7 @@ void main() {
                 PrepareationIsAplyingWaterMark(),
                 PrepareationIsHashing(),
                 PreparationIsSuccessfull(
-                    "sample/path/to/image.png", "cool-hash"),
-                InitalPrepareBlocState()
+                    "sample/path/to/image.png", "cool-hash")
               ]);
       blocTest(
         "w. error",
@@ -354,8 +344,7 @@ void main() {
         expect: () => [
           PrepareationIsAplyingWaterMark(),
           PrepareationIsHashing(),
-          PreparationHasError("Something went wrong"),
-          InitalPrepareBlocState()
+          PreparationHasError("Something went wrong")
         ],
       );
     });

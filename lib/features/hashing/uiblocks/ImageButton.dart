@@ -1,6 +1,8 @@
 import 'package:decentproof/features/hashing/bloc/PreparationBloc/PreparationBloc.dart';
 import 'package:decentproof/features/hashing/bloc/PreparationBloc/PerparationEvents.dart';
 import 'package:decentproof/features/hashing/bloc/PreparationBloc/PerparationStates.dart';
+import 'package:decentproof/features/hashing/bloc/SubmissionBloc.dart';
+import 'package:decentproof/features/hashing/bloc/SubmissionEvents.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -22,6 +24,7 @@ class ImageButton extends StatelessWidget {
               builder: (context) =>
                   ErrorDialog(size: size, error: state.errorMsg));
         } else if (state is PreparationIsSuccessfull) {
+          context.read<SubmissionBloc>().add(ResetSubmissionState());
           Navigator.of(context).pushNamed("/submissionPage",
               arguments: {"hash": state.hash, "path": state.path});
         } else if (state is PrepareationIsAplyingWaterMark) {
