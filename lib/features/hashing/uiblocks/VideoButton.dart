@@ -1,6 +1,8 @@
 import 'package:decentproof/features/hashing/bloc/PreparationBloc/PreparationBloc.dart';
 import 'package:decentproof/features/hashing/bloc/PreparationBloc/PerparationEvents.dart';
 import 'package:decentproof/features/hashing/bloc/PreparationBloc/PerparationStates.dart';
+import 'package:decentproof/features/hashing/bloc/SubmissionBloc.dart';
+import 'package:decentproof/features/hashing/bloc/SubmissionEvents.dart';
 import 'package:decentproof/shared/uiblocks/ErrorDialog.dart';
 import 'package:decentproof/shared/uiblocks/ProcessingDialog.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -21,6 +23,7 @@ class VideoButton extends StatelessWidget {
               builder: (context) =>
                   ErrorDialog(size: size, error: state.errorMsg));
         } else if (state is PreparationIsSuccessfull) {
+          context.read<SubmissionBloc>().add(ResetSubmissionState());
           Navigator.of(context).pushNamed("/submissionPage",
               arguments: {"hash": state.hash, "path": state.path});
         } else if (state is PrepareationIsAplyingWaterMark) {
