@@ -42,7 +42,7 @@ c6/L8XzUYEsocCbc/JHiByGjuB3G9cSU2vUi1HUy5LsCtX2wlHSEObGVBw==
     ECSignature convertedSig = loadAndConvertSignature(sig);
     final ECDSASigner signer = ECDSASigner();
     signer.init(false, PublicKeyParameter<ECPublicKey>(pubKey));
-    Uint8List messageAsBytes = Uint8List.fromList(utf8.encode(hash));
+    Uint8List messageAsBytes = Uint8List.fromList(hex.decode(hash));
     return signer.verifySignature(messageAsBytes, convertedSig);
   }
 }
