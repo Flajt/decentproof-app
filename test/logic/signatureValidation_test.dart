@@ -13,7 +13,8 @@ void main() {
   group("Signature validation", () {
     late final ISignatureVerificationService verificationService;
     late final AsymmetricKeyPair<PublicKey, PrivateKey> keyPair;
-    const String message = "Test message";
+    const String message =
+        "8b89d2ab5300a30edb573a8da671a9438cdcccbc42f2a153927e8ba8f54d611c";
 
     setUp(() {
       verificationService = SignatureVerificationService();
@@ -23,7 +24,7 @@ void main() {
     test("should return false if a different privKey is used to sign a message",
         () {
       final signature = CryptoUtils.ecSign(keyPair.privateKey as ECPrivateKey,
-          Uint8List.fromList(utf8.encode(message)),
+          Uint8List.fromList(hex.decode(message)),
           algorithmName: "SHA-256/ECDSA");
       final encoded = ASN1Sequence(elements: [
         ASN1Integer(signature.r),
