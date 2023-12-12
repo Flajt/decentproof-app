@@ -63,12 +63,14 @@ void main() {
         expect(
             resp,
             equals(VerificationStatusModel(
-                true,
-                true,
-                DateTime.fromMillisecondsSinceEpoch(1623340800),
-                3,
-                "0x123456789",
-                null)));
+              true,
+              true,
+              DateTime.fromMillisecondsSinceEpoch(1623340800),
+              3,
+              null,
+              "0x123456789",
+              null,
+            )));
         expect(interceptor.isDone, true);
         expect(interceptor.statusCode, 200);
       });

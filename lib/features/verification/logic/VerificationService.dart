@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:decentproof/features/verification/interfaces/ISignatureVerifcationService.dart';
 import 'package:decentproof/features/verification/interfaces/IVerificationService.dart';
+import 'package:decentproof/features/verification/models/OriginstampTimeStampModel.dart';
 import 'package:decentproof/features/verification/models/VerificationStatusResponse.dart';
 import 'package:decentproof/shared/Integrety/interfaces/ISecureStorageService.dart';
 import 'package:get_it/get_it.dart';
@@ -41,13 +42,16 @@ class VerificationService implements IVerificationService {
           VerificationStatusResponsModel.fromJson(jsonDecode(resp.body));
       bool isValidSignature =
           await verifySignature(hash, responseModel.data.comment);
+      final List<OriginstampTimeStampModel> timeStamps =
+          responseModel.data.timestamps;
       VerificationStatusModel statusModel = VerificationStatusModel(
           hash == responseModel.data.hashString,
           isValidSignature,
           DateTime.fromMillisecondsSinceEpoch(responseModel.data.dateCreated),
           responseModel.data.timestamps[0].submitStatus,
-          responseModel.data.timestamps[0].transaction,
-          null);
+          null,
+          timeStamps.isNotEmpty ? timeStamps[0].transaction : null,
+          timeStamps.length >= 2 ? timeStamps[1].transaction : null);
       return statusModel;
     } else {
       throw Exception(

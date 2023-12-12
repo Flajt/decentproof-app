@@ -7,7 +7,8 @@ class VerificationStatusModel extends Equatable {
   final bool verifiedSignature;
   final DateTime dateTime;
   final int submissionStatus;
-  final String transaction;
+  final String? bitcoinTransaction;
+  final String? ethereumTransaction;
   final MetaDataModel? metaDataModel;
 
   const VerificationStatusModel(
@@ -15,23 +16,26 @@ class VerificationStatusModel extends Equatable {
       this.verifiedSignature,
       this.dateTime,
       this.submissionStatus,
-      this.transaction,
-      this.metaDataModel);
+      this.metaDataModel,
+      this.bitcoinTransaction,
+      this.ethereumTransaction);
 
   VerificationStatusModel copyWith(
       {bool? matchingHashes,
       bool? verifiedSignature,
       DateTime? dateTime,
       int? submissionStatus,
-      String? transaction,
+      String? bitcoinTransaction,
+      String? ethereumTransaction,
       MetaDataModel? metaDataModel}) {
     return VerificationStatusModel(
       matchingHashes ?? this.matchingHashes,
       verifiedSignature ?? this.verifiedSignature,
       dateTime ?? this.dateTime,
       submissionStatus ?? this.submissionStatus,
-      transaction ?? this.transaction,
       metaDataModel ?? this.metaDataModel,
+      bitcoinTransaction ?? this.bitcoinTransaction,
+      ethereumTransaction ?? this.ethereumTransaction,
     );
   }
 
@@ -41,7 +45,8 @@ class VerificationStatusModel extends Equatable {
         verifiedSignature,
         dateTime,
         submissionStatus,
-        transaction,
+        bitcoinTransaction,
+        ethereumTransaction,
         metaDataModel
       ];
 }
