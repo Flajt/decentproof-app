@@ -3,6 +3,8 @@ import 'package:decentproof/features/review/logic/InAppReviewWrapper.dart';
 import 'package:decentproof/shared/util/RequestUtil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_simple_updates/flutter_simple_updates.dart';
+import 'package:simple_mastodon_updates/logic/SimpleMastodonParser.dart';
 
 import '../../metadata/bloc/LocationWarningBloc.dart';
 import '../../metadata/bloc/LocationWarningBlocEvents.dart';
@@ -12,6 +14,8 @@ import '../uiblocks/SupportButton.dart';
 
 class HomePage extends StatelessWidget {
   late final Future<void> request;
+  final SimpleMastodonParser feedProvider =
+      SimpleMastodonParser("!", "https://mastodon.world/@Decentproof");
   HomePage({Key? key}) : super(key: key) {
     request = RequestUtil.updateOrRetriveKey();
     InAppReviewWrapper.requestReview();
@@ -30,6 +34,14 @@ class HomePage extends StatelessWidget {
             alignment: Alignment.bottomCenter,
             child: EnableLocationWarning(
                 width: size.width, height: size.height * .08),
+          ),
+          Align(
+            alignment: Alignment.topCenter,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: NotificationWidget(
+                  feedProvider: feedProvider, cache: HiveCacheWrapper()),
+            ),
           ),
           const Align(
               alignment: Alignment.topLeft,
