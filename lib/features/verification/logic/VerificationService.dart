@@ -54,8 +54,12 @@ class VerificationService implements IVerificationService {
           timeStamps.length >= 2 ? timeStamps[1].transaction : null);
       return statusModel;
     } else {
-      throw Exception(
-          "${resp.statusCode}: ${jsonDecode(resp.body)['error_code']}");
+      if (resp.body.contains("error_code")) {
+        throw Exception(
+            "${resp.statusCode}: ${jsonDecode(resp.body)['error_code']}");
+      } else {
+        throw Exception("${resp.statusCode}: ${resp.body}");
+      }
     }
   }
 

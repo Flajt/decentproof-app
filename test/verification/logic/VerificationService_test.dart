@@ -95,6 +95,23 @@ void main() {
       test("to access null api key throws exception", () {
         expect(verificationService.verify("lalal"), throwsA(isException));
       });
+      test(
+          "to verify existens of the hash via originstamp will return a plain text error message",
+          () async {
+        await secureStorageService.saveApiKey("123");
+        final interceptor = nock.post("/verify/", {"hash": "lalal"})
+          ..reply(
+            500,
+            "lalal",
+          );
+        try {
+          await verificationService.verify("lalal");
+        } catch (e) {
+          expect(e, isException);
+          expect(e.toString(), equals("Exception: 500: lalal"));
+          expect(interceptor.isDone, true);
+        }
+      });
     });
   });
 }
