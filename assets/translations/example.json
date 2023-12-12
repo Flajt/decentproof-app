@@ -57,7 +57,10 @@
         "noFile":"",
         "id": "",
         "showInExplorer": "",
-        "reset": ""
+        "reset": "",
+        "hashMatching": "",
+        "signatureVerified": "",
+        "locationStored": ""
     },
     "videoImagePage":{
         "photo": "",

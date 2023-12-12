@@ -58,7 +58,10 @@
         "noFile":"No file selected!",
         "id": "Your Message ID:",
         "showInExplorer": "View Transaction",
-        "reset": "Reset"
+        "reset": "Reset",
+        "hashMatching": "Hashes matching?",
+        "signatureVerified": "Signature verified?",
+        "locationStored": "Location stored?"
     },
     "videoImagePage":{
         "photo": "Take a photo",

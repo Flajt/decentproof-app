@@ -1,5 +1,6 @@
 import 'package:decentproof/features/verification/models/VerificationStatusModel.dart';
 import 'package:decentproof/features/verification/uiblocks/CheckMarkTile.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class CheckMarkTable extends StatelessWidget {
@@ -18,11 +19,13 @@ class CheckMarkTable extends StatelessWidget {
       child:
           Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
         CheckMarkTile(
-            title: "Hashes Matching?", value: statusModel.matchingHashes),
+            title: "verificationPage.hashMatching".tr(),
+            value: statusModel.matchingHashes),
         CheckMarkTile(
-            title: "Signature Verified?", value: statusModel.verifiedSignature),
+            title: "verificationpage.signatureVerified".tr(),
+            value: statusModel.verifiedSignature),
         CheckMarkTile(
-            title: "Location Stored?",
+            title: "verificationPagelocationStored".tr(),
             value: statusModel.metaDataModel?.location != null)
       ]),
     );
