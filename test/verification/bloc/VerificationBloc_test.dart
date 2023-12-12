@@ -26,8 +26,8 @@ void main() {
     final audioMetaDataService = MockAudioMetaDataService();
     final videoMetaDataService = MockVideoMetaDataService();
     final hashLogic = MockHashLogic();
-    final statusModel = VerificationStatusModel(
-        true, true, DateTime.now(), 0, "test", const MetaDataModel(null, null));
+    final statusModel = VerificationStatusModel(true, true, DateTime.now(), 0,
+        const MetaDataModel(null, null), "test", "test");
 
     setUp(() async {
       await GetIt.I.reset();
