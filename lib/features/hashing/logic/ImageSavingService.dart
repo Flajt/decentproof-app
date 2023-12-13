@@ -20,8 +20,7 @@ class ImageSavingService implements IFileSavingService {
     String path = dir.path;
     String imageId = await nanoid(16);
     String fullPath = "$path/$imageId.png";
-    File imgFile = File(fullPath);
-    await imgFile.writeAsBytes(imageAsBytes);
+    await File(fullPath).writeAsBytes(imageAsBytes);
     return fullPath;
   }
 }
