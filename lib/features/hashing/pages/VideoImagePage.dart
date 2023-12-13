@@ -26,8 +26,10 @@ class VideoImagePage extends StatelessWidget {
               builder: (context) =>
                   ErrorDialog(size: size, error: state.errorMsg));
         } else if (state is PreparationIsSuccessfull) {
+          Navigator.of(context).pop();
           context.read<SubmissionBloc>().add(ResetSubmissionState());
-          Navigator.of(context).pushNamed("/submissionPage",
+          Navigator.of(context).pushReplacementNamed(
+              "/submissionPage", // This or popAndPushNamed should only be used here to prevent issues with repeating listener build calls
               arguments: {"hash": state.hash, "path": state.path});
         } else if (state is PrepareationIsAplyingWaterMark) {
           showDialog(
