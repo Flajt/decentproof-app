@@ -1,19 +1,18 @@
 {
-    "homePage":{
-        "options":{
+    "homePage": {
+        "options": {
             "imageVideo": "imagen/vídeo",
             "audio": "Audio",
             "verify": "Verificar"
         }
     },
-    "introPage":{
+    "introPage": {
         "title0": "Bienvenido a Decentproof",
         "title1": "¿Qué puedes hacer?",
         "title2": "¿Cómo funciona?",
         "title3": "Una nota sobre cómo compartir",
         "title4": "Verificación de archivos",
         "title5": "Finalizar",
-        "tempTitle": "",
         "body1": "¡Con esta App puedes crear archivos multimedia y posteriormente probar que ese archivo no ha sido manipulado!",
         "body2": "Simplemente selecciona una de las 2 opciones del menú principal y empieza a crear tu archivo. Los archivos soportados son: .mp4, .png y .aac",
         "body3": "Puedes compartir el archivo desde cualquier aplicación, pero te recomiendo que utilices el correo electrónico, el almacenamiento en la nube o la exportación directa. Si utilizas otras aplicaciones, como las de chat, es posible que pierdas los metadatos y no puedas verificar el archivo más tarde.",
@@ -24,27 +23,25 @@
         "skip": "Saltar",
         "done": "Hecho"
     },
-    "settingsPage":{
+    "settingsPage": {
         "title": "Settings",
         "addEmail": "Añadir correo electrónico",
         "description": "Si desea obtener un certificado de prueba para verificar usted mismo su expediente"
     },
-    "submissionPage":{
+    "submissionPage": {
         "hash": "Su Hash:",
         "messageid": "Message ID",
         "submitt": "Enviar",
         "submissionSuccess": "Enviado con éxito"
-
-
     },
-    "supportPage":{
+    "supportPage": {
         "title": "Desarrollo de soporte",
         "description": "Si te gusta este proyecto, considera comprobar uno de estos enlaces. Esto será de gran ayuda",
         "support": "Ayuda desarrollo",
         "help": "Ayuda desarrollo",
         "code": "Comprobar el código"
     },
-    "verificationPage":{
+    "verificationPage": {
         "title": "Verificar archivo",
         "notModified": "Parece que su archivo no ha sido modificado",
         "error": "Se ha producido un error",
@@ -52,14 +49,14 @@
         "hash": "Su Hash:",
         "noFile": "¡No se ha seleccionado ningún archivo!",
         "id": "Su ID de mensaje:",
-        "showInExplorer" : "Mostrar transacción",
+        "showInExplorer": "Mostrar transacción",
         "reset": "Restablecer"
     },
-    "videoImagePage":{
+    "videoImagePage": {
         "photo": "Toma una foto",
         "video": "Take a video"
     },
-    "other":{
+    "other": {
         "home": "Volver a casa",
         "submit": "Confirme"
     }
