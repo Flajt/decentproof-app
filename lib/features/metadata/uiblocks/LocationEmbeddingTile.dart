@@ -20,7 +20,9 @@ class LocationEmbeddingTile extends StatelessWidget {
         title: const Text("settingsPage.embedLocation").tr(),
         subtitle: const Text("settingsPage.embedLocationSubtitle").tr(),
         trailing: Checkbox.adaptive(
-            value: service.shouldEmbedLocation(),
+            value: state is LocationEmbeddingPermissionModified
+                ? state.permission
+                : service.shouldEmbedLocation(),
             onChanged: (v) => context
                 .read<SettingsBloc>()
                 .add(ModifyLocationEmbeddingPermission(v ?? false))),

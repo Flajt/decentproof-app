@@ -58,19 +58,22 @@ class SettingsBloc extends Bloc<SettingsBlocEvents, SettingsBlocStates> {
             if (gotPermission) {
               await metaDataPermissionService
                   .allowLocationEmbedding(event.permission);
-              emit(LocationEmbeddingPermissionModified());
+              emit(LocationEmbeddingPermissionModified(
+                  permission: event.permission));
             } else {
               emit(ErrorState("Location Permission Denied!"));
             }
           } else {
             await metaDataPermissionService
                 .allowLocationEmbedding(event.permission);
-            emit(LocationEmbeddingPermissionModified());
+            emit(LocationEmbeddingPermissionModified(
+                permission: event.permission));
           }
         } else {
           await metaDataPermissionService
               .allowLocationEmbedding(event.permission);
-          emit(LocationEmbeddingPermissionModified());
+          emit(LocationEmbeddingPermissionModified(
+              permission: event.permission));
         }
       } catch (e, stackTrace) {
         addError(e, stackTrace);

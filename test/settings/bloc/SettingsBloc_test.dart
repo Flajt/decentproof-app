@@ -74,7 +74,7 @@ void main() {
               .thenAnswer((realInvocation) => Future.value(true));
         },
         act: (bloc) => bloc.add(ModifyLocationEmbeddingPermission(true)),
-        expect: () => [LocationEmbeddingPermissionModified()],
+        expect: () => [LocationEmbeddingPermissionModified(permission: true)],
         build: () => SettingsBloc());
     blocTest("fail, location permission denied",
         setUp: () {
@@ -122,7 +122,7 @@ void main() {
               .thenAnswer((realInvocation) => Future.value(false));
         },
         act: (bloc) => bloc.add(ModifyLocationEmbeddingPermission(true)),
-        expect: () => [LocationEmbeddingPermissionModified()],
+        expect: () => [LocationEmbeddingPermissionModified(permission: true)],
         build: () => SettingsBloc());
     blocTest("disable successfully",
         setUp: () {
@@ -135,7 +135,7 @@ void main() {
               .thenAnswer((realInvocation) => Future.value());
         },
         act: (bloc) => bloc.add(ModifyLocationEmbeddingPermission(false)),
-        expect: () => [LocationEmbeddingPermissionModified()],
+        expect: () => [LocationEmbeddingPermissionModified(permission: false)],
         build: () => SettingsBloc());
   });
 }

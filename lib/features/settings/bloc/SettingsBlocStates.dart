@@ -33,8 +33,10 @@ class SecretSavedState extends SettingsBlocStates {
 }
 
 class LocationEmbeddingPermissionModified extends SettingsBlocStates {
+  final bool permission;
+  LocationEmbeddingPermissionModified({required this.permission});
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [permission];
 }
 
 class SecretEmbeddingPermissionModified extends SettingsBlocStates {
