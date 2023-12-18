@@ -27,7 +27,8 @@ class EnableLocationWarning extends StatelessWidget {
               border: Border.all(color: Colors.black), color: Colors.redAccent),
           child: Center(
               child: Text(
-            "homePage.locationWarning",
+            "homePage.options.locationWarning",
+            textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.titleMedium,
           ).tr()),
         );

@@ -22,10 +22,10 @@ class CheckMarkTable extends StatelessWidget {
             title: "verificationPage.hashMatching".tr(),
             value: statusModel.matchingHashes),
         CheckMarkTile(
-            title: "verificationpage.signatureVerified".tr(),
+            title: "verificationPage.signatureVerified".tr(),
             value: statusModel.verifiedSignature),
         CheckMarkTile(
-            title: "verificationPagelocationStored".tr(),
+            title: "verificationPage.locationStored".tr(),
             value: statusModel.metaDataModel?.location != null)
       ]),
     );
