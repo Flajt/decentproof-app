@@ -90,12 +90,14 @@ class VerificationPage extends StatelessWidget {
                                     EdgeInsets.all(10.0)),
                                 backgroundColor: MaterialStatePropertyAll(
                                     Color(0xff343434))),
-                            icon: const Icon(DecentProof.etherium),
+                            icon: const Icon(DecentProof.etherium,
+                                color: Colors.white),
                             onPressed: () => showInExplorer.show(
                                 transaction:
                                     state.statusModel.ethereumTransaction!,
                                 network: Network.etherium),
-                            label: const Text("verificationPage.showInExplorer")
+                            label: const Text("verificationPage.showInExplorer",
+                                    style: TextStyle(color: Colors.white))
                                 .tr())
                         : Container(),
                   ],
