@@ -44,6 +44,7 @@ class _RecordingButtonState extends State<RecordingButton> {
               context: context,
               builder: (context) =>
                   ErrorDialog(size: size, error: state.errorMsg));
+          widget.controller.reset();
         } else if (state is PreparationIsSuccessfull) {
           context.read<SubmissionBloc>().add(ResetSubmissionState());
 
