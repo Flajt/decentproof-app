@@ -66,6 +66,11 @@ class PreparationBloc extends Bloc<MetaDataEvents, PreparationState> {
             metaDataPermissionService.shouldEmbedLocation();
         if (shouldEmbedLocation) {
           emit(PrepareationIsAddingMetaData());
+          bool isEnabled = await locationService.serviceEnabled();
+          if (!isEnabled) {
+            emit(PreparationHasError("Location Service is not enabled!"));
+            return;
+          }
           LocationModel locationModel = await locationService.requestLocation();
           afterMetaDataPath =
               await audioMetaDataService.addLocation(locationModel, path);
@@ -95,6 +100,11 @@ class PreparationBloc extends Bloc<MetaDataEvents, PreparationState> {
             metaDataPermissionService.shouldEmbedLocation();
         if (shouldEmbedLocation) {
           emit(PrepareationIsAddingMetaData());
+          bool isEnabled = await locationService.serviceEnabled();
+          if (!isEnabled) {
+            emit(PreparationHasError("Location Service is not enabled!"));
+            return;
+          }
           LocationModel locationModel = await locationService.requestLocation();
           await imageMetaDataService.addLocation(locationModel, finalPath);
         }
@@ -122,7 +132,12 @@ class PreparationBloc extends Bloc<MetaDataEvents, PreparationState> {
         bool shouldEmbedLocation =
             metaDataPermissionService.shouldEmbedLocation();
         if (shouldEmbedLocation) {
+          bool isEnabled = await locationService.serviceEnabled();
           emit(PrepareationIsAddingMetaData());
+          if (!isEnabled) {
+            emit(PreparationHasError("Location Service is not enabled!"));
+            return;
+          }
           LocationModel locationModel = await locationService.requestLocation();
           afterMetaDataPath =
               await videoMetaDataService.addLocation(locationModel, finalPath);

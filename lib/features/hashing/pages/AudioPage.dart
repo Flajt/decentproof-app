@@ -43,7 +43,10 @@ class _AudioPageState extends State<AudioPage> {
               waveStyle: WaveStyle(
                   showDurationLabel: true,
                   durationLinesColor: Colors.transparent,
-                  waveColor: Theme.of(context).primaryColor,
+                  waveColor: MediaQuery.of(context).platformBrightness ==
+                          Brightness.light
+                      ? Theme.of(context).primaryColor
+                      : Colors.orange,
                   extendWaveform: true,
                   showMiddleLine: false),
             ),

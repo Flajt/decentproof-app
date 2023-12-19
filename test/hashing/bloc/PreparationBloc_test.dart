@@ -55,6 +55,8 @@ void main() {
                 .thenReturn(true);
             when(locationService.requestLocation()).thenAnswer(
                 (realInvocation) => Future.value(sampleLocationModel));
+            when(locationService.serviceEnabled())
+                .thenAnswer((realInvocation) => Future.value(true));
             when(audioMetaDataService.addLocation(
                     sampleLocationModel, "sample/path/to/file.aac"))
                 .thenAnswer((realInvocation) =>
@@ -127,6 +129,37 @@ void main() {
           PreparationHasError("Something went wrong")
         ],
       );
+      blocTest(
+          "w. error attempting to embed location without it beeing enabled",
+          setUp: () {
+            register(
+                videoSavingService,
+                imageSavingService,
+                imageHashingService,
+                videoHashingService,
+                videoWaterMarkSerivce,
+                imageWaterMarkService,
+                audioMetaDataService,
+                videoMetaDataService,
+                imageMetaDataService,
+                audioHashingService,
+                locationService,
+                metaDataPermissionService);
+
+            when(metaDataPermissionService.shouldEmbedLocation())
+                .thenReturn(true);
+            when(locationService.serviceEnabled())
+                .thenAnswer((realInvocation) => Future.value(false));
+            when(audioHashingService.hash(any))
+                .thenAnswer((realInvocation) => Future.value("cool-hash"));
+          },
+          build: () => PreparationBloc(),
+          act: (bloc) => bloc.add(PrepareAudio("sample/path/to/file.aac")),
+          wait: const Duration(milliseconds: 100),
+          expect: () => [
+                PrepareationIsAddingMetaData(),
+                PreparationHasError("Location Service is not enabled!")
+              ]);
     });
     group("prepareVideo", () {
       blocTest("w. embedded location",
@@ -151,6 +184,8 @@ void main() {
                 .thenAnswer((_) => Future.value("sample/path/to/video.mkv"));
             when(metaDataPermissionService.shouldEmbedLocation())
                 .thenReturn(true);
+            when(locationService.serviceEnabled())
+                .thenAnswer((_) => Future.value(true));
             when(locationService.requestLocation()).thenAnswer(
                 (realInvocation) => Future.value(sampleLocationModel));
             when(videoMetaDataService.addLocation(sampleLocationModel, any))
@@ -237,6 +272,38 @@ void main() {
           PreparationHasError("Something went wrong")
         ],
       );
+      blocTest(
+          "w. error attempting to embed location without it beeing enabled",
+          setUp: () {
+            register(
+                videoSavingService,
+                imageSavingService,
+                imageHashingService,
+                videoHashingService,
+                videoWaterMarkSerivce,
+                imageWaterMarkService,
+                audioMetaDataService,
+                videoMetaDataService,
+                imageMetaDataService,
+                audioHashingService,
+                locationService,
+                metaDataPermissionService);
+
+            when(metaDataPermissionService.shouldEmbedLocation())
+                .thenReturn(true);
+            when(locationService.serviceEnabled())
+                .thenAnswer((realInvocation) => Future.value(false));
+            when(videoHashingService.hash(any))
+                .thenAnswer((realInvocation) => Future.value("cool-hash"));
+          },
+          build: () => PreparationBloc(),
+          act: (bloc) => bloc.add(PrepareVideo()),
+          wait: const Duration(milliseconds: 100),
+          expect: () => [
+                PrepareationIsAplyingWaterMark(),
+                PrepareationIsAddingMetaData(),
+                PreparationHasError("Location Service is not enabled!")
+              ]);
     });
     group("prepareImage", () {
       blocTest("w. embedded location",
@@ -263,6 +330,8 @@ void main() {
                 .thenReturn(true);
             when(locationService.requestLocation())
                 .thenAnswer((_) => Future.value(sampleLocationModel));
+            when(locationService.serviceEnabled())
+                .thenAnswer((realInvocation) => Future.value(true));
             when(imageMetaDataService.addLocation(sampleLocationModel, any))
                 .thenAnswer((_) => Future.value("sample/path/to/image.png"));
             when(imageHashingService.hash(any))
@@ -347,6 +416,38 @@ void main() {
           PreparationHasError("Something went wrong")
         ],
       );
+      blocTest(
+          "w. error attempting to embed location without it beeing enabled",
+          setUp: () {
+            register(
+                videoSavingService,
+                imageSavingService,
+                imageHashingService,
+                videoHashingService,
+                videoWaterMarkSerivce,
+                imageWaterMarkService,
+                audioMetaDataService,
+                videoMetaDataService,
+                imageMetaDataService,
+                audioHashingService,
+                locationService,
+                metaDataPermissionService);
+
+            when(metaDataPermissionService.shouldEmbedLocation())
+                .thenReturn(true);
+            when(locationService.serviceEnabled())
+                .thenAnswer((realInvocation) => Future.value(false));
+            when(imageHashingService.hash(any))
+                .thenAnswer((realInvocation) => Future.value("cool-hash"));
+          },
+          build: () => PreparationBloc(),
+          act: (bloc) => bloc.add(PrepareImage()),
+          wait: const Duration(milliseconds: 100),
+          expect: () => [
+                PrepareationIsAplyingWaterMark(),
+                PrepareationIsAddingMetaData(),
+                PreparationHasError("Location Service is not enabled!")
+              ]);
     });
   });
 }
