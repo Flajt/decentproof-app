@@ -92,13 +92,13 @@ class AudioMetaDataService implements IMetaDataService {
       }
     });
     Map<dynamic, dynamic> tags = await data.future;
-    if (tags.containsKey("COMMENT")) {
-      secretHash = tags["COMMENT"];
+    if (tags.containsKey("comment")) {
+      secretHash = tags["comment"];
     }
-    if (tags.containsKey("LATITUDE") && tags.containsKey("LONGITUDE")) {
+    if (tags.containsKey("latitude") && tags.containsKey("longitude")) {
       location = LocationModel(
-        latitude: double.parse(tags["LATITUDE"]),
-        longitude: double.parse(tags["LONGITUDE"]),
+        latitude: double.parse(tags["latitude"]),
+        longitude: double.parse(tags["longitude"]),
       );
     }
     return MetaDataModel(secretHash, location);
