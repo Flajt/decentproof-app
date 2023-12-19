@@ -4,7 +4,7 @@
             "imageVideo": "Bild/Video",
             "audio": "Audio",
             "verify": "Verifizieren",
-            "locationWarning": "Du hast Standort speicher aktiviert, aber den GPS Service deaktiviert!"
+            "locationWarning": "Du hast Standort einbetten aktiviert, aber den GPS Service deaktiviert!"
         }
     },
     "introPage": {

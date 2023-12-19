@@ -33,7 +33,7 @@ void main() {
               home: Scaffold(
                   body: EnableLocationWarning(width: 400, height: 200)))));
       await widgetTester.pumpAndSettle();
-      expect(find.text("homePage.locationWarning"), findsOneWidget);
+      expect(find.text("homePage.options.locationWarning"), findsOneWidget);
     });
 
     testWidgets("show container if location is enabled", (widgetTester) async {
@@ -51,7 +51,7 @@ void main() {
                   body: EnableLocationWarning(width: 200, height: 200)))));
       await widgetTester.pumpAndSettle();
 
-      expect(find.text("homePage.locationWarning"), findsNothing);
+      expect(find.text("homePage.options.locationWarning"), findsNothing);
     });
   });
 }
