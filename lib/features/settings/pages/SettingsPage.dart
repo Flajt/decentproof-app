@@ -1,3 +1,5 @@
+import 'package:decentproof/features/metadata/uiblocks/LocationEmbeddingTile.dart';
+import 'package:decentproof/features/metadata/uiblocks/SecretEmbeddingTile.dart';
 import 'package:decentproof/features/settings/uiblocks/AddEmailDialog.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -16,17 +18,17 @@ class SettingsPage extends StatelessWidget {
         size: size,
         child: ListView(
           children: [
-            Stack(
-              children: [
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: IconButton(
-                      onPressed: () => Navigator.of(context).pop(),
-                      icon: const Icon(Icons.arrow_back)),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Align(
+            Padding(
+              padding: const EdgeInsets.fromLTRB(8, 20, 8, 8),
+              child: Stack(
+                children: [
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: IconButton(
+                        onPressed: () => Navigator.of(context).pop(),
+                        icon: const Icon(Icons.arrow_back)),
+                  ),
+                  Align(
                     alignment: Alignment.topCenter,
                     child: Text(
                       "settingsPage.title".tr(),
@@ -34,10 +36,9 @@ class SettingsPage extends StatelessWidget {
                       textAlign: TextAlign.center,
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-            const Divider(),
             ListTile(
               title: Text("settingsPage.addEmail".tr()),
               subtitle: Text("settingsPage.description".tr()),
@@ -45,14 +46,13 @@ class SettingsPage extends StatelessWidget {
                   context: context,
                   builder: (context) => const AddEmailDialog()),
             ),
-            const Divider(),
             const AboutListTile(),
-            const Divider(),
             ListTile(
               title: const Text("FAQ"),
               onTap: () async => await launchUrlString(WIKI_URL),
             ),
-            const Divider()
+            const LocationEmbeddingTile(),
+            const SecretEmbeddingTile()
           ],
         ),
       )),

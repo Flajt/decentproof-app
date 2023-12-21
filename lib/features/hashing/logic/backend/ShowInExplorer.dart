@@ -5,8 +5,8 @@ enum Network { bitcoin, etherium }
 class ShowInExplorer {
   final String _baseUrl =
       "https://www.blockchain.com/en/explorer/transactions/";
-  Future<void> show(
-      {required String hash, Network network = Network.bitcoin}) async {
+  Future<String> show(
+      {required String transaction, Network network = Network.bitcoin}) async {
     String urlWithNetwork = _baseUrl;
     switch (network) {
       case Network.bitcoin:
@@ -19,7 +19,8 @@ class ShowInExplorer {
         urlWithNetwork += "btc";
         break;
     }
-    final finalUrl = "$urlWithNetwork/$hash";
+    final finalUrl = "$urlWithNetwork/$transaction";
     await launchUrl(Uri.parse(finalUrl));
+    return finalUrl;
   }
 }

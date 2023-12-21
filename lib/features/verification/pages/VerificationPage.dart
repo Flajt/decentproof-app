@@ -3,6 +3,7 @@ import 'package:decentproof/features/verification/bloc/VerificationBloc.dart';
 import 'package:decentproof/features/verification/bloc/VerificationBlocEvents.dart';
 import 'package:decentproof/features/verification/bloc/VerificationBlocStates.dart';
 import 'package:decentproof/features/verification/uiblocks/CheckMarkTable.dart';
+import 'package:decentproof/shared/customIcons/decent_proof_icons.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,6 +16,7 @@ class VerificationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    final ShowInExplorer showInExplorer = ShowInExplorer();
     return Scaffold(
       body: SafeArea(
         child: BlocConsumer<VerificationBloc, VerificationBlocStates>(
@@ -66,18 +68,45 @@ class VerificationPage extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    OutlinedButton(
-                      onPressed: () =>
-                          context.read<VerificationBloc>().add(ResetEvent()),
-                      child: const Text("verificationPage.reset").tr(),
-                    ),
-                    FilledButton(
-                        onPressed: () => ShowInExplorer()
-                            .show(hash: state.statusModel.transaction),
-                        child:
-                            const Text("verificationPage.showInExplorer").tr())
+                    //TODO: Consider moving this to a separate widget in the near future
+                    state.statusModel.bitcoinTransaction != null
+                        ? FilledButton.icon(
+                            style: const ButtonStyle(
+                                padding: MaterialStatePropertyAll(
+                                    EdgeInsets.all(10.0)),
+                                backgroundColor: MaterialStatePropertyAll(
+                                    Color(0xffF7931A))),
+                            icon: const Icon(Icons.currency_bitcoin),
+                            onPressed: () => showInExplorer.show(
+                                transaction:
+                                    state.statusModel.bitcoinTransaction!),
+                            label: const Text("verificationPage.showInExplorer")
+                                .tr())
+                        : Container(),
+                    state.statusModel.ethereumTransaction != null
+                        ? FilledButton.icon(
+                            style: const ButtonStyle(
+                                padding: MaterialStatePropertyAll(
+                                    EdgeInsets.all(10.0)),
+                                backgroundColor: MaterialStatePropertyAll(
+                                    Color(0xff343434))),
+                            icon: const Icon(DecentProof.etherium,
+                                color: Colors.white),
+                            onPressed: () => showInExplorer.show(
+                                transaction:
+                                    state.statusModel.ethereumTransaction!,
+                                network: Network.etherium),
+                            label: const Text("verificationPage.showInExplorer",
+                                    style: TextStyle(color: Colors.white))
+                                .tr())
+                        : Container(),
                   ],
-                )
+                ),
+                OutlinedButton(
+                  onPressed: () =>
+                      context.read<VerificationBloc>().add(ResetEvent()),
+                  child: const Text("verificationPage.reset").tr(),
+                ),
               ],
             );
           }

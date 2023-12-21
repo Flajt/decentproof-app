@@ -1,10 +1,6 @@
 import 'package:audio_waveforms/audio_waveforms.dart';
-import 'package:decentproof/features/hashing/logic/hasher/AudioHashingService.dart';
 import 'package:decentproof/features/hashing/uiblocks/RecordingButton.dart';
-import 'package:decentproof/shared/HashLogic.dart';
 import 'package:flutter/material.dart';
-
-import '../logic/AudioSavingService.dart';
 
 class AudioPage extends StatefulWidget {
   const AudioPage({Key? key}) : super(key: key);
@@ -47,7 +43,10 @@ class _AudioPageState extends State<AudioPage> {
               waveStyle: WaveStyle(
                   showDurationLabel: true,
                   durationLinesColor: Colors.transparent,
-                  waveColor: Theme.of(context).primaryColor,
+                  waveColor: MediaQuery.of(context).platformBrightness ==
+                          Brightness.light
+                      ? Theme.of(context).primaryColor
+                      : Colors.orange,
                   extendWaveform: true,
                   showMiddleLine: false),
             ),
@@ -58,8 +57,6 @@ class _AudioPageState extends State<AudioPage> {
               padding: const EdgeInsets.all(8.0),
               child: RecordingButton(
                 controller: recorderController,
-                audioManager: AudioSavingService(),
-                hashAudioManager: AudioHashingService(HashLogic()),
               ),
             ),
           )

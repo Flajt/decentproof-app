@@ -1,13 +1,14 @@
 {
-    "homePage":{
-        "options":{
+    "homePage": {
+        "options": {
             "imageVideo": "Image/Video",
             "audio": "Audio",
-            "verify":"Verify"
+            "verify": "Verify",
+            "locationWarning": "You have enabled location embedding, but disabled the location service"
         }
     },
-    "introPage":{
-        "title0":"Welcome to Decentproof",
+    "introPage": {
+        "title0": "Welcome to Decentproof",
         "title1": "What can you do?",
         "title2": "How does it work?",
         "title3": "A note about shareing",
@@ -24,43 +25,48 @@
         "skip": "Skip",
         "done": "Done"
     },
-    "settingsPage":{
+    "settingsPage": {
         "title": "Settings",
         "addEmail": "Add E-Mail",
-        "description": "If you want to save data in the DevNet. Not recommended!"
+        "description": "If you want to save data in the DevNet. Not recommended!",
+        "embedLocation": "Embed Location",
+        "embedLocationSubtitle": "Embed the location in created media files",
+        "embedSecret": "Embed Singature",
+        "embedSecretSubtitle": "Embed a signature in created media files"
     },
-    "submissionPage":{
+    "submissionPage": {
         "hash": "Your Hash:",
         "messageid": "Message ID",
         "submitt": "Submit",
         "submissionSuccess": "Submission successfull!"
-
-
     },
-    "supportPage":{
+    "supportPage": {
         "title": "Support Development",
-        "description":"If you would like to get proof certificate to verify the file yourself",
+        "description": "If you would like to get proof certificate to verify the file yourself",
         "support": "Support development",
         "help": "Help development",
         "code": "Checkout the code"
     },
-    "verificationPage":{
+    "verificationPage": {
         "title": "Verify File",
-        "notModified":"It seems that your file hasn't been modified",
-        "error":"An error has occured",
-        "selectFile":"Select a file",
+        "notModified": "It seems that your file hasn't been modified",
+        "error": "An error has occured",
+        "selectFile": "Select a file",
         "hash": "Your Hash:",
-        "noFile":"No file selected!",
+        "noFile": "No file selected!",
         "id": "Your Message ID:",
         "showInExplorer": "View Transaction",
-        "reset": "Reset"
+        "reset": "Reset",
+        "hashMatching": "Hashes matching?",
+        "signatureVerified": "Signature verified?",
+        "locationStored": "Location stored?"
     },
-    "videoImagePage":{
+    "videoImagePage": {
         "photo": "Take a photo",
         "video": "Take a video"
     },
-    "other":{
-        "home":"Back to Home",
+    "other": {
+        "home": "Back to Home",
         "submit": "Submit"
     }
 }

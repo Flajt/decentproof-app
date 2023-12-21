@@ -2,11 +2,11 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:decentproof/features/hashing/interfaces/IHashingService.dart';
-import 'package:decentproof/shared/HashLogic.dart';
+import 'package:decentproof/shared/interface/IHashLogic.dart';
+import 'package:get_it/get_it.dart';
 
 class ImageHashingService extends IHashingService {
-  late final HashLogic _hashLogic;
-  ImageHashingService(HashLogic hashLogic) : _hashLogic = hashLogic;
+  final IHashLogic _hashLogic = GetIt.I.get<IHashLogic>();
 
   @override
   Future<String> hash(String path) async {

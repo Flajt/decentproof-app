@@ -11,7 +11,6 @@ class SupportDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      backgroundColor: Colors.white,
       child: SingleChildScrollView(
         child: SizedBox(
           height: 350,
@@ -20,11 +19,14 @@ class SupportDialog extends StatelessWidget {
             children: [
               Text("supportPage.title".tr(),
                   style: Theme.of(context).textTheme.headlineSmall),
-              const Text(
-                "supportPage.description",
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 16.0),
-              ).tr(),
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                child: Text(
+                  "supportPage.description",
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.bodyLarge,
+                ).tr(),
+              ),
               !Platform.isIOS
                   ? KofiButton(
                       kofiName: "flajt",

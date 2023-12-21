@@ -1,31 +1,30 @@
 import 'dart:convert';
-import 'package:decentproof/constants.dart';
 import 'package:decentproof/features/hashing/interfaces/IHashSubmissionService.dart';
 import 'package:decentproof/shared/Integrety/interfaces/ISecureStorageService.dart';
-import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
+import 'package:http/http.dart' as http;
 
 class HashSubmissionService implements IHashSubmissionService {
-  late final Dio _dio;
   final GetIt _getIt = GetIt.instance;
   late final ISecureStorageService _secureStorageService;
+  final String url;
 
-  HashSubmissionService() {
+  HashSubmissionService({required this.url}) {
     _secureStorageService = _getIt.get<ISecureStorageService>();
-    _dio = Dio(BaseOptions(
-      baseUrl: SIGN_URL,
-    ));
   }
 
   @override
   Future<void> submitHash(String hash, String? email) async {
     String? apiKey = await _secureStorageService.retriveApiKey();
     if (apiKey == null) {
-      throw "No API KEY";
+      throw "NO API KEY";
     }
-    Response resp = await _dio.post("/",
-        data: jsonEncode({"data": hash, "email": email ?? ""}),
-        options: Options(headers: {"Authorization": "basic $apiKey"}));
+    http.Response resp = await http.post(Uri.parse("$url/"),
+        body: jsonEncode({"data": hash, "email": email ?? ""}),
+        headers: {
+          "Authorization": "basic $apiKey",
+          "Content-Type": "application/json"
+        });
     if (resp.statusCode != 200) throw resp.statusCode.toString();
   }
 }

@@ -1,10 +1,7 @@
 import 'dart:math';
 
 import 'package:basic_utils/basic_utils.dart';
-
-import '../Integrety/ApiKeyRequestService.dart';
-import '../Integrety/AppCheck.dart';
-import '../Integrety/SecureStorageWrapper.dart';
+import 'package:get_it/get_it.dart';
 import '../Integrety/interfaces/IApiKeyRequestService.dart';
 import '../Integrety/interfaces/IDeviceIntegrity.dart';
 import '../Integrety/interfaces/ISecureStorageService.dart';
@@ -12,28 +9,30 @@ import '../Integrety/interfaces/ISecureStorageService.dart';
 ///Utility class for different Request methods
 class RequestUtil {
   static Future<void> updateOrRetriveKey() async {
-    final IApiKeyRequestService apiKeyManager = ApiKeyRequestService();
-    final ISecureStorageService storageWrapper = SecureStorageService();
-    final IDeviceIntegrety appCheck = AppCheck();
+    final GetIt getIt = GetIt.I;
+    final IApiKeyRequestService apiKeyManager =
+        getIt.get<IApiKeyRequestService>();
+    final ISecureStorageService storageWrapper =
+        getIt.get<ISecureStorageService>();
+    final IDeviceIntegrety appCheck = getIt.get<IDeviceIntegrety>();
     String? apiKey = await storageWrapper.retriveApiKey();
     bool hasKey = apiKey != null;
 
     if (hasKey) {
       //Used to prevent overwhelming the service with requsts for a new key, as soon as it's available
-      if (Random().nextInt(2) == 1) {
+      if (Random().nextInt(3) == 1) {
         bool hasNew = await apiKeyManager.checkForNewApiKey(apiKey);
         if (hasNew) {
           String token = await appCheck.getIntegrityToken();
           String newKey = await apiKeyManager.getNewNewKey(token);
-          storageWrapper.saveApiKey(newKey);
+          await storageWrapper.saveApiKey(newKey);
           newKey = overWriteString(newKey);
         }
       }
     } else {
       String token = await appCheck.getIntegrityToken();
       String newKey = await apiKeyManager.getNewNewKey(token);
-      storageWrapper.saveApiKey(newKey);
-      storageWrapper.saveApiKey(newKey);
+      await storageWrapper.saveApiKey(newKey);
       newKey = overWriteString(newKey);
     }
   }
