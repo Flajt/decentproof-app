@@ -8,11 +8,13 @@ import '../../../../shared/interface/IHashLogic.dart';
 class AudioHashingService implements IHashingService {
   final IHashLogic _hashLogic = GetIt.I.get<IHashLogic>();
   @override
-  Future<String> hash(String path) async {
+  Future<String> hash(String path, Function(double) progress) async {
     File audioFile = File(path);
     Stream<List<int>> audioFileAsBytes = audioFile.openRead();
-    String hash =
-        await _hashLogic.hashBytesInChunksFromStream(audioFileAsBytes);
+    final int size = (audioFile.lengthSync() / 65536).ceil();
+    print(size);
+    String hash = await _hashLogic.hashBytesInChunksFromStream(
+        audioFileAsBytes, (p) => progress((p / size) * 100));
     return hash;
   }
 }

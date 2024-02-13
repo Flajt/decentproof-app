@@ -19,7 +19,7 @@ void main() {
 
     group("successfully", () {
       test("hash image file", () async {
-        String hash = await service.hash("test/fixtures/icon.png");
+        String hash = await service.hash("test/fixtures/icon.png", (p) {});
         expect(hash, equals(imageHash));
       });
     });

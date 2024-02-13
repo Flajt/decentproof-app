@@ -52,7 +52,7 @@ class HomePage extends StatelessWidget {
           Align(
               alignment: Alignment.center,
               child: FutureBuilder(
-                future: request,
+                future: Future.value(true),
                 builder: (context, snapshot) {
                   if (snapshot.hasError) {
                     return Center(

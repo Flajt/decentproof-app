@@ -1,6 +1,7 @@
 import 'package:audio_waveforms/audio_waveforms.dart';
 import 'package:decentproof/features/hashing/uiblocks/RecordingButton.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_foreground_task/ui/with_foreground_task.dart';
 
 class AudioPage extends StatefulWidget {
   const AudioPage({Key? key}) : super(key: key);
@@ -30,38 +31,40 @@ class _AudioPageState extends State<AudioPage> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Scaffold(
-      body: SafeArea(
-          child: SizedBox(
-        width: size.width,
-        height: size.height,
-        child: Stack(children: [
-          Align(
-            child: AudioWaveforms(
-              size: Size(size.width * .8, 150),
-              recorderController: recorderController,
-              waveStyle: WaveStyle(
-                  showDurationLabel: true,
-                  durationLinesColor: Colors.transparent,
-                  waveColor: MediaQuery.of(context).platformBrightness ==
-                          Brightness.light
-                      ? Theme.of(context).primaryColor
-                      : Colors.orange,
-                  extendWaveform: true,
-                  showMiddleLine: false),
-            ),
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: RecordingButton(
-                controller: recorderController,
+    return WithForegroundTask(
+      child: Scaffold(
+        body: SafeArea(
+            child: SizedBox(
+          width: size.width,
+          height: size.height,
+          child: Stack(children: [
+            Align(
+              child: AudioWaveforms(
+                size: Size(size.width * .8, 150),
+                recorderController: recorderController,
+                waveStyle: WaveStyle(
+                    showDurationLabel: true,
+                    durationLinesColor: Colors.transparent,
+                    waveColor: MediaQuery.of(context).platformBrightness ==
+                            Brightness.light
+                        ? Theme.of(context).primaryColor
+                        : Colors.orange,
+                    extendWaveform: true,
+                    showMiddleLine: false),
               ),
             ),
-          )
-        ]),
-      )),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: RecordingButton(
+                  controller: recorderController,
+                ),
+              ),
+            )
+          ]),
+        )),
+      ),
     );
   }
 }

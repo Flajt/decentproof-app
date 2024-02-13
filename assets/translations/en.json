@@ -68,5 +68,10 @@
     "other": {
         "home": "Back to Home",
         "submit": "Submit"
+    },
+    "notification":{
+        "title": "Preperation in Progress",
+        "description": "This notification appears as soon as you start to hash a file and add metadata to it. It will be shown until the process is finished.",
+        "inital_description": "Initalizing"
     }
 }

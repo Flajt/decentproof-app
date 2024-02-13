@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:decentproof/constants.dart';
 import 'package:decentproof/features/hashing/bloc/SubmissionBloc.dart';
 import 'package:decentproof/features/hashing/bloc/PreparationBloc/PreparationBloc.dart';
 import 'package:decentproof/features/metadata/bloc/LocationWarningBloc.dart';
@@ -16,6 +15,7 @@ import 'package:decentproof/features/settings/pages/SettingsPage.dart';
 import 'package:decentproof/features/hashing/pages/SubmissionPage.dart';
 import 'package:decentproof/features/verification/pages/VerificationPage.dart';
 import 'package:decentproof/features/hashing/pages/VideoImagePage.dart';
+import 'package:decentproof/shared/util/initSentry.dart';
 import 'package:decentproof/shared/util/register.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
@@ -39,17 +39,7 @@ void main() async {
         androidProvider: kReleaseMode
             ? AndroidProvider.playIntegrity
             : AndroidProvider.debug);
-    Sentry.init((options) {
-      options.dsn = kReleaseMode ? SENTRY_DSN : "";
-      options.sampleRate = .2;
-      options.tracesSampleRate = .2;
-      options.beforeSend = (event, {hint}) async {
-        if (event.user?.ipAddress != null) {
-          event = event.copyWith(user: event.user?.copyWith(ipAddress: null));
-        }
-        return event;
-      };
-    });
+    await initSentry();
     runApp(EasyLocalization(
         useOnlyLangCode: true,
         fallbackLocale: const Locale("en"),

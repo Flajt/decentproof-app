@@ -1,8 +1,10 @@
 import 'dart:io';
+import 'dart:isolate';
 
 import 'package:decentproof/features/hashing/bloc/PreparationBloc/PerparationEvents.dart';
 import 'package:decentproof/features/hashing/bloc/PreparationBloc/PerparationStates.dart';
 import 'package:decentproof/features/hashing/interfaces/IFileSavingService.dart';
+import 'package:decentproof/features/hashing/interfaces/IForegroundService.dart';
 import 'package:decentproof/features/hashing/interfaces/IHashingService.dart';
 import 'package:decentproof/features/metadata/interfaces/ILocationService.dart';
 import 'package:decentproof/features/metadata/interfaces/IMetaDataPermissionService.dart';
@@ -30,6 +32,7 @@ class PreparationBloc extends Bloc<MetaDataEvents, PreparationState> {
   late final IMetaDataPermissionService metaDataPermissionService;
   late final ILocationService locationService;
   late final IHashingService audioHashingService;
+  late final IForegroundService foregroundService;
 
   PreparationBloc() : super(InitalPrepareBlocState()) {
     getIt = GetIt.I;
@@ -55,68 +58,103 @@ class PreparationBloc extends Bloc<MetaDataEvents, PreparationState> {
     audioHashingService =
         getIt.get<IHashingService>(instanceName: "AudioHashing");
     locationService = getIt.get<ILocationService>();
+    foregroundService = getIt<IForegroundService>();
 
     on<PrepareAudio>((event, emit) async {
-      final transaction =
-          Sentry.startTransaction("PreparationBloc", "PrepareAudio");
+      final transaction = Sentry.startTransaction("PreparationBloc",
+          "PrepareAudio"); // Consider moving it into Foreground Service
       try {
-        String? afterMetaDataPath;
-        String path = event.filePath;
-        bool shouldEmbedLocation =
-            metaDataPermissionService.shouldEmbedLocation();
-        if (shouldEmbedLocation) {
-          emit(PrepareationIsAddingMetaData());
-          bool isEnabled = await locationService.serviceEnabled();
-          if (!isEnabled) {
-            emit(PreparationHasError("Location Service is not enabled!"));
-            return;
+        await foregroundService.stop();
+        await foregroundService.setData(
+            "instructions", "audio::${event.filePath}");
+        await foregroundService.start();
+        ReceivePort port = await foregroundService.getReceivePort();
+        final stream = port.asBroadcastStream();
+        await emit.forEach(stream, onData: (message) {
+          message as Map<String, dynamic>;
+          final status = message["status"];
+          if (status == "AddingWaterMark") {
+            return PrepareationIsAplyingWaterMark();
+          } else if (status == "AddingMetaData") {
+            return PrepareationIsAddingMetaData();
+          } else if (status == "Error") {
+            port.close();
+            return PreparationHasError(message["description"]);
+          } else if (status == "Hashing") {
+            emit(PrepareationIsHashing());
+          } else if (status == "Done") {
+            port.close();
+            return PreparationIsSuccessfull(
+                message["filePath"], message["content"]);
+          } else if (status == "Fail") {
+            final e = message["description"];
+            //final stack = message["stack"];
+            transaction.throwable = e;
+            transaction.status = const SpanStatus.internalError();
+            port.close();
+            return PreparationHasError(e.toString());
           }
-          LocationModel locationModel = await locationService.requestLocation();
-          afterMetaDataPath =
-              await audioMetaDataService.addLocation(locationModel, path);
+          return state; // IDK if that could drive me in a corner at some point
+        });
+        if (state is PreparationIsSuccessfull) {
+          await foregroundService.stop();
         }
-        emit(PrepareationIsHashing());
-        String hash =
-            await compute(audioHashingService.hash, afterMetaDataPath ?? path);
-        emit(PreparationIsSuccessfull(afterMetaDataPath ?? path, hash));
       } catch (e, stackTrace) {
         transaction.throwable = e;
         transaction.status = const SpanStatus.internalError();
         addError(e, stackTrace);
+        await foregroundService.stop();
         emit(PreparationHasError(e.toString()));
       } finally {
-        transaction.finish();
+        await transaction.finish();
       }
     });
     on<PrepareImage>((event, emit) async {
       final transaction =
           Sentry.startTransaction("PreparationBloc", "PrepareImage");
       try {
-        String path = await imageSavingService.saveFile();
-        emit(PrepareationIsAplyingWaterMark());
-        String finalPath = await imageWaterMarkService.addWaterMark(path);
-
-        bool shouldEmbedLocation =
-            metaDataPermissionService.shouldEmbedLocation();
-        if (shouldEmbedLocation) {
-          emit(PrepareationIsAddingMetaData());
-          bool isEnabled = await locationService.serviceEnabled();
-          if (!isEnabled) {
-            emit(PreparationHasError("Location Service is not enabled!"));
-            return;
+        final path = await imageSavingService.saveFile();
+        await foregroundService.setData("instructions", "image::$path");
+        await foregroundService.start();
+        ReceivePort port = await foregroundService.getReceivePort();
+        final stream = port.asBroadcastStream();
+        await emit.forEach(stream, onData: (message) {
+          message as Map<String, dynamic>;
+          final status = message["status"];
+          if (status == "AddingWaterMark") {
+            return PrepareationIsAplyingWaterMark();
+          } else if (status == "AddingMetaData") {
+            return PrepareationIsAddingMetaData();
+          } else if (status == "Error") {
+            port.close();
+            return PreparationHasError(message["description"]);
+          } else if (status == "Hashing") {
+            emit(PrepareationIsHashing());
+          } else if (status == "Done") {
+            port.close();
+            return PreparationIsSuccessfull(
+                message["filePath"], message["content"]);
+          } else if (status == "Fail") {
+            final e = message["description"];
+            //final stack = message["stack"];
+            transaction.throwable = e;
+            transaction.status = const SpanStatus.internalError();
+            port.close();
+            return PreparationHasError(e.toString());
           }
-          LocationModel locationModel = await locationService.requestLocation();
-          await imageMetaDataService.addLocation(locationModel, finalPath);
+          return state; // IDK if that could drive me in a corner at some point
+        });
+        if (state is PreparationIsSuccessfull) {
+          await addToGalleryACleanUp(
+              path, (state as PreparationIsSuccessfull).path, false);
+          await foregroundService.stop();
         }
-        emit(PrepareationIsHashing());
-        String hash = await compute(imageHashingService.hash, finalPath);
-        await addToGalleryACleanUp(path, finalPath, false);
-        emit(PreparationIsSuccessfull(finalPath, hash));
       } catch (e, stackTrace) {
         transaction.throwable = e;
         transaction.status = const SpanStatus.internalError();
         addError(e, stackTrace);
         emit(PreparationHasError(e.toString()));
+        await foregroundService.stop();
       } finally {
         await transaction.finish();
       }
@@ -125,33 +163,48 @@ class PreparationBloc extends Bloc<MetaDataEvents, PreparationState> {
       final transaction =
           Sentry.startTransaction("PreparationBloc", "PrepareVideo");
       try {
-        String? afterMetaDataPath;
         String path = await videoSavingService.saveFile();
-        emit(PrepareationIsAplyingWaterMark());
-        String finalPath = await videoWaterMarkSerivce.addWaterMark(path);
-        bool shouldEmbedLocation =
-            metaDataPermissionService.shouldEmbedLocation();
-        if (shouldEmbedLocation) {
-          bool isEnabled = await locationService.serviceEnabled();
-          emit(PrepareationIsAddingMetaData());
-          if (!isEnabled) {
-            emit(PreparationHasError("Location Service is not enabled!"));
-            return;
+        await foregroundService.setData("instructions", "video::$path");
+        await foregroundService.start();
+        ReceivePort port = await foregroundService.getReceivePort();
+        final stream = port.asBroadcastStream();
+        await emit.forEach(stream, onData: (message) {
+          message as Map<String, dynamic>;
+          final status = message["status"];
+          if (status == "AddingWaterMark") {
+            return PrepareationIsAplyingWaterMark();
+          } else if (status == "AddingMetaData") {
+            return PrepareationIsAddingMetaData();
+          } else if (status == "Error") {
+            port.close();
+            return PreparationHasError(message["description"]);
+          } else if (status == "Hashing") {
+            emit(PrepareationIsHashing());
+          } else if (status == "Done") {
+            port.close();
+            return PreparationIsSuccessfull(
+                message["filePath"], message["content"]);
+          } else if (status == "Fail") {
+            final e = message["description"];
+            //final stack = message["stack"];
+            transaction.throwable = e;
+            transaction.status = const SpanStatus.internalError();
+            port.close();
+            return PreparationHasError(e.toString());
           }
-          LocationModel locationModel = await locationService.requestLocation();
-          afterMetaDataPath =
-              await videoMetaDataService.addLocation(locationModel, finalPath);
+          return state; // IDK if that could drive me in a corner at some point
+        });
+        if (state is PreparationIsSuccessfull) {
+          await addToGalleryACleanUp(
+              path, (state as PreparationIsSuccessfull).path, true);
+          await foregroundService.stop();
         }
-        emit(PrepareationIsHashing());
-        String hash = await compute(
-            videoHashingService.hash, afterMetaDataPath ?? finalPath);
-        await addToGalleryACleanUp(path, afterMetaDataPath ?? finalPath, true);
-        emit(PreparationIsSuccessfull(afterMetaDataPath ?? finalPath, hash));
       } catch (e, stackTrace) {
         transaction.throwable = e;
         transaction.status = const SpanStatus.internalError();
         addError(e, stackTrace);
         emit(PreparationHasError(e.toString()));
+        await foregroundService.stop();
       } finally {
         await transaction.finish();
       }

@@ -1,5 +1,6 @@
 import 'package:decentproof/constants.dart';
 import 'package:decentproof/features/hashing/interfaces/IFileSavingService.dart';
+import 'package:decentproof/features/hashing/interfaces/IForegroundService.dart';
 import 'package:decentproof/features/hashing/interfaces/IHashSubmissionService.dart';
 import 'package:decentproof/features/hashing/interfaces/IHashingService.dart';
 import 'package:decentproof/features/hashing/interfaces/IMediaPickerService.dart';
@@ -9,6 +10,7 @@ import 'package:decentproof/features/hashing/logic/ImagePickerWrapper.dart';
 import 'package:decentproof/features/hashing/logic/ImageSavingService.dart';
 import 'package:decentproof/features/hashing/logic/VideoSavingService.dart';
 import 'package:decentproof/features/hashing/logic/backend/HashSubmissionService.dart';
+import 'package:decentproof/features/hashing/logic/foregroundService/ForegroundServiceWrapper.dart';
 import 'package:decentproof/features/hashing/logic/hasher/AudioHashingService.dart';
 import 'package:decentproof/features/hashing/logic/hasher/ImageHashingService.dart';
 import 'package:decentproof/features/hashing/logic/hasher/VideoHashingService.dart';
@@ -86,5 +88,7 @@ Future<void> registar() async {
       instanceName: "VideoMetaData");
   getIt.registerFactory<IMetaDataService>(() => AudioMetaDataService(),
       instanceName: "AudioMetaData");
+  getIt.registerLazySingleton<IForegroundService>(
+      () => ForegroundServiceWrapper());
   await getIt.allReady();
 }

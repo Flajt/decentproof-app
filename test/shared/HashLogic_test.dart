@@ -31,7 +31,8 @@ void main() {
       String randomString = StringUtils.generateRandomString(300);
       final bytes = Uint8List.fromList(randomString.codeUnits);
       Stream<List<int>> byteStream = Stream.fromIterable([bytes]);
-      String hash = await hashLogic.hashBytesInChunksFromStream(byteStream);
+      String hash =
+          await hashLogic.hashBytesInChunksFromStream(byteStream, (p) {});
       String expectedHash = CryptoUtils.getHash(bytes);
       expect(hash, equalsIgnoringCase(expectedHash));
     });

@@ -33,6 +33,9 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+        <service android:name="com.pravera.flutter_foreground_task.service.ForegroundService" android:stopWithTask="true" android:foregroundServiceType="specialUse|location" > 
+            <property android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE" android:value="This service is used to hash a user selected file after creation on user demand. This may take longer than 3 minutes (depending on file size) and can, if the user allows, embed location metadata, which is fetched on demand. To prevent the user from closing the service by accident and creating a issues and to unblock the main thread a foreground service is required."/>
+        </service>
     </application>
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.INTERNET"/>

@@ -28,7 +28,7 @@ void main() {
         VideoWaterMarkService service = VideoWaterMarkService();
         String filePath =
             await service.addWaterMark("$basePath/sample_copy.mkv");
-        String hash = await hashLogic.hash(filePath);
+        String hash = await hashLogic.hash(filePath, (p) {});
         expect(hash, isNot(equals(beforeWaterMarkHash)));
       });
     });

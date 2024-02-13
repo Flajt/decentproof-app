@@ -46,10 +46,11 @@ class VerificationBloc
           File tempFile =
               File("${tempFileStorage.path}/${fileDataModel.fileName}");
           await copyFileToTemp(tempFile, fileDataModel);
+          final int fileSize = tempFile.lengthSync();
           Stream<List<int>> tempStream = tempFile
               .openRead(); // Steams are consumed after beeing done so we need a new one
-          String hash =
-              await _hashLogic.hashBytesInChunksFromStream(tempStream);
+          String hash = await _hashLogic.hashBytesInChunksFromStream(
+              tempStream, (progress) => (progress / fileSize) * 100);
           VerificationStatusModel model =
               await _verificationService.verify(hash);
           FileType fileType = isOfType(fileDataModel.fileName);

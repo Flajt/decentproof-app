@@ -6,6 +6,7 @@ import 'package:decentproof/shared/uiblocks/ErrorDialog.dart';
 import 'package:decentproof/shared/uiblocks/ProcessingDialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_foreground_task/ui/with_foreground_task.dart';
 
 import '../uiblocks/ImageButton.dart';
 import '../uiblocks/VideoButton.dart';
@@ -15,34 +16,37 @@ class VideoImagePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Scaffold(
-        body: SafeArea(
-            child: BlocListener<PreparationBloc, PreparationState>(
-      listener: (context, state) {
-        if (state is PreparationHasError) {
-          Navigator.of(context).pop();
-          showDialog(
-              context: context,
-              builder: (context) =>
-                  ErrorDialog(size: size, error: state.errorMsg));
-        } else if (state is PreparationIsSuccessfull) {
-          Navigator.of(context).pop();
-          context.read<SubmissionBloc>().add(ResetSubmissionState());
-          Navigator.of(context).pushReplacementNamed(
-              "/submissionPage", // This or popAndPushNamed should only be used here to prevent issues with repeating listener build calls
-              arguments: {"hash": state.hash, "path": state.path});
-        } else if (state is PrepareationIsAplyingWaterMark) {
-          showDialog(
-              context: context, builder: (context) => const ProcessingDialog());
-        }
-      },
-      child: SizedBox(
-          width: size.width,
-          height: size.height,
-          child: const Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [ImageButton(), VideoButton()],
-          )),
-    )));
+    return WithForegroundTask(
+      child: Scaffold(
+          body: SafeArea(
+              child: BlocListener<PreparationBloc, PreparationState>(
+        listener: (context, state) {
+          if (state is PreparationHasError) {
+            Navigator.of(context).pop();
+            showDialog(
+                context: context,
+                builder: (context) =>
+                    ErrorDialog(size: size, error: state.errorMsg));
+          } else if (state is PreparationIsSuccessfull) {
+            Navigator.of(context).pop();
+            context.read<SubmissionBloc>().add(ResetSubmissionState());
+            Navigator.of(context).pushReplacementNamed(
+                "/submissionPage", // This or popAndPushNamed should only be used here to prevent issues with repeating listener build calls
+                arguments: {"hash": state.hash, "path": state.path});
+          } else if (state is PrepareationIsAplyingWaterMark) {
+            showDialog(
+                context: context,
+                builder: (context) => const ProcessingDialog());
+          }
+        },
+        child: SizedBox(
+            width: size.width,
+            height: size.height,
+            child: const Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [ImageButton(), VideoButton()],
+            )),
+      ))),
+    );
   }
 }
