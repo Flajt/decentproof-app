@@ -12,7 +12,6 @@ class AudioHashingService implements IHashingService {
     File audioFile = File(path);
     Stream<List<int>> audioFileAsBytes = audioFile.openRead();
     final int size = (audioFile.lengthSync() / 65536).ceil();
-    print(size);
     String hash = await _hashLogic.hashBytesInChunksFromStream(
         audioFileAsBytes, (p) => progress((p / size) * 100));
     return hash;

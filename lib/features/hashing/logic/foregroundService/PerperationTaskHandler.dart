@@ -78,9 +78,7 @@ class PreperationTaskHandler extends TaskHandler {
       } else if (task == "video") {
         String? afterMetaDataPath;
         sendPort?.send({"status": "AddingWaterMark"});
-        print(1);
         String finalPath = await videoWaterMarkSerivce.addWaterMark(path);
-        print(2);
         bool shouldEmbedLocation =
             metaDataPermissionService.shouldEmbedLocation();
         if (shouldEmbedLocation) {
