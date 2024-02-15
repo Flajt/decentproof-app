@@ -15,7 +15,6 @@ import 'package:get_it/get_it.dart';
 import 'package:photo_manager/photo_manager.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
-import '../../../metadata/models/LocationModel.dart';
 import '../../interfaces/IWaterMarkService.dart';
 
 class PreparationBloc extends Bloc<MetaDataEvents, PreparationState> {
