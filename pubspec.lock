@@ -342,7 +342,7 @@ packages:
     description:
       path: "flutter/flutter"
       ref: background-lts
-      resolved-ref: "74d88437e19f590b69e56ac543dcdb1c942b11e4"
+      resolved-ref: "3a8fad91a33cfa1530c1fd1474b21156219f2ecd"
       url: "https://github.com/Flajt/ffmpeg-kit.git"
     source: git
     version: "6.0.3"
