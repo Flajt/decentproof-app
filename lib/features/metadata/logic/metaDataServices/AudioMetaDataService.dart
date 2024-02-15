@@ -30,7 +30,7 @@ class AudioMetaDataService implements IMetaDataService {
       await File(filePath).delete(); // clean up
       return outputPath;
     }
-    throw "Error adding location to video";
+    throw "Error adding location to audio";
   }
 
   @override
@@ -53,7 +53,7 @@ class AudioMetaDataService implements IMetaDataService {
       await File(filePath).delete(); // clean up
       return outputPath;
     }
-    throw "Error adding location to video";
+    throw "Error adding location & secret to audio";
   }
 
   @override
@@ -75,7 +75,7 @@ class AudioMetaDataService implements IMetaDataService {
       await File(filePath).delete(); // Clean up
       return outputPath;
     }
-    throw "Error adding seceret to video";
+    throw "Error adding seceret to audio";
   }
 
   @override
