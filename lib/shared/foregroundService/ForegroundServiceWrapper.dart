@@ -1,7 +1,6 @@
 import 'dart:isolate';
 
 import 'package:decentproof/shared/foregroundService/IForegroundService.dart';
-import 'package:decentproof/features/hashing/logic/foregroundService/PerperationTaskHandler.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_foreground_task/flutter_foreground_task.dart';
 
@@ -31,10 +30,11 @@ class ForegroundServiceWrapper implements IForegroundService {
 
   /// Starts the service
   @override
-  Future<void> start(Function? startCallback) async {
+  Future<void> start(
+      Function? startCallback, String title, String description) async {
     await FlutterForegroundTask.startService(
-        notificationTitle: "notification.title".tr(),
-        notificationText: "notification.inital_description".tr(),
+        notificationTitle: title,
+        notificationText: description,
         callback: startCallback);
   }
 
