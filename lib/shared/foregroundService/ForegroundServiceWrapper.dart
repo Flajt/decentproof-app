@@ -1,6 +1,6 @@
 import 'dart:isolate';
 
-import 'package:decentproof/features/hashing/interfaces/IForegroundService.dart';
+import 'package:decentproof/shared/foregroundService/IForegroundService.dart';
 import 'package:decentproof/features/hashing/logic/foregroundService/PerperationTaskHandler.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_foreground_task/flutter_foreground_task.dart';
@@ -31,7 +31,7 @@ class ForegroundServiceWrapper implements IForegroundService {
 
   /// Starts the service
   @override
-  Future<void> start() async {
+  Future<void> start(Function? startCallback) async {
     await FlutterForegroundTask.startService(
         notificationTitle: "notification.title".tr(),
         notificationText: "notification.inital_description".tr(),
@@ -78,10 +78,4 @@ class ForegroundServiceWrapper implements IForegroundService {
       throw Exception("ForegroundService is not yet running, start it first!");
     }
   }
-}
-
-@pragma('vm:entry-point')
-void startCallback() {
-  // The setTaskHandler function must be called to handle the task in the background.
-  FlutterForegroundTask.setTaskHandler(PreperationTaskHandler());
 }

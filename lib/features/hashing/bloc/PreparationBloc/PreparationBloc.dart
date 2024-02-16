@@ -4,7 +4,8 @@ import 'dart:isolate';
 import 'package:decentproof/features/hashing/bloc/PreparationBloc/PerparationEvents.dart';
 import 'package:decentproof/features/hashing/bloc/PreparationBloc/PerparationStates.dart';
 import 'package:decentproof/features/hashing/interfaces/IFileSavingService.dart';
-import 'package:decentproof/features/hashing/interfaces/IForegroundService.dart';
+import 'package:decentproof/features/hashing/logic/foregroundService/PerperationTaskHandler.dart';
+import 'package:decentproof/shared/foregroundService/IForegroundService.dart';
 import 'package:decentproof/features/hashing/interfaces/IHashingService.dart';
 import 'package:decentproof/features/metadata/interfaces/ILocationService.dart';
 import 'package:decentproof/features/metadata/interfaces/IMetaDataPermissionService.dart';
@@ -66,7 +67,7 @@ class PreparationBloc extends Bloc<MetaDataEvents, PreparationState> {
         await foregroundService.stop();
         await foregroundService.setData(
             "instructions", "audio::${event.filePath}");
-        await foregroundService.start();
+        await foregroundService.start(startPreperationForegroundService);
         ReceivePort port = await foregroundService.getReceivePort();
         final stream = port.asBroadcastStream();
         await emit.forEach(stream, onData: (message) {
@@ -114,7 +115,7 @@ class PreparationBloc extends Bloc<MetaDataEvents, PreparationState> {
       try {
         final path = await imageSavingService.saveFile();
         await foregroundService.setData("instructions", "image::$path");
-        await foregroundService.start();
+        await foregroundService.start(startPreperationForegroundService);
         ReceivePort port = await foregroundService.getReceivePort();
         final stream = port.asBroadcastStream();
         await emit.forEach(stream, onData: (message) {
@@ -164,7 +165,7 @@ class PreparationBloc extends Bloc<MetaDataEvents, PreparationState> {
       try {
         String path = await videoSavingService.saveFile();
         await foregroundService.setData("instructions", "video::$path");
-        await foregroundService.start();
+        await foregroundService.start(startPreperationForegroundService);
         ReceivePort port = await foregroundService.getReceivePort();
         final stream = port.asBroadcastStream();
         await emit.forEach(stream, onData: (message) {

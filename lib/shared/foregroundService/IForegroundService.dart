@@ -1,7 +1,7 @@
 import 'dart:isolate';
 
 abstract class IForegroundService {
-  Future<void> start();
+  Future<void> start(Function? startCallback);
   Future<void> stop();
   Future<T?> getData<T>(String key);
   Future<void> setData(String key, Object value);

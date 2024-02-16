@@ -1,7 +1,7 @@
 import 'dart:isolate';
 import 'dart:ui';
 
-import 'package:decentproof/features/hashing/interfaces/IForegroundService.dart';
+import 'package:decentproof/shared/foregroundService/IForegroundService.dart';
 import 'package:decentproof/features/hashing/interfaces/IHashingService.dart';
 import 'package:decentproof/features/hashing/interfaces/IWaterMarkService.dart';
 import 'package:decentproof/features/metadata/interfaces/ILocationService.dart';
@@ -176,4 +176,10 @@ class PreperationTaskHandler extends TaskHandler {
     sendPort?.send({"status": step, "progress": progress});
     await foregroundService.updateNotification(body: "${progress.ceil()}/100%");
   }
+}
+
+@pragma('vm:entry-point')
+void startPreperationForegroundService() {
+  // The setTaskHandler function must be called to handle the task in the background.
+  FlutterForegroundTask.setTaskHandler(PreperationTaskHandler());
 }
