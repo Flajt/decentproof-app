@@ -5,6 +5,7 @@ import 'package:decentproof/features/verification/bloc/VerificationBlocStates.da
 import 'package:decentproof/features/verification/interfaces/IFileSelectionService.dart';
 import 'package:decentproof/features/verification/logic/ForegroundService/VerificationTaskHandler.dart';
 import 'package:decentproof/features/verification/models/FileDataMode.dart';
+import 'package:decentproof/features/verification/models/VerificationStatusModel.dart';
 import 'package:decentproof/shared/foregroundService/IForegroundService.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -47,7 +48,8 @@ class VerificationBloc
             } else if (data["status"] == "Done") {
               recivePort.close();
               _foregroundService.stop();
-              return VerifiedState(data["model"]);
+              return VerifiedState(
+                  VerificationStatusModel.fromJson(data["model"]));
             }
             return state;
           });

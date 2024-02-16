@@ -71,7 +71,7 @@ class VerificationTaskHandler implements TaskHandler {
       await foregroundService.updateNotification(
           body: "verificationNotification.validatingMetaData".tr());
       final finalModel = model.copyWith(metaDataModel: metaDataModel);
-      sendPort?.send({"status": "Done", "model": finalModel});
+      sendPort?.send({"status": "Done", "model": finalModel.toJson()});
     } catch (e, stack) {
       Sentry.captureException(e, stackTrace: stack);
       sendPort?.send({"status": "Error", "message": e.toString()});
