@@ -27,13 +27,15 @@ class HashLogic implements IHashLogic {
   }
 
   @override
-  Future<String> hashBytesInChunksFromStream(
-      Stream<List<int>> byteStream, Function(int) progress) async {
+  Future<String> hashBytesInChunksFromStream(Stream<List<int>> byteStream,
+      [Function(int)? progress]) async {
     int currentPos = 0;
     await for (List<int> element in byteStream) {
       _digest.update(Uint8List.fromList(element), 0, element.length);
-      progress(currentPos);
-      currentPos += 1;
+      if (progress != null) {
+        progress(currentPos);
+        currentPos += 1;
+      }
     }
     //await byteStream.forEach((element) => _digest.update(Uint8List.fromList(element), 0, element.length));
     Uint8List hashAsBytes = Uint8List(_digest.digestSize);
