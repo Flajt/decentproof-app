@@ -46,7 +46,6 @@ class VerificationTaskHandler implements TaskHandler {
 
       final tempFilePath = await foregroundService.getData("filePath");
       final tempFile = File(tempFilePath);
-      print("File path: $tempFilePath");
       final int fileSize = (tempFile.lengthSync() / 65536).ceil();
       Stream<List<int>> tempStream = tempFile
           .openRead(); // Steams are consumed after beeing done so we need a new one
@@ -74,8 +73,6 @@ class VerificationTaskHandler implements TaskHandler {
       final finalModel = model.copyWith(metaDataModel: metaDataModel);
       sendPort?.send({"status": "Done", "model": finalModel});
     } catch (e, stack) {
-      print(e);
-      print(stack);
       Sentry.captureException(e, stackTrace: stack);
       sendPort?.send({"status": "Error", "message": e.toString()});
     }
