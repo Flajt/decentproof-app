@@ -10,6 +10,7 @@ import 'package:decentproof/features/hashing/interfaces/IHashingService.dart';
 import 'package:decentproof/features/metadata/interfaces/ILocationService.dart';
 import 'package:decentproof/features/metadata/interfaces/IMetaDataPermissionService.dart';
 import 'package:decentproof/features/metadata/interfaces/IMetaDataService.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -18,6 +19,9 @@ import 'package:sentry_flutter/sentry_flutter.dart';
 
 import '../../interfaces/IWaterMarkService.dart';
 
+/// Deals with Hashing, Watermarking and adding MetaData to the file
+/// Because this BLOC is used to prepare different types of files it's named PreparationBloc
+/// TODO: Refactor the code to make it more readable,there is a lot of duplication going on
 class PreparationBloc extends Bloc<MetaDataEvents, PreparationState> {
   late final GetIt getIt;
   late final IFileSavingService videoSavingService;
@@ -67,7 +71,10 @@ class PreparationBloc extends Bloc<MetaDataEvents, PreparationState> {
         await foregroundService.stop();
         await foregroundService.setData(
             "instructions", "audio::${event.filePath}");
-        await foregroundService.start(startPreperationForegroundService);
+        await foregroundService.start(
+            startPreperationForegroundService,
+            "perperationNotification.title".tr(),
+            "perperationNotification.initialDescription".tr());
         ReceivePort port = await foregroundService.getReceivePort();
         final stream = port.asBroadcastStream();
         await emit.forEach(stream, onData: (message) {
@@ -115,7 +122,10 @@ class PreparationBloc extends Bloc<MetaDataEvents, PreparationState> {
       try {
         final path = await imageSavingService.saveFile();
         await foregroundService.setData("instructions", "image::$path");
-        await foregroundService.start(startPreperationForegroundService);
+        await foregroundService.start(
+            startPreperationForegroundService,
+            "perperationNotification.title".tr(),
+            "perperationNotification.initialDescription".tr());
         ReceivePort port = await foregroundService.getReceivePort();
         final stream = port.asBroadcastStream();
         await emit.forEach(stream, onData: (message) {
@@ -165,7 +175,10 @@ class PreparationBloc extends Bloc<MetaDataEvents, PreparationState> {
       try {
         String path = await videoSavingService.saveFile();
         await foregroundService.setData("instructions", "video::$path");
-        await foregroundService.start(startPreperationForegroundService);
+        await foregroundService.start(
+            startPreperationForegroundService,
+            "perperationNotification.title".tr(),
+            "perperationNotification.initialDescription".tr());
         ReceivePort port = await foregroundService.getReceivePort();
         final stream = port.asBroadcastStream();
         await emit.forEach(stream, onData: (message) {

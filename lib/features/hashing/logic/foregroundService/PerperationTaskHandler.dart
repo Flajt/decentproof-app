@@ -10,6 +10,7 @@ import 'package:decentproof/features/metadata/interfaces/IMetaDataService.dart';
 import 'package:decentproof/features/metadata/models/LocationModel.dart';
 import 'package:decentproof/shared/util/initSentry.dart';
 import 'package:decentproof/shared/util/register.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_foreground_task/flutter_foreground_task.dart';
 import 'package:get_it/get_it.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
@@ -20,7 +21,8 @@ class PreperationTaskHandler extends TaskHandler {
   void onStart(DateTime timestamp, SendPort? sendPort) async {
     DartPluginRegistrant.ensureInitialized();
     try {
-      initSentry();
+      await EasyLocalization.ensureInitialized();
+      await initSentry();
       await registar();
       final getIt = GetIt.I;
       final IHashingService imageHashingService =
