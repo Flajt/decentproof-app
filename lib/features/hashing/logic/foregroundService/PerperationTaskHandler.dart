@@ -65,6 +65,7 @@ class PreperationTaskHandler extends TaskHandler {
               "status": "Error",
               "description": "Location Service is not enabled!"
             });
+            await foregroundService.stop();
             return;
           }
           LocationModel locationModel = await locationService.requestLocation();
@@ -91,6 +92,7 @@ class PreperationTaskHandler extends TaskHandler {
               "status": "Error",
               "description": "Location Service is not enabled!"
             });
+            await foregroundService.stop();
             return;
           }
           LocationModel locationModel = await locationService.requestLocation();
@@ -120,6 +122,7 @@ class PreperationTaskHandler extends TaskHandler {
               "status": "Error",
               "description": "Location Service is not enabled!"
             });
+            await foregroundService.stop();
             return;
           }
           LocationModel locationModel = await locationService.requestLocation();

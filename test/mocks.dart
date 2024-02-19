@@ -20,6 +20,7 @@ import 'package:decentproof/shared/HashLogic.dart';
 import 'package:decentproof/shared/Integrety/ApiKeyRequestService.dart';
 import 'package:decentproof/shared/Integrety/AppCheck.dart';
 import 'package:decentproof/shared/Integrety/SecureStorageWrapper.dart';
+import 'package:decentproof/shared/foregroundService/ForegroundServiceWrapper.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:file_picker/src/file_picker_result.dart';
 import 'package:mockito/annotations.dart';
@@ -64,7 +65,8 @@ const String kExternalStoragePath = 'externalStoragePath';
   MockSpec<HashLogic>(),
   MockSpec<ImagePickerWrapper>(),
   MockSpec<ShowInExplorer>(),
-  MockSpec<SignatureVerificationService>()
+  MockSpec<SignatureVerificationService>(),
+  MockSpec<ForegroundServiceWrapper>()
 ])
 // ignore: unused_element
 void main() {}
