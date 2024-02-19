@@ -9,7 +9,6 @@ import 'package:decentproof/features/verification/models/VerificationStatusModel
 import 'package:decentproof/shared/foregroundService/IForegroundService.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_foreground_task/flutter_foreground_task.dart';
 import 'package:get_it/get_it.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -40,21 +39,24 @@ class VerificationBloc
           final ReceivePort recivePort =
               await _foregroundService.getReceivePort();
           final stream = recivePort.asBroadcastStream();
-          emit.forEach(stream, onData: (data) {
+          await emit.forEach(stream, onData: (data) {
+            recivePort.close(); // Needed here, because the stream is still open
             if (data["status"] == "Error") {
-              recivePort.close();
-              _foregroundService.stop();
               return ErrorState(data["message"]);
             } else if (data["status"] == "Done") {
-              recivePort.close();
-              _foregroundService.stop();
+              recivePort
+                  .close(); // Needed here, because the stream is still open
               return VerifiedState(
                   VerificationStatusModel.fromJson(data["model"]));
             }
             return state;
           });
           if (state is VerifiedState || state is ErrorState) {
+            await _foregroundService.stop();
             await tempFileStorage.delete(recursive: true);
+            if (state is ErrorState) {
+              emit(InitialState());
+            }
           }
         } else {
           emit(InitialState());
