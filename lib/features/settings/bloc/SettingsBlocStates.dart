@@ -27,6 +27,11 @@ class EmailSavedState extends SettingsBlocStates {
   List<Object?> get props => [email];
 }
 
+class EmailDeletedState extends SettingsBlocStates {
+  @override
+  List<Object?> get props => [];
+}
+
 class SecretSavedState extends SettingsBlocStates {
   @override
   List<Object?> get props => [];

@@ -303,6 +303,16 @@ class MockSecureStorageWrapper extends _i1.Mock
         returnValue: _i9.Future<void>.value(),
         returnValueForMissingStub: _i9.Future<void>.value(),
       ) as _i9.Future<void>);
+
+  @override
+  _i9.Future<void> deleteEmail() => (super.noSuchMethod(
+        Invocation.method(
+          #deleteEmail,
+          [],
+        ),
+        returnValue: _i9.Future<void>.value(),
+        returnValueForMissingStub: _i9.Future<void>.value(),
+      ) as _i9.Future<void>);
 }
 
 /// A class which mocks [LocationServiceWrapper].

@@ -33,3 +33,8 @@ class ModifySecretEmbeddingPermission extends SettingsBlocEvents {
   @override
   List<Object?> get props => [permission];
 }
+
+class DeleteEmail extends SettingsBlocEvents {
+  @override
+  List<Object?> get props => [];
+}
