@@ -1,6 +1,4 @@
 import 'dart:io';
-import 'dart:typed_data';
-
 import 'package:decentproof/features/hashing/interfaces/IHashingService.dart';
 import 'package:decentproof/shared/interface/IHashLogic.dart';
 import 'package:get_it/get_it.dart';

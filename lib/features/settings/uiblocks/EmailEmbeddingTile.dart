@@ -13,7 +13,7 @@ class EmailEmbeddingTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener(
+    return BlocListener<SettingsBloc, SettingsBlocStates>(
       listener: (context, state) {
         if (state is ErrorState) {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
