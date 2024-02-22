@@ -31,7 +31,7 @@ void main() {
               () => MockLocationServiceWrapper());
         },
         act: (bloc) => bloc.add(SaveEmailEvent("invalid")),
-        expect: () => [ErrorState("Invalid Email")],
+        expect: () => [ErrorState("Invalid Email"), InitialSettingsState()],
         build: () => SettingsBloc());
     blocTest(
       "input is empty",
@@ -44,7 +44,7 @@ void main() {
       },
       act: (bloc) => bloc.add(SaveEmailEvent("")),
       build: () => SettingsBloc(),
-      expect: () => [ErrorState("Invalid Email")],
+      expect: () => [ErrorState("Invalid Email"), InitialSettingsState()],
     );
     blocTest("is valid",
         build: () => SettingsBloc(),
@@ -73,7 +73,8 @@ void main() {
               .thenAnswer((realInvocation) => Future.value());
         },
         act: (bloc) => bloc.add(DeleteEmail()),
-        expect: () => [EmailDeletedState()]);
+        wait: const Duration(seconds: 3, milliseconds: 500),
+        expect: () => [EmailDeletedState(), InitialSettingsState()]);
   });
   group("Location embedding", () {
     blocTest("enabled successfully",
@@ -104,7 +105,8 @@ void main() {
               .thenAnswer((realInvocation) => Future.value(false));
         },
         act: (bloc) => bloc.add(ModifyLocationEmbeddingPermission(true)),
-        expect: () => [ErrorState("Location Permission Denied!")],
+        expect: () =>
+            [ErrorState("Location Permission Denied!"), InitialSettingsState()],
         build: () => SettingsBloc());
 
     blocTest("successfull handle error",
@@ -119,7 +121,7 @@ void main() {
           when(locationService.hasPermission()).thenThrow("Error");
         },
         act: (bloc) => bloc.add(ModifyLocationEmbeddingPermission(true)),
-        expect: () => [ErrorState("Error")],
+        expect: () => [ErrorState("Error"), InitialSettingsState()],
         build: () => SettingsBloc());
 
     blocTest("successfull, location permission granted",

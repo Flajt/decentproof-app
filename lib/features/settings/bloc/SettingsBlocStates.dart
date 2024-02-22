@@ -4,7 +4,7 @@ import 'package:equatable/equatable.dart';
 
 abstract class SettingsBlocStates extends Equatable {}
 
-class InitialSecureStorageState extends SettingsBlocStates {
+class InitialSettingsState extends SettingsBlocStates {
   @override
   List<Object?> get props => [];
 }

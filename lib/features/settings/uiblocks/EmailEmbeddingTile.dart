@@ -13,30 +13,24 @@ class EmailEmbeddingTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<SettingsBloc, SettingsBlocStates>(
-      listener: (context, state) {
-        if (state is ErrorState) {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text(state.errorMessage),
-            backgroundColor: Colors.red,
-          ));
-        } else if (state is EmailDeletedState) {
-          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-            content: Text("👍"),
-            duration: Duration(seconds: 3),
-          ));
-        }
+    return BlocBuilder<SettingsBloc, SettingsBlocStates>(
+      builder: (context, state) {
+        return ListTile(
+          title: Text("settingsPage.addEmail".tr()),
+          subtitle: Text("settingsPage.description".tr()),
+          onTap: () => showDialog(
+              context: context, builder: (context) => const AddEmailDialog()),
+          trailing: IconButton(
+            icon: state is EmailDeletedState
+                ? const Icon(
+                    Icons.check,
+                    color: Colors.greenAccent,
+                  )
+                : const Icon(Icons.delete, color: Colors.redAccent),
+            onPressed: () => context.read<SettingsBloc>().add(DeleteEmail()),
+          ),
+        );
       },
-      child: ListTile(
-        title: Text("settingsPage.addEmail".tr()),
-        subtitle: Text("settingsPage.description".tr()),
-        onTap: () => showDialog(
-            context: context, builder: (context) => const AddEmailDialog()),
-        trailing: IconButton(
-          icon: const Icon(Icons.delete, color: Colors.redAccent),
-          onPressed: () => context.read<SettingsBloc>().add(DeleteEmail()),
-        ),
-      ),
     );
   }
 }
