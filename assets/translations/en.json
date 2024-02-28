@@ -69,14 +69,14 @@
         "home": "Back to Home",
         "submit": "Submit"
     },
-    "notificationChannel":{
+    "notificationChannel": {
         "description": "This notification appears as soon as you start to hash a file and add metadata to it. It will be shown until the process is finished."
     },
-    "perperationNotification":{
+    "perperationNotification": {
         "title": "Preperation in Progress",
         "initalDescription": "Initalizing"
     },
-    "verificationNotification":{
+    "verificationNotification": {
         "title": "Verification in Progress",
         "validatingMetaData": "Validating Metadata",
         "hashing": "Hashing"
