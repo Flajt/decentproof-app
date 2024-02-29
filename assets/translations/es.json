@@ -69,7 +69,16 @@
         "home": "De vuelta a casa",
         "submit": "Entregar"
     },
+    "notificationChannel": {
+        "description": "Esta notificación aparece tan pronto como comienza a codificar un archivo y agregarle metadatos. Se mostrará hasta finalizar el proceso."
+    },
     "perperationNotification": {
+        "title": "Preparación en progreso",
         "initalDescription": "Inicializando"
+    },
+    "verificationNotification": {
+        "title": "Verificación en progreso",
+        "validatingMetaData": "Validación de metadatos",
+        "hashing": "Hash"
     }
 }

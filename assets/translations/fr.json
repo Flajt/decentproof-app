@@ -69,7 +69,16 @@
         "home": "Retour à l'accueil",
         "submit": "Confirmer"
     },
+    "notificationChannel": {
+        "description": "Cette notification apparaît dès que vous commencez à \"hash\" un fichier et à y ajouter des métadonnées. Il sera affiché jusqu'à ce que le processus soit terminé."
+    },
     "perperationNotification": {
+        "title": "Préparation en cours",
         "initalDescription": "Initialisation"
+    },
+    "verificationNotification": {
+        "title": "Vérification en cours",
+        "validatingMetaData": "Validation des métadonnées",
+        "hashing": "Hashen"
     }
 }

@@ -69,7 +69,16 @@
         "home": "返回首页",
         "submit": "确认"
     },
+    "notificationChannel": {
+        "description": "当您开始对文件进行哈希处理并向其中添加元数据时，就会出现此通知。它将显示直到该过程完成。"
+    },
     "perperationNotification": {
+        "title": "准备工作正在进行中",
         "initalDescription": "正在初始化"
+    },
+    "verificationNotification": {
+        "title": "验证正在进行中",
+        "validatingMetaData": "验证元数据",
+        "hashing": "散列"
     }
 }

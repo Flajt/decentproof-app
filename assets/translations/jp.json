@@ -69,7 +69,16 @@
         "home": "ホームに戻る",
         "submit": "確認"
     },
+    "notificationChannel": {
+        "description": "このメッセージは、ファイルのハッシュ化を開始し、メタデータを追加するときに表示されます。処理が完了するまで表示されます。"
+    },
     "perperationNotification": {
+        "title": "準備中",
         "initalDescription": "初期化"
+    },
+    "verificationNotification": {
+        "title": "検証中",
+        "validatingMetaData": "メタデータの検証",
+        "hashing": "ハッシュ"
     }
 }
