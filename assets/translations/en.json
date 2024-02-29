@@ -77,7 +77,7 @@
         "initalDescription": "Initalizing"
     },
     "verificationNotification": {
-        "title": "Verification in Progress",
+        "title": "Verification in progress",
         "validatingMetaData": "Validating Metadata",
         "hashing": "Hashing"
     }

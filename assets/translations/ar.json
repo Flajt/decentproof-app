@@ -60,5 +60,24 @@
         "hashMatching": "مطابقة التجزئة؟",
         "signatureVerified": "هل التوقيعات الرقمية صالحة؟",
         "locationStored": "الموقع المخزن؟"
+    },
+    "videoImagePage": {
+        "photo": "التقاط صورة",
+        "video": "تأخذ شريط فيديو"
+    },
+    "other": {
+        "home": "العودة إلى الصفحة الرئيسية",
+        "submit": "إرسال"
+    },
+    "notificationChannel": {
+        "description": "يتم عرض هذا الإشعار بمجرد بدء تجزئة الملف وإضافة بيانات التعريف الخاصة به. يتم عرضه حتى تكتمل العملية."
+    },
+    "perperationNotification": {
+        "title": "إعداد",
+        "initalDescription": "التهيئة"
+    },
+    "verificationNotification": {
+        "title": "جارٍ التحقق",
+        "validatingMetaData": "التحقق من صحة البيانات الوصفية"
     }
 }
