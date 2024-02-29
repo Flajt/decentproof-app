@@ -35,6 +35,7 @@ import 'package:decentproof/shared/Integrety/AppCheck.dart';
 import 'package:decentproof/shared/Integrety/interfaces/IApiKeyRequestService.dart';
 import 'package:decentproof/shared/Integrety/interfaces/IDeviceIntegrity.dart';
 import 'package:decentproof/shared/interface/IHashLogic.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../features/metadata/logic/metaDataServices/AudioMetaDataService.dart';
@@ -58,7 +59,7 @@ Future<void> registar() async {
   getIt.registerFactory<IFileSelectionService>(() => FilePickerWrapper());
   getIt.registerFactory<IHashLogic>(() => HashLogic());
   getIt.registerFactory<IHashSubmissionService>(
-      () => HashSubmissionService(url: SIGN_URL));
+      () => HashSubmissionService(url: SIGN_URL, isDebug: kDebugMode));
   getIt.registerFactory<IHashingService>(() => ImageHashingService(),
       instanceName: "ImageHashing");
   getIt.registerFactory<IHashingService>(() => VideoHashingService(),

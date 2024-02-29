@@ -7,18 +7,18 @@ import 'package:http/http.dart' as http;
 
 class HashSubmissionService implements IHashSubmissionService {
   final GetIt _getIt = GetIt.instance;
+  late final bool isDebug;
   late final ISecureStorageService _secureStorageService;
   final String url;
 
-  HashSubmissionService({required this.url}) {
+  HashSubmissionService({required this.url, this.isDebug = false}) {
     _secureStorageService = _getIt.get<ISecureStorageService>();
   }
 
   @override
   Future<void> submitHash(String hash, String? email) async {
     String? apiKey = await _secureStorageService.retriveApiKey();
-    // Consider moving kDebugMode outward and passing it as variable, feedback is welcome
-    if (apiKey == null && !kDebugMode) {
+    if (apiKey == null && !isDebug) {
       throw "NO API KEY";
     } else if (kDebugMode) {
       apiKey = "DEBUG-KEY-PLACEHOLDER";
