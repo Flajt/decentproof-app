@@ -28,7 +28,8 @@
     "settingsPage": {
         "title": "Settings",
         "addEmail": "Añadir correo electrónico",
-        "description": "Si desea obtener un certificado de prueba para verificar usted mismo su expediente"
+        "description": "Si desea obtener un certificado de prueba para verificar usted mismo su expediente",
+        "embedLocation": "Incrustar ubicación"
     },
     "submissionPage": {
         "hash": "Su Hash:",

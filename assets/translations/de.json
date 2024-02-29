@@ -16,7 +16,7 @@
         "title5": "Ende",
         "tempTitle": "Audioaufnahmen",
         "body1": "Mit dieser App können Sie Multimediadateien erstellen und später beweisen, dass diese Datei nicht manipuliert wurde!",
-        "body2": "Wählen Sie einfach eine der 2 Optionen im Hauptmenü und beginnen Sie mit der Erstellung Ihrer Datei. Unterstützt werden: .mp4, .png & .aac",
+        "body2": "Wählen Sie einfach eine der 2 Optionen im Hauptmenü und beginnen Sie mit der Erstellung Ihrer Datei. Unterstützt werden: .mp4,.mp3 .png & .aac",
         "body3": "Sie können die Datei von jeder beliebigen App aus teilen, aber ich empfehlen Ihnen, E-Mail, einen Cloud-Speicher oder den direkten Export zu verwenden. Wenn Sie andere Apps wie z. B. eine Chat-App verwenden, gehen möglicherweise Metadaten verloren und Sie können die Datei später nicht verifizieren!",
         "body4": "Das ist ganz einfach: Wählen Sie einfach den dritten Eintrag im Hauptmenü und wählen Sie Ihre Datei aus.",
         "body5": "Das war's. Wenn Sie die App unterstützen wollen oder mehr Informationen über ihre Funktionsweise wünschen, können Sie das Symbol oben rechts auf der Hauptseite verwenden.",
@@ -43,7 +43,7 @@
     "supportPage": {
         "title": "Unterstützung",
         "description": "Wenn Ihnen dieses Projekt gefällt oder Sie mehr darüber wissen möchten, sollten Sie sich einen der folgenden Links ansehen.",
-        "support": " Entwickler helfen",
+        "support": " Entwickler unterstützen",
         "help": "Entwickler helfen",
         "code": "Projekt Code einsehen"
     },
@@ -54,7 +54,7 @@
         "selectFile": "Datei auswählen",
         "hash": "Ihr Hash:",
         "noFile": "Keine Datei ausgewählt!",
-        "id": "Nachrichten ID",
+        "id": "Nachrichten ID:",
         "showInExplorer": "Transaktion anzeigen",
         "reset": "Zurücksetzen",
         "hashMatching": "Valider Hash?",

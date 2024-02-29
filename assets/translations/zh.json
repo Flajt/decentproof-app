@@ -16,7 +16,7 @@
         "title5": "完成",
         "tempTitle": "录音",
         "body1": "通过这个应用程序，你可以创建多媒体文件，之后证明这个文件没有被篡改！",
-        "body2": "只需在主菜单中选择2个选项，并开始创建你的文件。支持的选项有。.mp4, .png & .aac",
+        "body2": "只需在主菜单中选择2个选项，并开始创建你的文件。支持的选项有。.mp4,.mp3, .png & .aac",
         "body3": "你可以从任何应用程序中分享文件，但我建议使用电子邮件、云存储或直接导出。如果你使用其他应用程序，如聊天应用程序，你可能会丢失元数据，并在以后无法验证文件!",
         "body4": "这很简单，只需选择主菜单中的第三个条目并选择你的文件。其他的事情都是自行解释的！",
         "body5": "就是这样，如果你想支持这个应用程序，或者想获得更多关于它如何工作的信息，请随时检查右上方的图标，在主页上",
@@ -28,11 +28,15 @@
     "settingsPage": {
         "title": "设置",
         "addEmail": "添加电子邮件",
-        "description": "如果您想获得证明证书，以自行验证您的文件"
+        "description": "如果您想获得证明证书，以自行验证您的文件",
+        "embedLocation": "嵌入位置",
+        "embedLocationSubtitle": "将位置嵌入到创建的媒体文件中",
+        "embedSecret": "嵌入签名",
+        "embedSecretSubtitle": "在创建的媒体文件中嵌入数字签名"
     },
     "submissionPage": {
         "hash": "你的哈希值：",
-        "messageid": "Message ID",
+        "messageid": "信息 ID",
         "submitt": "提交",
         "submissionSuccess": "成功提交"
     },
@@ -52,7 +56,10 @@
         "noFile": "没有选择文件！",
         "id": "您的信息ID:",
         "showInExplorer": "显示交易",
-        "reset": "重置"
+        "reset": "重置",
+        "hashMatching": "哈希匹配？",
+        "signatureVerified": "签名已验证？",
+        "locationStored": "是否包括地点？"
     },
     "videoImagePage": {
         "photo": "拍一张照片",
@@ -61,5 +68,8 @@
     "other": {
         "home": "返回首页",
         "submit": "确认"
+    },
+    "perperationNotification": {
+        "initalDescription": "正在初始化"
     }
 }

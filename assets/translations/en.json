@@ -16,8 +16,8 @@
         "title5": "Finish",
         "tempTitle": "Audio recordings",
         "body1": "With this App you can create multimedia files and later proof that this file has not been tampered with!",
-        "body2": "Simply select on of the 2 options in the main menu and start creating your file. Supported are: .mp4, .png & .aac",
-        "body3": "You can simply share the file from any App you want, but I recommend you use E-Mail, a Cloud storage or direct export.\n\nIf you use other apps like a chat app you might loose metadata and might not be able to later validate the file!",
+        "body2": "Simply select on of the 2 options in the main menu and start creating your file. Supported are: .mp4,.mp3, .png & .aac",
+        "body3": "You can simply share the file from any App you want, but I recommend you use E-Mail, a Cloud storage or direct export.\nIf you use other apps like a chat app you might loose metadata and might not be able to later validate the file!",
         "body4": "Thats easy, simply select the third entry in the main Menu and select your file. Everything else is self explantory!",
         "body5": "That's it, if you want to support the App, or would like to get more info about how it works, feel free to check the top right icon, on the main page, out.",
         "tempBody": "Currently, audio recordings can only be shared directly via the share button! (You can see it on the submit page on the top right) This will be changed as soon as possible. For more information please read the FAQ in the settings!",
@@ -28,7 +28,7 @@
     "settingsPage": {
         "title": "Settings",
         "addEmail": "Add E-Mail",
-        "description": "If you want to save data in the DevNet. Not recommended!",
+        "description": "If you want to recive your proof certificate to verify the file yourself",
         "embedLocation": "Embed Location",
         "embedLocationSubtitle": "Embed the location in created media files",
         "embedSecret": "Embed Singature",
@@ -42,7 +42,7 @@
     },
     "supportPage": {
         "title": "Support Development",
-        "description": "If you would like to get proof certificate to verify the file yourself",
+        "description": "If you like this project or would like to know more about it, you should take a look at one of the following links.",
         "support": "Support development",
         "help": "Help development",
         "code": "Checkout the code"

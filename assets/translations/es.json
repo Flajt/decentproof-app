@@ -1,0 +1,75 @@
+{
+    "homePage": {
+        "options": {
+            "imageVideo": "Imagen/Vídeo",
+            "audio": "Audio",
+            "verify": "Verificar",
+            "locationWarning": "Ha habilitado la incrustación de ubicación, pero ha deshabilitado el servicio de ubicación."
+        }
+    },
+    "introPage": {
+        "title0": "Bienvenido a Decentproof",
+        "title1": "¿Qué puedes hacer?",
+        "title2": "¿Como funciona?",
+        "title3": "Una nota sobre compartir",
+        "title4": "Verificando archivos",
+        "title5": "Finalizar",
+        "tempTitle": "Grabaciones de audio",
+        "body1": "¡Con esta aplicación puedes crear archivos multimedia y luego comprobar que este archivo no ha sido manipulado!",
+        "body2": "Simplemente seleccione una de las 2 opciones en el menú principal y comience a crear su archivo. Los compatibles son: .mp4,.mp3, .png y .aac",
+        "body3": "Puedes simplemente compartir el archivo desde cualquier aplicación que desees, pero te recomiendo que utilices el correo electrónico, un almacenamiento en la nube o la exportación directa.\n Si utiliza otras aplicaciones, como una aplicación de chat, es posible que pierda metadatos y no pueda validar el archivo más adelante.",
+        "body4": "Eso es fácil, simplemente seleccione la tercera entrada en el menú principal y seleccione su archivo. ¡Todo lo demás se explica por sí mismo!",
+        "body5": "Eso es todo, si desea respaldar la aplicación o desea obtener más información sobre cómo funciona, no dude en consultar el ícono superior derecho, en la página principal.",
+        "tempBody": "Actualmente, las grabaciones de audio solo se pueden compartir directamente a través del botón Compartir. (Puede verlo en la página de envío en la parte superior derecha). Esto se cambiará lo antes posible. Para obtener más información, lea las preguntas frecuentes en la configuración.",
+        "next": "Próximo",
+        "skip": "Saltar",
+        "done": "Hecho"
+    },
+    "settingsPage": {
+        "title": "Ajustes",
+        "addEmail": "Agregar correo electrónico",
+        "description": "Si desea recibir su certificado de prueba para verificar el archivo usted mismo",
+        "embedLocation": "Insertar ubicación",
+        "embedLocationSubtitle": "Incrustar la ubicación en los archivos multimedia creados",
+        "embedSecret": "Incrustar singularidad",
+        "embedSecretSubtitle": "Incrustar una firma en archivos multimedia creados"
+    },
+    "submissionPage": {
+        "hash": "Tu hash:",
+        "messageid": "ID de mensaje",
+        "submitt": "Entregar",
+        "submissionSuccess": "Envío exitoso!"
+    },
+    "supportPage": {
+        "title": "Desarrollo de soporte",
+        "description": "Si te gusta este proyecto o quieres saber más sobre él, deberías echar un vistazo a alguno de los siguientes enlaces.",
+        "support": "Apoyar el desarrollo",
+        "help": "Ayuda al desarrollo",
+        "code": "Consulta el código"
+    },
+    "verificationPage": {
+        "title": "Verificar archivo",
+        "notModified": "Parece que tu archivo no ha sido modificado.",
+        "error": "Ha ocurrido un error",
+        "selectFile": "Seleccione un archivo",
+        "hash": "Tu hash:",
+        "noFile": "¡Ningún archivo seleccionado!",
+        "id": "Su ID de mensaje:",
+        "showInExplorer": "Ver transacción",
+        "reset": "Reiniciar",
+        "hashMatching": "¿Coincidencia de hashes?",
+        "signatureVerified": "¿Firma verificada?",
+        "locationStored": "¿Ubicación almacenada?"
+    },
+    "videoImagePage": {
+        "photo": "Toma una foto",
+        "video": "Tomar un vídeo"
+    },
+    "other": {
+        "home": "De vuelta a casa",
+        "submit": "Entregar"
+    },
+    "perperationNotification": {
+        "initalDescription": "Inicializando"
+    }
+}
