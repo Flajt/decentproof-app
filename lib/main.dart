@@ -50,7 +50,8 @@ void main() async {
           Locale("sn"),
           Locale("fr"),
           Locale("jp"),
-          Locale("zn")
+          Locale("zn"),
+          Locale("ar")
         ],
         child: const MyApp()));
     Bloc.observer = MetricsBlocObserver();
