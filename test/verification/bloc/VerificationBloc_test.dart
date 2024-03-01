@@ -1,3 +1,5 @@
+import 'dart:isolate';
+
 import 'package:bloc_test/bloc_test.dart';
 import 'package:decentproof/features/metadata/interfaces/IMetaDataService.dart';
 import 'package:decentproof/features/metadata/models/MetaDataModel.dart';
@@ -8,6 +10,7 @@ import 'package:decentproof/features/verification/interfaces/IFileSelectionServi
 import 'package:decentproof/features/verification/interfaces/IVerificationService.dart';
 import 'package:decentproof/features/verification/models/FileDataMode.dart';
 import 'package:decentproof/features/verification/models/VerificationStatusModel.dart';
+import 'package:decentproof/shared/foregroundService/IForegroundService.dart';
 import 'package:decentproof/shared/interface/IHashLogic.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get_it/get_it.dart';
@@ -18,8 +21,12 @@ import '../../mocks.mocks.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
+  setUp(() async {
+    await GetIt.I.reset();
+    PathProviderPlatform.instance = FakePathProviderPlatform();
+  });
   group("VerificationBloc", () {
-    final GetIt getIt = GetIt.I;
+    final foregroundService = MockForegroundServiceWrapper();
     final verificationService = MockVerificationService();
     final fileSelectionService = MockFilePickerWrapper();
     final imageMetaDataService = MockImageMetaDataService();
@@ -28,22 +35,16 @@ void main() {
     final hashLogic = MockHashLogic();
     final statusModel = VerificationStatusModel(true, true, DateTime.now(), 0,
         const MetaDataModel(null, null), "test", "test");
-
-    setUp(() async {
-      await GetIt.I.reset();
-      PathProviderPlatform.instance = FakePathProviderPlatform();
-    });
-
     blocTest("empty file model should trigger reset",
         setUp: () {
           register(
-              getIt,
               verificationService,
               fileSelectionService,
               imageMetaDataService,
               audioMetaDataService,
               videoMetaDataService,
-              hashLogic);
+              hashLogic,
+              foregroundService);
           when(fileSelectionService.selectFileAsStream())
               .thenAnswer((_) => Future.value(null));
         },
@@ -54,13 +55,18 @@ void main() {
     blocTest("successfully return VerificationStatusModel for an image",
         setUp: () {
           register(
-              getIt,
               verificationService,
               fileSelectionService,
               imageMetaDataService,
               audioMetaDataService,
               videoMetaDataService,
-              hashLogic);
+              hashLogic,
+              foregroundService);
+          final testPort = ReceivePort.fromRawReceivePort(RawReceivePort());
+          final sendPort = testPort.sendPort;
+          when(foregroundService.getReceivePort())
+              .thenAnswer((_) => Future.value(testPort));
+          sendPort.send({"status": "Done", "model": statusModel.toJson()});
           when(fileSelectionService.selectFileAsStream()).thenAnswer((_) =>
               Future.value(FileDataModel(
                   fileName: "test.png", byteStream: const Stream.empty())));
@@ -79,13 +85,18 @@ void main() {
     blocTest("successfully return VerificationStatusModel for a video",
         setUp: () {
           register(
-              getIt,
               verificationService,
               fileSelectionService,
               imageMetaDataService,
               audioMetaDataService,
               videoMetaDataService,
-              hashLogic);
+              hashLogic,
+              foregroundService);
+          final testPort = ReceivePort.fromRawReceivePort(RawReceivePort());
+          final sendPort = testPort.sendPort;
+          when(foregroundService.getReceivePort())
+              .thenAnswer((_) => Future.value(testPort));
+          sendPort.send({"status": "Done", "model": statusModel.toJson()});
           when(fileSelectionService.selectFileAsStream()).thenAnswer((_) =>
               Future.value(FileDataModel(
                   fileName: "test.mkv", byteStream: const Stream.empty())));
@@ -105,13 +116,18 @@ void main() {
         "successfully return VerificationStatusModel for an audio file (aac)",
         setUp: () {
           register(
-              getIt,
               verificationService,
               fileSelectionService,
               imageMetaDataService,
               audioMetaDataService,
               videoMetaDataService,
-              hashLogic);
+              hashLogic,
+              foregroundService);
+          final testPort = ReceivePort.fromRawReceivePort(RawReceivePort());
+          final sendPort = testPort.sendPort;
+          when(foregroundService.getReceivePort())
+              .thenAnswer((_) => Future.value(testPort));
+          sendPort.send({"status": "Done", "model": statusModel.toJson()});
           when(fileSelectionService.selectFileAsStream()).thenAnswer((_) =>
               Future.value(FileDataModel(
                   fileName: "test.aac", byteStream: const Stream.empty())));
@@ -130,13 +146,18 @@ void main() {
         "successfully return VerificationStatusModel for an audio file (mp3)",
         setUp: () {
           register(
-              getIt,
               verificationService,
               fileSelectionService,
               imageMetaDataService,
               audioMetaDataService,
               videoMetaDataService,
-              hashLogic);
+              hashLogic,
+              foregroundService);
+          final testPort = ReceivePort.fromRawReceivePort(RawReceivePort());
+          final sendPort = testPort.sendPort;
+          when(foregroundService.getReceivePort())
+              .thenAnswer((_) => Future.value(testPort));
+          sendPort.send({"status": "Done", "model": statusModel.toJson()});
           when(fileSelectionService.selectFileAsStream()).thenAnswer((_) =>
               Future.value(FileDataModel(
                   fileName: "test.mp3", byteStream: const Stream.empty())));
@@ -154,13 +175,21 @@ void main() {
     blocTest("fail for invalid fileType (e.g. jpg)",
         setUp: () {
           register(
-              getIt,
               verificationService,
               fileSelectionService,
               imageMetaDataService,
               audioMetaDataService,
               videoMetaDataService,
-              hashLogic);
+              hashLogic,
+              foregroundService);
+          final testPort = ReceivePort.fromRawReceivePort(RawReceivePort());
+          final sendPort = testPort.sendPort;
+          when(foregroundService.getReceivePort())
+              .thenAnswer((_) => Future.value(testPort));
+          sendPort.send({
+            "status": "Error",
+            "message": "type 'Null' is not a subtype of type 'FileType'"
+          });
           when(fileSelectionService.selectFileAsStream()).thenAnswer((_) =>
               Future.value(FileDataModel(
                   fileName: "test.jpg", byteStream: const Stream.empty())));
@@ -183,13 +212,13 @@ void main() {
     blocTest("successfully capture and return error & reset",
         setUp: () {
           register(
-              getIt,
               verificationService,
               fileSelectionService,
               imageMetaDataService,
               audioMetaDataService,
               videoMetaDataService,
-              hashLogic);
+              hashLogic,
+              foregroundService);
           when(fileSelectionService.selectFileAsStream()).thenThrow("Error");
         },
         build: () => VerificationBloc(),
@@ -200,13 +229,14 @@ void main() {
 }
 
 void register(
-    GetIt getIt,
     MockVerificationService verificationService,
     MockFilePickerWrapper fileSelectionService,
     MockImageMetaDataService imageMetaDataService,
     MockAudioMetaDataService audioMetaDataService,
     MockVideoMetaDataService videoMetaDataService,
-    MockHashLogic hashLogic) {
+    MockHashLogic hashLogic,
+    MockForegroundServiceWrapper foregroundServiceWrapper) {
+  final GetIt getIt = GetIt.I;
   getIt.registerFactory<IVerificationService>(() => verificationService);
   getIt.registerFactory<IFileSelectionService>(() => fileSelectionService);
   getIt.registerFactory<IMetaDataService>(() => imageMetaDataService,
@@ -215,5 +245,6 @@ void register(
       instanceName: "AudioMetaData");
   getIt.registerFactory<IMetaDataService>(() => videoMetaDataService,
       instanceName: "VideoMetaData");
-  getIt.registerFactory<IHashLogic>(() => MockHashLogic());
+  getIt.registerFactory<IHashLogic>(() => hashLogic);
+  getIt.registerSingleton<IForegroundService>(foregroundServiceWrapper);
 }

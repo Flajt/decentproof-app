@@ -193,7 +193,7 @@ Some tips on how to write project fitting code. If you find something missing or
 
 
 #### BLOCs
-Have a look at this: [https://bloclibrary.dev/#/blocnamingconventions](https://bloclibrary.dev/#/blocnamingconventions), ideally everything should be named like this.
+Have a look at this: [https://bloclibrary.dev/#/blocnamingconventions](https://bloclibrary.dev/#/blocnamingconventions), _ideally_ everything should be named like this. (I guess)
 
 ### Structure
 This project attempts a feature based structure, you create a top level folder `featureName` followed by the folders you need see [Folders](#folders) for more information.

@@ -1,26 +1,26 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <network-security-config>
     <domain-config>
         <domain includeSubdomains="true">functionsbhlpj3oi-sign.functions.fnc.nl-ams.scw.cloud</domain>
-        <pin-set expiration="2024-01-03">
+        <pin-set expiration="2024-05-02">
             <pin digest="SHA-256">bsQTZ/WCGuDkGW/LCTcYTrabBEetCtNVBQWBcbdVRj0=</pin>
         </pin-set>
     </domain-config>
     <domain-config>
         <domain includeSubdomains="true">functionsbhlpj3oi-new-key-required.functions.fnc.nl-ams.scw.cloud</domain>
-        <pin-set expiration="2024-01-03">
+        <pin-set expiration="2024-05-02">
             <pin digest="SHA-256">bsQTZ/WCGuDkGW/LCTcYTrabBEetCtNVBQWBcbdVRj0=</pin>
         </pin-set>
     </domain-config>
     <domain-config>
         <domain includeSubdomains="true">functionsbhlpj3oi-get-new-key.functions.fnc.nl-ams.scw.cloud</domain>
-        <pin-set expiration="2024-01-03">
+        <pin-set expiration="2024-05-02">
             <pin digest="SHA-256">bsQTZ/WCGuDkGW/LCTcYTrabBEetCtNVBQWBcbdVRj0=</pin>
         </pin-set>
     </domain-config>
     <domain-config>
         <domain includeSubdomains="true">functionsbhlpj3oi-verify-hash.functions.fnc.nl-ams.scw.cloud</domain>
-        <pin-set expiration="2024-01-03">
+        <pin-set expiration="2024-05-02">
             <pin digest="SHA-256">bsQTZ/WCGuDkGW/LCTcYTrabBEetCtNVBQWBcbdVRj0=</pin>
         </pin-set>
     </domain-config>

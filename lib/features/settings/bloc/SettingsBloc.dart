@@ -6,8 +6,10 @@ import 'package:decentproof/features/settings/bloc/SettingsBlocStates.dart';
 import 'package:decentproof/shared/Integrety/interfaces/ISecureStorageService.dart';
 import 'package:get_it/get_it.dart';
 
+/// This is a rather untypical bloc, as it has multiple events and states which would normaly warrant it's own bloc or at least cubit
+/// It allows the user to save their email and secret, as well as modify the permissions for embedding the secret and location in the metadata
 class SettingsBloc extends Bloc<SettingsBlocEvents, SettingsBlocStates> {
-  SettingsBloc() : super(InitialSecureStorageState()) {
+  SettingsBloc() : super(InitialSettingsState()) {
     final getIt = GetIt.I;
     final ISecureStorageService secureStorageService =
         getIt.get<ISecureStorageService>();
@@ -25,10 +27,23 @@ class SettingsBloc extends Bloc<SettingsBlocEvents, SettingsBlocStates> {
           emit(EmailSavedState(event.email));
         } else {
           emit(ErrorState("Invalid Email"));
+          emit(InitialSettingsState());
         }
       } catch (e, stackTrace) {
         addError(e, stackTrace);
         emit(ErrorState(e.toString()));
+      }
+    });
+    on<DeleteEmail>((event, emit) async {
+      try {
+        await secureStorageService.deleteEmail();
+        emit(EmailDeletedState());
+        await Future.delayed(const Duration(seconds: 3))
+            .then((value) => emit(InitialSettingsState()));
+      } catch (e, stackTrace) {
+        addError(e, stackTrace);
+        emit(ErrorState(e.toString()));
+        emit(InitialSettingsState());
       }
     });
     on<SaveSecretEvent>((event, emit) async {
@@ -40,9 +55,11 @@ class SettingsBloc extends Bloc<SettingsBlocEvents, SettingsBlocStates> {
             emit(SecretSavedState());
           } else {
             emit(ErrorState("Invalid Secret Length!"));
+            emit(InitialSettingsState());
           }
         } else {
           emit(ErrorState("Invalid Secret"));
+          emit(InitialSettingsState());
         }
       } catch (e, stackTrace) {
         addError(e, stackTrace);
@@ -62,6 +79,7 @@ class SettingsBloc extends Bloc<SettingsBlocEvents, SettingsBlocStates> {
                   permission: event.permission));
             } else {
               emit(ErrorState("Location Permission Denied!"));
+              emit(InitialSettingsState());
             }
           } else {
             await metaDataPermissionService
@@ -78,6 +96,7 @@ class SettingsBloc extends Bloc<SettingsBlocEvents, SettingsBlocStates> {
       } catch (e, stackTrace) {
         addError(e, stackTrace);
         emit(ErrorState(e.toString()));
+        emit(InitialSettingsState());
       }
     });
     on<ModifySecretEmbeddingPermission>((event, emit) {
@@ -87,6 +106,7 @@ class SettingsBloc extends Bloc<SettingsBlocEvents, SettingsBlocStates> {
       } catch (e, stackTrace) {
         addError(e, stackTrace);
         emit(ErrorState(e.toString()));
+        emit(InitialSettingsState());
       }
     });
   }

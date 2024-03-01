@@ -38,4 +38,9 @@ class SecureStorageWrapper implements ISecureStorageService {
   Future<void> saveSecret(String secret) async {
     await _secureStorage.write(key: "secret", value: secret);
   }
+
+  @override
+  Future<void> deleteEmail() async {
+    await _secureStorage.delete(key: "email");
+  }
 }

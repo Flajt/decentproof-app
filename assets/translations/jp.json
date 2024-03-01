@@ -3,7 +3,8 @@
         "options": {
             "imageVideo": "画像/動画",
             "audio": "オーディオ",
-            "verify": "ベリファイ"
+            "verify": "ベリファイ",
+            "locationWarning": "位置情報の埋め込みを有効にしているが、位置情報サービスを無効にしている"
         }
     },
     "introPage": {
@@ -13,8 +14,9 @@
         "title3": "シェアリングについての注意点",
         "title4": "ファイルの検証",
         "title5": "終了",
+        "tempTitle": "オーディオ録音",
         "body1": "このアプリでマルチメディアファイルを作成し、このファイルが改ざんされていないことを後で証明することができます！",
-        "body2": "「メインメニューから2つのオプションを選択するだけで、ファイルの作成が開始されます。サポートされているのは、以下の通りです。.mp4, .png & .aac.です。",
+        "body2": "「メインメニューから2つのオプションを選択するだけで、ファイルの作成が開始されます。サポートされているのは、以下の通りです。.mp4,.mp3, .png & .aac.です。",
         "body3": "どのアプリからでも共有できますが、メールやクラウドストレージ、直接書き出しを利用するのがおすすめです。チャットアプリなど他のアプリを使用すると、メタデータが失われ、後でファイルを確認できなくなる可能性があります",
         "body4": "「メインメニューの3番目の項目を選択し、ファイルを選択するだけです。それ以外はすべて自明です!",
         "body5": "「もし、このアプリをサポートしたい、またはどのように動作するかもっと情報を得たい場合は、メインページの右上のアイコンをチェックしてみてください。よろしくお願いします。",
@@ -26,7 +28,11 @@
     "settingsPage": {
         "title": "設定",
         "addEmail": "電子メールの追加",
-        "description": "ご自身でファイルを確認するために証明書を取得したい場合"
+        "description": "ご自身でファイルを確認するために証明書を取得したい場合",
+        "embedLocation": "埋め込み場所",
+        "embedLocationSubtitle": "作成したメディアファイルに場所を埋め込む",
+        "embedSecret": "シグネチャーの統合",
+        "embedSecretSubtitle": "作成したメディアファイルに署名を埋め込む"
     },
     "submissionPage": {
         "hash": "あなたのハッシュ:",
@@ -36,7 +42,7 @@
     },
     "supportPage": {
         "title": "サポート開発",
-        "description": "If you like this project, consider one of these links out. これは非常に大きな助けになります",
+        "description": "このプロジェクトが気に入ったら、以下のリンクのいずれかをチェックしてほしい。私たちの大きな助けになります。",
         "support": "サポート開発",
         "help": " 開発を支援する。",
         "code": "コードのチェックアウト"
@@ -50,7 +56,10 @@
         "noFile": "選択されたファイルはありません！",
         "id": "あなたのメッセージID:",
         "showInExplorer": "トランザクションの表示",
-        "reset": "リセット"
+        "reset": "リセット",
+        "hashMatching": "ハッシュは一致するか？",
+        "signatureVerified": "署名の確認は？",
+        "locationStored": "場所も含めて？"
     },
     "videoImagePage": {
         "photo": "写真を撮る",
@@ -59,5 +68,17 @@
     "other": {
         "home": "ホームに戻る",
         "submit": "確認"
+    },
+    "notificationChannel": {
+        "description": "このメッセージは、ファイルのハッシュ化を開始し、メタデータを追加するときに表示されます。処理が完了するまで表示されます。"
+    },
+    "perperationNotification": {
+        "title": "準備中",
+        "initalDescription": "初期化"
+    },
+    "verificationNotification": {
+        "title": "検証中",
+        "validatingMetaData": "メタデータの検証",
+        "hashing": "ハッシュ"
     }
 }

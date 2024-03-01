@@ -1,3 +1,4 @@
+import 'dart:isolate';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:decentproof/features/hashing/bloc/PreparationBloc/PerparationEvents.dart';
 import 'package:decentproof/features/hashing/bloc/PreparationBloc/PerparationStates.dart';
@@ -9,6 +10,7 @@ import 'package:decentproof/features/metadata/interfaces/ILocationService.dart';
 import 'package:decentproof/features/metadata/interfaces/IMetaDataPermissionService.dart';
 import 'package:decentproof/features/metadata/interfaces/IMetaDataService.dart';
 import 'package:decentproof/features/metadata/models/LocationModel.dart';
+import 'package:decentproof/shared/foregroundService/IForegroundService.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
@@ -32,6 +34,7 @@ void main() {
     final metaDataPermissionService = MockMetaDataPermissionService();
     final audioHashingService = MockAudioHashingService();
     final locationService = MockLocationServiceWrapper();
+    final foregroundServiceWrapper = MockForegroundServiceWrapper();
     const sampleLocationModel = LocationModel(latitude: 0.0, longitude: 0.0);
 
     group("prepare audio", () {
@@ -49,20 +52,31 @@ void main() {
                 imageMetaDataService,
                 audioHashingService,
                 locationService,
-                metaDataPermissionService);
-
+                metaDataPermissionService,
+                foregroundServiceWrapper);
+            final testPort = ReceivePort.fromRawReceivePort(RawReceivePort());
+            final sendPort = testPort.sendPort;
+            when(foregroundServiceWrapper.getReceivePort())
+                .thenAnswer((_) => Future.value(testPort));
             when(metaDataPermissionService.shouldEmbedLocation())
                 .thenReturn(true);
             when(locationService.requestLocation()).thenAnswer(
                 (realInvocation) => Future.value(sampleLocationModel));
             when(locationService.serviceEnabled())
                 .thenAnswer((realInvocation) => Future.value(true));
+            sendPort.send({"status": "AddingMetaData"});
             when(audioMetaDataService.addLocation(
                     sampleLocationModel, "sample/path/to/file.aac"))
                 .thenAnswer((realInvocation) =>
                     Future.value("sample/path/to/file.mp3"));
+            sendPort.send({"status": "Hashing", "progess": 0});
             when(audioHashingService.hash("sample/path/to/file.mp3"))
                 .thenAnswer((realInvocation) => Future.value("cool-hash"));
+            sendPort.send({
+              "status": "Done",
+              "content": "cool-hash",
+              "filePath": "sample/path/to/file.mp3"
+            });
           },
           act: (bloc) => bloc.add(PrepareAudio("sample/path/to/file.aac")),
           build: () => PreparationBloc(),
@@ -86,12 +100,22 @@ void main() {
                 imageMetaDataService,
                 audioHashingService,
                 locationService,
-                metaDataPermissionService);
-
+                metaDataPermissionService,
+                foregroundServiceWrapper);
+            final testPort = ReceivePort.fromRawReceivePort(RawReceivePort());
+            final sendPort = testPort.sendPort;
+            when(foregroundServiceWrapper.getReceivePort())
+                .thenAnswer((_) => Future.value(testPort));
             when(metaDataPermissionService.shouldEmbedLocation())
                 .thenReturn(false);
+            sendPort.send({"status": "Hashing", "progress": 0});
             when(audioHashingService.hash(any))
                 .thenAnswer((realInvocation) => Future.value("cool-hash"));
+            sendPort.send({
+              "status": "Done",
+              "filePath": "sample/path/to/file.aac",
+              "content": "cool-hash"
+            });
           },
           build: () => PreparationBloc(),
           act: (bloc) => bloc.add(PrepareAudio("sample/path/to/file.aac")),
@@ -115,11 +139,21 @@ void main() {
               imageMetaDataService,
               audioHashingService,
               locationService,
-              metaDataPermissionService);
-
+              metaDataPermissionService,
+              foregroundServiceWrapper);
+          final testPort = ReceivePort.fromRawReceivePort(RawReceivePort());
+          final sendPort = testPort.sendPort;
+          when(foregroundServiceWrapper.getReceivePort())
+              .thenAnswer((_) => Future.value(testPort));
           when(metaDataPermissionService.shouldEmbedLocation())
               .thenReturn(false);
+          sendPort.send({"status": "Hashing", "progress": 0});
           when(audioHashingService.hash(any)).thenThrow("Something went wrong");
+          sendPort.send({
+            "status": "Fail",
+            "description": "Something went wrong",
+            "stack": ""
+          });
         },
         build: () => PreparationBloc(),
         act: (bloc) => bloc.add(PrepareAudio("sample/path/to/file.aac")),
@@ -144,14 +178,21 @@ void main() {
                 imageMetaDataService,
                 audioHashingService,
                 locationService,
-                metaDataPermissionService);
-
+                metaDataPermissionService,
+                foregroundServiceWrapper);
+            final testPort = ReceivePort.fromRawReceivePort(RawReceivePort());
+            final sendPort = testPort.sendPort;
+            when(foregroundServiceWrapper.getReceivePort())
+                .thenAnswer((_) => Future.value(testPort));
+            sendPort.send({"status": "AddingMetaData"});
             when(metaDataPermissionService.shouldEmbedLocation())
                 .thenReturn(true);
             when(locationService.serviceEnabled())
                 .thenAnswer((realInvocation) => Future.value(false));
-            when(audioHashingService.hash(any))
-                .thenAnswer((realInvocation) => Future.value("cool-hash"));
+            sendPort.send({
+              "status": "Error",
+              "description": "Location Service is not enabled!"
+            });
           },
           build: () => PreparationBloc(),
           act: (bloc) => bloc.add(PrepareAudio("sample/path/to/file.aac")),
@@ -176,22 +217,34 @@ void main() {
                 imageMetaDataService,
                 audioHashingService,
                 locationService,
-                metaDataPermissionService);
-
+                metaDataPermissionService,
+                foregroundServiceWrapper);
+            final testPort = ReceivePort.fromRawReceivePort(RawReceivePort());
+            final sendPort = testPort.sendPort;
+            when(foregroundServiceWrapper.getReceivePort())
+                .thenAnswer((_) => Future.value(testPort));
             when(videoSavingService.saveFile())
                 .thenAnswer((_) => Future.value("some/path/to/video.mp4"));
+            sendPort.send({"status": "AddingWaterMark"});
             when(videoWaterMarkSerivce.addWaterMark(any))
                 .thenAnswer((_) => Future.value("sample/path/to/video.mkv"));
             when(metaDataPermissionService.shouldEmbedLocation())
                 .thenReturn(true);
+            sendPort.send({"status": "AddingMetaData"});
             when(locationService.serviceEnabled())
                 .thenAnswer((_) => Future.value(true));
             when(locationService.requestLocation()).thenAnswer(
                 (realInvocation) => Future.value(sampleLocationModel));
             when(videoMetaDataService.addLocation(sampleLocationModel, any))
                 .thenAnswer((_) => Future.value("sample/path/to/video.mkv"));
+            sendPort.send({"status": "Hashing", "progress": 0});
             when(videoHashingService.hash(any))
                 .thenAnswer((realInvocation) => Future.value("cool-hash"));
+            sendPort.send({
+              "status": "Done",
+              "content": "cool-hash",
+              "filePath": "sample/path/to/video.mkv"
+            });
           },
           act: (bloc) => bloc.add(PrepareVideo()),
           build: () => PreparationBloc(),
@@ -218,16 +271,27 @@ void main() {
                 imageMetaDataService,
                 audioHashingService,
                 locationService,
-                metaDataPermissionService);
-
+                metaDataPermissionService,
+                foregroundServiceWrapper);
+            final testPort = ReceivePort.fromRawReceivePort(RawReceivePort());
+            final sendPort = testPort.sendPort;
+            when(foregroundServiceWrapper.getReceivePort())
+                .thenAnswer((_) => Future.value(testPort));
             when(videoSavingService.saveFile())
                 .thenAnswer((_) => Future.value("sample/path/to/video.mp4"));
+            sendPort.send({"status": "AddingWaterMark"});
             when(metaDataPermissionService.shouldEmbedLocation())
                 .thenReturn(false);
             when(videoWaterMarkSerivce.addWaterMark(any))
                 .thenAnswer((_) => Future.value("sample/path/to/video.mkv"));
+            sendPort.send({"status": "Hashing", "progress": 0});
             when(videoHashingService.hash(any))
                 .thenAnswer((realInvocation) => Future.value("cool-hash"));
+            sendPort.send({
+              "status": "Done",
+              "content": "cool-hash",
+              "filePath": "sample/path/to/video.mkv"
+            });
           },
           build: () => PreparationBloc(),
           act: (bloc) => bloc.add(PrepareVideo()),
@@ -253,15 +317,26 @@ void main() {
               imageMetaDataService,
               audioHashingService,
               locationService,
-              metaDataPermissionService);
-
+              metaDataPermissionService,
+              foregroundServiceWrapper);
+          final testPort = ReceivePort.fromRawReceivePort(RawReceivePort());
+          final sendPort = testPort.sendPort;
+          when(foregroundServiceWrapper.getReceivePort())
+              .thenAnswer((_) => Future.value(testPort));
           when(videoSavingService.saveFile())
               .thenAnswer((_) => Future.value("sample/path/to/video.mp4"));
           when(metaDataPermissionService.shouldEmbedLocation())
               .thenReturn(false);
+          sendPort.send({"status": "AddingWaterMark"});
           when(videoWaterMarkSerivce.addWaterMark(any))
               .thenAnswer((_) => Future.value("sample/path/to/video.mkv"));
+          sendPort.send({"status": "Hashing", "progress": 0});
           when(videoHashingService.hash(any)).thenThrow("Something went wrong");
+          sendPort.send({
+            "status": "Fail",
+            "description": "Something went wrong",
+            "stack": ""
+          });
         },
         build: () => PreparationBloc(),
         act: (bloc) => bloc.add(PrepareVideo()),
@@ -287,14 +362,24 @@ void main() {
                 imageMetaDataService,
                 audioHashingService,
                 locationService,
-                metaDataPermissionService);
-
+                metaDataPermissionService,
+                foregroundServiceWrapper);
+            final testPort = ReceivePort.fromRawReceivePort(RawReceivePort());
+            final sendPort = testPort.sendPort;
+            when(foregroundServiceWrapper.getReceivePort())
+                .thenAnswer((_) => Future.value(testPort));
+            sendPort.send({
+              "status": "AddingWaterMark"
+            }); // Since stuff is returned from a stream it is in the currect order
+            sendPort.send({"status": "AddingMetaData"});
+            sendPort.send({
+              "status": "Error",
+              "description": "Location Service is not enabled!"
+            });
             when(metaDataPermissionService.shouldEmbedLocation())
                 .thenReturn(true);
             when(locationService.serviceEnabled())
                 .thenAnswer((realInvocation) => Future.value(false));
-            when(videoHashingService.hash(any))
-                .thenAnswer((realInvocation) => Future.value("cool-hash"));
           },
           build: () => PreparationBloc(),
           act: (bloc) => bloc.add(PrepareVideo()),
@@ -320,8 +405,22 @@ void main() {
                 imageMetaDataService,
                 audioHashingService,
                 locationService,
-                metaDataPermissionService);
-
+                metaDataPermissionService,
+                foregroundServiceWrapper);
+            final testPort = ReceivePort.fromRawReceivePort(RawReceivePort());
+            final sendPort = testPort.sendPort;
+            when(foregroundServiceWrapper.getReceivePort())
+                .thenAnswer((_) => Future.value(testPort));
+            sendPort.send({
+              "status": "AddingWaterMark"
+            }); // Since stuff is returned from a stream it is in the currect order
+            sendPort.send({"status": "AddingMetaData"});
+            sendPort.send({"status": "Hashing", "progress": 0});
+            sendPort.send({
+              "status": "Done",
+              "content": "cool-hash",
+              "filePath": "sample/path/to/image.png"
+            });
             when(imageSavingService.saveFile())
                 .thenAnswer((_) => Future.value("some/path/to/image.png"));
             when(imageWaterMarkService.addWaterMark(any))
@@ -362,7 +461,21 @@ void main() {
                 imageMetaDataService,
                 audioHashingService,
                 locationService,
-                metaDataPermissionService);
+                metaDataPermissionService,
+                foregroundServiceWrapper);
+            final testPort = ReceivePort.fromRawReceivePort(RawReceivePort());
+            final sendPort = testPort.sendPort;
+            when(foregroundServiceWrapper.getReceivePort())
+                .thenAnswer((_) => Future.value(testPort));
+            sendPort.send({
+              "status": "AddingWaterMark"
+            }); // Since stuff is returned from a stream it is in the currect order
+            sendPort.send({"status": "Hashing", "progress": 0});
+            sendPort.send({
+              "status": "Done",
+              "content": "cool-hash",
+              "filePath": "sample/path/to/image.png"
+            });
 
             when(imageSavingService.saveFile())
                 .thenAnswer((_) => Future.value("sample/path/to/image.png"));
@@ -397,7 +510,21 @@ void main() {
               imageMetaDataService,
               audioHashingService,
               locationService,
-              metaDataPermissionService);
+              metaDataPermissionService,
+              foregroundServiceWrapper);
+          final testPort = ReceivePort.fromRawReceivePort(RawReceivePort());
+          final sendPort = testPort.sendPort;
+          when(foregroundServiceWrapper.getReceivePort())
+              .thenAnswer((_) => Future.value(testPort));
+          sendPort.send({
+            "status": "AddingWaterMark"
+          }); // Since stuff is returned from a stream it is in the currect order
+          sendPort.send({"status": "Hashing", "progress": 0});
+          sendPort.send({
+            "status": "Fail",
+            "description": "Something went wrong",
+            "stack": ""
+          });
 
           when(imageSavingService.saveFile())
               .thenAnswer((_) => Future.value("sample/path/to/image.png"));
@@ -431,7 +558,20 @@ void main() {
                 imageMetaDataService,
                 audioHashingService,
                 locationService,
-                metaDataPermissionService);
+                metaDataPermissionService,
+                foregroundServiceWrapper);
+            final testPort = ReceivePort.fromRawReceivePort(RawReceivePort());
+            final sendPort = testPort.sendPort;
+            when(foregroundServiceWrapper.getReceivePort())
+                .thenAnswer((_) => Future.value(testPort));
+            sendPort.send({
+              "status": "AddingWaterMark"
+            }); // Since stuff is returned from a stream it is in the currect order
+            sendPort.send({"status": "AddingMetaData"});
+            sendPort.send({
+              "status": "Error",
+              "description": "Location Service is not enabled!",
+            });
 
             when(metaDataPermissionService.shouldEmbedLocation())
                 .thenReturn(true);
@@ -464,7 +604,8 @@ void register(
     MockImageMetaDataService imageMetaDataService,
     MockAudioHashingService audioHashingService,
     MockLocationServiceWrapper locationService,
-    MockMetaDataPermissionService metaDataPermissionService) {
+    MockMetaDataPermissionService metaDataPermissionService,
+    MockForegroundServiceWrapper foregroundServiceWrapper) {
   final GetIt getIt = GetIt.I;
 
   getIt.registerFactory<IFileSavingService>(() => videoSavingService,
@@ -490,4 +631,5 @@ void register(
   getIt.registerFactory<IHashingService>(() => audioHashingService,
       instanceName: "AudioHashing");
   getIt.registerFactory<ILocationService>(() => locationService);
+  getIt.registerSingleton<IForegroundService>(foregroundServiceWrapper);
 }

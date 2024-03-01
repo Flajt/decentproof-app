@@ -3,7 +3,8 @@
         "options": {
             "imageVideo": "Image/Vidéo",
             "audio": "Audio",
-            "verify": "Verify"
+            "verify": "Verify",
+            "locationWarning": "Vous avez activé l'intégration de la localisation, mais désactivé le service de localisation"
         }
     },
     "introPage": {
@@ -13,8 +14,9 @@
         "title3": "Une note sur le partage",
         "title4": "Vérification des fichiers",
         "title5": "Terminer",
+        "tempTitle": "Enregistrements audio",
         "body1": "Avec cette App, vous pouvez créer des fichiers multimédias et prouver ultérieurement que ce fichier n'a pas été altéré !",
-        "body2": "Sélectionnez simplement l'une des 2 options du menu principal et commencez à créer votre fichier. Les formats pris en charge sont : .mp4, .png & .aac",
+        "body2": "Sélectionnez simplement l'une des 2 options du menu principal et commencez à créer votre fichier. Les formats pris en charge sont : .mp4,.mp3, .png & .aac",
         "body3": "Vous pouvez partager le fichier à partir de n'importe quelle application, mais je vous recommande d'utiliser le courrier électronique, un stockage en nuage ou l'exportation directe. Si vous utilisez d'autres apps, comme une app de chat, il est possible que vous perdiez des métadonnées et que vous ne puissiez pas vérifier le fichier par la suite!",
         "body4": "C'est facile, il suffit de sélectionner la troisième entrée dans le menu principal et de sélectionner votre fichier. Tout le reste est explicite !",
         "body5": "C'est tout, si vous voulez soutenir l'application, ou si vous souhaitez obtenir plus d'informations sur son fonctionnement, n'hésitez pas à consulter l'icône en haut à droite, sur la page principale.",
@@ -26,12 +28,16 @@
     "settingsPage": {
         "title": "Paramètres",
         "addEmail": "Ajouter un email",
-        "description": "Si vous voulez obtenir un certificat de preuve pour vérifier votre fichier vous-même"
+        "description": "Si vous voulez obtenir un certificat de preuve pour vérifier votre fichier vous-même",
+        "embedLocation": "Emplacement d'intégration",
+        "embedLocationSubtitle": "Intégrer l'emplacement dans les fichiers multimédias créés",
+        "embedSecret": "Intégrer la signature",
+        "embedSecretSubtitle": "Intégrer une signature dans les fichiers multimédias créés"
     },
     "submissionPage": {
         "hash": "Your Hash :",
         "messageid": "ID du message",
-        "submitt": "Submitt",
+        "submitt": "Soumettre",
         "submissionSuccess": "Soumis avec succès"
     },
     "supportPage": {
@@ -51,6 +57,7 @@
         "id": "Your Message ID :",
         "showInExplorer": "Afficher la transaction",
         "reset": "Réinitialiser",
+        "hashMatching": "Les \"hashs\" correspondent-ils ?",
         "signatureVerified": "Signature vérifiée ?",
         "locationStored": "Emplacement stocké?"
     },
@@ -61,5 +68,17 @@
     "other": {
         "home": "Retour à l'accueil",
         "submit": "Confirmer"
+    },
+    "notificationChannel": {
+        "description": "Cette notification apparaît dès que vous commencez à \"hash\" un fichier et à y ajouter des métadonnées. Il sera affiché jusqu'à ce que le processus soit terminé."
+    },
+    "perperationNotification": {
+        "title": "Préparation en cours",
+        "initalDescription": "Initialisation"
+    },
+    "verificationNotification": {
+        "title": "Vérification en cours",
+        "validatingMetaData": "Validation des métadonnées",
+        "hashing": "Hashen"
     }
 }

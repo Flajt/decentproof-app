@@ -2,5 +2,5 @@
 ///Abstraction for hashing service
 abstract class IHashingService {
   ///Hashes file from the given path
-  Future<String> hash(String path);
+  Future<String> hash(String path, [Function(double) progress]);
 }

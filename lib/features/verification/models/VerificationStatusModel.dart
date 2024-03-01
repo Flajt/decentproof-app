@@ -49,4 +49,26 @@ class VerificationStatusModel extends Equatable {
         ethereumTransaction,
         metaDataModel
       ];
+  Map<String, dynamic> toJson() {
+    return {
+      'matchingHashes': matchingHashes,
+      'verifiedSignature': verifiedSignature,
+      'dateTime': dateTime.toIso8601String(),
+      'submissionStatus': submissionStatus,
+      'bitcoinTransaction': bitcoinTransaction,
+      'ethereumTransaction': ethereumTransaction,
+      'metaDataModel': metaDataModel?.toJson()
+    };
+  }
+
+  VerificationStatusModel.fromJson(Map<String, dynamic> json)
+      : matchingHashes = json['matchingHashes'],
+        verifiedSignature = json['verifiedSignature'],
+        dateTime = DateTime.parse(json['dateTime']),
+        submissionStatus = json['submissionStatus'],
+        bitcoinTransaction = json['bitcoinTransaction'],
+        ethereumTransaction = json['ethereumTransaction'],
+        metaDataModel = json['metaDataModel'] != null
+            ? MetaDataModel.fromJson(json['metaDataModel'])
+            : null;
 }

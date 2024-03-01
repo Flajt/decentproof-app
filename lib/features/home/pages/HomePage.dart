@@ -1,6 +1,7 @@
 import 'package:decentproof/features/metadata/uiblocks/EnableLocationWarning.dart';
 import 'package:decentproof/features/review/logic/InAppReviewWrapper.dart';
 import 'package:decentproof/shared/util/RequestUtil.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_simple_updates/flutter_simple_updates.dart';
@@ -52,7 +53,9 @@ class HomePage extends StatelessWidget {
           Align(
               alignment: Alignment.center,
               child: FutureBuilder(
-                future: request,
+                future: kDebugMode
+                    ? Future.value(true)
+                    : request, //NOTE: If you want to work with firebase while debugging remove this check here and [register.dart]
                 builder: (context, snapshot) {
                   if (snapshot.hasError) {
                     return Center(

@@ -27,7 +27,7 @@ void main() {
       test("add watermark", () async {
         ImageWaterMarkService service = ImageWaterMarkService();
         String filePath = await service.addWaterMark("$basePath/icon_copy.png");
-        String hash = await hashLogic.hash(filePath);
+        String hash = await hashLogic.hash(filePath, (p) {});
         expect(hash, isNot(equals(beforeWaterMarkHash)));
       });
     });

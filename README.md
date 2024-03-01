@@ -16,7 +16,7 @@ For general information please checkout the [wiki](https://github.com/Flajt/dece
 
 ## About
 
-Decentproof is an app to allow you the creation of temper proof files. The app supports: aac, mp3, mkv and png files. 
+Decentproof is an app to allow you to create media files and verify their integrity & authenticity afterwards. The app supports: aac, mp3, mkv and png files. 
 File hashes are securely and privacy friendly stored in the Bitcoin and Etherium blockchain and can easily and *independantly* verified. 
 
 > Not a **Dev** ? Check out the [wiki](https://github.com/Flajt/decentproof-app/wiki)
@@ -38,7 +38,7 @@ A guide on how to get started with everything.
 The following things are required to get started:
 - Flutter sdk (see [below](#helpfull-ressources) to get it)
 - Android Studio & XCode (if MacOS)
-- A Code editor (e.g. VSCode, JetBrains, Sublime, Vim) etc.
+- A code editor (e.g. VSCode, JetBrains, Sublime, Vim) etc.
 - The backend [repository](https://github.com/Flajt/decentproof-backend)
 
 ### Let's Go
@@ -70,6 +70,7 @@ SIGN_URL=url-for-signature-requests
 CHECK_KEY_URL=url-to-check-for-new-key
 GET_KEY_URL=url-to-get-new-key
 VERIFY_URL=url-to-verify-stuff
+SENTRY_DSN=sentry-dsn-url
 ```
 
 ## Helpfull Ressources

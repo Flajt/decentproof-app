@@ -1,7 +1,7 @@
 import 'package:decentproof/features/metadata/models/LocationModel.dart';
 import 'package:test/test.dart';
 
-// What do I not do for more coverage...
+// What people do for more coverage...
 void main() {
   test('contains data', () {
     const latitude = 1.0;

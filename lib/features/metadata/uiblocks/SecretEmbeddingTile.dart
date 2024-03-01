@@ -19,6 +19,7 @@ class SecretEmbeddingTile extends StatelessWidget {
       child: BlocBuilder<SettingsBloc, SettingsBlocStates>(
           builder: (context, snapshot) {
         return ListTile(
+          tileColor: Colors.grey[300], // used to show that it's disabled
           title: const Text("settingsPage.embedSecret").tr(),
           subtitle: const Text("settingsPage.embedSecretSubtitle").tr(),
           trailing: Checkbox.adaptive(
