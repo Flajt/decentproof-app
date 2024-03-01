@@ -55,7 +55,7 @@ class HomePage extends StatelessWidget {
               child: FutureBuilder(
                 future: kDebugMode
                     ? Future.value(true)
-                    : request, //NOTE: If you want to work with firebase while debugging remove this check here and [HashSubmissionService.dart]
+                    : request, //NOTE: If you want to work with firebase while debugging remove this check here and [register.dart]
                 builder: (context, snapshot) {
                   if (snapshot.hasError) {
                     return Center(
