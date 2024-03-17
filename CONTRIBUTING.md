@@ -226,8 +226,8 @@ Services should used in BLOCs, or other Services, which ideally are used by a BL
 BLOCs should be the thing between our Widgets and our Services!
 If there is a dozen Services running in a BLOC, you can consider wrapping it in a Special Service, if you want to do that please open a discussion and tag me so we can find a propper naming convention for that.
 
-Idealy a feature looks like this:
------> = Implemented By
+Idealy a feature looks like this:<br>
+-----> = Implemented By <br>
 Services can of course implement multiple Wrappers and other services if desired, however try to keep it resonable.
 
 PackageServiceWrapper ------> MyFeatureService ----> My Feature Bloc

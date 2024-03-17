@@ -47,24 +47,24 @@ PODS:
   - file_picker (0.0.1):
     - DKImagePickerController/PhotoGallery
     - Flutter
-  - Firebase/CoreOnly (10.18.0):
-    - FirebaseCore (= 10.18.0)
-  - firebase_app_check (0.2.1-8):
-    - Firebase/CoreOnly (~> 10.18.0)
+  - Firebase/CoreOnly (10.20.0):
+    - FirebaseCore (= 10.20.0)
+  - firebase_app_check (0.2.1-15):
+    - Firebase/CoreOnly (~> 10.20.0)
     - firebase_core
-    - FirebaseAppCheck (~> 10.18.0-beta)
+    - FirebaseAppCheck (~> 10.20.0-beta)
     - Flutter
-  - firebase_core (2.24.2):
-    - Firebase/CoreOnly (= 10.18.0)
+  - firebase_core (2.25.5):
+    - Firebase/CoreOnly (= 10.20.0)
     - Flutter
-  - FirebaseAppCheck (10.18.0):
+  - FirebaseAppCheck (10.20.0):
     - AppCheckCore (~> 10.18)
     - FirebaseAppCheckInterop (~> 10.17)
     - FirebaseCore (~> 10.0)
     - GoogleUtilities/Environment (~> 7.8)
     - PromisesObjC (~> 2.1)
   - FirebaseAppCheckInterop (10.21.0)
-  - FirebaseCore (10.18.0):
+  - FirebaseCore (10.20.0):
     - FirebaseCoreInternal (~> 10.0)
     - GoogleUtilities/Environment (~> 7.12)
     - GoogleUtilities/Logger (~> 7.12)
@@ -79,11 +79,15 @@ PODS:
     - Flutter
   - geolocator_apple (1.2.0):
     - Flutter
-  - GoogleUtilities/Environment (7.12.0):
+  - GoogleUtilities/Environment (7.13.0):
+    - GoogleUtilities/Privacy
     - PromisesObjC (< 3.0, >= 1.2)
-  - GoogleUtilities/Logger (7.12.0):
+  - GoogleUtilities/Logger (7.13.0):
     - GoogleUtilities/Environment
-  - "GoogleUtilities/NSData+zlib (7.12.0)"
+    - GoogleUtilities/Privacy
+  - "GoogleUtilities/NSData+zlib (7.13.0)":
+    - GoogleUtilities/Privacy
+  - GoogleUtilities/Privacy (7.13.0)
   - image_picker_ios (0.0.1):
     - Flutter
   - in_app_review (0.2.0):
@@ -98,17 +102,17 @@ PODS:
   - photo_manager (2.0.0):
     - Flutter
     - FlutterMacOS
-  - PromisesObjC (2.3.1)
-  - SDWebImage (5.18.11):
-    - SDWebImage/Core (= 5.18.11)
-  - SDWebImage/Core (5.18.11)
-  - Sentry/HybridSDK (8.17.2):
-    - SentryPrivate (= 8.17.2)
+  - PromisesObjC (2.4.0)
+  - SDWebImage (5.19.0):
+    - SDWebImage/Core (= 5.19.0)
+  - SDWebImage/Core (5.19.0)
+  - Sentry/HybridSDK (8.20.0):
+    - SentryPrivate (= 8.20.0)
   - sentry_flutter (0.0.1):
     - Flutter
     - FlutterMacOS
-    - Sentry/HybridSDK (= 8.17.2)
-  - SentryPrivate (8.17.2)
+    - Sentry/HybridSDK (= 8.20.0)
+  - SentryPrivate (8.20.0)
   - share_plus (0.0.1):
     - Flutter
   - shared_preferences_foundation (0.0.1):
@@ -211,35 +215,35 @@ SPEC CHECKSUMS:
   DKPhotoGallery: fdfad5125a9fdda9cc57df834d49df790dbb4179
   ffmpeg-kit-ios-full: d7b338dc10e3ff1ce37a2900422f801ef85a8c57
   ffmpeg_kit_flutter: 251798ed2171df063420ecf5ccdac138307002c3
-  file_picker: ce3938a0df3cc1ef404671531facef740d03f920
-  Firebase: 414ad272f8d02dfbf12662a9d43f4bba9bec2a06
-  firebase_app_check: 375d2482bc2219ef06df67f2ad659c377b2c1075
-  firebase_core: 0af4a2b24f62071f9bf283691c0ee41556dcb3f5
-  FirebaseAppCheck: f34226df40cf6057dc54916ab5a5d461bb51ee68
+  file_picker: 15fd9539e4eb735dc54bae8c0534a7a9511a03de
+  Firebase: 10c8cb12fb7ad2ae0c09ffc86cd9c1ab392a0031
+  firebase_app_check: 3dca00c5f194e716247577064d5669ac66f64354
+  firebase_core: c8628c7ce80f79439149549052bff22f6784fbf5
+  FirebaseAppCheck: 401b26f036fcbe0ffe40bdc1c831ab05955c1b9f
   FirebaseAppCheckInterop: 69fc7d8f6a1cbfa973efb8d1723651de30d12525
-  FirebaseCore: 2322423314d92f946219c8791674d2f3345b598f
+  FirebaseCore: 28045c1560a2600d284b9c45a904fe322dc890b6
   FirebaseCoreInternal: 43c1788eaeee9d1b97caaa751af567ce11010d00
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   flutter_foreground_task: 21ef182ab0a29a3005cc72cd70e5f45cb7f7f817
   flutter_keyboard_visibility: 0339d06371254c3eb25eeb90ba8d17dca8f9c069
   flutter_secure_storage: 23fc622d89d073675f2eaa109381aefbcf5a49be
   geolocator_apple: 9157311f654584b9bb72686c55fc02a97b73f461
-  GoogleUtilities: 0759d1a57ebb953965c2dfe0ba4c82e95ccc2e34
-  image_picker_ios: 4a8aadfbb6dc30ad5141a2ce3832af9214a705b5
+  GoogleUtilities: d053d902a8edaa9904e1bd00c37535385b8ed152
+  image_picker_ios: 99dfe1854b4fa34d0364e74a78448a0151025425
   in_app_review: 318597b3a06c22bb46dc454d56828c85f444f99d
   native_exif: 837ad189661d7b353660ae7f19f9f6932418f195
   package_info_plus: 115f4ad11e0698c8c1c5d8a689390df880f47e85
-  path_provider_foundation: 29f094ae23ebbca9d3d0cec13889cd9060c0e943
+  path_provider_foundation: 3784922295ac71e43754bd15e0653ccfd36a147c
   photo_manager: 4f6810b7dfc4feb03b461ac1a70dacf91fba7604
-  PromisesObjC: c50d2056b5253dadbd6c2bea79b0674bd5a52fa4
-  SDWebImage: a3ba0b8faac7228c3c8eadd1a55c9c9fe5e16457
-  Sentry: 64a9f9c3637af913adcf53deced05bbe452d1410
-  sentry_flutter: 57912cf425e09398bdf47f38842a1fcb9836f1be
-  SentryPrivate: 024c6fed507ac39ae98e6d087034160f942920d5
+  PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
+  SDWebImage: 981fd7e860af070920f249fd092420006014c3eb
+  Sentry: a8d7b373b9f9868442b02a0c425192f693103cbf
+  sentry_flutter: 03e7660857a8cdb236e71456a7e8447b65c8a788
+  SentryPrivate: 006b24af16828441f70e2ab6adf241bd0a8ad130
   share_plus: c3fef564749587fc939ef86ffb283ceac0baf9f5
-  shared_preferences_foundation: 5b919d13b803cadd15ed2dc053125c68730e5126
+  shared_preferences_foundation: b4c3b4cddf1c21f02770737f147a3f5da9d39695
   SwiftyGif: 93a1cc87bf3a51916001cf8f3d63835fb64c819f
-  url_launcher_ios: bf5ce03e0e2088bad9cc378ea97fa0ed5b49673b
+  url_launcher_ios: 6116280ddcfe98ab8820085d8d76ae7449447586
 
 PODFILE CHECKSUM: 093df91f9b3aa60d631a0030b40f0e916502874d
 
