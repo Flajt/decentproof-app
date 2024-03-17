@@ -78,6 +78,7 @@
     },
     "verificationNotification": {
         "title": "جارٍ التحقق",
-        "validatingMetaData": "التحقق من صحة البيانات الوصفية"
+        "validatingMetaData": "التحقق من صحة البيانات الوصفية",
+        "hashing": "يتم حساب قيمة التجزئة"
     }
 }

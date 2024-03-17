@@ -9,12 +9,14 @@ import 'package:decentproof/features/verification/models/VerificationStatusModel
 import 'package:decentproof/shared/foregroundService/IForegroundService.dart';
 import 'package:decentproof/shared/interface/IHashLogic.dart';
 import 'package:decentproof/shared/util/initSentry.dart';
+import 'package:decentproof/shared/util/loadTranslations.dart';
 import 'package:decentproof/shared/util/register.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_foreground_task/flutter_foreground_task.dart';
 import 'package:get_it/get_it.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
+import 'package:easy_localization/src/localization.dart';
 
 class VerificationTaskHandler implements TaskHandler {
   @override
@@ -33,10 +35,12 @@ class VerificationTaskHandler implements TaskHandler {
   Future<void> onStart(DateTime timestamp, SendPort? sendPort) async {
     DartPluginRegistrant.ensureInitialized();
     try {
+      await EasyLocalization.ensureInitialized();
+      await loadTranslations();
+      final Localization L = Localization.instance;
+      await dotenv.load();
       await initSentry();
       await registar();
-      await dotenv.load();
-      await EasyLocalization.ensureInitialized();
       final GetIt getIt = GetIt.instance;
       final IForegroundService foregroundService =
           getIt.get<IForegroundService>();
@@ -50,8 +54,6 @@ class VerificationTaskHandler implements TaskHandler {
       Stream<List<int>> tempStream = tempFile
           .openRead(); // Steams are consumed after beeing done so we need a new one
       sendPort?.send({"status": "Hashing", "progess": 0});
-      await foregroundService.updateNotification(
-          body: "verificationNotification.validatingMetaData".tr());
       String hash = await hashLogic.hashBytesInChunksFromStream(tempStream,
           (progress) async {
         int currentProgress = (progress / fileSize * 100).ceil();
@@ -60,7 +62,7 @@ class VerificationTaskHandler implements TaskHandler {
           // Should prevent to many updates
           await foregroundService.updateNotification(
               body:
-                  "${"verificationNotification.hashing".tr()} $currentProgress%");
+                  "${L.tr("verificationNotification.hashing")} $currentProgress%");
         }
       });
       VerificationStatusModel model = await verificationService.verify(hash);
@@ -69,7 +71,7 @@ class VerificationTaskHandler implements TaskHandler {
       MetaDataModel metaDataModel =
           await extractMetaData(fileType, tempFile, getIt);
       await foregroundService.updateNotification(
-          body: "verificationNotification.validatingMetaData".tr());
+          body: L.tr("verificationNotification.validatingMetaData"));
       final finalModel = model.copyWith(metaDataModel: metaDataModel);
       sendPort?.send({"status": "Done", "model": finalModel.toJson()});
     } catch (e, stack) {

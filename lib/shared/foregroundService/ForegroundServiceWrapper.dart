@@ -10,7 +10,7 @@ class ForegroundServiceWrapper implements IForegroundService {
       androidNotificationOptions: AndroidNotificationOptions(
           channelId: 'decentproof_hashing_service',
           channelName: 'Hashing & Preperation Channel',
-          channelDescription: "notification.description".tr(),
+          channelDescription: "notificationChannel.description".tr(),
           channelImportance: NotificationChannelImportance.LOW,
           priority: NotificationPriority.MAX,
           visibility: NotificationVisibility.VISIBILITY_PRIVATE,
