@@ -11,6 +11,7 @@ import 'package:mockito/mockito.dart';
 
 import '../../mocks.mocks.dart';
 
+/// Some of these tests are kinda "controversial" I guess, as they sometimes heavily mock the dependencies
 void main() {
   final getIt = GetIt.I;
   final locationService = MockLocationServiceWrapper();
@@ -19,8 +20,8 @@ void main() {
   setUp(() async => {
         await getIt.reset(),
       });
-  group("save E-Mail", () {
-    blocTest("invalid address",
+  group("E-Mail", () {
+    blocTest("input is invalid address",
         setUp: () {
           getIt.registerFactory<IMetaDataPermissionService>(
               () => MockMetaDataPermissionService());
@@ -30,10 +31,10 @@ void main() {
               () => MockLocationServiceWrapper());
         },
         act: (bloc) => bloc.add(SaveEmailEvent("invalid")),
-        expect: () => [ErrorState("Invalid Email")],
+        expect: () => [ErrorState("Invalid Email"), InitialSettingsState()],
         build: () => SettingsBloc());
     blocTest(
-      "empty input",
+      "input is empty",
       setUp: () {
         getIt
             .registerFactory<ISecureStorageService>(() => secureStorageService);
@@ -43,9 +44,9 @@ void main() {
       },
       act: (bloc) => bloc.add(SaveEmailEvent("")),
       build: () => SettingsBloc(),
-      expect: () => [ErrorState("Invalid Email")],
+      expect: () => [ErrorState("Invalid Email"), InitialSettingsState()],
     );
-    blocTest("valid email",
+    blocTest("is valid",
         build: () => SettingsBloc(),
         setUp: () {
           getIt.registerFactory<IMetaDataPermissionService>(
@@ -59,9 +60,24 @@ void main() {
         },
         act: (bloc) => bloc.add(SaveEmailEvent("test@test.com")),
         expect: () => [EmailSavedState("test@test.com")]);
+    blocTest("can be deleted",
+        build: () => SettingsBloc(),
+        setUp: () {
+          getIt.registerFactory<IMetaDataPermissionService>(
+              () => MockMetaDataPermissionService());
+          getIt.registerFactory<ISecureStorageService>(
+              () => secureStorageService);
+          getIt.registerFactory<ILocationService>(
+              () => MockLocationServiceWrapper());
+          when(secureStorageService.saveEmail(any))
+              .thenAnswer((realInvocation) => Future.value());
+        },
+        act: (bloc) => bloc.add(DeleteEmail()),
+        wait: const Duration(seconds: 3, milliseconds: 500),
+        expect: () => [EmailDeletedState(), InitialSettingsState()]);
   });
-  group("location embedding", () {
-    blocTest("enable successfully",
+  group("Location embedding", () {
+    blocTest("enabled successfully",
         setUp: () {
           getIt.registerFactory<IMetaDataPermissionService>(
               () => permissionService);
@@ -76,7 +92,7 @@ void main() {
         act: (bloc) => bloc.add(ModifyLocationEmbeddingPermission(true)),
         expect: () => [LocationEmbeddingPermissionModified(permission: true)],
         build: () => SettingsBloc());
-    blocTest("fail, location permission denied",
+    blocTest("failed, location permission denied",
         setUp: () {
           getIt.registerFactory<IMetaDataPermissionService>(
               () => permissionService);
@@ -89,10 +105,11 @@ void main() {
               .thenAnswer((realInvocation) => Future.value(false));
         },
         act: (bloc) => bloc.add(ModifyLocationEmbeddingPermission(true)),
-        expect: () => [ErrorState("Location Permission Denied!")],
+        expect: () =>
+            [ErrorState("Location Permission Denied!"), InitialSettingsState()],
         build: () => SettingsBloc());
 
-    blocTest("successfully handle error",
+    blocTest("successfull handle error",
         setUp: () {
           getIt.registerFactory<IMetaDataPermissionService>(
               () => permissionService);
@@ -104,10 +121,10 @@ void main() {
           when(locationService.hasPermission()).thenThrow("Error");
         },
         act: (bloc) => bloc.add(ModifyLocationEmbeddingPermission(true)),
-        expect: () => [ErrorState("Error")],
+        expect: () => [ErrorState("Error"), InitialSettingsState()],
         build: () => SettingsBloc());
 
-    blocTest("success, location permission granted",
+    blocTest("successfull, location permission granted",
         setUp: () {
           getIt.registerFactory<IMetaDataPermissionService>(
               () => permissionService);

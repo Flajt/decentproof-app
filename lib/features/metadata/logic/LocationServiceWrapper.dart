@@ -1,24 +1,26 @@
 import 'package:decentproof/features/metadata/interfaces/ILocationService.dart';
 import 'package:decentproof/features/metadata/models/LocationModel.dart';
-import 'package:location/location.dart';
+import 'package:geolocator/geolocator.dart';
 
 class LocationServiceWrapper implements ILocationService {
-  final Location _location = Location();
   @override
   Future<bool> getPermission() async {
-    PermissionStatus permissionStatus = await _location.requestPermission();
-    if (permissionStatus == PermissionStatus.granted ||
-        permissionStatus == PermissionStatus.grantedLimited) {
+    LocationPermission permission = await Geolocator.requestPermission();
+    if (permission == LocationPermission.always ||
+        permission == LocationPermission.whileInUse) {
       return true;
+    } else if (permission == LocationPermission.deniedForever) {
+      await Geolocator.openLocationSettings();
+      await getPermission(); // Lets hope that doesn't run forever
     }
     return false;
   }
 
   @override
   Future<bool> hasPermission() async {
-    PermissionStatus permissionStatus = await _location.hasPermission();
-    if (permissionStatus == PermissionStatus.granted ||
-        permissionStatus == PermissionStatus.grantedLimited) {
+    LocationPermission permissionStatus = await Geolocator.checkPermission();
+    if (permissionStatus == LocationPermission.always ||
+        permissionStatus == LocationPermission.whileInUse) {
       return true;
     }
     return false;
@@ -26,13 +28,15 @@ class LocationServiceWrapper implements ILocationService {
 
   @override
   Future<LocationModel> requestLocation() async {
-    LocationData locationData = await _location.getLocation();
+    Position locationData = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.best);
     return LocationModel(
-        latitude: locationData.latitude!, longitude: locationData.longitude!);
+        latitude: locationData.latitude, longitude: locationData.longitude);
   }
 
   @override
   Future<bool> serviceEnabled() async {
-    return await _location.serviceEnabled();
+    final resp = await Geolocator.isLocationServiceEnabled();
+    return resp;
   }
 }

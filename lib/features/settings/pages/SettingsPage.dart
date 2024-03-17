@@ -1,6 +1,6 @@
 import 'package:decentproof/features/metadata/uiblocks/LocationEmbeddingTile.dart';
 import 'package:decentproof/features/metadata/uiblocks/SecretEmbeddingTile.dart';
-import 'package:decentproof/features/settings/uiblocks/AddEmailDialog.dart';
+import 'package:decentproof/features/settings/uiblocks/EmailEmbeddingTile.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:decentproof/constants.dart';
@@ -39,13 +39,7 @@ class SettingsPage extends StatelessWidget {
                 ],
               ),
             ),
-            ListTile(
-              title: Text("settingsPage.addEmail".tr()),
-              subtitle: Text("settingsPage.description".tr()),
-              onTap: () => showDialog(
-                  context: context,
-                  builder: (context) => const AddEmailDialog()),
-            ),
+            const EmailEmbeddingTile(),
             const AboutListTile(),
             ListTile(
               title: const Text("FAQ"),

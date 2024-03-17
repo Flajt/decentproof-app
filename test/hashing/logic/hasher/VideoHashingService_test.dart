@@ -19,7 +19,7 @@ void main() {
 
     group("successfully", () {
       test("hash video file", () async {
-        String hash = await service.hash("test/fixtures/sample.mkv");
+        String hash = await service.hash("test/fixtures/sample.mkv", (p) {});
         expect(hash, equals(videoHash));
       });
     });

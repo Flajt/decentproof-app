@@ -26,13 +26,18 @@ class MockSecureStorage implements ISecureStorageService {
   }
 
   @override
-  Future<void> saveEmail(String email) {
+  Future<void> saveEmail(String email) async {
     throw UnimplementedError();
   }
 
   @override
   Future<void> saveSecret(String secret) async {
     storage["secret"] = secret;
+  }
+
+  @override
+  Future<void> deleteEmail() async {
+    throw UnimplementedError();
   }
 }
 
@@ -64,6 +69,11 @@ class ThrowMockSecureStorage implements ISecureStorageService {
 
   @override
   Future<void> saveSecret(String secret) {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> deleteEmail() {
     throw UnimplementedError();
   }
 }

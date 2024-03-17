@@ -19,7 +19,7 @@ void main() {
 
     group("successfully", () {
       test("hash audio file", () async {
-        String hash = await service.hash("test/fixtures/sample.mp3");
+        String hash = await service.hash("test/fixtures/sample.mp3", (p) {});
         expect(hash, equals(mp3Hash));
       });
     });
