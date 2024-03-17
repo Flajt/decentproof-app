@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:decentproof/constants.dart';
 import 'package:decentproof/features/hashing/bloc/SubmissionBloc.dart';
 import 'package:decentproof/features/hashing/bloc/PreparationBloc/PreparationBloc.dart';
 import 'package:decentproof/features/metadata/bloc/LocationWarningBloc.dart';
@@ -44,15 +45,7 @@ void main() async {
         useOnlyLangCode: true,
         fallbackLocale: const Locale("en"),
         path: "assets/translations",
-        supportedLocales: const [
-          Locale("en"),
-          Locale("de"),
-          Locale("sn"),
-          Locale("fr"),
-          Locale("jp"),
-          Locale("zn"),
-          Locale("ar")
-        ],
+        supportedLocales: SUPPORTED_LOCALS,
         child: const MyApp()));
     Bloc.observer = MetricsBlocObserver();
   }, (error, stack) {
