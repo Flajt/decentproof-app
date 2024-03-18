@@ -30,6 +30,7 @@ class VerificationPage extends StatelessWidget {
                         size: size,
                         error: state.message,
                       ));
+              context.read<VerificationBloc>().add(ResetEvent());
             }
           }, builder: (context, state) {
             if (state is InitialState) {

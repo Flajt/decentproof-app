@@ -206,10 +206,9 @@ void main() {
         expect: () => [
               LoadingState(),
               ErrorState("type 'Null' is not a subtype of type 'FileType'"),
-              InitialState()
             ]);
 
-    blocTest("successfully capture and return error & reset",
+    blocTest("successfully capture and return error & don't reset",
         setUp: () {
           register(
               verificationService,
@@ -224,7 +223,7 @@ void main() {
         build: () => VerificationBloc(),
         wait: const Duration(milliseconds: 50),
         act: (bloc) => bloc.add(VerifyHashEvent()),
-        expect: () => [LoadingState(), ErrorState("Error"), InitialState()]);
+        expect: () => [LoadingState(), ErrorState("Error")]);
   });
 }
 
