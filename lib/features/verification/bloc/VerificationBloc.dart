@@ -40,8 +40,8 @@ class VerificationBloc
               await _foregroundService.getReceivePort();
           final stream = recivePort.asBroadcastStream();
           await emit.forEach(stream, onData: (data) {
-            recivePort.close(); // Needed here, because the stream is still open
             if (data["status"] == "Error") {
+              recivePort.close();
               return ErrorState(data["message"]);
             } else if (data["status"] == "Done") {
               recivePort
@@ -54,9 +54,6 @@ class VerificationBloc
           if (state is VerifiedState || state is ErrorState) {
             await _foregroundService.stop();
             await tempFileStorage.delete(recursive: true);
-            if (state is ErrorState) {
-              emit(InitialState());
-            }
           }
         } else {
           emit(InitialState());
@@ -66,7 +63,6 @@ class VerificationBloc
         await _foregroundService.stop();
         addError(e, stackTrace);
         emit(ErrorState(e.toString()));
-        emit(InitialState());
       }
     });
     on<ResetEvent>((event, emit) => emit(InitialState()));

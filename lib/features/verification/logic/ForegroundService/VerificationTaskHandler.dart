@@ -75,7 +75,7 @@ class VerificationTaskHandler implements TaskHandler {
       final finalModel = model.copyWith(metaDataModel: metaDataModel);
       sendPort?.send({"status": "Done", "model": finalModel.toJson()});
     } catch (e, stack) {
-      Sentry.captureException(e, stackTrace: stack);
+      await Sentry.captureException(e, stackTrace: stack);
       sendPort?.send({"status": "Error", "message": e.toString()});
     }
   }
