@@ -17,6 +17,8 @@ import 'package:test/test.dart';
 
 import '../../mocks.mocks.dart';
 
+/// The whole suit is kinda a mess. Since it's hard to get a good stream of events, I had to use a lot of when().thenAnswer() to simulate the stream of events.
+/// Idealy this wouldn't be the case and we could just hook into a real stream, and do the testing that way.
 void main() {
   setUp(() async {
     await GetIt.I.reset();
@@ -587,6 +589,57 @@ void main() {
                 PrepareationIsAplyingWaterMark(),
                 PrepareationIsAddingMetaData(),
                 PreparationHasError("Location Service is not enabled!")
+              ]);
+      blocTest("w. error due to mock location",
+          setUp: () {
+            register(
+                videoSavingService,
+                imageSavingService,
+                imageHashingService,
+                videoHashingService,
+                videoWaterMarkSerivce,
+                imageWaterMarkService,
+                audioMetaDataService,
+                videoMetaDataService,
+                imageMetaDataService,
+                audioHashingService,
+                locationService,
+                metaDataPermissionService,
+                foregroundServiceWrapper);
+            final testPort = ReceivePort.fromRawReceivePort(RawReceivePort());
+            final sendPort = testPort.sendPort;
+            when(foregroundServiceWrapper.getReceivePort())
+                .thenAnswer((_) => Future.value(testPort));
+            sendPort.send({
+              "status": "AddingWaterMark"
+            }); // Since stuff is returned from a stream it is in the currect order
+            sendPort.send({"status": "AddingMetaData"});
+            sendPort.send({"status": "Hashing", "progress": 0});
+            sendPort.send({
+              "status": "Fail",
+              "description":
+                  "Invalid Location: It seems like you are using a mock location service. Please disable it and try again.",
+            });
+            when(imageSavingService.saveFile())
+                .thenAnswer((_) => Future.value("some/path/to/image.png"));
+            when(imageWaterMarkService.addWaterMark(any))
+                .thenAnswer((_) => Future.value("sample/path/to/image.png"));
+            when(metaDataPermissionService.shouldEmbedLocation())
+                .thenReturn(true);
+            when(locationService.requestLocation()).thenThrow((_) =>
+                "Invalid Location: It seems like you are using a mock location service. Please disable it and try again.");
+            when(locationService.serviceEnabled())
+                .thenAnswer((realInvocation) => Future.value(true));
+          },
+          act: (bloc) => bloc.add(PrepareImage()),
+          build: () => PreparationBloc(),
+          wait: const Duration(milliseconds: 100),
+          expect: () => [
+                PrepareationIsAplyingWaterMark(),
+                PrepareationIsAddingMetaData(),
+                PrepareationIsHashing(),
+                PreparationHasError(
+                    "Invalid Location: It seems like you are using a mock location service. Please disable it and try again.")
               ]);
     });
   });
