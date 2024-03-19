@@ -74,7 +74,9 @@
     },
     "perperationNotification": {
         "title": "Preperation in progress",
-        "initalDescription": "Initalizing"
+        "initalDescription": "Initalizing",
+        "addingMetaData": "Adding Metadata",
+        "addingWaterMark": "Adding Watermark"
     },
     "verificationNotification": {
         "title": "Verification in progress",
