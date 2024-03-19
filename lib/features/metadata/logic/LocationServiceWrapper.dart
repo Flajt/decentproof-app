@@ -30,6 +30,10 @@ class LocationServiceWrapper implements ILocationService {
   Future<LocationModel> requestLocation() async {
     Position locationData = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.best);
+    if (locationData.isMocked) {
+      throw Exception(
+          'Invalid Location: It seems like you are using a mock location service. Please disable it and try again.');
+    }
     return LocationModel(
         latitude: locationData.latitude, longitude: locationData.longitude);
   }
