@@ -17,8 +17,8 @@ import 'package:test/test.dart';
 
 import '../../mocks.mocks.dart';
 
-/// The whole suit is kinda a mess. Since it's hard to get a good stream of events, I had to use a lot of when().thenAnswer() to simulate the stream of events.
-/// Idealy this wouldn't be the case and we could just hook into a real stream, and do the testing that way.
+/// The whole suit is kinda a mess. Since it's hard to get a good stream of events, the worst thing is that I've got to simulate the stream of events.
+/// Idealy this wouldn't be the case and we could just hook into a real stream, and do the testing that way. Any ideas are appreciated.
 void main() {
   setUp(() async {
     await GetIt.I.reset();
