@@ -6,7 +6,6 @@ import 'package:decentproof/shared/uiblocks/ErrorDialog.dart';
 import 'package:decentproof/shared/uiblocks/ProcessingDialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_foreground_task/ui/with_foreground_task.dart';
 
 import '../uiblocks/ImageButton.dart';
 import '../uiblocks/VideoButton.dart';

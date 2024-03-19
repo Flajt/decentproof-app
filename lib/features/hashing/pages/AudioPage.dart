@@ -1,7 +1,6 @@
 import 'package:audio_waveforms/audio_waveforms.dart';
 import 'package:decentproof/features/hashing/uiblocks/RecordingButton.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_foreground_task/ui/with_foreground_task.dart';
 
 class AudioPage extends StatefulWidget {
   const AudioPage({Key? key}) : super(key: key);

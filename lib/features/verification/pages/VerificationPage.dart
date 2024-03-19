@@ -7,7 +7,6 @@ import 'package:decentproof/shared/customIcons/decent_proof_icons.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_foreground_task/flutter_foreground_task.dart';
 
 import '../../../shared/uiblocks/ErrorDialog.dart';
 
