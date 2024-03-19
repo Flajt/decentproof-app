@@ -9,11 +9,14 @@ import 'package:decentproof/features/metadata/interfaces/IMetaDataPermissionServ
 import 'package:decentproof/features/metadata/interfaces/IMetaDataService.dart';
 import 'package:decentproof/features/metadata/models/LocationModel.dart';
 import 'package:decentproof/shared/util/initSentry.dart';
+import 'package:decentproof/shared/util/loadTranslations.dart';
 import 'package:decentproof/shared/util/register.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_foreground_task/flutter_foreground_task.dart';
 import 'package:get_it/get_it.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
+import 'package:easy_localization/src/localization.dart';
 
 class PreperationTaskHandler extends TaskHandler {
   // Called when the task is started.
@@ -22,6 +25,8 @@ class PreperationTaskHandler extends TaskHandler {
     DartPluginRegistrant.ensureInitialized();
     try {
       await dotenv.load();
+      await loadTranslations();
+      final Localization L = Localization.instance;
       await initSentry();
       await registar();
       final getIt = GetIt.I;
@@ -54,10 +59,14 @@ class PreperationTaskHandler extends TaskHandler {
       final task = parts[0];
       if (task == "image") {
         sendPort?.send({"status": "AddingWaterMark"});
+        await foregroundService.updateNotification(
+            body: L.tr("perperationNotification.addingWaterMark"));
         String finalPath = await imageWaterMarkService.addWaterMark(path);
         bool shouldEmbedLocation =
             metaDataPermissionService.shouldEmbedLocation();
         if (shouldEmbedLocation) {
+          await foregroundService.updateNotification(
+              body: L.tr("perperationNotification.addingMetaData"));
           sendPort?.send({"status": "AddingMetaData"});
           bool isEnabled = await locationService.serviceEnabled();
           if (!isEnabled) {
@@ -80,12 +89,16 @@ class PreperationTaskHandler extends TaskHandler {
             ?.send({"status": "Done", "content": hash, "filePath": finalPath});
       } else if (task == "video") {
         String? afterMetaDataPath;
+        await foregroundService.updateNotification(
+            body: L.tr("perperationNotification.addingWaterMark"));
         sendPort?.send({"status": "AddingWaterMark"});
         String finalPath = await videoWaterMarkSerivce.addWaterMark(path);
         bool shouldEmbedLocation =
             metaDataPermissionService.shouldEmbedLocation();
         if (shouldEmbedLocation) {
           bool isEnabled = await locationService.serviceEnabled();
+          await foregroundService.updateNotification(
+              body: L.tr("perperationNotification.addingMetaData"));
           sendPort?.send({"status": "AddingMetaData"});
           if (!isEnabled) {
             sendPort?.send({
@@ -115,6 +128,8 @@ class PreperationTaskHandler extends TaskHandler {
         bool shouldEmbedLocation =
             metaDataPermissionService.shouldEmbedLocation();
         if (shouldEmbedLocation) {
+          await foregroundService.updateNotification(
+              body: L.tr("perperationNotification.addingWaterMark"));
           sendPort?.send({"status": "AddingMetaData"});
           bool isEnabled = await locationService.serviceEnabled();
           if (!isEnabled) {
@@ -140,6 +155,10 @@ class PreperationTaskHandler extends TaskHandler {
           "content": hash,
           "filePath": afterMetaDataPath ?? path
         });
+      } else {
+        sendPort
+            ?.send({"status": "Error", "description": "Task not supported"});
+        await foregroundService.stop();
       }
     } catch (e, stack) {
       sendPort?.send({
