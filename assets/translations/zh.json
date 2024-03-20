@@ -74,7 +74,9 @@
     },
     "perperationNotification": {
         "title": "准备工作正在进行中",
-        "initalDescription": "正在初始化"
+        "initalDescription": "正在初始化",
+        "addingMetaData": "添加元数据",
+        "addingWaterMark": "添加水印"
     },
     "verificationNotification": {
         "title": "验证正在进行中",

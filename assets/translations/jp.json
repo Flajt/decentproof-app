@@ -74,7 +74,9 @@
     },
     "perperationNotification": {
         "title": "準備中",
-        "initalDescription": "初期化"
+        "initalDescription": "初期化",
+        "addingMetaData": "メタデータの追加",
+        "addingWaterMark": "透かしの追加"
     },
     "verificationNotification": {
         "title": "検証中",
