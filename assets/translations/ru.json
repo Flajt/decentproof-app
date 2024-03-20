@@ -74,7 +74,9 @@
     },
     "perperationNotification": {
         "title": "Подготовка продолжается",
-        "initalDescription": "Инициализация"
+        "initalDescription": "Инициализация",
+        "addingMetaData": "Добавление метаданных",
+        "addingWaterMark": "Добавление водяного знака"
     },
     "verificationNotification": {
         "title": "Выполняется проверка",

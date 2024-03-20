@@ -74,7 +74,9 @@
     },
     "perperationNotification": {
         "title": "Préparation en cours",
-        "initalDescription": "Initialisation"
+        "initalDescription": "Initialisation",
+        "addingMetaData": "Ajout de métadonnées",
+        "addingWaterMark": "Ajout d'un filigrane"
     },
     "verificationNotification": {
         "title": "Vérification en cours",

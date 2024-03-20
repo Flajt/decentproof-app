@@ -74,7 +74,9 @@
     },
     "perperationNotification": {
         "title": "Media Datei wird vorbereitet",
-        "initalDescription": "Initialisiere"
+        "initalDescription": "Initialisiere",
+        "addingMetaData": "Metadaten werden hinzugefügt",
+        "addingWaterMark": "Wasserzeichen hinzufügen"
     },
     "verificationNotification": {
         "title": "Verifiziere",
