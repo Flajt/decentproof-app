@@ -74,7 +74,9 @@
     },
     "perperationNotification": {
         "title": "Preparación en progreso",
-        "initalDescription": "Inicializando"
+        "initalDescription": "Inicializando",
+        "addingMetaData": "Agregar metadatos",
+        "addingWaterMark": "Agregar marca de agua"
     },
     "verificationNotification": {
         "title": "Verificación en progreso",

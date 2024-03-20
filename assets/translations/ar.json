@@ -74,7 +74,9 @@
     },
     "perperationNotification": {
         "title": "إعداد",
-        "initalDescription": "التهيئة"
+        "initalDescription": "التهيئة",
+        "addingMetaData": "إضافة بيانات التعريف",
+        "addingWaterMark": "إضافة علامة مائية"
     },
     "verificationNotification": {
         "title": "جارٍ التحقق",
