@@ -10,7 +10,7 @@ import '../uiblocks/BackToHomeButton.dart';
 import '../uiblocks/ShareButton.dart';
 
 class SubmissionPage extends StatelessWidget {
-  const SubmissionPage({Key? key}) : super(key: key);
+  const SubmissionPage({super.key});
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
