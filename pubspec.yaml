@@ -73,6 +73,7 @@ dependencies:
   flutter_simple_updates: ^0.1.2
   simple_mastodon_updates: ^0.0.5
   flutter_foreground_task: ^6.1.2
+  telemetrydecksdk: ^0.4.0
   
 dev_dependencies:
   flutter_test:

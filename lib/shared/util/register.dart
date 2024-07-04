@@ -1,4 +1,6 @@
 import 'package:decentproof/constants.dart';
+import 'package:decentproof/features/analytics/interfaces/IAnalyticsService.dart';
+import 'package:decentproof/features/analytics/logic/TelemetryDeckWrapper.dart';
 import 'package:decentproof/features/hashing/interfaces/IFileSavingService.dart';
 import 'package:decentproof/shared/foregroundService/IForegroundService.dart';
 import 'package:decentproof/features/hashing/interfaces/IHashSubmissionService.dart';
