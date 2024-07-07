@@ -31,7 +31,11 @@ class VideoImagePage extends StatelessWidget {
           context.read<SubmissionBloc>().add(ResetSubmissionState());
           Navigator.of(context).pushReplacementNamed(
               "/submissionPage", // This or popAndPushNamed should only be used here to prevent issues with repeating listener build calls
-              arguments: {"hash": state.hash, "path": state.path});
+              arguments: {
+                "hash": state.hash,
+                "path": state.path,
+                "source": "image/video"
+              });
         } else if (state is PrepareationIsAplyingWaterMark) {
           showDialog(
               context: context, builder: (context) => const ProcessingDialog());
