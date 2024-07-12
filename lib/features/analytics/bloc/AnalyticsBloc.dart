@@ -7,7 +7,7 @@ import 'package:get_it/get_it.dart';
 class AnalyticsBloc extends Bloc<AnalyticsEvent, AnalyticsState> {
   final getIt = GetIt.I;
   late final IAnalyticsService _analytics = getIt.get<IAnalyticsService>();
-  AnalyticsBloc(super.initialState) {
+  AnalyticsBloc() : super(InitialState()) {
     on<LogEvent>((event, emit) async {
       try {
         await _analytics.recordEvent(event.name, event.parameters);
