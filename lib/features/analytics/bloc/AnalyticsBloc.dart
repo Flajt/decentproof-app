@@ -8,9 +8,9 @@ class AnalyticsBloc extends Bloc<AnalyticsEvent, AnalyticsState> {
   final getIt = GetIt.I;
   late final IAnalyticsService _analytics = getIt.get<IAnalyticsService>();
   AnalyticsBloc(super.initialState) {
-    on<LogEvent>((event, emit) {
+    on<LogEvent>((event, emit) async {
       try {
-        _analytics.recordEvent(event.name, event.parameters);
+        await _analytics.recordEvent(event.name, event.parameters);
         emit(HasLoggedEvent());
       } catch (e, stack) {
         addError(e, stack);

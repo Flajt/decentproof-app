@@ -11,7 +11,7 @@ import '../uiblocks/ImageButton.dart';
 import '../uiblocks/VideoButton.dart';
 
 class VideoImagePage extends StatelessWidget {
-  const VideoImagePage({Key? key}) : super(key: key);
+  const VideoImagePage({super.key});
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;

@@ -1,4 +1,5 @@
-import 'package:decentproof/features/analytics/interfaces/IAnalyticsService.dart';
+import 'package:decentproof/features/analytics/bloc/AnalyticsBloc.dart';
+import 'package:decentproof/features/analytics/bloc/AnalyticsEvents.dart';
 import 'package:decentproof/features/hashing/bloc/SubmissionBloc.dart';
 import 'package:decentproof/features/hashing/bloc/SubmissionEvents.dart';
 import 'package:decentproof/features/hashing/bloc/SubmissionState.dart';
@@ -6,7 +7,6 @@ import 'package:decentproof/shared/uiblocks/ErrorDialog.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 
 import '../uiblocks/BackToHomeButton.dart';
 import '../uiblocks/ShareButton.dart';
@@ -15,8 +15,6 @@ class SubmissionPage extends StatelessWidget {
   const SubmissionPage({super.key});
   @override
   Widget build(BuildContext context) {
-    final getIt = GetIt.I;
-    final IAnalyticsService analytics = getIt.get<IAnalyticsService>();
     Size size = MediaQuery.of(context).size;
     Map<String, String> args =
         ModalRoute.of(context)!.settings.arguments as Map<String, String>;
@@ -80,9 +78,12 @@ class SubmissionPage extends StatelessWidget {
                               child: const Text("submissionPage.submitt").tr()),
                         ));
                   } else if (state is SubmissionSuccessfull) {
-                    analytics.recordEvent(
-                        "submission_status", // Consider using a bloc for this or creating one for this
-                        {"submission": "success", "source": args["source"]});
+                    context.read<AnalyticsBloc>().add(LogEvent(
+                            name: "submission_status",
+                            parameters: {
+                              "submission": "success",
+                              "source": args["source"]
+                            }));
                     return Align(
                       alignment: Alignment.center,
                       child: Text("submissionPage.submissionSuccess",

@@ -1,4 +1,5 @@
-import 'package:decentproof/features/analytics/interfaces/IAnalyticsService.dart';
+import 'package:decentproof/features/analytics/bloc/AnalyticsBloc.dart';
+import 'package:decentproof/features/analytics/bloc/AnalyticsEvents.dart';
 import 'package:decentproof/features/hashing/logic/backend/ShowInExplorer.dart';
 import 'package:decentproof/features/verification/bloc/VerificationBloc.dart';
 import 'package:decentproof/features/verification/bloc/VerificationBlocEvents.dart';
@@ -8,7 +9,6 @@ import 'package:decentproof/shared/customIcons/decent_proof_icons.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 
 import '../../../shared/uiblocks/ErrorDialog.dart';
 
@@ -17,9 +17,6 @@ class VerificationPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final GetIt getIt = GetIt.I;
-    final _analytics = getIt.get<
-        IAnalyticsService>(); //consider using a bloc for this or moving it into a bloc
     Size size = MediaQuery.of(context).size;
     final ShowInExplorer showInExplorer = ShowInExplorer();
     return Scaffold(
@@ -56,9 +53,10 @@ class VerificationPage extends StatelessWidget {
                   flex: 1,
                   child: Center(
                       child: FilledButton(
-                    onPressed: () async {
-                      await _analytics
-                          .recordEvent("verification_page_select_file", {});
+                    onPressed: () {
+                      context.read<AnalyticsBloc>().add(LogEvent(
+                          name: "verification_page_select_file",
+                          parameters: {}));
                       context.read<VerificationBloc>().add(VerifyHashEvent());
                     },
                     child: const Text("verificationPage.selectFile").tr(),
