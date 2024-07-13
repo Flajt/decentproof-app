@@ -107,6 +107,11 @@ class VerificationTaskHandler implements TaskHandler {
         getIt.get<IMetaDataService>(instanceName: "ImageMetaData");
     return await imageMetaDataService.retriveMetaData(tempFile.path);
   }
+
+  @override
+  void onNotificationDismissed() {
+    // TODO: implement onNotificationDismissed
+  }
 }
 
 enum FileType {
