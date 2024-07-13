@@ -1,6 +1,5 @@
 import 'package:decentproof/constants.dart';
-import 'package:decentproof/features/analytics/interfaces/IAnalyticsService.dart';
-import 'package:decentproof/features/analytics/logic/TelemetryDeckWrapper.dart';
+import 'package:decentproof/features/analytics/logic/registerAnalytics.dart';
 import 'package:decentproof/features/hashing/interfaces/IFileSavingService.dart';
 import 'package:decentproof/shared/foregroundService/IForegroundService.dart';
 import 'package:decentproof/features/hashing/interfaces/IHashSubmissionService.dart';
@@ -48,7 +47,6 @@ import '../Integrety/interfaces/ISecureStorageService.dart';
 Future<void> registar() async {
   // Example:
   // GetIt.I.registerLazySingleton<ISecureStorageService>(() => SecureStorageService());
-
   final getIt = GetIt.I;
   getIt.registerFactory<ISecureStorageService>(() => SecureStorageWrapper());
   getIt.registerFactory<IApiKeyRequestService>(() =>
@@ -93,5 +91,6 @@ Future<void> registar() async {
       instanceName: "AudioMetaData");
   getIt.registerLazySingleton<IForegroundService>(
       () => ForegroundServiceWrapper());
+  await registerAnalytics();
   await getIt.allReady();
 }
