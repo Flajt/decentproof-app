@@ -91,7 +91,6 @@ class VerificationPage extends StatelessWidget {
                     return Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        //TODO: Consider moving this to a separate widget in the near future
                         state.statusModel.bitcoinTransaction != null
                             ? BitcoinButton(
                                 showInExplorer: showInExplorer, state: state)
