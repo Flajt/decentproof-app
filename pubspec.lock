@@ -1459,6 +1459,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.0"
+  telemetrydecksdk:
+    dependency: "direct main"
+    description:
+      name: telemetrydecksdk
+      sha256: "0cdb846bb7add85ca70a78be88a389e4101758a06ee00cbb97184e75337d9d0f"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.4.0"
   term_glyph:
     dependency: transitive
     description:

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:decentproof/constants.dart';
+import 'package:decentproof/features/analytics/bloc/AnalyticsBloc.dart';
 import 'package:decentproof/features/hashing/bloc/SubmissionBloc.dart';
 import 'package:decentproof/features/hashing/bloc/PreparationBloc/PreparationBloc.dart';
 import 'package:decentproof/features/metadata/bloc/LocationWarningBloc.dart';
@@ -64,7 +65,8 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => VerificationBloc()),
         BlocProvider(create: (context) => SubmissionBloc()),
         BlocProvider(create: (context) => PreparationBloc()),
-        BlocProvider(create: (context) => LocationWarningBloc())
+        BlocProvider(create: (context) => LocationWarningBloc()),
+        BlocProvider(create: (context) => AnalyticsBloc())
       ],
       child: MaterialApp(
         navigatorObservers: [SentryNavigatorObserver()],

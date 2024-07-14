@@ -1,3 +1,5 @@
+import 'package:decentproof/features/analytics/bloc/AnalyticsBloc.dart';
+import 'package:decentproof/features/analytics/bloc/AnalyticsEvents.dart';
 import 'package:decentproof/features/hashing/bloc/SubmissionBloc.dart';
 import 'package:decentproof/features/hashing/bloc/SubmissionEvents.dart';
 import 'package:decentproof/features/hashing/bloc/SubmissionState.dart';
@@ -10,7 +12,7 @@ import '../uiblocks/BackToHomeButton.dart';
 import '../uiblocks/ShareButton.dart';
 
 class SubmissionPage extends StatelessWidget {
-  const SubmissionPage({Key? key}) : super(key: key);
+  const SubmissionPage({super.key});
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -76,6 +78,12 @@ class SubmissionPage extends StatelessWidget {
                               child: const Text("submissionPage.submitt").tr()),
                         ));
                   } else if (state is SubmissionSuccessfull) {
+                    context.read<AnalyticsBloc>().add(LogEvent(
+                            name: "submission_status",
+                            parameters: {
+                              "submission": "success",
+                              "source": args["source"]
+                            }));
                     return Align(
                       alignment: Alignment.center,
                       child: Text("submissionPage.submissionSuccess",

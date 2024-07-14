@@ -47,9 +47,11 @@ class _RecordingButtonState extends State<RecordingButton> {
           widget.controller.reset();
         } else if (state is PreparationIsSuccessfull) {
           context.read<SubmissionBloc>().add(ResetSubmissionState());
-
-          Navigator.of(context).pushNamed("/submissionPage",
-              arguments: {"hash": state.hash, "path": state.path});
+          Navigator.of(context).pushNamed("/submissionPage", arguments: {
+            "hash": state.hash,
+            "path": state.path,
+            "source": "audio"
+          });
         } else if (state is PrepareationIsAddingMetaData) {
           showDialog(
               context: context, builder: (context) => const ProcessingDialog());
