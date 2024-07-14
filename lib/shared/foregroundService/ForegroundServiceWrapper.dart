@@ -13,11 +13,7 @@ class ForegroundServiceWrapper implements IForegroundService {
           channelDescription: "notificationChannel.description".tr(),
           channelImportance: NotificationChannelImportance.LOW,
           priority: NotificationPriority.MAX,
-          visibility: NotificationVisibility.VISIBILITY_PRIVATE,
-          iconData: const NotificationIconData(
-              resType: ResourceType.mipmap,
-              resPrefix: ResourcePrefix.ic,
-              name: 'launcher')),
+          visibility: NotificationVisibility.VISIBILITY_PRIVATE),
       iosNotificationOptions: const IOSNotificationOptions(),
       foregroundTaskOptions: const ForegroundTaskOptions(
         isOnceEvent: true,
@@ -35,6 +31,10 @@ class ForegroundServiceWrapper implements IForegroundService {
     await FlutterForegroundTask.startService(
         notificationTitle: title,
         notificationText: description,
+        notificationIcon: const NotificationIconData(
+            resType: ResourceType.mipmap,
+            resPrefix: ResourcePrefix.ic,
+            name: 'launcher'),
         callback: startCallback);
   }
 

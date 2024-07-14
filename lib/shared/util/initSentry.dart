@@ -7,7 +7,7 @@ Future<void> initSentry() async {
     options.dsn = kReleaseMode ? SENTRY_DSN : "";
     options.sampleRate = .2;
     options.tracesSampleRate = .2;
-    options.beforeSend = (event, {hint}) async {
+    options.beforeSend = (event, hint) async {
       if (event.user?.ipAddress != null) {
         event = event.copyWith(user: event.user?.copyWith(ipAddress: null));
       }
