@@ -7,6 +7,8 @@ import 'package:get_it/get_it.dart';
 Future<void> registerAnalytics() async {
   final getIt = GetIt.I;
   String? email = await getIt.get<ISecureStorageService>().retriveEmail();
-  getIt.registerSingleton(
-      TelemetryDeckWrapper(defaultUser: email, testMode: kDebugMode));
+  final telemetryDeckWrapper =
+      TelemetryDeckWrapper(defaultUser: email, testMode: kDebugMode);
+  await telemetryDeckWrapper.init();
+  getIt.registerSingleton(telemetryDeckWrapper);
 }

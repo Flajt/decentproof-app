@@ -12,18 +12,23 @@ class TelemetryDeckWrapper implements IAnalyticsService {
   ///User identifier, will be hashed by TelemetryDeck
   final String? defaultUser;
   TelemetryDeckWrapper(
-      {this.debug = false, this.testMode = false, this.defaultUser}) {
-    final String appID = dotenv.env['TELEMETRY_APP_ID']!;
-    Telemetrydecksdk.start(TelemetryManagerConfiguration(
-        appID: appID,
-        debug: debug,
-        testMode: testMode,
-        defaultUser: defaultUser));
-  }
+      {this.debug = false, this.testMode = false, this.defaultUser});
+
   @override
   Future<void> recordEvent(String singalType, Map<String, dynamic> payload,
       [String? user]) async {
     await Telemetrydecksdk.send(singalType,
         additionalPayload: payload, clientUser: user);
+  }
+
+  @override
+  Future<void> init() async {
+    await dotenv.load();
+    final String appID = dotenv.env['TELEMETRY_APP_ID']!;
+    await Telemetrydecksdk.start(TelemetryManagerConfiguration(
+        appID: appID,
+        debug: debug,
+        testMode: testMode,
+        defaultUser: defaultUser));
   }
 }
