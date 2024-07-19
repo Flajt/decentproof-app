@@ -7,7 +7,7 @@ import 'package:decentproof/constants.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class SettingsPage extends StatelessWidget {
-  const SettingsPage({Key? key}) : super(key: key);
+  const SettingsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -40,13 +40,13 @@ class SettingsPage extends StatelessWidget {
               ),
             ),
             const EmailEmbeddingTile(),
-            const AboutListTile(),
+            const LocationEmbeddingTile(),
+            const SecretEmbeddingTile(),
             ListTile(
               title: const Text("FAQ"),
               onTap: () async => await launchUrlString(WIKI_URL),
             ),
-            const LocationEmbeddingTile(),
-            const SecretEmbeddingTile()
+            const AboutListTile(),
           ],
         ),
       )),

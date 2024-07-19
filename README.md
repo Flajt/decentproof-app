@@ -17,7 +17,7 @@ For general information please checkout the [wiki](https://github.com/Flajt/dece
 ## About
 
 Decentproof is an app to allow you to create media files and verify their integrity & authenticity afterwards. The app supports: aac, mp3, mkv and png files. 
-File hashes are securely and privacy friendly stored in the Bitcoin and Etherium blockchain and can easily and *independantly* verified. 
+File hashes are securely and privacy friendly stored in the Bitcoin and Ethereum blockchain and can easily and *independantly* verified. 
 
 > Not a **Dev** ? Check out the [wiki](https://github.com/Flajt/decentproof-app/wiki)
 

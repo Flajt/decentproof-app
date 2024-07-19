@@ -56,7 +56,7 @@ dependencies:
   easy_localization: ^3.0.7
   flutter_dotenv: ^5.0.2
   share_plus: ^9.0.0
-  photo_manager: ^3.0.0-dev.5
+  photo_manager: ^3.2.1
   equatable: ^2.0.5
   bloc: ^8.1.2
   flutter_bloc: ^8.1.3
