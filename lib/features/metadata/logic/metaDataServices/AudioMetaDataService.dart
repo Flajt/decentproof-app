@@ -13,7 +13,7 @@ class AudioMetaDataService implements IMetaDataService {
   Future<String> addLocation(
       LocationModel locationModel, String filePath) async {
     final Completer<bool> completer = Completer<bool>();
-    String outputPath = filePath.replaceFirst(".aac", ".mp3");
+    String outputPath = filePath.replaceFirst(".ogg", ".mp3");
 
     await FFmpegKit.executeAsync(
         "-i $filePath -movflags use_metadata_tags -metadata latitude=${locationModel.latitude} -metadata longitude=${locationModel.longitude} $outputPath",
@@ -37,7 +37,7 @@ class AudioMetaDataService implements IMetaDataService {
   Future<String> addLocationAndSecret(
       LocationModel locationModel, String secretHash, String filePath) async {
     final Completer<bool> completer = Completer<bool>();
-    String outputPath = filePath.replaceFirst(".aac", ".mp3");
+    String outputPath = filePath.replaceFirst(".ogg", ".mp3");
 
     await FFmpegKit.executeAsync(
         "-i $filePath -movflags use_metadata_tags -metadata latitude=${locationModel.latitude} -metadata longitude=${locationModel.longitude} -metadata comment=$secretHash $outputPath",
@@ -60,7 +60,7 @@ class AudioMetaDataService implements IMetaDataService {
   Future<String> addSecret(String secretHash, String filePath) async {
     final Completer<bool> completer = Completer<bool>();
     String outputPath = filePath.replaceFirst("n_", "f_");
-    String finalOutputPath = outputPath.replaceFirst(".aac", ".mp3");
+    String finalOutputPath = outputPath.replaceFirst(".ogg", ".mp3");
     await FFmpegKit.executeAsync(
         "-i $filePath -c copy -movflags use_metadata_tags -metadata comment=$secretHash $finalOutputPath",
         (session) async {

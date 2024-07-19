@@ -14,6 +14,6 @@ class AudioSavingService implements IFileSavingService {
     Directory dir = await PathUtil.getStoragePath(StorageDirectory.podcasts);
     await dir.create(recursive: true);
     String path = dir.path;
-    return "$path/${await nanoid(16)}.aac";
+    return "$path/${await nanoid(16)}.ogg";
   }
 }
