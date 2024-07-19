@@ -130,7 +130,7 @@ void main() {
           sendPort.send({"status": "Done", "model": statusModel.toJson()});
           when(fileSelectionService.selectFileAsStream()).thenAnswer((_) =>
               Future.value(FileDataModel(
-                  fileName: "test.aac", byteStream: const Stream.empty())));
+                  fileName: "test.ogg", byteStream: const Stream.empty())));
           when(hashLogic.hashBytesInChunksFromStream(any))
               .thenAnswer((_) => Future.value("test"));
           when(audioMetaDataService.retriveMetaData(any))
@@ -140,7 +140,7 @@ void main() {
         },
         build: () => VerificationBloc(),
         act: (bloc) => bloc.add(VerifyHashEvent()),
-        wait: const Duration(milliseconds: 25),
+        wait: const Duration(milliseconds: 28),
         expect: () => [LoadingState(), VerifiedState(statusModel)]);
     blocTest(
         "successfully return VerificationStatusModel for an audio file (mp3)",

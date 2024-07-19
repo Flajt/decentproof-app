@@ -29,7 +29,7 @@ void main() {
         String filePath = await videoSavingService.saveFile();
         expect(filePath, isNotNull);
         expect(filePath, contains(kApplicationDocumentsPath));
-        expect(filePath, contains(".mp4"));
+        expect(filePath, contains(".mkv"));
       });
     });
     tearDown(() => Directory("applicationDocumentsPath").deleteSync(
