@@ -3,7 +3,7 @@ import 'package:decentproof/features/hashing/uiblocks/RecordingButton.dart';
 import 'package:flutter/material.dart';
 
 class AudioPage extends StatefulWidget {
-  const AudioPage({Key? key}) : super(key: key);
+  const AudioPage({super.key});
 
   @override
   State<AudioPage> createState() => _AudioPageState();
@@ -15,7 +15,8 @@ class _AudioPageState extends State<AudioPage> {
   void initState() {
     super.initState();
     recorderController = RecorderController()
-      ..androidOutputFormat = AndroidOutputFormat.aac_adts
+      ..androidOutputFormat = AndroidOutputFormat.ogg
+      ..iosEncoder = IosEncoder.kAudioFormatOpus
       ..bitRate = 48000
       ..sampleRate = 44100
       ..shouldClearLabels;
