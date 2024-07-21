@@ -5,6 +5,11 @@
             "audio": "Audio",
             "verify": "Verifizieren",
             "locationWarning": "Du hast Standort einbetten aktiviert, aber den GPS Service deaktiviert!"
+        },
+        "blockChainSelectionDialog":{
+            "title": "Wähle eine Blockchain",
+            "description": "Bitte wähle eine Blockchain um deinen Beweis zu speichern. Du kannst dies später in den Einstellungen ändern.",
+            "submit": "Bestätigen"
         }
     },
     "introPage": {

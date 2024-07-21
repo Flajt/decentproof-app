@@ -5,6 +5,11 @@
             "audio": "Audio",
             "verify": "Verify",
             "locationWarning": "You have enabled location embedding, but disabled the location service"
+        },
+        "blockChainSelectionDialog":{
+            "title": "Select a Blockchain",
+            "description": "Please select a blockchain to store your proof on. You can change it in the settings later on",
+            "submit": "Submit"
         }
     },
     "introPage": {
