@@ -2,6 +2,8 @@ import 'dart:io';
 import 'dart:isolate';
 import 'dart:ui';
 
+import 'package:decentproof/features/hashing/bloc/BlockChainCubit/BlockChainCubit.dart';
+import 'package:decentproof/features/metadata/enum/BlockChainEnum.dart';
 import 'package:decentproof/features/metadata/interfaces/IMetaDataService.dart';
 import 'package:decentproof/features/metadata/models/MetaDataModel.dart';
 import 'package:decentproof/features/verification/interfaces/IVerificationService.dart';
@@ -49,6 +51,7 @@ class VerificationTaskHandler implements TaskHandler {
       final IHashLogic hashLogic = getIt.get<IHashLogic>();
 
       final tempFilePath = await foregroundService.getData("filePath");
+      final String blockChain = await foregroundService.getData("chain");
       final tempFile = File(tempFilePath);
       final int fileSize = (tempFile.lengthSync() / 65536).ceil();
       Stream<List<int>> tempStream = tempFile
@@ -65,7 +68,10 @@ class VerificationTaskHandler implements TaskHandler {
                   "${L.tr("verificationNotification.hashing")} $currentProgress%");
         }
       });
-      VerificationStatusModel model = await verificationService.verify(hash);
+      VerificationStatusModel model = await verificationService.verify(
+        hash,
+        blockChain == "BTC" ? BlockChain.BTC : BlockChain.ETH,
+      );
       FileType fileType =
           isOfType(tempFile.path.split("/").last); // Shouldge the name
       MetaDataModel metaDataModel =
