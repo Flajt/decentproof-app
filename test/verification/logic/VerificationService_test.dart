@@ -56,11 +56,12 @@ void main() {
       setUpAll(() async => await secureStorageService.saveApiKey("123"));
       test("return data based on response from server", () async {
         when(signatureVerificationService.verify(any, any)).thenReturn(true);
-        final interceptor = nock.post("/verify/", {"hash": "lalal"})
-          ..reply(
-            200,
-            json,
-          );
+        final interceptor =
+            nock.post("/verify/", {"hash": "lalal", "blockChain": chain.name})
+              ..reply(
+                200,
+                json,
+              );
         final resp = await verificationService.verify("lalal", chain);
         expect(
             resp,
@@ -81,11 +82,12 @@ void main() {
       tearDown(() => secureStorageService.storage.clear());
       test("to return a valid status code will lead to an exception", () async {
         await secureStorageService.saveApiKey("123");
-        final interceptor = nock.post("/verify/", {"hash": "lalal"})
-          ..reply(
-            400,
-            json,
-          );
+        final interceptor =
+            nock.post("/verify/", {"hash": "lalal", "blockChain": chain.name})
+              ..reply(
+                400,
+                json,
+              );
         try {
           await verificationService.verify("lalal", chain);
         } catch (e) {
@@ -102,11 +104,12 @@ void main() {
           "to verify existens of the hash via originstamp will return a plain text error message",
           () async {
         await secureStorageService.saveApiKey("123");
-        final interceptor = nock.post("/verify/", {"hash": "lalal"})
-          ..reply(
-            500,
-            "lalal",
-          );
+        final interceptor =
+            nock.post("/verify/", {"hash": "lalal", "blockChain": chain.name})
+              ..reply(
+                500,
+                "lalal",
+              );
         try {
           await verificationService.verify("lalal", chain);
         } catch (e) {

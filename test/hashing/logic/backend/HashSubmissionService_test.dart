@@ -29,7 +29,8 @@ void main() {
       final hashSubmissionService = HashSubmissionService(url: "$baseUrl/sign");
 
       test("submit hash without E-Mail", () async {
-        final interceptor = nock.post("/sign/", {"data": "lalal", "email": ""})
+        final interceptor = nock.post(
+            "/sign/", {"data": "lalal", "email": "", "blockChain": chain.name})
           ..reply(
             200,
             {"status": "OK"},
@@ -39,8 +40,11 @@ void main() {
         expect(interceptor.statusCode, 200);
       });
       test("submit hash with E-Mail", () async {
-        final interceptor =
-            nock.post("/sign/", {"data": "lalal", "email": "test@test.com"});
+        final interceptor = nock.post("/sign/", {
+          "data": "lalal",
+          "email": "test@test.com",
+          "blockChain": chain.name
+        });
         interceptor.reply(200, "OK");
         await hashSubmissionService.submitHash("lalal", "test@test.com", chain);
         expect(interceptor.isDone, true);
