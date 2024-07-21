@@ -58,7 +58,7 @@ void main() {
               .thenAnswer((_) => Future.value(null));
         },
         build: () => VerificationBloc(),
-        act: (bloc) => bloc.add(VerifyHashEvent(blockChain: chain)),
+        act: (bloc) => bloc.add(VerifyHashEvent()),
         expect: () => [LoadingState(), InitialState()]);
 
     blocTest("successfully return VerificationStatusModel for an image",
@@ -88,7 +88,7 @@ void main() {
               .thenAnswer((_) => Future.value(statusModel));
         },
         build: () => VerificationBloc(),
-        act: (bloc) => bloc.add(VerifyHashEvent(blockChain: chain)),
+        act: (bloc) => bloc.add(VerifyHashEvent()),
         wait: const Duration(milliseconds: 50),
         expect: () => [LoadingState(), VerifiedState(statusModel)]);
 
@@ -119,7 +119,7 @@ void main() {
               .thenAnswer((_) => Future.value(statusModel));
         },
         build: () => VerificationBloc(),
-        act: (bloc) => bloc.add(VerifyHashEvent(blockChain: chain)),
+        act: (bloc) => bloc.add(VerifyHashEvent()),
         wait: const Duration(milliseconds: 50),
         expect: () => [LoadingState(), VerifiedState(statusModel)]);
 
@@ -151,7 +151,7 @@ void main() {
               .thenAnswer((_) => Future.value(statusModel));
         },
         build: () => VerificationBloc(),
-        act: (bloc) => bloc.add(VerifyHashEvent(blockChain: chain)),
+        act: (bloc) => bloc.add(VerifyHashEvent()),
         wait: const Duration(milliseconds: 28),
         expect: () => [LoadingState(), VerifiedState(statusModel)]);
     blocTest(
@@ -182,7 +182,7 @@ void main() {
               .thenAnswer((_) => Future.value(statusModel));
         },
         build: () => VerificationBloc(),
-        act: (bloc) => bloc.add(VerifyHashEvent(blockChain: chain)),
+        act: (bloc) => bloc.add(VerifyHashEvent()),
         wait: const Duration(milliseconds: 25),
         expect: () => [LoadingState(), VerifiedState(statusModel)]);
     blocTest("fail for invalid fileType (e.g. jpg)",
@@ -215,7 +215,7 @@ void main() {
               .thenAnswer((_) => Future.value(statusModel));
         },
         build: () => VerificationBloc(),
-        act: (bloc) => bloc.add(VerifyHashEvent(blockChain: chain)),
+        act: (bloc) => bloc.add(VerifyHashEvent()),
         wait: const Duration(milliseconds: 50),
         expect: () => [
               LoadingState(),
@@ -236,7 +236,7 @@ void main() {
         },
         build: () => VerificationBloc(),
         wait: const Duration(milliseconds: 50),
-        act: (bloc) => bloc.add(VerifyHashEvent(blockChain: chain)),
+        act: (bloc) => bloc.add(VerifyHashEvent()),
         expect: () => [LoadingState(), ErrorState("Error")]);
   });
 }
