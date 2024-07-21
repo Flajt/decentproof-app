@@ -6,6 +6,7 @@ import 'package:decentproof/features/hashing/bloc/PreparationBloc/PreparationBlo
 import 'package:decentproof/features/hashing/interfaces/IFileSavingService.dart';
 import 'package:decentproof/features/hashing/interfaces/IHashingService.dart';
 import 'package:decentproof/features/hashing/interfaces/IWaterMarkService.dart';
+import 'package:decentproof/features/metadata/enum/BlockChainEnum.dart';
 import 'package:decentproof/features/metadata/interfaces/ILocationService.dart';
 import 'package:decentproof/features/metadata/interfaces/IMetaDataPermissionService.dart';
 import 'package:decentproof/features/metadata/interfaces/IMetaDataService.dart';
@@ -67,8 +68,8 @@ void main() {
             when(locationService.serviceEnabled())
                 .thenAnswer((realInvocation) => Future.value(true));
             sendPort.send({"status": "AddingMetaData"});
-            when(audioMetaDataService.addLocation(
-                    sampleLocationModel, "sample/path/to/file.ogg"))
+            when(audioMetaDataService.addLocation(sampleLocationModel,
+                    "sample/path/to/file.ogg", BlockChain.BTC))
                 .thenAnswer((realInvocation) =>
                     Future.value("sample/path/to/file.mp3"));
             sendPort.send({"status": "Hashing", "progess": 0});
@@ -237,7 +238,8 @@ void main() {
                 .thenAnswer((_) => Future.value(true));
             when(locationService.requestLocation()).thenAnswer(
                 (realInvocation) => Future.value(sampleLocationModel));
-            when(videoMetaDataService.addLocation(sampleLocationModel, any))
+            when(videoMetaDataService.addLocation(
+                    sampleLocationModel, any, BlockChain.BTC))
                 .thenAnswer((_) => Future.value("sample/path/to/video.mkv"));
             sendPort.send({"status": "Hashing", "progress": 0});
             when(videoHashingService.hash(any))
@@ -433,7 +435,8 @@ void main() {
                 .thenAnswer((_) => Future.value(sampleLocationModel));
             when(locationService.serviceEnabled())
                 .thenAnswer((realInvocation) => Future.value(true));
-            when(imageMetaDataService.addLocation(sampleLocationModel, any))
+            when(imageMetaDataService.addLocation(
+                    sampleLocationModel, any, BlockChain.BTC))
                 .thenAnswer((_) => Future.value("sample/path/to/image.png"));
             when(imageHashingService.hash(any))
                 .thenAnswer((_) => Future.value("cool-hash"));

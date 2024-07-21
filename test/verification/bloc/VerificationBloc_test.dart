@@ -1,6 +1,8 @@
 import 'dart:isolate';
 
 import 'package:bloc_test/bloc_test.dart';
+import 'package:decentproof/constants.dart';
+import 'package:decentproof/features/metadata/enum/BlockChainEnum.dart';
 import 'package:decentproof/features/metadata/interfaces/IMetaDataService.dart';
 import 'package:decentproof/features/metadata/models/MetaDataModel.dart';
 import 'package:decentproof/features/verification/bloc/VerificationBloc.dart';
@@ -33,8 +35,14 @@ void main() {
     final audioMetaDataService = MockAudioMetaDataService();
     final videoMetaDataService = MockVideoMetaDataService();
     final hashLogic = MockHashLogic();
-    final statusModel = VerificationStatusModel(true, true, DateTime.now(), 0,
-        const MetaDataModel(null, null), "test", "test");
+    final statusModel = VerificationStatusModel(
+        true,
+        true,
+        DateTime.now(),
+        0,
+        const MetaDataModel(null, null, DPM_VERSION, BlockChain.BTC),
+        "test",
+        "test");
     blocTest("empty file model should trigger reset",
         setUp: () {
           register(
@@ -72,8 +80,9 @@ void main() {
                   fileName: "test.png", byteStream: const Stream.empty())));
           when(hashLogic.hashBytesInChunksFromStream(any))
               .thenAnswer((_) => Future.value("test"));
-          when(imageMetaDataService.retriveMetaData(any))
-              .thenAnswer((_) => Future.value(const MetaDataModel(null, null)));
+          when(imageMetaDataService.retriveMetaData(any)).thenAnswer((_) =>
+              Future.value(const MetaDataModel(
+                  null, null, DPM_VERSION, BlockChain.BTC)));
           when(verificationService.verify(any))
               .thenAnswer((_) => Future.value(statusModel));
         },
@@ -102,8 +111,9 @@ void main() {
                   fileName: "test.mkv", byteStream: const Stream.empty())));
           when(hashLogic.hashBytesInChunksFromStream(any))
               .thenAnswer((_) => Future.value("test"));
-          when(videoMetaDataService.retriveMetaData(any))
-              .thenAnswer((_) => Future.value(const MetaDataModel(null, null)));
+          when(videoMetaDataService.retriveMetaData(any)).thenAnswer((_) =>
+              Future.value(const MetaDataModel(
+                  null, null, DPM_VERSION, BlockChain.BTC)));
           when(verificationService.verify(any))
               .thenAnswer((_) => Future.value(statusModel));
         },
@@ -133,8 +143,9 @@ void main() {
                   fileName: "test.ogg", byteStream: const Stream.empty())));
           when(hashLogic.hashBytesInChunksFromStream(any))
               .thenAnswer((_) => Future.value("test"));
-          when(audioMetaDataService.retriveMetaData(any))
-              .thenAnswer((_) => Future.value(const MetaDataModel(null, null)));
+          when(audioMetaDataService.retriveMetaData(any)).thenAnswer((_) =>
+              Future.value(const MetaDataModel(
+                  null, null, DPM_VERSION, BlockChain.BTC)));
           when(verificationService.verify(any))
               .thenAnswer((_) => Future.value(statusModel));
         },
@@ -163,8 +174,9 @@ void main() {
                   fileName: "test.mp3", byteStream: const Stream.empty())));
           when(hashLogic.hashBytesInChunksFromStream(any))
               .thenAnswer((_) => Future.value("test"));
-          when(audioMetaDataService.retriveMetaData(any))
-              .thenAnswer((_) => Future.value(const MetaDataModel(null, null)));
+          when(audioMetaDataService.retriveMetaData(any)).thenAnswer((_) =>
+              Future.value(const MetaDataModel(
+                  null, null, DPM_VERSION, BlockChain.BTC)));
           when(verificationService.verify(any))
               .thenAnswer((_) => Future.value(statusModel));
         },
@@ -195,8 +207,9 @@ void main() {
                   fileName: "test.jpg", byteStream: const Stream.empty())));
           when(hashLogic.hashBytesInChunksFromStream(any))
               .thenAnswer((_) => Future.value("test"));
-          when(audioMetaDataService.retriveMetaData(any))
-              .thenAnswer((_) => Future.value(const MetaDataModel(null, null)));
+          when(audioMetaDataService.retriveMetaData(any)).thenAnswer((_) =>
+              Future.value(const MetaDataModel(
+                  null, null, DPM_VERSION, BlockChain.BTC)));
           when(verificationService.verify(any))
               .thenAnswer((_) => Future.value(statusModel));
         },
