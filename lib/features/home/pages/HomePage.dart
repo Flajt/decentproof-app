@@ -1,5 +1,3 @@
-import 'package:decentproof/features/hashing/bloc/BlockChainCubit/BlockChainCubit.dart';
-import 'package:decentproof/features/hashing/uiblocks/BlockChainSelectionDialog.dart';
 import 'package:decentproof/features/metadata/uiblocks/EnableLocationWarning.dart';
 import 'package:decentproof/features/review/logic/InAppReviewWrapper.dart';
 import 'package:decentproof/shared/util/RequestUtil.dart';
@@ -19,19 +17,12 @@ class HomePage extends StatelessWidget {
   late final Future<void> request;
   final SimpleMastodonParser feedProvider =
       SimpleMastodonParser("!", "https://mastodon.world/@Decentproof");
-  final BlockChainCubit blockChainCubit = BlockChainCubit();
   HomePage({super.key}) {
     request = RequestUtil.updateOrRetriveKey();
     InAppReviewWrapper.requestReview();
   }
   @override
   Widget build(BuildContext context) {
-    if (blockChainCubit.state == null) {
-      showDialog(
-          context: context,
-          builder: (context) => const BlockChainSelectionDialog(),
-          barrierDismissible: false);
-    }
     Size size = MediaQuery.of(context).size;
     context.read<LocationWarningBloc>().add(CheckLocationService());
     return Scaffold(
