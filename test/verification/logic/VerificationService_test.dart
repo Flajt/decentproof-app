@@ -1,3 +1,4 @@
+import 'package:decentproof/features/metadata/enum/BlockChainEnum.dart';
 import 'package:decentproof/features/verification/interfaces/ISignatureVerifcationService.dart';
 import 'package:decentproof/features/verification/logic/VerificationService.dart';
 import 'package:decentproof/features/verification/models/VerificationStatusModel.dart';
@@ -16,6 +17,7 @@ void main() {
   final secureStorageService = MockSecureStorage();
   final signatureVerificationService =
       MockSignatureVerificationService(); // Used so that I don't need to setup valid signatures and hashes
+  const chain = BlockChain.ETH;
   final json = {
     "error_code": 0,
     "error_message": "",
@@ -59,7 +61,7 @@ void main() {
             200,
             json,
           );
-        final resp = await verificationService.verify("lalal");
+        final resp = await verificationService.verify("lalal", chain);
         expect(
             resp,
             equals(VerificationStatusModel(
@@ -85,7 +87,7 @@ void main() {
             json,
           );
         try {
-          await verificationService.verify("lalal");
+          await verificationService.verify("lalal", chain);
         } catch (e) {
           expect(e, isException);
         }
@@ -93,7 +95,8 @@ void main() {
         expect(interceptor.isDone, true);
       });
       test("to access null api key throws exception", () {
-        expect(verificationService.verify("lalal"), throwsA(isException));
+        expect(
+            verificationService.verify("lalal", chain), throwsA(isException));
       });
       test(
           "to verify existens of the hash via originstamp will return a plain text error message",
@@ -105,7 +108,7 @@ void main() {
             "lalal",
           );
         try {
-          await verificationService.verify("lalal");
+          await verificationService.verify("lalal", chain);
         } catch (e) {
           expect(e, isException);
           expect(e.toString(), equals("Exception: 500: lalal"));

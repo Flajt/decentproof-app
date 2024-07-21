@@ -23,6 +23,7 @@ import '../../mocks.mocks.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
+  const chain = BlockChain.ETH;
   setUp(() async {
     await GetIt.I.reset();
     PathProviderPlatform.instance = FakePathProviderPlatform();
@@ -57,7 +58,7 @@ void main() {
               .thenAnswer((_) => Future.value(null));
         },
         build: () => VerificationBloc(),
-        act: (bloc) => bloc.add(VerifyHashEvent()),
+        act: (bloc) => bloc.add(VerifyHashEvent(blockChain: chain)),
         expect: () => [LoadingState(), InitialState()]);
 
     blocTest("successfully return VerificationStatusModel for an image",
@@ -83,11 +84,11 @@ void main() {
           when(imageMetaDataService.retriveMetaData(any)).thenAnswer((_) =>
               Future.value(const MetaDataModel(
                   null, null, DPM_VERSION, BlockChain.BTC)));
-          when(verificationService.verify(any))
+          when(verificationService.verify(any, chain))
               .thenAnswer((_) => Future.value(statusModel));
         },
         build: () => VerificationBloc(),
-        act: (bloc) => bloc.add(VerifyHashEvent()),
+        act: (bloc) => bloc.add(VerifyHashEvent(blockChain: chain)),
         wait: const Duration(milliseconds: 50),
         expect: () => [LoadingState(), VerifiedState(statusModel)]);
 
@@ -114,11 +115,11 @@ void main() {
           when(videoMetaDataService.retriveMetaData(any)).thenAnswer((_) =>
               Future.value(const MetaDataModel(
                   null, null, DPM_VERSION, BlockChain.BTC)));
-          when(verificationService.verify(any))
+          when(verificationService.verify(any, chain))
               .thenAnswer((_) => Future.value(statusModel));
         },
         build: () => VerificationBloc(),
-        act: (bloc) => bloc.add(VerifyHashEvent()),
+        act: (bloc) => bloc.add(VerifyHashEvent(blockChain: chain)),
         wait: const Duration(milliseconds: 50),
         expect: () => [LoadingState(), VerifiedState(statusModel)]);
 
@@ -146,11 +147,11 @@ void main() {
           when(audioMetaDataService.retriveMetaData(any)).thenAnswer((_) =>
               Future.value(const MetaDataModel(
                   null, null, DPM_VERSION, BlockChain.BTC)));
-          when(verificationService.verify(any))
+          when(verificationService.verify(any, chain))
               .thenAnswer((_) => Future.value(statusModel));
         },
         build: () => VerificationBloc(),
-        act: (bloc) => bloc.add(VerifyHashEvent()),
+        act: (bloc) => bloc.add(VerifyHashEvent(blockChain: chain)),
         wait: const Duration(milliseconds: 28),
         expect: () => [LoadingState(), VerifiedState(statusModel)]);
     blocTest(
@@ -177,11 +178,11 @@ void main() {
           when(audioMetaDataService.retriveMetaData(any)).thenAnswer((_) =>
               Future.value(const MetaDataModel(
                   null, null, DPM_VERSION, BlockChain.BTC)));
-          when(verificationService.verify(any))
+          when(verificationService.verify(any, chain))
               .thenAnswer((_) => Future.value(statusModel));
         },
         build: () => VerificationBloc(),
-        act: (bloc) => bloc.add(VerifyHashEvent()),
+        act: (bloc) => bloc.add(VerifyHashEvent(blockChain: chain)),
         wait: const Duration(milliseconds: 25),
         expect: () => [LoadingState(), VerifiedState(statusModel)]);
     blocTest("fail for invalid fileType (e.g. jpg)",
@@ -210,11 +211,11 @@ void main() {
           when(audioMetaDataService.retriveMetaData(any)).thenAnswer((_) =>
               Future.value(const MetaDataModel(
                   null, null, DPM_VERSION, BlockChain.BTC)));
-          when(verificationService.verify(any))
+          when(verificationService.verify(any, chain))
               .thenAnswer((_) => Future.value(statusModel));
         },
         build: () => VerificationBloc(),
-        act: (bloc) => bloc.add(VerifyHashEvent()),
+        act: (bloc) => bloc.add(VerifyHashEvent(blockChain: chain)),
         wait: const Duration(milliseconds: 50),
         expect: () => [
               LoadingState(),
@@ -235,7 +236,7 @@ void main() {
         },
         build: () => VerificationBloc(),
         wait: const Duration(milliseconds: 50),
-        act: (bloc) => bloc.add(VerifyHashEvent()),
+        act: (bloc) => bloc.add(VerifyHashEvent(blockChain: chain)),
         expect: () => [LoadingState(), ErrorState("Error")]);
   });
 }

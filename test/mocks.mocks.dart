@@ -30,7 +30,7 @@ import 'package:decentproof/features/hashing/logic/water_mark/ImageWaterMarkServ
     as _i22;
 import 'package:decentproof/features/hashing/logic/water_mark/VideoWaterMarkService.dart'
     as _i23;
-import 'package:decentproof/features/metadata/enum/BlockChainEnum.dart' as _i17;
+import 'package:decentproof/features/metadata/enum/BlockChainEnum.dart' as _i16;
 import 'package:decentproof/features/metadata/logic/LocationServiceWrapper.dart'
     as _i13;
 import 'package:decentproof/features/metadata/logic/MetaDataPermissionService.dart'
@@ -38,7 +38,7 @@ import 'package:decentproof/features/metadata/logic/MetaDataPermissionService.da
 import 'package:decentproof/features/metadata/logic/metaDataServices/AudioMetaDataService.dart'
     as _i18;
 import 'package:decentproof/features/metadata/logic/metaDataServices/ImageMetaDataService.dart'
-    as _i16;
+    as _i17;
 import 'package:decentproof/features/metadata/logic/metaDataServices/VideoMetaDataService.dart'
     as _i19;
 import 'package:decentproof/features/metadata/models/LocationModel.dart' as _i2;
@@ -469,6 +469,7 @@ class MockHashSubmissionService extends _i1.Mock
   _i9.Future<void> submitHash(
     String? hash,
     String? email,
+    _i16.BlockChain? blockChain,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -476,6 +477,7 @@ class MockHashSubmissionService extends _i1.Mock
           [
             hash,
             email,
+            blockChain,
           ],
         ),
         returnValue: _i9.Future<void>.value(),
@@ -487,12 +489,12 @@ class MockHashSubmissionService extends _i1.Mock
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockImageMetaDataService extends _i1.Mock
-    implements _i16.ImageMetaDataService {
+    implements _i17.ImageMetaDataService {
   @override
   _i9.Future<String> addLocation(
     _i2.LocationModel? locationModel,
     String? filePath,
-    _i17.BlockChain? blockChain,
+    _i16.BlockChain? blockChain,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -533,7 +535,7 @@ class MockImageMetaDataService extends _i1.Mock
     _i2.LocationModel? locationModel,
     String? secretHash,
     String? filePath,
-    _i17.BlockChain? blockChain,
+    _i16.BlockChain? blockChain,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -576,7 +578,7 @@ class MockImageMetaDataService extends _i1.Mock
   _i9.Future<String> addSecret(
     String? secretHash,
     String? filePath,
-    _i17.BlockChain? blockChain,
+    _i16.BlockChain? blockChain,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -646,7 +648,7 @@ class MockAudioMetaDataService extends _i1.Mock
   _i9.Future<String> addLocation(
     _i2.LocationModel? locationModel,
     String? filePath,
-    _i17.BlockChain? blockChain,
+    _i16.BlockChain? blockChain,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -687,7 +689,7 @@ class MockAudioMetaDataService extends _i1.Mock
     _i2.LocationModel? locationModel,
     String? secretHash,
     String? filePath,
-    _i17.BlockChain? blockChain,
+    _i16.BlockChain? blockChain,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -730,7 +732,7 @@ class MockAudioMetaDataService extends _i1.Mock
   _i9.Future<String> addSecret(
     String? secretHash,
     String? filePath,
-    _i17.BlockChain? blockChain,
+    _i16.BlockChain? blockChain,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -800,7 +802,7 @@ class MockVideoMetaDataService extends _i1.Mock
   _i9.Future<String> addLocation(
     _i2.LocationModel? locationModel,
     String? filePath,
-    _i17.BlockChain? blockChain,
+    _i16.BlockChain? blockChain,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -841,7 +843,7 @@ class MockVideoMetaDataService extends _i1.Mock
     _i2.LocationModel? locationModel,
     String? secretHash,
     String? filePath,
-    _i17.BlockChain? blockChain,
+    _i16.BlockChain? blockChain,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -884,7 +886,7 @@ class MockVideoMetaDataService extends _i1.Mock
   _i9.Future<String> addSecret(
     String? secretHash,
     String? filePath,
-    _i17.BlockChain? blockChain,
+    _i16.BlockChain? blockChain,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -1219,18 +1221,27 @@ class MockVerificationService extends _i1.Mock
       ) as String);
 
   @override
-  _i9.Future<_i5.VerificationStatusModel> verify(String? hash) =>
+  _i9.Future<_i5.VerificationStatusModel> verify(
+    String? hash,
+    _i16.BlockChain? blockChain,
+  ) =>
       (super.noSuchMethod(
         Invocation.method(
           #verify,
-          [hash],
+          [
+            hash,
+            blockChain,
+          ],
         ),
         returnValue: _i9.Future<_i5.VerificationStatusModel>.value(
             _FakeVerificationStatusModel_3(
           this,
           Invocation.method(
             #verify,
-            [hash],
+            [
+              hash,
+              blockChain,
+            ],
           ),
         )),
         returnValueForMissingStub:
@@ -1239,7 +1250,10 @@ class MockVerificationService extends _i1.Mock
           this,
           Invocation.method(
             #verify,
-            [hash],
+            [
+              hash,
+              blockChain,
+            ],
           ),
         )),
       ) as _i9.Future<_i5.VerificationStatusModel>);
