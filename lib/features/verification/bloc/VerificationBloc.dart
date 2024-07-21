@@ -34,6 +34,7 @@ class VerificationBloc
               File("${tempFileStorage.path}/${fileDataModel.fileName}");
           await copyFileToTemp(tempFile, fileDataModel);
           await _foregroundService.setData("filePath", tempFile.path);
+          await _foregroundService.setData("chain", event.blockChain.name);
           await _foregroundService.start(startVerificationForegroundService,
               "verificationNotification.title".tr(), "");
           final ReceivePort recivePort =
