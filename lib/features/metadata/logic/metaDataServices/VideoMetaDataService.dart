@@ -18,7 +18,7 @@ class VideoMetaDataService implements IMetaDataService {
     final Completer<bool> completer = Completer<bool>();
     String outputPath = filePath.replaceFirst("n_", "f_");
     await FFmpegKit.executeAsync(
-        "-i $filePath -c copy -movflags use_metadata_tags -metadata latitude=${locationModel.latitude} -metadata longitude=${locationModel.longitude} -metadata _blockchain=${blockChain.name} $outputPath",
+        "-i $filePath -c copy -movflags use_metadata_tags -metadata latitude=${locationModel.latitude} -metadata longitude=${locationModel.longitude} -metadata _blockchain=${blockChain.name} $versionCommand $outputPath",
         (session) async {
       if (ReturnCode.isSuccess(await session.getReturnCode())) {
         completer.complete(true);
@@ -42,7 +42,7 @@ class VideoMetaDataService implements IMetaDataService {
     String outputPath = filePath.replaceFirst("n_", "f_");
 
     await FFmpegKit.executeAsync(
-        "-i $filePath -c copy -movflags use_metadata_tags -metadata latitude=${locationModel.latitude} -metadata longitude=${locationModel.longitude} -metadata comment=$secretHash -metadata _blockchain=${blockChain.name} $outputPath",
+        "-i $filePath -c copy -movflags use_metadata_tags -metadata latitude=${locationModel.latitude} -metadata longitude=${locationModel.longitude} -metadata comment=$secretHash -metadata _blockchain=${blockChain.name} $versionCommand $outputPath",
         (session) async {
       if (ReturnCode.isSuccess(await session.getReturnCode())) {
         completer.complete(true);
@@ -64,7 +64,7 @@ class VideoMetaDataService implements IMetaDataService {
     final Completer<bool> completer = Completer<bool>();
     String outputPath = filePath.replaceFirst("n_", "f_");
     await FFmpegKit.executeAsync(
-        "-i $filePath -c copy -movflags use_metadata_tags -metadata comment=$secretHash -metadata _blockchain=${blockChain.name} $outputPath",
+        "-i $filePath -c copy -movflags use_metadata_tags -metadata comment=$secretHash -metadata _blockchain=${blockChain.name} $versionCommand $outputPath",
         (session) async {
       if (ReturnCode.isSuccess(await session.getReturnCode())) {
         completer.complete(true);
