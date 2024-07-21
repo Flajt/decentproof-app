@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:decentproof/features/hashing/interfaces/IHashSubmissionService.dart';
+import 'package:decentproof/features/metadata/enum/BlockChainEnum.dart';
 import 'package:decentproof/shared/Integrety/interfaces/ISecureStorageService.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
@@ -16,7 +17,8 @@ class HashSubmissionService implements IHashSubmissionService {
   }
 
   @override
-  Future<void> submitHash(String hash, String? email) async {
+  Future<void> submitHash(
+      String hash, String? email, BlockChain blockChain) async {
     String? apiKey = await _secureStorageService.retriveApiKey();
     if (apiKey == null && !isDebug) {
       throw "NO API KEY";
@@ -24,7 +26,11 @@ class HashSubmissionService implements IHashSubmissionService {
       apiKey = "DEBUG-KEY-PLACEHOLDER";
     }
     http.Response resp = await http.post(Uri.parse("$url/"),
-        body: jsonEncode({"data": hash, "email": email ?? ""}),
+        body: jsonEncode({
+          "data": hash,
+          "email": email ?? "",
+          "blockChain": blockChain.name
+        }),
         headers: {
           "Authorization": "basic $apiKey",
           "Content-Type": "application/json"
