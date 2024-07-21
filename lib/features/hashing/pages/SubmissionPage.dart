@@ -1,5 +1,6 @@
 import 'package:decentproof/features/analytics/bloc/AnalyticsBloc.dart';
 import 'package:decentproof/features/analytics/bloc/AnalyticsEvents.dart';
+import 'package:decentproof/features/hashing/bloc/BlockChainCubit/BlockChainCubit.dart';
 import 'package:decentproof/features/hashing/bloc/SubmissionBloc.dart';
 import 'package:decentproof/features/hashing/bloc/SubmissionEvents.dart';
 import 'package:decentproof/features/hashing/bloc/SubmissionState.dart';
@@ -15,6 +16,7 @@ class SubmissionPage extends StatelessWidget {
   const SubmissionPage({super.key});
   @override
   Widget build(BuildContext context) {
+    final BlockChainCubit blockChainCubit = context.read<BlockChainCubit>();
     Size size = MediaQuery.of(context).size;
     Map<String, String> args =
         ModalRoute.of(context)!.settings.arguments as Map<String, String>;
@@ -71,9 +73,9 @@ class SubmissionPage extends StatelessWidget {
                           padding: const EdgeInsets.all(8.0),
                           child: ElevatedButton(
                               onPressed: () async {
-                                context
-                                    .read<SubmissionBloc>()
-                                    .add(SubmitHash(args["hash"]!));
+                                final blockChain = blockChainCubit.state;
+                                context.read<SubmissionBloc>().add(
+                                    SubmitHash(args["hash"]!, blockChain!));
                               },
                               child: const Text("submissionPage.submitt").tr()),
                         ));
