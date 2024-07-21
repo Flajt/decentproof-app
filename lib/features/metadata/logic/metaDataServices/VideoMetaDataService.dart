@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:decentproof/constants.dart';
+import 'package:decentproof/features/metadata/enum/BlockChainEnum.dart';
 import 'package:decentproof/features/metadata/interfaces/IMetaDataService.dart';
 import 'package:decentproof/features/metadata/models/LocationModel.dart';
 import 'package:decentproof/features/metadata/models/MetaDataModel.dart';
@@ -9,13 +11,14 @@ import 'package:ffmpeg_kit_flutter/ffprobe_kit.dart';
 import 'package:ffmpeg_kit_flutter/return_code.dart';
 
 class VideoMetaDataService implements IMetaDataService {
+  static const versionCommand = "-metadata _dpm_version=$DPM_VERSION";
   @override
-  Future<String> addLocation(
-      LocationModel locationModel, String filePath) async {
+  Future<String> addLocation(LocationModel locationModel, String filePath,
+      BlockChain blockChain) async {
     final Completer<bool> completer = Completer<bool>();
     String outputPath = filePath.replaceFirst("n_", "f_");
     await FFmpegKit.executeAsync(
-        "-i $filePath -c copy -movflags use_metadata_tags -metadata latitude=${locationModel.latitude} -metadata longitude=${locationModel.longitude} $outputPath",
+        "-i $filePath -c copy -movflags use_metadata_tags -metadata latitude=${locationModel.latitude} -metadata longitude=${locationModel.longitude} -metadata _blockchain=${blockChain.name} $outputPath",
         (session) async {
       if (ReturnCode.isSuccess(await session.getReturnCode())) {
         completer.complete(true);
@@ -33,13 +36,13 @@ class VideoMetaDataService implements IMetaDataService {
   }
 
   @override
-  Future<String> addLocationAndSecret(
-      LocationModel locationModel, String secretHash, String filePath) async {
+  Future<String> addLocationAndSecret(LocationModel locationModel,
+      String secretHash, String filePath, BlockChain blockChain) async {
     final Completer<bool> completer = Completer<bool>();
     String outputPath = filePath.replaceFirst("n_", "f_");
 
     await FFmpegKit.executeAsync(
-        "-i $filePath -c copy -movflags use_metadata_tags -metadata latitude=${locationModel.latitude} -metadata longitude=${locationModel.longitude} -metadata comment=$secretHash $outputPath",
+        "-i $filePath -c copy -movflags use_metadata_tags -metadata latitude=${locationModel.latitude} -metadata longitude=${locationModel.longitude} -metadata comment=$secretHash -metadata _blockchain=${blockChain.name} $outputPath",
         (session) async {
       if (ReturnCode.isSuccess(await session.getReturnCode())) {
         completer.complete(true);
@@ -56,11 +59,12 @@ class VideoMetaDataService implements IMetaDataService {
   }
 
   @override
-  Future<String> addSecret(String secretHash, String filePath) async {
+  Future<String> addSecret(
+      String secretHash, String filePath, BlockChain blockChain) async {
     final Completer<bool> completer = Completer<bool>();
     String outputPath = filePath.replaceFirst("n_", "f_");
     await FFmpegKit.executeAsync(
-        "-i $filePath -c copy -movflags use_metadata_tags -metadata comment=$secretHash $outputPath",
+        "-i $filePath -c copy -movflags use_metadata_tags -metadata comment=$secretHash -metadata _blockchain=${blockChain.name} $outputPath",
         (session) async {
       if (ReturnCode.isSuccess(await session.getReturnCode())) {
         completer.complete(true);
@@ -81,6 +85,8 @@ class VideoMetaDataService implements IMetaDataService {
     final data = Completer<Map<dynamic, dynamic>>();
     String? secretHash;
     LocationModel? location;
+    String? dpmVersion;
+    BlockChain? blockChain;
     await FFprobeKit.getMediaInformationAsync(filePath, (session) {
       final information = session.getMediaInformation();
       if (information == null) {
@@ -98,6 +104,16 @@ class VideoMetaDataService implements IMetaDataService {
           latitude: double.parse(tags["LATITUDE"]),
           longitude: double.parse(tags["LONGITUDE"]));
     }
-    return MetaDataModel(secretHash, location);
+    if (tags.containsKey("_DPM_VERSION")) {
+      dpmVersion = tags["_DPM_VERSION"];
+    } else {
+      throw "Invalid MetaData";
+    }
+    if (tags.containsKey("_BLOCKCHAIN")) {
+      blockChain = BlockChain.values.firstWhere(
+          (element) => element.name == tags["_BLOCKCHAIN"],
+          orElse: () => throw "Invalid MetaData");
+    }
+    return MetaDataModel(secretHash, location, dpmVersion!, blockChain!);
   }
 }
