@@ -37,7 +37,9 @@
         "embedLocation": "Embed Location",
         "embedLocationSubtitle": "Embed the location in created media files",
         "embedSecret": "Embed Singature",
-        "embedSecretSubtitle": "Embed a signature in created media files"
+        "embedSecretSubtitle": "Embed a signature in created media files",
+        "blockChainSelection": "Change Blockchain",
+        "blockChainSelectionSubtitle": "Change the blockchain to store your proof on"
     },
     "submissionPage": {
         "hash": "Your Hash:",

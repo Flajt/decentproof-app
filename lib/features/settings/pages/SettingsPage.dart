@@ -1,5 +1,6 @@
 import 'package:decentproof/features/metadata/uiblocks/LocationEmbeddingTile.dart';
 import 'package:decentproof/features/metadata/uiblocks/SecretEmbeddingTile.dart';
+import 'package:decentproof/features/settings/uiblocks/BlockChainSelectionDialogTile.dart';
 import 'package:decentproof/features/settings/uiblocks/EmailEmbeddingTile.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -42,6 +43,7 @@ class SettingsPage extends StatelessWidget {
             const EmailEmbeddingTile(),
             const LocationEmbeddingTile(),
             const SecretEmbeddingTile(),
+            const BlockChainSelectionTile(),
             ListTile(
               title: const Text("FAQ"),
               onTap: () async => await launchUrlString(WIKI_URL),
