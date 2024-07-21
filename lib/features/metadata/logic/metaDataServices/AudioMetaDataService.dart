@@ -20,7 +20,7 @@ class AudioMetaDataService implements IMetaDataService {
     String outputPath = filePath.replaceFirst(".ogg", ".mp3");
 
     await FFmpegKit.executeAsync(
-        "-i $filePath -movflags use_metadata_tags -metadata latitude=${locationModel.latitude} -metadata longitude=${locationModel.longitude} -metadata _blockchain=${blockChain.name} $versionCommand  $outputPath",
+        "-i $filePath -movflags use_metadata_tags -metadata latitude=${locationModel.latitude} -metadata longitude=${locationModel.longitude} -metadata _blockchain=${blockChain.name} $versionCommand $outputPath",
         (session) async {
       if (ReturnCode.isSuccess(await session.getReturnCode())) {
         completer.complete(true);
