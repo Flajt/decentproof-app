@@ -1,6 +1,7 @@
 import 'dart:isolate';
 import 'dart:ui';
 
+import 'package:decentproof/features/hashing/bloc/BlockChainCubit/BlockChainCubit.dart';
 import 'package:decentproof/shared/foregroundService/IForegroundService.dart';
 import 'package:decentproof/features/hashing/interfaces/IHashingService.dart';
 import 'package:decentproof/features/hashing/interfaces/IWaterMarkService.dart';
@@ -52,6 +53,8 @@ class PreperationTaskHandler extends TaskHandler {
       final IForegroundService foregroundService =
           getIt.get<IForegroundService>();
 
+      final BlockChainCubit blockChainCubit = BlockChainCubit();
+
       final instructions =
           await foregroundService.getData<String>("instructions");
       final parts = instructions!.split("::");
@@ -78,7 +81,8 @@ class PreperationTaskHandler extends TaskHandler {
             return;
           }
           LocationModel locationModel = await locationService.requestLocation();
-          await imageMetaDataService.addLocation(locationModel, finalPath);
+          await imageMetaDataService.addLocation(
+              locationModel, finalPath, blockChainCubit.state!);
         }
         sendPort?.send({"status": "Hashing", "progess": 0});
         String hash = await imageHashingService.hash(
@@ -109,8 +113,8 @@ class PreperationTaskHandler extends TaskHandler {
             return;
           }
           LocationModel locationModel = await locationService.requestLocation();
-          afterMetaDataPath =
-              await videoMetaDataService.addLocation(locationModel, finalPath);
+          afterMetaDataPath = await videoMetaDataService.addLocation(
+              locationModel, finalPath, blockChainCubit.state!);
         }
         sendPort?.send({"status": "Hashing", "progess": 0});
         String hash = await videoHashingService.hash(
@@ -141,8 +145,8 @@ class PreperationTaskHandler extends TaskHandler {
             return;
           }
           LocationModel locationModel = await locationService.requestLocation();
-          afterMetaDataPath =
-              await audioMetaDataService.addLocation(locationModel, path);
+          afterMetaDataPath = await audioMetaDataService.addLocation(
+              locationModel, path, blockChainCubit.state!);
         }
         sendPort?.send({"status": "Hashing", "progess": 0});
 
