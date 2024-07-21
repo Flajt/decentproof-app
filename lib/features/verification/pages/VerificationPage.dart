@@ -75,35 +75,14 @@ class VerificationPage extends StatelessWidget {
                         style: Theme.of(context).textTheme.headlineLarge)
                     .tr(),
                 CheckMarkTable(statusModel: state.statusModel),
-                LayoutBuilder(builder: (context, constraints) {
-                  if (constraints.maxWidth < 600) {
-                    Column(children: [
-                      state.statusModel.bitcoinTransaction != null
-                          ? BitcoinButton(
-                              showInExplorer: showInExplorer, state: state)
-                          : Container(),
-                      state.statusModel.ethereumTransaction != null
-                          ? EthereumButton(
-                              showInExplorer: showInExplorer, state: state)
-                          : Container(),
-                    ]);
-                  } else {
-                    return Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        state.statusModel.bitcoinTransaction != null
-                            ? BitcoinButton(
-                                showInExplorer: showInExplorer, state: state)
-                            : Container(),
-                        state.statusModel.ethereumTransaction != null
-                            ? EthereumButton(
-                                showInExplorer: showInExplorer, state: state)
-                            : Container(),
-                      ],
-                    );
-                  }
-                  return const CircularProgressIndicator.adaptive();
-                }),
+                state.statusModel.bitcoinTransaction != null
+                    ? BitcoinButton(
+                        showInExplorer: showInExplorer, state: state)
+                    : Container(),
+                state.statusModel.ethereumTransaction != null
+                    ? EthereumButton(
+                        showInExplorer: showInExplorer, state: state)
+                    : Container(),
                 OutlinedButton(
                   onPressed: () =>
                       context.read<VerificationBloc>().add(ResetEvent()),
