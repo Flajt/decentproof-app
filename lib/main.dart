@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:decentproof/constants.dart';
 import 'package:decentproof/features/analytics/bloc/AnalyticsBloc.dart';
+import 'package:decentproof/features/hashing/bloc/BlockChainCubit/BlockChainCubit.dart';
 import 'package:decentproof/features/hashing/bloc/SubmissionBloc.dart';
 import 'package:decentproof/features/hashing/bloc/PreparationBloc/PreparationBloc.dart';
 import 'package:decentproof/features/metadata/bloc/LocationWarningBloc.dart';
@@ -55,7 +56,7 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +67,8 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => SubmissionBloc()),
         BlocProvider(create: (context) => PreparationBloc()),
         BlocProvider(create: (context) => LocationWarningBloc()),
-        BlocProvider(create: (context) => AnalyticsBloc())
+        BlocProvider(create: (context) => AnalyticsBloc()),
+        BlocProvider(create: (context) => BlockChainCubit())
       ],
       child: MaterialApp(
         navigatorObservers: [SentryNavigatorObserver()],
