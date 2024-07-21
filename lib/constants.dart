@@ -19,3 +19,4 @@ const List<Locale> SUPPORTED_LOCALS = [
 ];
 
 const String WIKI_URL = "https://github.com/Flajt/decentproof-app/wiki/FAQ";
+const DPM_VERSION = "1.0.0";
