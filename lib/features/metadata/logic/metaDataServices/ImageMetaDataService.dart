@@ -13,8 +13,8 @@ class ImageMetaDataService implements IMetaDataService {
     await exif.writeAttributes({
       "GPSLatitude": locationModel.latitude,
       "GPSLongitude": locationModel.longitude,
-      "_BlockChain": blockChain.name,
-      "_dpm_version": DPM_VERSION
+      "Software": "Decentproof $DPM_VERSION",
+      "UserComment": blockChain.name
     });
     await exif.close();
     return filePath;
@@ -27,9 +27,9 @@ class ImageMetaDataService implements IMetaDataService {
     await exif.writeAttributes({
       "GPSLatitude": locationModel.latitude,
       "GPSLongitude": locationModel.longitude,
-      "UserComment": secretHash,
-      "_BlockChain": blockChain.name,
-      "_dpm_version": DPM_VERSION
+      "Artist": secretHash,
+      "Software": "Decentproof $DPM_VERSION",
+      "UserComment": blockChain.name
     });
     await exif.close();
     return filePath;
@@ -40,9 +40,9 @@ class ImageMetaDataService implements IMetaDataService {
       String secretHash, String filePath, BlockChain blockChain) async {
     Exif exif = await Exif.fromPath(filePath);
     await exif.writeAttributes({
-      "UserComment": secretHash,
-      "_BlockChain": blockChain.name,
-      "_dpm_version": DPM_VERSION
+      "Artist": secretHash,
+      "Software": "Decentproof $DPM_VERSION",
+      "UserComment": blockChain.name
     });
     await exif.close();
     return filePath;
@@ -60,21 +60,26 @@ class ImageMetaDataService implements IMetaDataService {
     if (data == null) {
       throw "No Metadata found!";
     }
-    if (data.containsKey("UserComment")) {
-      secretHash = data["UserComment"] as String;
+    if (data.containsKey("Artist")) {
+      secretHash = data["Artist"] as String;
     }
     if (data.containsKey("GPSLatitude") && data.containsKey("GPSLongitude")) {
       location = LocationModel(
           latitude: data["GPSLatitude"] as double,
           longitude: data["GPSLongitude"] as double);
     }
-    if (data.containsKey("_BlockChain")) {
+    if (data.containsKey("Software")) {
+      dpmVersion = data["Software"] as String;
+      dpmVersion.split(" ")[1];
+    } else {
+      throw "Invalid metadata!";
+    }
+    if (data.containsKey("UserComment")) {
       blockChain = BlockChain.values
-          .firstWhere((element) => element.name == data["_BlockChain"]);
+          .firstWhere((chain) => chain.name == (data["UserComment"] as String));
+    } else {
+      throw "Invalid metadata!";
     }
-    if (data.containsKey("_dpm_version")) {
-      dpmVersion = data["_dpm_version"] as String;
-    }
-    return MetaDataModel(secretHash, location, dpmVersion!, blockChain!);
+    return MetaDataModel(secretHash, location, dpmVersion, blockChain!);
   }
 }
