@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:decentproof/constants.dart';
 import 'package:decentproof/features/metadata/enum/BlockChainEnum.dart';
 import 'package:decentproof/features/metadata/interfaces/IMetaDataService.dart';
@@ -6,9 +8,25 @@ import 'package:decentproof/features/metadata/models/MetaDataModel.dart';
 import 'package:native_exif/native_exif.dart';
 
 class ImageMetaDataService implements IMetaDataService {
+  const ImageMetaDataService();
+  bool? get _isIOS {
+    if (Platform.isIOS) {
+      return true;
+    } else {
+      if (Platform.isAndroid) {
+        return false;
+      } else {
+        return null;
+      }
+    }
+  }
+
   @override
   Future<String> addLocation(LocationModel locationModel, String filePath,
       BlockChain blockChain) async {
+    if (_isIOS == null) {
+      throw "Not supported on this platform";
+    }
     Exif exif = await Exif.fromPath(filePath);
     await exif.writeAttributes({
       "GPSLatitude": locationModel.latitude,
@@ -23,6 +41,9 @@ class ImageMetaDataService implements IMetaDataService {
   @override
   Future<String> addLocationAndSecret(LocationModel locationModel,
       String secretHash, String filePath, BlockChain blockChain) async {
+    if (_isIOS == null) {
+      throw "Not supported on this platform";
+    }
     Exif exif = await Exif.fromPath(filePath);
     await exif.writeAttributes({
       "GPSLatitude": locationModel.latitude,
@@ -38,6 +59,9 @@ class ImageMetaDataService implements IMetaDataService {
   @override
   Future<String> addSecret(
       String secretHash, String filePath, BlockChain blockChain) async {
+    if (_isIOS == null) {
+      throw "Not supported on this platform";
+    }
     Exif exif = await Exif.fromPath(filePath);
     await exif.writeAttributes({
       "Artist": secretHash,
@@ -50,6 +74,9 @@ class ImageMetaDataService implements IMetaDataService {
 
   @override
   Future<MetaDataModel> retriveMetaData(String filePath) async {
+    if (_isIOS == null) {
+      throw "Not supported on this platform";
+    }
     String? secretHash;
     LocationModel? location;
     String? dpmVersion;
