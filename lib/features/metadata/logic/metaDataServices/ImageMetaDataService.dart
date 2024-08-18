@@ -24,6 +24,9 @@ class ImageMetaDataService implements IMetaDataService {
   @override
   Future<String> addLocation(LocationModel locationModel, String filePath,
       BlockChain blockChain) async {
+    print(filePath);
+    print(_isIOS);
+    print({(_isIOS! ? "FileSource" : "Software"): "Decentproof $DPM_VERSION"});
     if (_isIOS == null) {
       throw "Not supported on this platform";
     }
@@ -31,7 +34,7 @@ class ImageMetaDataService implements IMetaDataService {
     await exif.writeAttributes({
       "GPSLatitude": locationModel.latitude,
       "GPSLongitude": locationModel.longitude,
-      "Software": "Decentproof $DPM_VERSION",
+      (_isIOS! ? "FileSource" : "Software"): "Decentproof $DPM_VERSION",
       "UserComment": blockChain.name
     });
     await exif.close();
@@ -48,8 +51,8 @@ class ImageMetaDataService implements IMetaDataService {
     await exif.writeAttributes({
       "GPSLatitude": locationModel.latitude,
       "GPSLongitude": locationModel.longitude,
-      "Artist": secretHash,
-      "Software": "Decentproof $DPM_VERSION",
+      _isIOS! ? "AuxOwnerName" : "Artist": secretHash,
+      _isIOS! ? "FileSource" : "Software": "Decentproof $DPM_VERSION",
       "UserComment": blockChain.name
     });
     await exif.close();
@@ -64,8 +67,8 @@ class ImageMetaDataService implements IMetaDataService {
     }
     Exif exif = await Exif.fromPath(filePath);
     await exif.writeAttributes({
-      "Artist": secretHash,
-      "Software": "Decentproof $DPM_VERSION",
+      _isIOS! ? "AuxOwnerName" : "Artist": secretHash,
+      _isIOS! ? "FileSource" : "Software": "Decentproof $DPM_VERSION",
       "UserComment": blockChain.name
     });
     await exif.close();
@@ -87,17 +90,26 @@ class ImageMetaDataService implements IMetaDataService {
     if (data == null) {
       throw "No Metadata found!";
     }
-    if (data.containsKey("Artist")) {
-      secretHash = data["Artist"] as String;
+    if (data.containsKey("Artist") || data.containsKey("AuxOwnerName")) {
+      if (!_isIOS!) {
+        secretHash = data["Artist"] as String;
+      } else {
+        secretHash = data["AuxOwnerName"] as String;
+      }
     }
     if (data.containsKey("GPSLatitude") && data.containsKey("GPSLongitude")) {
       location = LocationModel(
           latitude: data["GPSLatitude"] as double,
           longitude: data["GPSLongitude"] as double);
     }
-    if (data.containsKey("Software")) {
-      dpmVersion = data["Software"] as String;
-      dpmVersion.split(" ")[1];
+    if (data.containsKey("Software") || data.containsKey("FileSource")) {
+      if (!_isIOS!) {
+        dpmVersion = data["Software"] as String;
+        dpmVersion = dpmVersion.split(" ")[1];
+      } else {
+        dpmVersion = data["FileSource"] as String;
+        dpmVersion = dpmVersion.split(" ")[1];
+      }
     } else {
       throw "Invalid metadata!";
     }
@@ -107,6 +119,6 @@ class ImageMetaDataService implements IMetaDataService {
     } else {
       throw "Invalid metadata!";
     }
-    return MetaDataModel(secretHash, location, dpmVersion, blockChain!);
+    return MetaDataModel(secretHash, location, dpmVersion, blockChain);
   }
 }
