@@ -12,12 +12,12 @@ import 'package:ffmpeg_kit_flutter/return_code.dart';
 
 class AudioMetaDataService implements IMetaDataService {
   static const versionCommand =
-      "-metadata _dpm_version=$DPM_VERSION"; //decentproof metadata version
+      "-metadata softare=Decentproof $DPM_VERSION"; //decentproof metadata version
   @override
   Future<String> addLocation(LocationModel locationModel, String filePath,
       BlockChain blockChain) async {
     final Completer<bool> completer = Completer<bool>();
-    String outputPath = filePath.replaceFirst(".ogg", ".mp3");
+    String outputPath = "f_$filePath";
 
     await FFmpegKit.executeAsync(
         "-i $filePath -movflags use_metadata_tags -metadata latitude=${locationModel.latitude} -metadata longitude=${locationModel.longitude} -metadata _blockchain=${blockChain.name} $versionCommand $outputPath",
@@ -41,7 +41,7 @@ class AudioMetaDataService implements IMetaDataService {
   Future<String> addLocationAndSecret(LocationModel locationModel,
       String secretHash, String filePath, BlockChain blockChain) async {
     final Completer<bool> completer = Completer<bool>();
-    String outputPath = filePath.replaceFirst(".ogg", ".mp3");
+    String outputPath = "f_$filePath";
 
     await FFmpegKit.executeAsync(
         "-i $filePath -movflags use_metadata_tags -metadata latitude=${locationModel.latitude} -metadata longitude=${locationModel.longitude} -metadata comment=$secretHash -metadata _blockchain=${blockChain.name} $versionCommand $outputPath",
@@ -64,10 +64,9 @@ class AudioMetaDataService implements IMetaDataService {
   Future<String> addSecret(
       String secretHash, String filePath, BlockChain blockChain) async {
     final Completer<bool> completer = Completer<bool>();
-    String outputPath = filePath.replaceFirst("n_", "f_");
-    String finalOutputPath = outputPath.replaceFirst(".ogg", ".mp3");
+    String outputPath = "f_$filePath";
     await FFmpegKit.executeAsync(
-        "-i $filePath -c copy -movflags use_metadata_tags -metadata comment=$secretHash -metadata _blockchain=${blockChain.name} $versionCommand $finalOutputPath",
+        "-i $filePath -c copy -movflags use_metadata_tags -metadata comment=$secretHash -metadata _blockchain=${blockChain.name} $versionCommand $outputPath",
         (session) async {
       if (ReturnCode.isSuccess(await session.getReturnCode())) {
         completer.complete(true);
@@ -111,16 +110,43 @@ class AudioMetaDataService implements IMetaDataService {
     if (tags.containsKey("_blockchain")) {
       blockChain = BlockChain.values
           .firstWhere((element) => element.name == tags["_blockchain"]);
+    } else {
+      throw "No Blockchain found!";
     }
-    if (tags.containsKey("_dpm_version")) {
-      dpmVersion = tags["_dpm_version"];
+    if (tags.containsKey("software")) {
+      dpmVersion = tags["software"];
+      dpmVersion = dpmVersion!.split(" ")[1];
+    } else {
+      throw "No DPM Version found!";
     }
 
     return MetaDataModel(
       secretHash,
       location,
-      dpmVersion!,
-      blockChain!,
+      dpmVersion,
+      blockChain,
     );
+  }
+
+  @override
+  Future<String> addBasicMetaData(
+      String filePath, BlockChain blockChain) async {
+    final Completer<bool> completer = Completer<bool>();
+    String outputPath = "f_$filePath";
+    await FFmpegKit.executeAsync(
+        "-i $filePath -c copy -movflags use_metadata_tags -metadata -metadata _blockchain=${blockChain.name} $versionCommand $outputPath",
+        (session) async {
+      if (ReturnCode.isSuccess(await session.getReturnCode())) {
+        completer.complete(true);
+      } else {
+        completer.complete(false);
+      }
+    });
+    bool success = await completer.future;
+    if (success) {
+      await File(filePath).delete(); // Clean up
+      return outputPath;
+    }
+    throw "Error adding seceret to video";
   }
 }

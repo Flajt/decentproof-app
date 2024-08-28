@@ -11,7 +11,7 @@ import 'package:ffmpeg_kit_flutter/ffprobe_kit.dart';
 import 'package:ffmpeg_kit_flutter/return_code.dart';
 
 class VideoMetaDataService implements IMetaDataService {
-  static const versionCommand = "-metadata _dpm_version=$DPM_VERSION";
+  static const versionCommand = "-metadata software=Decentproof $DPM_VERSION";
   @override
   Future<String> addLocation(LocationModel locationModel, String filePath,
       BlockChain blockChain) async {
@@ -104,16 +104,39 @@ class VideoMetaDataService implements IMetaDataService {
           latitude: double.parse(tags["LATITUDE"]),
           longitude: double.parse(tags["LONGITUDE"]));
     }
-    if (tags.containsKey("_DPM_VERSION")) {
-      dpmVersion = tags["_DPM_VERSION"];
+    if (tags.containsKey("SOFTWARE")) {
+      dpmVersion = tags["SOFTWARE"];
+      dpmVersion = dpmVersion!.split(" ")[1];
     } else {
-      throw "Invalid MetaData";
+      throw "Missing Software Version";
     }
     if (tags.containsKey("_BLOCKCHAIN")) {
       blockChain = BlockChain.values.firstWhere(
           (element) => element.name == tags["_BLOCKCHAIN"],
-          orElse: () => throw "Invalid MetaData");
+          orElse: () => throw "Missing BlockChain");
     }
     return MetaDataModel(secretHash, location, dpmVersion!, blockChain!);
+  }
+
+  @override
+  Future<String> addBasicMetaData(
+      String filePath, BlockChain blockChain) async {
+    final Completer<bool> completer = Completer<bool>();
+    String outputPath = filePath.replaceFirst("n_", "f_");
+    await FFmpegKit.executeAsync(
+        "-i $filePath -c copy -movflags use_metadata_tags -metadata -metadata _blockchain=${blockChain.name} $versionCommand $outputPath",
+        (session) async {
+      if (ReturnCode.isSuccess(await session.getReturnCode())) {
+        completer.complete(true);
+      } else {
+        completer.complete(false);
+      }
+    });
+    bool success = await completer.future;
+    if (success) {
+      await File(filePath).delete(); // Clean up
+      return outputPath;
+    }
+    throw "Error adding seceret to video";
   }
 }
