@@ -100,4 +100,14 @@ class ImageMetaDataService implements IMetaDataService {
     }
     return MetaDataModel(secretHash, location, dpmVersion, blockChain);
   }
+
+  @override
+  Future<String> addBasicMetaData(
+      String filePath, BlockChain blockChain) async {
+    final image = (await img.decodeJpgFile(filePath))!;
+    image.exif.imageIfd.software = "Decentproof $DPM_VERSION";
+    image.exif.imageIfd.userComment = blockChain.name;
+    await img.encodeJpgFile(filePath, image);
+    return filePath;
+  }
 }
