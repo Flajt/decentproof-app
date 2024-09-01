@@ -11,7 +11,7 @@ import 'package:ffmpeg_kit_flutter/ffprobe_kit.dart';
 import 'package:ffmpeg_kit_flutter/return_code.dart';
 
 class VideoMetaDataService implements IMetaDataService {
-  static const versionCommand = "-metadata software=Decentproof $DPM_VERSION";
+  static const versionCommand = "-metadata software='Decentproof $DPM_VERSION'";
   @override
   Future<String> addLocation(LocationModel locationModel, String filePath,
       BlockChain blockChain) async {
@@ -124,7 +124,7 @@ class VideoMetaDataService implements IMetaDataService {
     final Completer<bool> completer = Completer<bool>();
     String outputPath = filePath.replaceFirst("n_", "f_");
     await FFmpegKit.executeAsync(
-        "-i $filePath -c copy -movflags use_metadata_tags -metadata -metadata _blockchain=${blockChain.name} $versionCommand $outputPath",
+        "-i $filePath -c copy -movflags use_metadata_tags -metadata _blockchain=${blockChain.name} $versionCommand $outputPath",
         (session) async {
       if (ReturnCode.isSuccess(await session.getReturnCode())) {
         completer.complete(true);

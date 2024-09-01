@@ -17,8 +17,8 @@ class _AudioPageState extends State<AudioPage> {
     recorderController = RecorderController()
       ..androidOutputFormat = AndroidOutputFormat.ogg
       ..iosEncoder = IosEncoder.kAudioFormatOpus
-      ..bitRate = 48000
-      ..sampleRate = 44100
+      //..bitRate = 48000 // See https://github.com/SimformSolutionsPvtLtd/audio_waveforms/issues/288#issuecomment-2068077836 for why it's commented out
+      //..sampleRate = 44100
       ..shouldClearLabels;
   }
 
