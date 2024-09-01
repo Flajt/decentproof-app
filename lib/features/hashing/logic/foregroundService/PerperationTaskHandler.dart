@@ -124,19 +124,17 @@ class PreperationTaskHandler extends TaskHandler {
           afterMetaDataPath = await videoMetaDataService.addLocation(
               locationModel, finalPath, chain);
         } else {
-          await videoMetaDataService.addBasicMetaData(finalPath, chain);
+          afterMetaDataPath =
+              await videoMetaDataService.addBasicMetaData(finalPath, chain);
         }
         sendPort?.send({"status": "Hashing", "progess": 0});
         String hash = await videoHashingService.hash(
-            afterMetaDataPath ?? finalPath,
+            afterMetaDataPath,
             (progress) async => await sendAUpdateProgress(
                 sendPort, "Hashing", progress, foregroundService));
 
-        sendPort?.send({
-          "status": "Done",
-          "content": hash,
-          "filePath": afterMetaDataPath ?? path
-        });
+        sendPort?.send(
+            {"status": "Done", "content": hash, "filePath": afterMetaDataPath});
       } else if (task == "audio") {
         String? afterMetaDataPath;
         bool shouldEmbedLocation =
@@ -158,19 +156,17 @@ class PreperationTaskHandler extends TaskHandler {
           afterMetaDataPath = await audioMetaDataService.addLocation(
               locationModel, path, chain);
         } else {
-          await audioMetaDataService.addBasicMetaData(path, chain);
+          afterMetaDataPath =
+              await audioMetaDataService.addBasicMetaData(path, chain);
         }
         sendPort?.send({"status": "Hashing", "progess": 0});
 
         String hash = await audioHashingService.hash(
-            afterMetaDataPath ?? path,
+            afterMetaDataPath,
             (progress) async => await sendAUpdateProgress(
                 sendPort, "Hashing", progress, foregroundService));
-        sendPort?.send({
-          "status": "Done",
-          "content": hash,
-          "filePath": afterMetaDataPath ?? path
-        });
+        sendPort?.send(
+            {"status": "Done", "content": hash, "filePath": afterMetaDataPath});
       } else {
         sendPort
             ?.send({"status": "Error", "description": "Task not supported"});
