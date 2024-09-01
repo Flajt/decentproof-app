@@ -30,7 +30,7 @@ void main() {
         String filePath = await videoSavingService.saveFile();
         expect(filePath, isNotNull);
         expect(filePath, contains(kApplicationDocumentsPath));
-        expect(filePath, contains(".png"));
+        expect(filePath, contains(".jpg"));
       });
     });
     group("fail", () {
