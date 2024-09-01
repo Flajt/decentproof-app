@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:decentproof/features/metadata/enum/BlockChainEnum.dart';
 import 'package:decentproof/features/verification/interfaces/ISignatureVerifcationService.dart';
 import 'package:decentproof/features/verification/interfaces/IVerificationService.dart';
 import 'package:decentproof/features/verification/models/OriginstampTimeStampModel.dart';
@@ -24,12 +25,13 @@ class VerificationService implements IVerificationService {
   }
 
   @override
-  Future<VerificationStatusModel> verify(String hash) async {
+  Future<VerificationStatusModel> verify(
+      String hash, BlockChain blockChain) async {
     String? apiKey = await _secureStorageService.retriveApiKey();
     if (apiKey == null) {
       throw Exception("NO API KEY");
     }
-    Map<String, dynamic> body = {"hash": hash};
+    Map<String, dynamic> body = {"hash": hash, "blockChain": blockChain.name};
 
     http.Response resp = await http.post(Uri.parse("$url/"),
         body: jsonEncode(body),

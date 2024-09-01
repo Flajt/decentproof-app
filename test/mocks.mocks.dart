@@ -5,7 +5,7 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i9;
 import 'dart:isolate' as _i7;
-import 'dart:typed_data' as _i30;
+import 'dart:typed_data' as _i31;
 
 import 'package:basic_utils/basic_utils.dart' as _i6;
 import 'package:decentproof/features/hashing/interfaces/IMediaPickerService.dart'
@@ -13,48 +13,49 @@ import 'package:decentproof/features/hashing/interfaces/IMediaPickerService.dart
 import 'package:decentproof/features/hashing/logic/backend/HashSubmissionService.dart'
     as _i15;
 import 'package:decentproof/features/hashing/logic/backend/ShowInExplorer.dart'
-    as _i32;
+    as _i33;
 import 'package:decentproof/features/hashing/logic/hasher/AudioHashingService.dart'
-    as _i23;
-import 'package:decentproof/features/hashing/logic/hasher/ImageHashingService.dart'
     as _i24;
-import 'package:decentproof/features/hashing/logic/hasher/VideoHashingService.dart'
+import 'package:decentproof/features/hashing/logic/hasher/ImageHashingService.dart'
     as _i25;
+import 'package:decentproof/features/hashing/logic/hasher/VideoHashingService.dart'
+    as _i26;
 import 'package:decentproof/features/hashing/logic/ImagePickerWrapper.dart'
-    as _i31;
+    as _i32;
 import 'package:decentproof/features/hashing/logic/ImageSavingService.dart'
-    as _i20;
-import 'package:decentproof/features/hashing/logic/VideoSavingService.dart'
-    as _i19;
-import 'package:decentproof/features/hashing/logic/water_mark/ImageWaterMarkService.dart'
     as _i21;
-import 'package:decentproof/features/hashing/logic/water_mark/VideoWaterMarkService.dart'
+import 'package:decentproof/features/hashing/logic/VideoSavingService.dart'
+    as _i20;
+import 'package:decentproof/features/hashing/logic/water_mark/ImageWaterMarkService.dart'
     as _i22;
+import 'package:decentproof/features/hashing/logic/water_mark/VideoWaterMarkService.dart'
+    as _i23;
+import 'package:decentproof/features/metadata/enum/BlockChainEnum.dart' as _i16;
 import 'package:decentproof/features/metadata/logic/LocationServiceWrapper.dart'
     as _i13;
 import 'package:decentproof/features/metadata/logic/MetaDataPermissionService.dart'
     as _i14;
 import 'package:decentproof/features/metadata/logic/metaDataServices/AudioMetaDataService.dart'
-    as _i17;
-import 'package:decentproof/features/metadata/logic/metaDataServices/ImageMetaDataService.dart'
-    as _i16;
-import 'package:decentproof/features/metadata/logic/metaDataServices/VideoMetaDataService.dart'
     as _i18;
+import 'package:decentproof/features/metadata/logic/metaDataServices/ImageMetaDataService.dart'
+    as _i17;
+import 'package:decentproof/features/metadata/logic/metaDataServices/VideoMetaDataService.dart'
+    as _i19;
 import 'package:decentproof/features/metadata/models/LocationModel.dart' as _i2;
 import 'package:decentproof/features/metadata/models/MetaDataModel.dart' as _i3;
 import 'package:decentproof/features/verification/logic/FilePickerWrapper.dart'
-    as _i27;
-import 'package:decentproof/features/verification/logic/SignatureVerificationService.dart'
-    as _i33;
-import 'package:decentproof/features/verification/logic/VerificationService.dart'
-    as _i26;
-import 'package:decentproof/features/verification/models/FileDataMode.dart'
     as _i28;
+import 'package:decentproof/features/verification/logic/SignatureVerificationService.dart'
+    as _i34;
+import 'package:decentproof/features/verification/logic/VerificationService.dart'
+    as _i27;
+import 'package:decentproof/features/verification/models/FileDataMode.dart'
+    as _i29;
 import 'package:decentproof/features/verification/models/VerificationStatusModel.dart'
     as _i5;
 import 'package:decentproof/shared/foregroundService/ForegroundServiceWrapper.dart'
-    as _i34;
-import 'package:decentproof/shared/HashLogic.dart' as _i29;
+    as _i35;
+import 'package:decentproof/shared/HashLogic.dart' as _i30;
 import 'package:decentproof/shared/Integrety/ApiKeyRequestService.dart' as _i11;
 import 'package:decentproof/shared/Integrety/AppCheck.dart' as _i8;
 import 'package:decentproof/shared/Integrety/SecureStorageWrapper.dart' as _i12;
@@ -436,6 +437,22 @@ class MockMetaDataPermissionService extends _i1.Mock
 class MockHashSubmissionService extends _i1.Mock
     implements _i15.HashSubmissionService {
   @override
+  bool get isDebug => (super.noSuchMethod(
+        Invocation.getter(#isDebug),
+        returnValue: false,
+        returnValueForMissingStub: false,
+      ) as bool);
+
+  @override
+  set isDebug(bool? _isDebug) => super.noSuchMethod(
+        Invocation.setter(
+          #isDebug,
+          _isDebug,
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
   String get url => (super.noSuchMethod(
         Invocation.getter(#url),
         returnValue: _i10.dummyValue<String>(
@@ -452,6 +469,7 @@ class MockHashSubmissionService extends _i1.Mock
   _i9.Future<void> submitHash(
     String? hash,
     String? email,
+    _i16.BlockChain? blockChain,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -459,6 +477,7 @@ class MockHashSubmissionService extends _i1.Mock
           [
             hash,
             email,
+            blockChain,
           ],
         ),
         returnValue: _i9.Future<void>.value(),
@@ -470,11 +489,12 @@ class MockHashSubmissionService extends _i1.Mock
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockImageMetaDataService extends _i1.Mock
-    implements _i16.ImageMetaDataService {
+    implements _i17.ImageMetaDataService {
   @override
   _i9.Future<String> addLocation(
     _i2.LocationModel? locationModel,
     String? filePath,
+    _i16.BlockChain? blockChain,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -482,6 +502,7 @@ class MockImageMetaDataService extends _i1.Mock
           [
             locationModel,
             filePath,
+            blockChain,
           ],
         ),
         returnValue: _i9.Future<String>.value(_i10.dummyValue<String>(
@@ -491,6 +512,7 @@ class MockImageMetaDataService extends _i1.Mock
             [
               locationModel,
               filePath,
+              blockChain,
             ],
           ),
         )),
@@ -502,6 +524,7 @@ class MockImageMetaDataService extends _i1.Mock
             [
               locationModel,
               filePath,
+              blockChain,
             ],
           ),
         )),
@@ -512,6 +535,7 @@ class MockImageMetaDataService extends _i1.Mock
     _i2.LocationModel? locationModel,
     String? secretHash,
     String? filePath,
+    _i16.BlockChain? blockChain,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -520,6 +544,7 @@ class MockImageMetaDataService extends _i1.Mock
             locationModel,
             secretHash,
             filePath,
+            blockChain,
           ],
         ),
         returnValue: _i9.Future<String>.value(_i10.dummyValue<String>(
@@ -530,6 +555,7 @@ class MockImageMetaDataService extends _i1.Mock
               locationModel,
               secretHash,
               filePath,
+              blockChain,
             ],
           ),
         )),
@@ -542,6 +568,7 @@ class MockImageMetaDataService extends _i1.Mock
               locationModel,
               secretHash,
               filePath,
+              blockChain,
             ],
           ),
         )),
@@ -551,6 +578,7 @@ class MockImageMetaDataService extends _i1.Mock
   _i9.Future<String> addSecret(
     String? secretHash,
     String? filePath,
+    _i16.BlockChain? blockChain,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -558,6 +586,7 @@ class MockImageMetaDataService extends _i1.Mock
           [
             secretHash,
             filePath,
+            blockChain,
           ],
         ),
         returnValue: _i9.Future<String>.value(_i10.dummyValue<String>(
@@ -567,6 +596,7 @@ class MockImageMetaDataService extends _i1.Mock
             [
               secretHash,
               filePath,
+              blockChain,
             ],
           ),
         )),
@@ -578,6 +608,7 @@ class MockImageMetaDataService extends _i1.Mock
             [
               secretHash,
               filePath,
+              blockChain,
             ],
           ),
         )),
@@ -612,11 +643,12 @@ class MockImageMetaDataService extends _i1.Mock
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockAudioMetaDataService extends _i1.Mock
-    implements _i17.AudioMetaDataService {
+    implements _i18.AudioMetaDataService {
   @override
   _i9.Future<String> addLocation(
     _i2.LocationModel? locationModel,
     String? filePath,
+    _i16.BlockChain? blockChain,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -624,6 +656,7 @@ class MockAudioMetaDataService extends _i1.Mock
           [
             locationModel,
             filePath,
+            blockChain,
           ],
         ),
         returnValue: _i9.Future<String>.value(_i10.dummyValue<String>(
@@ -633,6 +666,7 @@ class MockAudioMetaDataService extends _i1.Mock
             [
               locationModel,
               filePath,
+              blockChain,
             ],
           ),
         )),
@@ -644,6 +678,7 @@ class MockAudioMetaDataService extends _i1.Mock
             [
               locationModel,
               filePath,
+              blockChain,
             ],
           ),
         )),
@@ -654,6 +689,7 @@ class MockAudioMetaDataService extends _i1.Mock
     _i2.LocationModel? locationModel,
     String? secretHash,
     String? filePath,
+    _i16.BlockChain? blockChain,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -662,6 +698,7 @@ class MockAudioMetaDataService extends _i1.Mock
             locationModel,
             secretHash,
             filePath,
+            blockChain,
           ],
         ),
         returnValue: _i9.Future<String>.value(_i10.dummyValue<String>(
@@ -672,6 +709,7 @@ class MockAudioMetaDataService extends _i1.Mock
               locationModel,
               secretHash,
               filePath,
+              blockChain,
             ],
           ),
         )),
@@ -684,6 +722,7 @@ class MockAudioMetaDataService extends _i1.Mock
               locationModel,
               secretHash,
               filePath,
+              blockChain,
             ],
           ),
         )),
@@ -693,6 +732,7 @@ class MockAudioMetaDataService extends _i1.Mock
   _i9.Future<String> addSecret(
     String? secretHash,
     String? filePath,
+    _i16.BlockChain? blockChain,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -700,6 +740,7 @@ class MockAudioMetaDataService extends _i1.Mock
           [
             secretHash,
             filePath,
+            blockChain,
           ],
         ),
         returnValue: _i9.Future<String>.value(_i10.dummyValue<String>(
@@ -709,6 +750,7 @@ class MockAudioMetaDataService extends _i1.Mock
             [
               secretHash,
               filePath,
+              blockChain,
             ],
           ),
         )),
@@ -720,6 +762,7 @@ class MockAudioMetaDataService extends _i1.Mock
             [
               secretHash,
               filePath,
+              blockChain,
             ],
           ),
         )),
@@ -754,11 +797,12 @@ class MockAudioMetaDataService extends _i1.Mock
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockVideoMetaDataService extends _i1.Mock
-    implements _i18.VideoMetaDataService {
+    implements _i19.VideoMetaDataService {
   @override
   _i9.Future<String> addLocation(
     _i2.LocationModel? locationModel,
     String? filePath,
+    _i16.BlockChain? blockChain,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -766,6 +810,7 @@ class MockVideoMetaDataService extends _i1.Mock
           [
             locationModel,
             filePath,
+            blockChain,
           ],
         ),
         returnValue: _i9.Future<String>.value(_i10.dummyValue<String>(
@@ -775,6 +820,7 @@ class MockVideoMetaDataService extends _i1.Mock
             [
               locationModel,
               filePath,
+              blockChain,
             ],
           ),
         )),
@@ -786,6 +832,7 @@ class MockVideoMetaDataService extends _i1.Mock
             [
               locationModel,
               filePath,
+              blockChain,
             ],
           ),
         )),
@@ -796,6 +843,7 @@ class MockVideoMetaDataService extends _i1.Mock
     _i2.LocationModel? locationModel,
     String? secretHash,
     String? filePath,
+    _i16.BlockChain? blockChain,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -804,6 +852,7 @@ class MockVideoMetaDataService extends _i1.Mock
             locationModel,
             secretHash,
             filePath,
+            blockChain,
           ],
         ),
         returnValue: _i9.Future<String>.value(_i10.dummyValue<String>(
@@ -814,6 +863,7 @@ class MockVideoMetaDataService extends _i1.Mock
               locationModel,
               secretHash,
               filePath,
+              blockChain,
             ],
           ),
         )),
@@ -826,6 +876,7 @@ class MockVideoMetaDataService extends _i1.Mock
               locationModel,
               secretHash,
               filePath,
+              blockChain,
             ],
           ),
         )),
@@ -835,6 +886,7 @@ class MockVideoMetaDataService extends _i1.Mock
   _i9.Future<String> addSecret(
     String? secretHash,
     String? filePath,
+    _i16.BlockChain? blockChain,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -842,6 +894,7 @@ class MockVideoMetaDataService extends _i1.Mock
           [
             secretHash,
             filePath,
+            blockChain,
           ],
         ),
         returnValue: _i9.Future<String>.value(_i10.dummyValue<String>(
@@ -851,6 +904,7 @@ class MockVideoMetaDataService extends _i1.Mock
             [
               secretHash,
               filePath,
+              blockChain,
             ],
           ),
         )),
@@ -862,6 +916,7 @@ class MockVideoMetaDataService extends _i1.Mock
             [
               secretHash,
               filePath,
+              blockChain,
             ],
           ),
         )),
@@ -896,7 +951,7 @@ class MockVideoMetaDataService extends _i1.Mock
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockVideoSavingService extends _i1.Mock
-    implements _i19.VideoSavingService {
+    implements _i20.VideoSavingService {
   @override
   _i9.Future<String> saveFile() => (super.noSuchMethod(
         Invocation.method(
@@ -925,7 +980,7 @@ class MockVideoSavingService extends _i1.Mock
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockImageSavingService extends _i1.Mock
-    implements _i20.ImageSavingService {
+    implements _i21.ImageSavingService {
   @override
   _i4.IMediaPickerService get imagePickerWrapper => (super.noSuchMethod(
         Invocation.getter(#imagePickerWrapper),
@@ -967,7 +1022,7 @@ class MockImageSavingService extends _i1.Mock
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockImageWaterMarkService extends _i1.Mock
-    implements _i21.ImageWaterMarkService {
+    implements _i22.ImageWaterMarkService {
   @override
   _i9.Future<String> addWaterMark(String? filePath) => (super.noSuchMethod(
         Invocation.method(
@@ -996,7 +1051,7 @@ class MockImageWaterMarkService extends _i1.Mock
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockVideoWaterMarkService extends _i1.Mock
-    implements _i22.VideoWaterMarkService {
+    implements _i23.VideoWaterMarkService {
   @override
   _i9.Future<String> addWaterMark(String? filePath) => (super.noSuchMethod(
         Invocation.method(
@@ -1025,7 +1080,7 @@ class MockVideoWaterMarkService extends _i1.Mock
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockAudioHashingService extends _i1.Mock
-    implements _i23.AudioHashingService {
+    implements _i24.AudioHashingService {
   @override
   _i9.Future<String> hash(
     String? path, [
@@ -1067,7 +1122,7 @@ class MockAudioHashingService extends _i1.Mock
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockImageHashingService extends _i1.Mock
-    implements _i24.ImageHashingService {
+    implements _i25.ImageHashingService {
   @override
   _i9.Future<String> hash(
     String? path, [
@@ -1109,7 +1164,7 @@ class MockImageHashingService extends _i1.Mock
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockVideoHashingService extends _i1.Mock
-    implements _i25.VideoHashingService {
+    implements _i26.VideoHashingService {
   @override
   _i9.Future<String> hash(
     String? path, [
@@ -1151,7 +1206,7 @@ class MockVideoHashingService extends _i1.Mock
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockVerificationService extends _i1.Mock
-    implements _i26.VerificationService {
+    implements _i27.VerificationService {
   @override
   String get url => (super.noSuchMethod(
         Invocation.getter(#url),
@@ -1166,18 +1221,27 @@ class MockVerificationService extends _i1.Mock
       ) as String);
 
   @override
-  _i9.Future<_i5.VerificationStatusModel> verify(String? hash) =>
+  _i9.Future<_i5.VerificationStatusModel> verify(
+    String? hash,
+    _i16.BlockChain? blockChain,
+  ) =>
       (super.noSuchMethod(
         Invocation.method(
           #verify,
-          [hash],
+          [
+            hash,
+            blockChain,
+          ],
         ),
         returnValue: _i9.Future<_i5.VerificationStatusModel>.value(
             _FakeVerificationStatusModel_3(
           this,
           Invocation.method(
             #verify,
-            [hash],
+            [
+              hash,
+              blockChain,
+            ],
           ),
         )),
         returnValueForMissingStub:
@@ -1186,7 +1250,10 @@ class MockVerificationService extends _i1.Mock
           this,
           Invocation.method(
             #verify,
-            [hash],
+            [
+              hash,
+              blockChain,
+            ],
           ),
         )),
       ) as _i9.Future<_i5.VerificationStatusModel>);
@@ -1212,24 +1279,24 @@ class MockVerificationService extends _i1.Mock
 /// A class which mocks [FilePickerWrapper].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockFilePickerWrapper extends _i1.Mock implements _i27.FilePickerWrapper {
+class MockFilePickerWrapper extends _i1.Mock implements _i28.FilePickerWrapper {
   @override
-  _i9.Future<_i28.FileDataModel?> selectFileAsStream() => (super.noSuchMethod(
+  _i9.Future<_i29.FileDataModel?> selectFileAsStream() => (super.noSuchMethod(
         Invocation.method(
           #selectFileAsStream,
           [],
         ),
-        returnValue: _i9.Future<_i28.FileDataModel?>.value(),
-        returnValueForMissingStub: _i9.Future<_i28.FileDataModel?>.value(),
-      ) as _i9.Future<_i28.FileDataModel?>);
+        returnValue: _i9.Future<_i29.FileDataModel?>.value(),
+        returnValueForMissingStub: _i9.Future<_i29.FileDataModel?>.value(),
+      ) as _i9.Future<_i29.FileDataModel?>);
 }
 
 /// A class which mocks [HashLogic].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockHashLogic extends _i1.Mock implements _i29.HashLogic {
+class MockHashLogic extends _i1.Mock implements _i30.HashLogic {
   @override
-  _i9.Future<String> hashBytes(_i30.Uint8List? bytes) => (super.noSuchMethod(
+  _i9.Future<String> hashBytes(_i31.Uint8List? bytes) => (super.noSuchMethod(
         Invocation.method(
           #hashBytes,
           [bytes],
@@ -1252,7 +1319,7 @@ class MockHashLogic extends _i1.Mock implements _i29.HashLogic {
       ) as _i9.Future<String>);
 
   @override
-  _i9.Future<String> hashBytesInChunks(_i30.Uint8List? bytes) =>
+  _i9.Future<String> hashBytesInChunks(_i31.Uint8List? bytes) =>
       (super.noSuchMethod(
         Invocation.method(
           #hashBytesInChunks,
@@ -1316,38 +1383,38 @@ class MockHashLogic extends _i1.Mock implements _i29.HashLogic {
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockImagePickerWrapper extends _i1.Mock
-    implements _i31.ImagePickerWrapper {
+    implements _i32.ImagePickerWrapper {
   @override
-  _i9.Future<_i30.Uint8List> getImageAsBytes() => (super.noSuchMethod(
+  _i9.Future<_i31.Uint8List> getImageAsBytes() => (super.noSuchMethod(
         Invocation.method(
           #getImageAsBytes,
           [],
         ),
-        returnValue: _i9.Future<_i30.Uint8List>.value(_i30.Uint8List(0)),
+        returnValue: _i9.Future<_i31.Uint8List>.value(_i31.Uint8List(0)),
         returnValueForMissingStub:
-            _i9.Future<_i30.Uint8List>.value(_i30.Uint8List(0)),
-      ) as _i9.Future<_i30.Uint8List>);
+            _i9.Future<_i31.Uint8List>.value(_i31.Uint8List(0)),
+      ) as _i9.Future<_i31.Uint8List>);
 
   @override
-  _i9.Future<_i30.Uint8List> getVideoAsBytes() => (super.noSuchMethod(
+  _i9.Future<_i31.Uint8List> getVideoAsBytes() => (super.noSuchMethod(
         Invocation.method(
           #getVideoAsBytes,
           [],
         ),
-        returnValue: _i9.Future<_i30.Uint8List>.value(_i30.Uint8List(0)),
+        returnValue: _i9.Future<_i31.Uint8List>.value(_i31.Uint8List(0)),
         returnValueForMissingStub:
-            _i9.Future<_i30.Uint8List>.value(_i30.Uint8List(0)),
-      ) as _i9.Future<_i30.Uint8List>);
+            _i9.Future<_i31.Uint8List>.value(_i31.Uint8List(0)),
+      ) as _i9.Future<_i31.Uint8List>);
 }
 
 /// A class which mocks [ShowInExplorer].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockShowInExplorer extends _i1.Mock implements _i32.ShowInExplorer {
+class MockShowInExplorer extends _i1.Mock implements _i33.ShowInExplorer {
   @override
   _i9.Future<String> show({
     required String? transaction,
-    _i32.Network? network = _i32.Network.bitcoin,
+    _i33.Network? network = _i33.Network.bitcoin,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -1388,7 +1455,7 @@ class MockShowInExplorer extends _i1.Mock implements _i32.ShowInExplorer {
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockSignatureVerificationService extends _i1.Mock
-    implements _i33.SignatureVerificationService {
+    implements _i34.SignatureVerificationService {
   @override
   _i6.ECPublicKey get pubKey => (super.noSuchMethod(
         Invocation.getter(#pubKey),
@@ -1490,7 +1557,7 @@ class MockSignatureVerificationService extends _i1.Mock
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockForegroundServiceWrapper extends _i1.Mock
-    implements _i34.ForegroundServiceWrapper {
+    implements _i35.ForegroundServiceWrapper {
   @override
   _i9.Future<bool> get isRunning => (super.noSuchMethod(
         Invocation.getter(#isRunning),

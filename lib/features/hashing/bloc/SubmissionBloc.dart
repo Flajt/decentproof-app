@@ -21,7 +21,8 @@ class SubmissionBloc extends Bloc<SubmissionEvent, SubmissionStates> {
           emit(SubmissionInitial());
         } else {
           String? email = await _secureStorageService.retriveEmail();
-          await _hashSubmissionService.submitHash(event.hash, email);
+          await _hashSubmissionService.submitHash(
+              event.hash, email, event.blockChain);
           emit(SubmissionSuccessfull());
         }
       } catch (e, stackTrace) {

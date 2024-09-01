@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:decentproof/constants.dart';
 import 'package:decentproof/features/analytics/bloc/AnalyticsBloc.dart';
+import 'package:decentproof/features/hashing/bloc/BlockChainCubit/BlockChainCubit.dart';
 import 'package:decentproof/features/hashing/bloc/SubmissionBloc.dart';
 import 'package:decentproof/features/hashing/bloc/PreparationBloc/PreparationBloc.dart';
 import 'package:decentproof/features/metadata/bloc/LocationWarningBloc.dart';
@@ -26,11 +27,15 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
 void main() async {
   runZonedGuarded(() async {
     WidgetsFlutterBinding.ensureInitialized();
+    HydratedBloc.storage = await HydratedStorage.build(
+        storageDirectory: await getApplicationDocumentsDirectory());
     await EasyLocalization.ensureInitialized();
     await registar();
     await dotenv.load();
@@ -55,7 +60,7 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +71,8 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => SubmissionBloc()),
         BlocProvider(create: (context) => PreparationBloc()),
         BlocProvider(create: (context) => LocationWarningBloc()),
-        BlocProvider(create: (context) => AnalyticsBloc())
+        BlocProvider(create: (context) => AnalyticsBloc()),
+        BlocProvider(create: (context) => BlockChainCubit())
       ],
       child: MaterialApp(
         navigatorObservers: [SentryNavigatorObserver()],

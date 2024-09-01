@@ -65,11 +65,14 @@ class VerificationTaskHandler implements TaskHandler {
                   "${L.tr("verificationNotification.hashing")} $currentProgress%");
         }
       });
-      VerificationStatusModel model = await verificationService.verify(hash);
       FileType fileType =
           isOfType(tempFile.path.split("/").last); // Shouldge the name
       MetaDataModel metaDataModel =
           await extractMetaData(fileType, tempFile, getIt);
+      VerificationStatusModel model = await verificationService.verify(
+        hash,
+        metaDataModel.blockChain,
+      );
       await foregroundService.updateNotification(
           body: L.tr("verificationNotification.validatingMetaData"));
       final finalModel = model.copyWith(metaDataModel: metaDataModel);

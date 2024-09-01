@@ -14,11 +14,12 @@ import '../bloc/PreparationBloc/PerparationStates.dart';
 
 class RecordingButton extends StatefulWidget {
   const RecordingButton({
-    Key? key,
+    super.key,
     required this.controller,
-  }) : super(key: key);
+  });
   final RecorderController controller;
   @override
+  // ignore: library_private_types_in_public_api
   _RecordingButtonState createState() => _RecordingButtonState();
 }
 

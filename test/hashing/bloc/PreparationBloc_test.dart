@@ -6,6 +6,7 @@ import 'package:decentproof/features/hashing/bloc/PreparationBloc/PreparationBlo
 import 'package:decentproof/features/hashing/interfaces/IFileSavingService.dart';
 import 'package:decentproof/features/hashing/interfaces/IHashingService.dart';
 import 'package:decentproof/features/hashing/interfaces/IWaterMarkService.dart';
+import 'package:decentproof/features/metadata/enum/BlockChainEnum.dart';
 import 'package:decentproof/features/metadata/interfaces/ILocationService.dart';
 import 'package:decentproof/features/metadata/interfaces/IMetaDataPermissionService.dart';
 import 'package:decentproof/features/metadata/interfaces/IMetaDataService.dart';
@@ -67,8 +68,8 @@ void main() {
             when(locationService.serviceEnabled())
                 .thenAnswer((realInvocation) => Future.value(true));
             sendPort.send({"status": "AddingMetaData"});
-            when(audioMetaDataService.addLocation(
-                    sampleLocationModel, "sample/path/to/file.aac"))
+            when(audioMetaDataService.addLocation(sampleLocationModel,
+                    "sample/path/to/file.ogg", BlockChain.BTC))
                 .thenAnswer((realInvocation) =>
                     Future.value("sample/path/to/file.mp3"));
             sendPort.send({"status": "Hashing", "progess": 0});
@@ -80,7 +81,7 @@ void main() {
               "filePath": "sample/path/to/file.mp3"
             });
           },
-          act: (bloc) => bloc.add(PrepareAudio("sample/path/to/file.aac")),
+          act: (bloc) => bloc.add(PrepareAudio("sample/path/to/file.ogg")),
           build: () => PreparationBloc(),
           wait: const Duration(milliseconds: 100),
           expect: () => [
@@ -115,16 +116,16 @@ void main() {
                 .thenAnswer((realInvocation) => Future.value("cool-hash"));
             sendPort.send({
               "status": "Done",
-              "filePath": "sample/path/to/file.aac",
+              "filePath": "sample/path/to/file.ogg",
               "content": "cool-hash"
             });
           },
           build: () => PreparationBloc(),
-          act: (bloc) => bloc.add(PrepareAudio("sample/path/to/file.aac")),
+          act: (bloc) => bloc.add(PrepareAudio("sample/path/to/file.ogg")),
           wait: const Duration(milliseconds: 100),
           expect: () => [
                 PrepareationIsHashing(),
-                PreparationIsSuccessfull("sample/path/to/file.aac", "cool-hash")
+                PreparationIsSuccessfull("sample/path/to/file.ogg", "cool-hash")
               ]);
       blocTest(
         "w. error",
@@ -158,7 +159,7 @@ void main() {
           });
         },
         build: () => PreparationBloc(),
-        act: (bloc) => bloc.add(PrepareAudio("sample/path/to/file.aac")),
+        act: (bloc) => bloc.add(PrepareAudio("sample/path/to/file.ogg")),
         wait: const Duration(milliseconds: 100),
         expect: () => [
           PrepareationIsHashing(),
@@ -197,7 +198,7 @@ void main() {
             });
           },
           build: () => PreparationBloc(),
-          act: (bloc) => bloc.add(PrepareAudio("sample/path/to/file.aac")),
+          act: (bloc) => bloc.add(PrepareAudio("sample/path/to/file.ogg")),
           wait: const Duration(milliseconds: 100),
           expect: () => [
                 PrepareationIsAddingMetaData(),
@@ -226,7 +227,7 @@ void main() {
             when(foregroundServiceWrapper.getReceivePort())
                 .thenAnswer((_) => Future.value(testPort));
             when(videoSavingService.saveFile())
-                .thenAnswer((_) => Future.value("some/path/to/video.mp4"));
+                .thenAnswer((_) => Future.value("some/path/to/video.mkv"));
             sendPort.send({"status": "AddingWaterMark"});
             when(videoWaterMarkSerivce.addWaterMark(any))
                 .thenAnswer((_) => Future.value("sample/path/to/video.mkv"));
@@ -237,7 +238,8 @@ void main() {
                 .thenAnswer((_) => Future.value(true));
             when(locationService.requestLocation()).thenAnswer(
                 (realInvocation) => Future.value(sampleLocationModel));
-            when(videoMetaDataService.addLocation(sampleLocationModel, any))
+            when(videoMetaDataService.addLocation(
+                    sampleLocationModel, any, BlockChain.BTC))
                 .thenAnswer((_) => Future.value("sample/path/to/video.mkv"));
             sendPort.send({"status": "Hashing", "progress": 0});
             when(videoHashingService.hash(any))
@@ -280,7 +282,7 @@ void main() {
             when(foregroundServiceWrapper.getReceivePort())
                 .thenAnswer((_) => Future.value(testPort));
             when(videoSavingService.saveFile())
-                .thenAnswer((_) => Future.value("sample/path/to/video.mp4"));
+                .thenAnswer((_) => Future.value("sample/path/to/video.mkv"));
             sendPort.send({"status": "AddingWaterMark"});
             when(metaDataPermissionService.shouldEmbedLocation())
                 .thenReturn(false);
@@ -326,7 +328,7 @@ void main() {
           when(foregroundServiceWrapper.getReceivePort())
               .thenAnswer((_) => Future.value(testPort));
           when(videoSavingService.saveFile())
-              .thenAnswer((_) => Future.value("sample/path/to/video.mp4"));
+              .thenAnswer((_) => Future.value("sample/path/to/video.mkv"));
           when(metaDataPermissionService.shouldEmbedLocation())
               .thenReturn(false);
           sendPort.send({"status": "AddingWaterMark"});
@@ -433,7 +435,8 @@ void main() {
                 .thenAnswer((_) => Future.value(sampleLocationModel));
             when(locationService.serviceEnabled())
                 .thenAnswer((realInvocation) => Future.value(true));
-            when(imageMetaDataService.addLocation(sampleLocationModel, any))
+            when(imageMetaDataService.addLocation(
+                    sampleLocationModel, any, BlockChain.BTC))
                 .thenAnswer((_) => Future.value("sample/path/to/image.png"));
             when(imageHashingService.hash(any))
                 .thenAnswer((_) => Future.value("cool-hash"));

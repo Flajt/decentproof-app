@@ -19,7 +19,7 @@ class ImageSavingService implements IFileSavingService {
     dir.createSync(recursive: true);
     String path = dir.path;
     String imageId = await nanoid(16);
-    String fullPath = "$path/$imageId.png";
+    String fullPath = "$path/$imageId.jpg";
     await File(fullPath).writeAsBytes(imageAsBytes);
     return fullPath;
   }

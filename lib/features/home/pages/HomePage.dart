@@ -17,7 +17,7 @@ class HomePage extends StatelessWidget {
   late final Future<void> request;
   final SimpleMastodonParser feedProvider =
       SimpleMastodonParser("!", "https://mastodon.world/@Decentproof");
-  HomePage({Key? key}) : super(key: key) {
+  HomePage({super.key}) {
     request = RequestUtil.updateOrRetriveKey();
     InAppReviewWrapper.requestReview();
   }

@@ -1,6 +1,8 @@
 import 'dart:isolate';
 import 'dart:ui';
 
+import 'package:decentproof/features/hashing/bloc/BlockChainCubit/BlockChainCubit.dart';
+import 'package:decentproof/features/metadata/enum/BlockChainEnum.dart';
 import 'package:decentproof/shared/foregroundService/IForegroundService.dart';
 import 'package:decentproof/features/hashing/interfaces/IHashingService.dart';
 import 'package:decentproof/features/hashing/interfaces/IWaterMarkService.dart';
@@ -12,9 +14,12 @@ import 'package:decentproof/shared/util/initSentry.dart';
 import 'package:decentproof/shared/util/loadTranslations.dart';
 import 'package:decentproof/shared/util/register.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_foreground_task/flutter_foreground_task.dart';
 import 'package:get_it/get_it.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:easy_localization/src/localization.dart';
 
@@ -51,12 +56,16 @@ class PreperationTaskHandler extends TaskHandler {
       final ILocationService locationService = getIt.get<ILocationService>();
       final IForegroundService foregroundService =
           getIt.get<IForegroundService>();
-
       final instructions =
           await foregroundService.getData<String>("instructions");
       final parts = instructions!.split("::");
       final path = parts[1];
       final task = parts[0];
+      WidgetsFlutterBinding.ensureInitialized();
+      HydratedBloc.storage = await HydratedStorage.build(
+          //TODO: Consider passing it through the bloc via the instruction set above
+          storageDirectory: await getApplicationDocumentsDirectory());
+      final chain = BlockChainCubit().state!;
       if (task == "image") {
         sendPort?.send({"status": "AddingWaterMark"});
         await foregroundService.updateNotification(
@@ -78,7 +87,10 @@ class PreperationTaskHandler extends TaskHandler {
             return;
           }
           LocationModel locationModel = await locationService.requestLocation();
-          await imageMetaDataService.addLocation(locationModel, finalPath);
+          await imageMetaDataService.addLocation(
+              locationModel, finalPath, chain);
+        } else {
+          await imageMetaDataService.addBasicMetaData(finalPath, chain);
         }
         sendPort?.send({"status": "Hashing", "progess": 0});
         String hash = await imageHashingService.hash(
@@ -109,20 +121,20 @@ class PreperationTaskHandler extends TaskHandler {
             return;
           }
           LocationModel locationModel = await locationService.requestLocation();
+          afterMetaDataPath = await videoMetaDataService.addLocation(
+              locationModel, finalPath, chain);
+        } else {
           afterMetaDataPath =
-              await videoMetaDataService.addLocation(locationModel, finalPath);
+              await videoMetaDataService.addBasicMetaData(finalPath, chain);
         }
         sendPort?.send({"status": "Hashing", "progess": 0});
         String hash = await videoHashingService.hash(
-            afterMetaDataPath ?? finalPath,
+            afterMetaDataPath,
             (progress) async => await sendAUpdateProgress(
                 sendPort, "Hashing", progress, foregroundService));
 
-        sendPort?.send({
-          "status": "Done",
-          "content": hash,
-          "filePath": afterMetaDataPath ?? path
-        });
+        sendPort?.send(
+            {"status": "Done", "content": hash, "filePath": afterMetaDataPath});
       } else if (task == "audio") {
         String? afterMetaDataPath;
         bool shouldEmbedLocation =
@@ -141,20 +153,20 @@ class PreperationTaskHandler extends TaskHandler {
             return;
           }
           LocationModel locationModel = await locationService.requestLocation();
+          afterMetaDataPath = await audioMetaDataService.addLocation(
+              locationModel, path, chain);
+        } else {
           afterMetaDataPath =
-              await audioMetaDataService.addLocation(locationModel, path);
+              await audioMetaDataService.addBasicMetaData(path, chain);
         }
         sendPort?.send({"status": "Hashing", "progess": 0});
 
         String hash = await audioHashingService.hash(
-            afterMetaDataPath ?? path,
+            afterMetaDataPath,
             (progress) async => await sendAUpdateProgress(
                 sendPort, "Hashing", progress, foregroundService));
-        sendPort?.send({
-          "status": "Done",
-          "content": hash,
-          "filePath": afterMetaDataPath ?? path
-        });
+        sendPort?.send(
+            {"status": "Done", "content": hash, "filePath": afterMetaDataPath});
       } else {
         sendPort
             ?.send({"status": "Error", "description": "Task not supported"});

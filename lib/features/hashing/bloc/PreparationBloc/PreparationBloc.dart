@@ -235,7 +235,7 @@ class PreparationBloc extends Bloc<MetaDataEvents, PreparationState> {
         await PhotoManager.editor.saveVideo(outPutFile, title: "$title.mkv");
       } else {
         Uint8List data = await outPutFile.readAsBytes();
-        await PhotoManager.editor.saveImage(data, title: "$title.png");
+        await PhotoManager.editor.saveImage(data, title: "$title.jpg");
       }
       if (initalPath != finalPath) {
         await initalFile.delete();

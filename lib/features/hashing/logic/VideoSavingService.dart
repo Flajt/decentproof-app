@@ -17,7 +17,7 @@ class VideoSavingService implements IFileSavingService {
     Directory storageDir =
         await PathUtil.getStoragePath(StorageDirectory.movies);
     storageDir.createSync(recursive: true);
-    String fullPath = "${storageDir.path}/$imageId.mp4";
+    String fullPath = "${storageDir.path}/$imageId.mkv";
     await File(fullPath).writeAsBytes(videoAsBytes);
 
     return fullPath;

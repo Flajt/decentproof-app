@@ -1,4 +1,5 @@
 import 'package:decentproof/features/hashing/logic/backend/HashSubmissionService.dart';
+import 'package:decentproof/features/metadata/enum/BlockChainEnum.dart';
 import 'package:decentproof/shared/Integrety/interfaces/ISecureStorageService.dart';
 import 'package:test/test.dart';
 import 'package:nock/nock.dart';
@@ -8,6 +9,7 @@ import '../../../metadata/logic/SecretService_test.dart';
 void main() {
   const String baseUrl = "https://example.com";
   final GetIt getIt = GetIt.instance;
+  const chain = BlockChain.BTC;
 
   setUpAll(() {
     nock.defaultBase = baseUrl;
@@ -27,20 +29,24 @@ void main() {
       final hashSubmissionService = HashSubmissionService(url: "$baseUrl/sign");
 
       test("submit hash without E-Mail", () async {
-        final interceptor = nock.post("/sign/", {"data": "lalal", "email": ""})
+        final interceptor = nock.post(
+            "/sign/", {"data": "lalal", "email": "", "blockChain": chain.name})
           ..reply(
             200,
             {"status": "OK"},
           );
-        await hashSubmissionService.submitHash("lalal", null);
+        await hashSubmissionService.submitHash("lalal", null, chain);
         expect(interceptor.isDone, true);
         expect(interceptor.statusCode, 200);
       });
       test("submit hash with E-Mail", () async {
-        final interceptor =
-            nock.post("/sign/", {"data": "lalal", "email": "test@test.com"});
+        final interceptor = nock.post("/sign/", {
+          "data": "lalal",
+          "email": "test@test.com",
+          "blockChain": chain.name
+        });
         interceptor.reply(200, "OK");
-        await hashSubmissionService.submitHash("lalal", "test@test.com");
+        await hashSubmissionService.submitHash("lalal", "test@test.com", chain);
         expect(interceptor.isDone, true);
         expect(interceptor.statusCode, 200);
       });
@@ -53,7 +59,7 @@ void main() {
 
       test("to load api key", () async {
         try {
-          await hashSubmissionService.submitHash("lalal", null);
+          await hashSubmissionService.submitHash("lalal", null, chain);
         } catch (e) {
           expect(e, equals("NO API KEY"));
         }
