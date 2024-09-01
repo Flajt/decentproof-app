@@ -20,7 +20,7 @@ import 'package:easy_localization/src/localization.dart';
 
 class VerificationTaskHandler implements TaskHandler {
   @override
-  void onDestroy(DateTime timestamp, SendPort? sendPort) {}
+  void onDestroy(DateTime timestamp) {}
 
   @override
   void onNotificationButtonPressed(String id) {}
@@ -29,10 +29,10 @@ class VerificationTaskHandler implements TaskHandler {
   void onNotificationPressed() {}
 
   @override
-  void onRepeatEvent(DateTime timestamp, SendPort? sendPort) {}
+  void onRepeatEvent(DateTime timestamp) {}
 
   @override
-  Future<void> onStart(DateTime timestamp, SendPort? sendPort) async {
+  Future<void> onStart(DateTime timestamp) async {
     DartPluginRegistrant.ensureInitialized();
     try {
       await EasyLocalization.ensureInitialized();
@@ -53,11 +53,12 @@ class VerificationTaskHandler implements TaskHandler {
       final int fileSize = (tempFile.lengthSync() / 65536).ceil();
       Stream<List<int>> tempStream = tempFile
           .openRead(); // Steams are consumed after beeing done so we need a new one
-      sendPort?.send({"status": "Hashing", "progess": 0});
+      FlutterForegroundTask.sendDataToMain({"status": "Hashing", "progess": 0});
       String hash = await hashLogic.hashBytesInChunksFromStream(tempStream,
           (progress) async {
         int currentProgress = (progress / fileSize * 100).ceil();
-        sendPort?.send({"status": "Hashing", "progess": currentProgress});
+        FlutterForegroundTask.sendDataToMain(
+            {"status": "Hashing", "progess": currentProgress});
         if (currentProgress % 5 == 0) {
           // Should prevent to many updates
           await foregroundService.updateNotification(
@@ -76,18 +77,20 @@ class VerificationTaskHandler implements TaskHandler {
       await foregroundService.updateNotification(
           body: L.tr("verificationNotification.validatingMetaData"));
       final finalModel = model.copyWith(metaDataModel: metaDataModel);
-      sendPort?.send({"status": "Done", "model": finalModel.toJson()});
+      FlutterForegroundTask.sendDataToMain(
+          {"status": "Done", "model": finalModel.toJson()});
     } catch (e, stack) {
       await Sentry.captureException(e, stackTrace: stack);
-      sendPort?.send({"status": "Error", "message": e.toString()});
+      FlutterForegroundTask.sendDataToMain(
+          {"status": "Error", "message": e.toString()});
     }
   }
 
   isOfType(String name) {
     String extension = name.split(".").last;
-    if (extension == "png") {
+    if (extension == "jpg") {
       return FileType.image;
-    } else if (extension == "mp3" || extension == "aac") {
+    } else if (extension == "ogg") {
       return FileType.audio;
     } else if (extension == "mkv") {
       return FileType.video;
@@ -115,6 +118,9 @@ class VerificationTaskHandler implements TaskHandler {
   void onNotificationDismissed() {
     // TODO: implement onNotificationDismissed
   }
+
+  @override
+  void onReceiveData(Object data) {}
 }
 
 enum FileType {
