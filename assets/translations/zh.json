@@ -32,7 +32,9 @@
         "embedLocation": "嵌入位置",
         "embedLocationSubtitle": "将位置嵌入到创建的媒体文件中",
         "embedSecret": "嵌入签名",
-        "embedSecretSubtitle": "在创建的媒体文件中嵌入数字签名"
+        "embedSecretSubtitle": "在创建的媒体文件中嵌入数字签名",
+        "blockChainSelection": "更改区块链",
+        "blockChainSelectionSubtitle": "更改存储证明的区块链"
     },
     "submissionPage": {
         "hash": "你的哈希值：",

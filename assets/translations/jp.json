@@ -32,7 +32,9 @@
         "embedLocation": "埋め込み場所",
         "embedLocationSubtitle": "作成したメディアファイルに場所を埋め込む",
         "embedSecret": "シグネチャーの統合",
-        "embedSecretSubtitle": "作成したメディアファイルに署名を埋め込む"
+        "embedSecretSubtitle": "作成したメディアファイルに署名を埋め込む",
+        "blockChainSelection": "ブロックチェーンを変更する",
+        "blockChainSelectionSubtitle": "証明を保存するブロックチェーンを変更する"
     },
     "submissionPage": {
         "hash": "あなたのハッシュ:",

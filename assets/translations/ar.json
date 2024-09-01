@@ -32,7 +32,9 @@
         "embedLocation": "تضمين الإحداثيات",
         "embedLocationSubtitle": "يحفظ موقعك في ملف الوسائط",
         "embedSecret": "إدراج توقيع رقمي",
-        "embedSecretSubtitle": "تضمين التوقيع في ملفات الوسائط التي تم إنشاؤها"
+        "embedSecretSubtitle": "تضمين التوقيع في ملفات الوسائط التي تم إنشاؤها",
+        "blockChainSelection": "تغيير سلسلة الكتل",
+        "blockChainSelectionSubtitle": "تغيير سلسلة الكتل التي تخزن إثباتك"
     },
     "submissionPage": {
         "hash": "\"التجزئة\" الخاصة بك:",

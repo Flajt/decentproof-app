@@ -32,7 +32,9 @@
         "embedLocation": "Вставить местоположение",
         "embedLocationSubtitle": "Встроить местоположение в созданные медиафайлы",
         "embedSecret": "Встроить Сингатуру",
-        "embedSecretSubtitle": "Встраивание цифровой подписи в созданные медиафайлы"
+        "embedSecretSubtitle": "Встраивание цифровой подписи в созданные медиафайлы",
+         "blockChainSelection": "Изменить блокчейн",
+        "blockChainSelectionSubtitle": "Измените блокчейн, в котором хранится ваше доказательство"
     },
     "submissionPage": {
         "hash": "Ваш хэш:",

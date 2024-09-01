@@ -37,7 +37,9 @@
         "embedLocation": "Standort speichern",
         "embedLocationSubtitle": "Speichert den Standort in Media Datein",
         "embedSecret": "Signatur einbetten",
-        "embedSecretSubtitle": "Speichere deine Signatur in Media Datein"
+        "embedSecretSubtitle": "Speichere deine Signatur in Media Datein",
+        "blockChainSelection": "Blockchain ändern",
+        "blockChainSelectionSubtitle": "Wechsel die Blockchain welche deinen Beweis speichert"
     },
     "submissionPage": {
         "hash": "Ihr Hash",

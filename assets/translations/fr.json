@@ -32,7 +32,9 @@
         "embedLocation": "Emplacement d'intégration",
         "embedLocationSubtitle": "Intégrer l'emplacement dans les fichiers multimédias créés",
         "embedSecret": "Intégrer la signature",
-        "embedSecretSubtitle": "Intégrer une signature dans les fichiers multimédias créés"
+        "embedSecretSubtitle": "Intégrer une signature dans les fichiers multimédias créés",
+        "blockChainSelection": "Modifier la blockchain",
+        "blockChainSelectionSubtitle": "Modifier la blockchain qui stocke votre preuve"
     },
     "submissionPage": {
         "hash": "Your Hash :",

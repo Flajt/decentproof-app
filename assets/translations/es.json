@@ -32,7 +32,9 @@
         "embedLocation": "Insertar ubicación",
         "embedLocationSubtitle": "Incrustar la ubicación en los archivos multimedia creados",
         "embedSecret": "Incrustar singularidad",
-        "embedSecretSubtitle": "Incrustar una firma en archivos multimedia creados"
+        "embedSecretSubtitle": "Incrustar una firma en archivos multimedia creados",
+        "blockChainSelection": "Cambiar la cadena de bloques",
+        "blockChainSelectionSubtitle": "Cambia la cadena de bloques que almacena tu prueba"
     },
     "submissionPage": {
         "hash": "Tu hash:",
