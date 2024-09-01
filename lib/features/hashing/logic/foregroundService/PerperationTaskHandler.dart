@@ -89,6 +89,8 @@ class PreperationTaskHandler extends TaskHandler {
           LocationModel locationModel = await locationService.requestLocation();
           await imageMetaDataService.addLocation(
               locationModel, finalPath, chain);
+        } else {
+          await imageMetaDataService.addBasicMetaData(finalPath, chain);
         }
         sendPort?.send({"status": "Hashing", "progess": 0});
         String hash = await imageHashingService.hash(
@@ -121,6 +123,8 @@ class PreperationTaskHandler extends TaskHandler {
           LocationModel locationModel = await locationService.requestLocation();
           afterMetaDataPath = await videoMetaDataService.addLocation(
               locationModel, finalPath, chain);
+        } else {
+          await videoMetaDataService.addBasicMetaData(finalPath, chain);
         }
         sendPort?.send({"status": "Hashing", "progess": 0});
         String hash = await videoHashingService.hash(
@@ -153,6 +157,8 @@ class PreperationTaskHandler extends TaskHandler {
           LocationModel locationModel = await locationService.requestLocation();
           afterMetaDataPath = await audioMetaDataService.addLocation(
               locationModel, path, chain);
+        } else {
+          await audioMetaDataService.addBasicMetaData(path, chain);
         }
         sendPort?.send({"status": "Hashing", "progess": 0});
 
