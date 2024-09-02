@@ -1,5 +1,3 @@
-import 'dart:isolate';
-
 import 'package:decentproof/shared/foregroundService/IForegroundService.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_foreground_task/flutter_foreground_task.dart';
@@ -15,9 +13,10 @@ class ForegroundServiceWrapper implements IForegroundService {
           priority: NotificationPriority.MAX,
           visibility: NotificationVisibility.VISIBILITY_PRIVATE),
       iosNotificationOptions: const IOSNotificationOptions(),
-      foregroundTaskOptions: const ForegroundTaskOptions(
-        isOnceEvent: true,
-        autoRunOnBoot: true,
+      foregroundTaskOptions: ForegroundTaskOptions(
+        eventAction: ForegroundTaskEventAction.once(),
+        autoRunOnMyPackageReplaced: true,
+        autoRunOnBoot: false,
         allowWakeLock: true,
         allowWifiLock: true,
       ),
@@ -69,13 +68,25 @@ class ForegroundServiceWrapper implements IForegroundService {
         notificationText: body, notificationTitle: title);
   }
 
-  ///Returns a [ReceivePort] make sure to close it afterwards
   @override
-  Future<ReceivePort> getReceivePort() async {
-    if (await FlutterForegroundTask.isRunningService) {
-      return FlutterForegroundTask.receivePort!;
-    } else {
-      throw Exception("ForegroundService is not yet running, start it first!");
+  void registerOnReciveData(void Function(Object) callback) =>
+      FlutterForegroundTask.addTaskDataCallback(callback);
+
+  @override
+  void removeReciveDataCallback(void Function(Object) callback) {
+    FlutterForegroundTask.removeTaskDataCallback(callback);
+  }
+
+  @override
+  Future<void> init() async {
+    FlutterForegroundTask.initCommunicationPort();
+    NotificationPermission permission =
+        await FlutterForegroundTask.checkNotificationPermission();
+    if (permission == NotificationPermission.denied) {
+      await FlutterForegroundTask.requestNotificationPermission();
     }
   }
+
+  @override
+  void sendToMain(Object data) => FlutterForegroundTask.sendDataToMain(data);
 }

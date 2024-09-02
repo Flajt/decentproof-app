@@ -68,6 +68,9 @@ class PreparationBloc extends Bloc<MetaDataEvents, PreparationState> {
       final transaction = Sentry.startTransaction("PreparationBloc",
           "PrepareAudio"); // Consider moving it into Foreground Service
       try {
+        ReceivePort port = ReceivePort();
+        SendPort sendPort = port.sendPort;
+        foregroundService.registerOnReciveData(sendPort.send);
         await foregroundService.stop();
         await foregroundService.setData(
             "instructions", "audio::${event.filePath}");
@@ -75,33 +78,10 @@ class PreparationBloc extends Bloc<MetaDataEvents, PreparationState> {
             startPreperationForegroundService,
             tr("perperationNotification.title"),
             tr("perperationNotification.initalDescription"));
-        ReceivePort port = await foregroundService.getReceivePort();
+
         final stream = port.asBroadcastStream();
         await emit.forEach(stream, onData: (message) {
-          message as Map<String, dynamic>;
-          final status = message["status"];
-          if (status == "AddingWaterMark") {
-            return PrepareationIsAplyingWaterMark();
-          } else if (status == "AddingMetaData") {
-            return PrepareationIsAddingMetaData();
-          } else if (status == "Error") {
-            port.close();
-            return PreparationHasError(message["description"]);
-          } else if (status == "Hashing") {
-            emit(PrepareationIsHashing());
-          } else if (status == "Done") {
-            port.close();
-            return PreparationIsSuccessfull(
-                message["filePath"], message["content"]);
-          } else if (status == "Fail") {
-            final e = message["description"];
-            //final stack = message["stack"];
-            transaction.throwable = e;
-            transaction.status = const SpanStatus.internalError();
-            port.close();
-            return PreparationHasError(e.toString());
-          }
-          return state; // IDK if that could drive me in a corner at some point
+          return _statusHandler(message, port, emit, transaction);
         });
         if (state is PreparationIsSuccessfull) {
           await foregroundService.stop();
@@ -127,33 +107,11 @@ class PreparationBloc extends Bloc<MetaDataEvents, PreparationState> {
             tr("perperationNotification.initalDescription");
         await foregroundService.start(startPreperationForegroundService,
             notificationTitle, notificationBody);
-        ReceivePort port = await foregroundService.getReceivePort();
+        //ReceivePort port = await foregroundService.getReceivePort();
+        ReceivePort port = ReceivePort();
         final stream = port.asBroadcastStream();
         await emit.forEach(stream, onData: (message) {
-          message as Map<String, dynamic>;
-          final status = message["status"];
-          if (status == "AddingWaterMark") {
-            return PrepareationIsAplyingWaterMark();
-          } else if (status == "AddingMetaData") {
-            return PrepareationIsAddingMetaData();
-          } else if (status == "Error") {
-            port.close();
-            return PreparationHasError(message["description"]);
-          } else if (status == "Hashing") {
-            emit(PrepareationIsHashing());
-          } else if (status == "Done") {
-            port.close();
-            return PreparationIsSuccessfull(
-                message["filePath"], message["content"]);
-          } else if (status == "Fail") {
-            final e = message["description"];
-            //final stack = message["stack"];
-            transaction.throwable = e;
-            transaction.status = const SpanStatus.internalError();
-            port.close();
-            return PreparationHasError(e.toString());
-          }
-          return state; // IDK if that could drive me in a corner at some point
+          return _statusHandler(message, port, emit, transaction);
         });
         if (state is PreparationIsSuccessfull) {
           await addToGalleryACleanUp(
@@ -180,34 +138,12 @@ class PreparationBloc extends Bloc<MetaDataEvents, PreparationState> {
             startPreperationForegroundService,
             tr("perperationNotification.title"),
             tr("perperationNotification.initalDescription"));
-        ReceivePort port = await foregroundService.getReceivePort();
+        ReceivePort port = ReceivePort();
+        //ReceivePort port = await foregroundService.getReceivePort();
         final stream = port.asBroadcastStream();
-        await emit.forEach(stream, onData: (message) {
-          message as Map<String, dynamic>;
-          final status = message["status"];
-          if (status == "AddingWaterMark") {
-            return PrepareationIsAplyingWaterMark();
-          } else if (status == "AddingMetaData") {
-            return PrepareationIsAddingMetaData();
-          } else if (status == "Error") {
-            port.close();
-            return PreparationHasError(message["description"]);
-          } else if (status == "Hashing") {
-            emit(PrepareationIsHashing());
-          } else if (status == "Done") {
-            port.close();
-            return PreparationIsSuccessfull(
-                message["filePath"], message["content"]);
-          } else if (status == "Fail") {
-            final e = message["description"];
-            //final stack = message["stack"];
-            transaction.throwable = e;
-            transaction.status = const SpanStatus.internalError();
-            port.close();
-            return PreparationHasError(e.toString());
-          }
-          return state; // IDK if that could drive me in a corner at some point
-        });
+        await emit.forEach(stream,
+            onData: (message) =>
+                _statusHandler(message, port, emit, transaction));
         if (state is PreparationIsSuccessfull) {
           await addToGalleryACleanUp(
               path, (state as PreparationIsSuccessfull).path, true);
@@ -224,6 +160,34 @@ class PreparationBloc extends Bloc<MetaDataEvents, PreparationState> {
       }
     });
   }
+
+  PreparationState _statusHandler(message, ReceivePort port,
+      Emitter<PreparationState> emit, ISentrySpan transaction) {
+    message as Map<String, dynamic>;
+    final status = message["status"];
+    if (status == "AddingWaterMark") {
+      return PrepareationIsAplyingWaterMark();
+    } else if (status == "AddingMetaData") {
+      return PrepareationIsAddingMetaData();
+    } else if (status == "Error") {
+      port.close();
+      return PreparationHasError(message["description"]);
+    } else if (status == "Hashing") {
+      emit(PrepareationIsHashing());
+    } else if (status == "Done") {
+      port.close();
+      return PreparationIsSuccessfull(message["filePath"], message["content"]);
+    } else if (status == "Fail") {
+      final e = message["description"];
+      //final stack = message["stack"];
+      transaction.throwable = e;
+      transaction.status = const SpanStatus.internalError();
+      port.close();
+      return PreparationHasError(e.toString());
+    }
+    return state; // IDK if that could drive me in a corner at some point
+  }
+
   Future<void> addToGalleryACleanUp(
       String initalPath, String finalPath, bool video) async {
     final outPutFile = File(finalPath);
@@ -235,7 +199,8 @@ class PreparationBloc extends Bloc<MetaDataEvents, PreparationState> {
         await PhotoManager.editor.saveVideo(outPutFile, title: "$title.mkv");
       } else {
         Uint8List data = await outPutFile.readAsBytes();
-        await PhotoManager.editor.saveImage(data, title: "$title.jpg");
+        await PhotoManager.editor
+            .saveImage(data, filename: "$title.jpg", title: "$title.jpg");
       }
       if (initalPath != finalPath) {
         await initalFile.delete();

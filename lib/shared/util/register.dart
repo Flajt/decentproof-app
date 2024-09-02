@@ -47,6 +47,7 @@ import '../Integrety/interfaces/ISecureStorageService.dart';
 Future<void> registar() async {
   // Example:
   // GetIt.I.registerLazySingleton<ISecureStorageService>(() => SecureStorageService());
+  // The init calls for singletons are done here as well since this way I can use the services without having to await them
   final getIt = GetIt.I;
   getIt.registerFactory<ISecureStorageService>(() => SecureStorageWrapper());
   getIt.registerFactory<IApiKeyRequestService>(() =>
@@ -91,6 +92,7 @@ Future<void> registar() async {
       instanceName: "AudioMetaData");
   getIt.registerLazySingleton<IForegroundService>(
       () => ForegroundServiceWrapper());
+  await getIt.get<IForegroundService>().init();
   await registerAnalytics();
   await getIt.allReady();
 }

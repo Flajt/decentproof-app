@@ -1,8 +1,5 @@
-import 'dart:isolate';
 import 'dart:ui';
-
 import 'package:decentproof/features/hashing/bloc/BlockChainCubit/BlockChainCubit.dart';
-import 'package:decentproof/features/metadata/enum/BlockChainEnum.dart';
 import 'package:decentproof/shared/foregroundService/IForegroundService.dart';
 import 'package:decentproof/features/hashing/interfaces/IHashingService.dart';
 import 'package:decentproof/features/hashing/interfaces/IWaterMarkService.dart';
@@ -13,7 +10,6 @@ import 'package:decentproof/features/metadata/models/LocationModel.dart';
 import 'package:decentproof/shared/util/initSentry.dart';
 import 'package:decentproof/shared/util/loadTranslations.dart';
 import 'package:decentproof/shared/util/register.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_foreground_task/flutter_foreground_task.dart';
@@ -26,15 +22,18 @@ import 'package:easy_localization/src/localization.dart';
 class PreperationTaskHandler extends TaskHandler {
   // Called when the task is started.
   @override
-  void onStart(DateTime timestamp, SendPort? sendPort) async {
+  void onStart(DateTime timestamp) async {
     DartPluginRegistrant.ensureInitialized();
+    await dotenv.load();
+    await loadTranslations();
+    final Localization L = Localization.instance;
+    await initSentry();
+    await registar();
+    final getIt = GetIt.I;
+    final IForegroundService foregroundService =
+        getIt.get<IForegroundService>();
+    final sendPort = foregroundService.sendToMain;
     try {
-      await dotenv.load();
-      await loadTranslations();
-      final Localization L = Localization.instance;
-      await initSentry();
-      await registar();
-      final getIt = GetIt.I;
       final IHashingService imageHashingService =
           getIt.get<IHashingService>(instanceName: "ImageHashing");
       final IHashingService videoHashingService =
@@ -54,8 +53,6 @@ class PreperationTaskHandler extends TaskHandler {
       final IHashingService audioHashingService =
           getIt.get<IHashingService>(instanceName: "AudioHashing");
       final ILocationService locationService = getIt.get<ILocationService>();
-      final IForegroundService foregroundService =
-          getIt.get<IForegroundService>();
       final instructions =
           await foregroundService.getData<String>("instructions");
       final parts = instructions!.split("::");
@@ -67,7 +64,7 @@ class PreperationTaskHandler extends TaskHandler {
           storageDirectory: await getApplicationDocumentsDirectory());
       final chain = BlockChainCubit().state!;
       if (task == "image") {
-        sendPort?.send({"status": "AddingWaterMark"});
+        sendPort({"status": "AddingWaterMark"});
         await foregroundService.updateNotification(
             body: L.tr("perperationNotification.addingWaterMark"));
         String finalPath = await imageWaterMarkService.addWaterMark(path);
@@ -76,10 +73,10 @@ class PreperationTaskHandler extends TaskHandler {
         if (shouldEmbedLocation) {
           await foregroundService.updateNotification(
               body: L.tr("perperationNotification.addingMetaData"));
-          sendPort?.send({"status": "AddingMetaData"});
+          sendPort({"status": "AddingMetaData"});
           bool isEnabled = await locationService.serviceEnabled();
           if (!isEnabled) {
-            sendPort?.send({
+            sendPort({
               "status": "Error",
               "description": "Location Service is not enabled!"
             });
@@ -92,18 +89,17 @@ class PreperationTaskHandler extends TaskHandler {
         } else {
           await imageMetaDataService.addBasicMetaData(finalPath, chain);
         }
-        sendPort?.send({"status": "Hashing", "progess": 0});
+        sendPort({"status": "Hashing", "progess": 0});
         String hash = await imageHashingService.hash(
             finalPath,
             (progress) async => await sendAUpdateProgress(
                 sendPort, "Hashing", progress, foregroundService));
-        sendPort
-            ?.send({"status": "Done", "content": hash, "filePath": finalPath});
+        sendPort({"status": "Done", "content": hash, "filePath": finalPath});
       } else if (task == "video") {
         String? afterMetaDataPath;
         await foregroundService.updateNotification(
             body: L.tr("perperationNotification.addingWaterMark"));
-        sendPort?.send({"status": "AddingWaterMark"});
+        sendPort({"status": "AddingWaterMark"});
         String finalPath = await videoWaterMarkSerivce.addWaterMark(path);
         bool shouldEmbedLocation =
             metaDataPermissionService.shouldEmbedLocation();
@@ -111,9 +107,9 @@ class PreperationTaskHandler extends TaskHandler {
           bool isEnabled = await locationService.serviceEnabled();
           await foregroundService.updateNotification(
               body: L.tr("perperationNotification.addingMetaData"));
-          sendPort?.send({"status": "AddingMetaData"});
+          sendPort({"status": "AddingMetaData"});
           if (!isEnabled) {
-            sendPort?.send({
+            sendPort({
               "status": "Error",
               "description": "Location Service is not enabled!"
             });
@@ -127,13 +123,13 @@ class PreperationTaskHandler extends TaskHandler {
           afterMetaDataPath =
               await videoMetaDataService.addBasicMetaData(finalPath, chain);
         }
-        sendPort?.send({"status": "Hashing", "progess": 0});
+        sendPort({"status": "Hashing", "progess": 0});
         String hash = await videoHashingService.hash(
             afterMetaDataPath,
             (progress) async => await sendAUpdateProgress(
                 sendPort, "Hashing", progress, foregroundService));
 
-        sendPort?.send(
+        sendPort(
             {"status": "Done", "content": hash, "filePath": afterMetaDataPath});
       } else if (task == "audio") {
         String? afterMetaDataPath;
@@ -142,10 +138,10 @@ class PreperationTaskHandler extends TaskHandler {
         if (shouldEmbedLocation) {
           await foregroundService.updateNotification(
               body: L.tr("perperationNotification.addingWaterMark"));
-          sendPort?.send({"status": "AddingMetaData"});
+          sendPort({"status": "AddingMetaData"});
           bool isEnabled = await locationService.serviceEnabled();
           if (!isEnabled) {
-            sendPort?.send({
+            sendPort({
               "status": "Error",
               "description": "Location Service is not enabled!"
             });
@@ -159,21 +155,23 @@ class PreperationTaskHandler extends TaskHandler {
           afterMetaDataPath =
               await audioMetaDataService.addBasicMetaData(path, chain);
         }
-        sendPort?.send({"status": "Hashing", "progess": 0});
+        print("hashing");
+        sendPort({"status": "Hashing", "progess": 0});
 
         String hash = await audioHashingService.hash(
             afterMetaDataPath,
             (progress) async => await sendAUpdateProgress(
                 sendPort, "Hashing", progress, foregroundService));
-        sendPort?.send(
+        print("DONE");
+        FlutterForegroundTask.sendDataToMain(
             {"status": "Done", "content": hash, "filePath": afterMetaDataPath});
+        print("after done");
       } else {
-        sendPort
-            ?.send({"status": "Error", "description": "Task not supported"});
+        sendPort({"status": "Error", "description": "Task not supported"});
         await foregroundService.stop();
       }
     } catch (e, stack) {
-      sendPort?.send({
+      sendPort({
         "status": "Fail",
         "description": e.toString(),
         "stack": stack.toString()
@@ -185,11 +183,11 @@ class PreperationTaskHandler extends TaskHandler {
 
   // Called every [interval] milliseconds in [ForegroundTaskOptions].
   @override
-  void onRepeatEvent(DateTime timestamp, SendPort? sendPort) async {}
+  void onRepeatEvent(DateTime timestamp) async {}
 
   // Called when the notification button on the Android platform is pressed.
   @override
-  void onDestroy(DateTime timestamp, SendPort? sendPort) async {}
+  void onDestroy(DateTime timestamp) async {}
 
   // Called when the notification button on the Android platform is pressed.
   @override
@@ -206,9 +204,9 @@ class PreperationTaskHandler extends TaskHandler {
     // signal it to restore state when the app is already started.
   }
 
-  Future<void> sendAUpdateProgress(SendPort? sendPort, String step,
+  Future<void> sendAUpdateProgress(void Function(Object) sendPort, String step,
       double progress, IForegroundService foregroundService) async {
-    sendPort?.send({"status": step, "progress": progress});
+    sendPort({"status": step, "progress": progress});
     await foregroundService.updateNotification(body: "${progress.ceil()}/100%");
   }
 }
