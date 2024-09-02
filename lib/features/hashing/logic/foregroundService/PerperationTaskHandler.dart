@@ -1,6 +1,5 @@
 import 'dart:ui';
 import 'package:decentproof/features/hashing/bloc/BlockChainCubit/BlockChainCubit.dart';
-import 'package:decentproof/features/metadata/enum/BlockChainEnum.dart';
 import 'package:decentproof/shared/foregroundService/IForegroundService.dart';
 import 'package:decentproof/features/hashing/interfaces/IHashingService.dart';
 import 'package:decentproof/features/hashing/interfaces/IWaterMarkService.dart';
@@ -11,7 +10,6 @@ import 'package:decentproof/features/metadata/models/LocationModel.dart';
 import 'package:decentproof/shared/util/initSentry.dart';
 import 'package:decentproof/shared/util/loadTranslations.dart';
 import 'package:decentproof/shared/util/register.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_foreground_task/flutter_foreground_task.dart';
@@ -26,14 +24,16 @@ class PreperationTaskHandler extends TaskHandler {
   @override
   void onStart(DateTime timestamp) async {
     DartPluginRegistrant.ensureInitialized();
-    const sendPort = FlutterForegroundTask.sendDataToMain;
+    await dotenv.load();
+    await loadTranslations();
+    final Localization L = Localization.instance;
+    await initSentry();
+    await registar();
+    final getIt = GetIt.I;
+    final IForegroundService foregroundService =
+        getIt.get<IForegroundService>();
+    final sendPort = foregroundService.sendToMain;
     try {
-      await dotenv.load();
-      await loadTranslations();
-      final Localization L = Localization.instance;
-      await initSentry();
-      await registar();
-      final getIt = GetIt.I;
       final IHashingService imageHashingService =
           getIt.get<IHashingService>(instanceName: "ImageHashing");
       final IHashingService videoHashingService =
@@ -53,8 +53,6 @@ class PreperationTaskHandler extends TaskHandler {
       final IHashingService audioHashingService =
           getIt.get<IHashingService>(instanceName: "AudioHashing");
       final ILocationService locationService = getIt.get<ILocationService>();
-      final IForegroundService foregroundService =
-          getIt.get<IForegroundService>();
       final instructions =
           await foregroundService.getData<String>("instructions");
       final parts = instructions!.split("::");

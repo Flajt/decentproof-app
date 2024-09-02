@@ -9,4 +9,5 @@ abstract class IForegroundService {
   void registerOnReciveData(void Function(Object) callback);
   void removeReciveDataCallback(void Function(Object) callback);
   Future<bool> get isRunning;
+  void sendToMain(Object data);
 }

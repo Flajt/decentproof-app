@@ -86,4 +86,7 @@ class ForegroundServiceWrapper implements IForegroundService {
       await FlutterForegroundTask.requestNotificationPermission();
     }
   }
+
+  @override
+  void sendToMain(Object data) => FlutterForegroundTask.sendDataToMain(data);
 }
