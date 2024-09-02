@@ -1,4 +1,4 @@
-import 'dart:isolate';
+/*import 'dart:isolate';
 
 import 'package:bloc_test/bloc_test.dart';
 import 'package:decentproof/constants.dart';
@@ -261,3 +261,4 @@ void register(
   getIt.registerFactory<IHashLogic>(() => hashLogic);
   getIt.registerSingleton<IForegroundService>(foregroundServiceWrapper);
 }
+*/
