@@ -14,7 +14,7 @@ class ForegroundServiceWrapper implements IForegroundService {
           visibility: NotificationVisibility.VISIBILITY_PRIVATE),
       iosNotificationOptions: const IOSNotificationOptions(),
       foregroundTaskOptions: ForegroundTaskOptions(
-        eventAction: ForegroundTaskEventAction.once(),
+        eventAction: ForegroundTaskEventAction.nothing(),
         autoRunOnMyPackageReplaced: true,
         autoRunOnBoot: false,
         allowWakeLock: true,
@@ -79,7 +79,6 @@ class ForegroundServiceWrapper implements IForegroundService {
 
   @override
   Future<void> init() async {
-    FlutterForegroundTask.initCommunicationPort();
     NotificationPermission permission =
         await FlutterForegroundTask.checkNotificationPermission();
     if (permission == NotificationPermission.denied) {
@@ -89,4 +88,7 @@ class ForegroundServiceWrapper implements IForegroundService {
 
   @override
   void sendToMain(Object data) => FlutterForegroundTask.sendDataToMain(data);
+
+  //TODO: Move that somehwere else idk where but somewhere, sadly it doens't like to be in init or the constructor
+  static void initCommPort() => FlutterForegroundTask.initCommunicationPort();
 }
