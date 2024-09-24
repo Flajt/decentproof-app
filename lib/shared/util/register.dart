@@ -84,14 +84,13 @@ Future<void> registar() async {
   await getIt
       .get<IMetaDataPermissionService>()
       .init(); // Workaround to fix initalisation issues
-  getIt.registerFactory<IMetaDataService>(() => ImageMetaDataService(),
+  getIt.registerFactory<IMetaDataService>(() => const ImageMetaDataService(),
       instanceName: "ImageMetaData");
   getIt.registerFactory<IMetaDataService>(() => VideoMetaDataService(),
       instanceName: "VideoMetaData");
   getIt.registerFactory<IMetaDataService>(() => AudioMetaDataService(),
       instanceName: "AudioMetaData");
-  getIt.registerLazySingleton<IForegroundService>(
-      () => ForegroundServiceWrapper());
+  getIt.registerSingleton<IForegroundService>(ForegroundServiceWrapper());
   await getIt.get<IForegroundService>().init();
   await registerAnalytics();
   await getIt.allReady();
