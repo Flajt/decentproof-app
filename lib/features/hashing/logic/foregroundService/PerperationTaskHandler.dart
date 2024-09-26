@@ -22,7 +22,7 @@ import 'package:easy_localization/src/localization.dart';
 class PreperationTaskHandler extends TaskHandler {
   // Called when the task is started.
   @override
-  void onStart(DateTime timestamp) async {
+  Future<void> onStart(DateTime timestamp, TaskStarter starter) async {
     DartPluginRegistrant.ensureInitialized();
     await dotenv.load();
     await loadTranslations();
@@ -137,7 +137,7 @@ class PreperationTaskHandler extends TaskHandler {
             metaDataPermissionService.shouldEmbedLocation();
         if (shouldEmbedLocation) {
           await foregroundService.updateNotification(
-              body: L.tr("perperationNotification.addingWaterMark"));
+              body: L.tr("perperationNotification.addingMetaData"));
           sendPort({"status": "AddingMetaData"});
           bool isEnabled = await locationService.serviceEnabled();
           if (!isEnabled) {
@@ -155,17 +155,14 @@ class PreperationTaskHandler extends TaskHandler {
           afterMetaDataPath =
               await audioMetaDataService.addBasicMetaData(path, chain);
         }
-        print("hashing");
         sendPort({"status": "Hashing", "progess": 0});
 
         String hash = await audioHashingService.hash(
             afterMetaDataPath,
             (progress) async => await sendAUpdateProgress(
                 sendPort, "Hashing", progress, foregroundService));
-        print("DONE");
         FlutterForegroundTask.sendDataToMain(
             {"status": "Done", "content": hash, "filePath": afterMetaDataPath});
-        print("after done");
       } else {
         sendPort({"status": "Error", "description": "Task not supported"});
         await foregroundService.stop();
@@ -187,7 +184,7 @@ class PreperationTaskHandler extends TaskHandler {
 
   // Called when the notification button on the Android platform is pressed.
   @override
-  void onDestroy(DateTime timestamp) async {}
+  Future<void> onDestroy(DateTime timestamp) async {}
 
   // Called when the notification button on the Android platform is pressed.
   @override
