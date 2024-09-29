@@ -17,7 +17,7 @@ abstract class IMetaDataService {
 
   Future<MetaDataModel> retriveMetaData(String filePath);
 
-  /// Ads basic metadata to the file, this is the minimum required metadata
+  /// Adds basic metadata to the file, this is the minimum required metadata
   /// to be added to the file. This includes the software version and the blockchain name
   Future<String> addBasicMetaData(String filePath, BlockChain blockChain);
 }

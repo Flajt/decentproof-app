@@ -34,7 +34,7 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
-  image_picker: ^1.0.4
+  image_picker: ^1.1.2
   path_provider: ^2.0.11
   nanoid: ^1.0.0
   pointycastle: ^3.6.1
@@ -55,10 +55,10 @@ dependencies:
   easy_localization: ^3.0.7
   flutter_dotenv: ^5.0.2
   share_plus: ^10.0.0
-  photo_manager: ^3.2.1
+  photo_manager: ^3.4.0
   equatable: ^2.0.5
   flutter_bloc: ^8.1.3
-  get_it: ^7.6.4
+  get_it: ^8.0.0
   ffmpeg_kit_flutter: #_full: ^6.0.3
     git:
       url: https://github.com/Flajt/ffmpeg-kit.git
@@ -68,7 +68,7 @@ dependencies:
     git:
       url: https://github.com/Flajt/image.git
       ref: feat-gps-lat-long
-  geolocator: ^12.0.0
+  geolocator: ^13.0.1
   sentry_flutter: ^8.3.0
   advanced_in_app_review: ^1.2.1
   telemetrydecksdk: ^0.6.0

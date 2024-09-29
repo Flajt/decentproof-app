@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:isolate';
 import 'dart:ui';
 
 import 'package:decentproof/features/metadata/interfaces/IMetaDataService.dart';
@@ -20,7 +19,7 @@ import 'package:easy_localization/src/localization.dart';
 
 class VerificationTaskHandler implements TaskHandler {
   @override
-  void onDestroy(DateTime timestamp) {}
+  Future<void> onDestroy(DateTime timestamp) async {}
 
   @override
   void onNotificationButtonPressed(String id) {}
@@ -32,7 +31,7 @@ class VerificationTaskHandler implements TaskHandler {
   void onRepeatEvent(DateTime timestamp) {}
 
   @override
-  Future<void> onStart(DateTime timestamp) async {
+  Future<void> onStart(DateTime timestamp, TaskStarter starter) async {
     DartPluginRegistrant.ensureInitialized();
     try {
       await EasyLocalization.ensureInitialized();

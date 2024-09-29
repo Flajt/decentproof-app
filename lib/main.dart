@@ -18,6 +18,7 @@ import 'package:decentproof/features/settings/pages/SettingsPage.dart';
 import 'package:decentproof/features/hashing/pages/SubmissionPage.dart';
 import 'package:decentproof/features/verification/pages/VerificationPage.dart';
 import 'package:decentproof/features/hashing/pages/VideoImagePage.dart';
+import 'package:decentproof/shared/foregroundService/ForegroundServiceWrapper.dart';
 import 'package:decentproof/shared/util/initSentry.dart';
 import 'package:decentproof/shared/util/register.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -27,12 +28,14 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_foreground_task/flutter_foreground_task.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
 void main() async {
   runZonedGuarded(() async {
+    ForegroundServiceWrapper.initCommPort();
     WidgetsFlutterBinding.ensureInitialized();
     HydratedBloc.storage = await HydratedStorage.build(
         storageDirectory: await getApplicationDocumentsDirectory());
