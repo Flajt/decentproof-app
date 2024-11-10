@@ -34,7 +34,6 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
-  image_picker: ^1.1.2
   path_provider: ^2.0.11
   nanoid: ^1.0.0
   pointycastle: ^3.6.1
@@ -59,15 +58,13 @@ dependencies:
   equatable: ^2.0.5
   flutter_bloc: ^8.1.3
   get_it: ^8.0.0
+  camerawesome: ^2.1.0
   ffmpeg_kit_flutter: #_full: ^6.0.3
     git:
       url: https://github.com/Flajt/ffmpeg-kit.git
       ref: background-lts
       path: flutter/flutter
-  image: 
-    git:
-      url: https://github.com/Flajt/image.git
-      ref: feat-gps-lat-long
+  
   geolocator: ^13.0.1
   sentry_flutter: ^8.3.0
   advanced_in_app_review: ^1.2.1
@@ -76,7 +73,10 @@ dependencies:
   simple_mastodon_updates: ^0.1.5
   flutter_foreground_task: ^8.7.0
   hydrated_bloc: ^9.1.5
-  
+  image: 
+    git:
+      url: https://github.com/Flajt/image.git
+      ref: feat-gps-lat-long
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -95,6 +95,12 @@ dev_dependencies:
   mockito: ^5.4.2
   bloc_test: ^9.1.5
   nock: ^1.2.3
+
+dependency_overrides: 
+  image: 
+    git:
+      url: https://github.com/Flajt/image.git
+      ref: feat-gps-lat-long
 
 flutter_icons:
   android: true

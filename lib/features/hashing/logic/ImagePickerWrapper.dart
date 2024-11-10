@@ -1,25 +1,43 @@
+import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:camerawesome/camerawesome_plugin.dart';
+import 'package:camerawesome/pigeon.dart';
 import 'package:decentproof/features/hashing/interfaces/IMediaPickerService.dart';
-import 'package:image_picker/image_picker.dart';
 
 class ImagePickerWrapper implements IMediaPickerService {
-  final ImagePicker _imagePicker = ImagePicker();
   @override
   Future<Uint8List> getImageAsBytes() async {
-    XFile? file = await _imagePicker.pickImage(source: ImageSource.camera);
+    File? file;
+    CameraAwesomeBuilder.awesome(
+        onMediaTap: (capture) => file = File(capture.captureRequest.path!),
+        sensorConfig:
+            SensorConfig.single(sensor: Sensor.position(SensorPosition.back)),
+        saveConfig: SaveConfig.photo());
     if (file != null) {
-      Uint8List bytes = await file.readAsBytes(); //TODO: Use openRead
-      return bytes;
+      return await file!.readAsBytes();
     }
     throw "No image taken";
   }
 
   @override
   Future<Uint8List> getVideoAsBytes() async {
-    XFile? file = await _imagePicker.pickVideo(source: ImageSource.camera);
+    if (Platform.isAndroid) {
+      throw "Android is currently not supported, I'm working on it!";
+    }
+    File? file;
+    CameraAwesomeBuilder.awesome(
+        sensorConfig:
+            SensorConfig.single(sensor: Sensor.position(SensorPosition.back)),
+        onMediaTap: (capture) => file = File(capture.captureRequest.path!),
+        saveConfig: SaveConfig.video(
+            videoOptions: VideoOptions(
+                enableAudio: true,
+                ios: CupertinoVideoOptions(
+                    fileType: CupertinoFileType.mpeg4,
+                    codec: CupertinoCodecType.appleProRes422))));
     if (file != null) {
-      Uint8List bytes = await file.readAsBytes(); //TODO: Use openRead
+      Uint8List bytes = await file!.readAsBytes(); //TODO: Use openRead
       return bytes;
     }
     throw "No video taken";
