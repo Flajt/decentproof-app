@@ -23,6 +23,60 @@
 			<string>sn</string>
 			<string>zh</string>
 		</array>
+		<key>NSAppTransportSecurity</key>
+		<dict>
+			<key>NSPinnedDomains</key>
+			<dict>
+				<key>functionsbhlpj3oi-sign.functions.fnc.nl-ams.scw.cloud</key>
+				<dict>
+					<key>NSIncludesSubdomains</key>
+					<true/>
+					<key>NSPinnedLeafIdentities</key>
+					<array>
+						<dict>
+							<key>SPKI-SHA256-BASE64</key>
+							<string>tAjt8tkfT2IQ2DFRDPvhqF92vItkiMp1DStntXb3Pd8=</string>
+						</dict>
+					</array>
+				</dict>
+				<key>functionsbhlpj3oi-new-key-required.functions.fnc.nl-ams.scw.cloud</key>
+				<dict>
+					<key>NSIncludesSubdomains</key>
+					<true/>
+					<key>NSPinnedLeafIdentities</key>
+					<array>
+						<dict>
+							<key>SPKI-SHA256-BASE64</key>
+							<string>tAjt8tkfT2IQ2DFRDPvhqF92vItkiMp1DStntXb3Pd8=</string>
+						</dict>
+					</array>
+				</dict>
+				<key>functionsbhlpj3oi-get-new-key.functions.fnc.nl-ams.scw.cloud</key>
+				<dict>
+					<key>NSIncludesSubdomains</key>
+					<true/>
+					<key>NSPinnedLeafIdentities</key>
+					<array>
+						<dict>
+							<key>SPKI-SHA256-BASE64</key>
+							<string>tAjt8tkfT2IQ2DFRDPvhqF92vItkiMp1DStntXb3Pd8=</string>
+						</dict>
+					</array>
+				</dict>
+				<key>functionsbhlpj3oi-verify-hash.functions.fnc.nl-ams.scw.cloud</key>
+				<dict>
+					<key>NSIncludesSubdomains</key>
+					<true/>
+					<key>NSPinnedLeafIdentities</key>
+					<array>
+						<dict>
+							<key>SPKI-SHA256-BASE64</key>
+							<string>tAjt8tkfT2IQ2DFRDPvhqF92vItkiMp1DStntXb3Pd8=</string>
+						</dict>
+					</array>
+				</dict>
+			</dict>
+		</dict>
 		<key>CFBundleName</key>
 		<string>decentproof</string>
 		<key>CFBundlePackageType</key>
