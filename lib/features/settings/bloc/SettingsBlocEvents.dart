@@ -4,6 +4,11 @@ import 'package:equatable/equatable.dart';
 
 abstract class SettingsBlocEvents extends Equatable {}
 
+class SettingsFetchInital extends SettingsBlocEvents {
+  @override
+  List<Object?> get props => [];
+}
+
 //Save E-Mail Event
 class SaveEmailEvent extends SettingsBlocEvents {
   final String email;
@@ -37,4 +42,11 @@ class ModifySecretEmbeddingPermission extends SettingsBlocEvents {
 class DeleteEmail extends SettingsBlocEvents {
   @override
   List<Object?> get props => [];
+}
+
+class ModifyErrorReportingPermission extends SettingsBlocEvents {
+  final bool permission;
+  ModifyErrorReportingPermission(this.permission);
+  @override
+  List<Object?> get props => [permission];
 }

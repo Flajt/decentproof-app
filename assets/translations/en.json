@@ -39,7 +39,9 @@
         "embedSecret": "Embed Singature",
         "embedSecretSubtitle": "Embed a signature in created media files",
         "blockChainSelection": "Change Blockchain",
-        "blockChainSelectionSubtitle": "Change the blockchain to store your proof on"
+        "blockChainSelectionSubtitle": "Change the blockchain to store your proof on",
+        "errorReportingTitle": "Manage Sentry Error reporting",
+        "errorReportingSubtitle": "Enable or disable error reporting (checkmark means enabled)"
     },
     "submissionPage": {
         "hash": "Your Hash:",

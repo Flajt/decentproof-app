@@ -1,6 +1,8 @@
 import 'package:decentproof/constants.dart';
 import 'package:decentproof/features/analytics/logic/registerAnalytics.dart';
 import 'package:decentproof/features/hashing/interfaces/IFileSavingService.dart';
+import 'package:decentproof/features/settings/interfaces/ISettingsStorageService.dart';
+import 'package:decentproof/features/settings/logic/SettingsService.dart';
 import 'package:decentproof/shared/foregroundService/IForegroundService.dart';
 import 'package:decentproof/features/hashing/interfaces/IHashSubmissionService.dart';
 import 'package:decentproof/features/hashing/interfaces/IHashingService.dart';
@@ -92,6 +94,8 @@ Future<void> registar() async {
       instanceName: "AudioMetaData");
   getIt.registerSingleton<IForegroundService>(ForegroundServiceWrapper());
   await getIt.get<IForegroundService>().init();
+  getIt.registerSingleton<ISettingsStorageSerivce>(SettingsStorageSerivce());
+  await getIt.get<ISettingsStorageSerivce>().init();
   await registerAnalytics();
   await getIt.allReady();
 }
