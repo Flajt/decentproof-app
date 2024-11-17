@@ -64,7 +64,7 @@ class SettingsBloc extends Bloc<SettingsBlocEvents, SettingsBlocStates> {
         await secureStorageService.deleteEmail();
         emit((state as UpdatedSettingsState).copyWith(hasEmail: false));
         await Future.delayed(const Duration(seconds: 3))
-            .then((value) => emit(const InitialSettingsState()));
+            .then((value) => add(SettingsFetchInital()));
       } catch (e, stackTrace) {
         addError(e, stackTrace);
         emit(ErrorState(e.toString()));

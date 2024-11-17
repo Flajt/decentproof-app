@@ -25,6 +25,11 @@ class UpdatedSettingsState extends SettingsBlocStates {
     this.errorReportingPermission = false,
   });
   @override
+  String toString() {
+    return "UpdatedSettingsState{hasEmail: $hasEmail, locationEmbeddingPermission: $locationEmbeddingPermission, secretEmbeddingPermission: $secretEmbeddingPermission, errorReportingPermission: $errorReportingPermission}";
+  }
+
+  @override
   List<Object?> get props => [
         hasEmail,
         locationEmbeddingPermission,
