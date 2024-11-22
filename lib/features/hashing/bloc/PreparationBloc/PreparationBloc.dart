@@ -3,7 +3,6 @@ import 'dart:isolate';
 
 import 'package:decentproof/features/hashing/bloc/PreparationBloc/PerparationEvents.dart';
 import 'package:decentproof/features/hashing/bloc/PreparationBloc/PerparationStates.dart';
-import 'package:decentproof/features/hashing/interfaces/IFileSavingService.dart';
 import 'package:decentproof/features/hashing/logic/foregroundService/PerperationTaskHandler.dart';
 import 'package:decentproof/shared/foregroundService/IForegroundService.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -17,17 +16,10 @@ import 'package:sentry_flutter/sentry_flutter.dart';
 /// TODO: Refactor the code to make it more readable,there is a lot of duplication going on
 class PreparationBloc extends Bloc<MetaDataEvents, PreparationState> {
   late final GetIt getIt;
-  late final IFileSavingService videoSavingService;
-  late final IFileSavingService imageSavingService;
   late final IForegroundService foregroundService;
 
   PreparationBloc() : super(InitalPrepareBlocState()) {
     getIt = GetIt.I;
-    videoSavingService =
-        getIt.get<IFileSavingService>(instanceName: "VideoSaving");
-    imageSavingService =
-        getIt.get<IFileSavingService>(instanceName: "ImageSaving");
-    foregroundService = getIt<IForegroundService>();
 
     on<PrepareAudio>((event, emit) async {
       final transaction = Sentry.startTransaction("PreparationBloc",
@@ -65,7 +57,7 @@ class PreparationBloc extends Bloc<MetaDataEvents, PreparationState> {
           Sentry.startTransaction("PreparationBloc", "PrepareImage");
       try {
         await foregroundService.stop();
-        final path = await imageSavingService.saveFile();
+        final path = event.filePath;
         await foregroundService.setData("instructions", "image::$path");
         final notificationTitle = tr("perperationNotification.title");
         final notificationBody =
@@ -75,8 +67,8 @@ class PreparationBloc extends Bloc<MetaDataEvents, PreparationState> {
         //ReceivePort port = await foregroundService.getReceivePort();
         ReceivePort port = ReceivePort();
         SendPort sendPort = port.sendPort;
-        foregroundService.registerOnReciveData(sendPort.send);
         final stream = port.asBroadcastStream();
+        foregroundService.registerOnReciveData(sendPort.send);
         await emit.forEach(stream, onData: (message) {
           return _statusHandler(message, port, emit, transaction);
         });
@@ -100,7 +92,7 @@ class PreparationBloc extends Bloc<MetaDataEvents, PreparationState> {
           Sentry.startTransaction("PreparationBloc", "PrepareVideo");
       try {
         await foregroundService.stop();
-        String path = await videoSavingService.saveFile();
+        String path = event.filePath;
         await foregroundService.setData("instructions", "video::$path");
         await foregroundService.start(
             startPreperationForegroundService,
@@ -108,9 +100,9 @@ class PreparationBloc extends Bloc<MetaDataEvents, PreparationState> {
             tr("perperationNotification.initalDescription"));
         ReceivePort port = ReceivePort();
         SendPort sendPort = port.sendPort;
+        final stream = port.asBroadcastStream();
         foregroundService.registerOnReciveData(sendPort.send);
         //ReceivePort port = await foregroundService.getReceivePort();
-        final stream = port.asBroadcastStream();
         await emit.forEach(stream,
             onData: (message) =>
                 _statusHandler(message, port, emit, transaction));
@@ -165,6 +157,7 @@ class PreparationBloc extends Bloc<MetaDataEvents, PreparationState> {
     if (Platform.isAndroid || Platform.isIOS) {
       //This is to prevent file deletion while running flutter test (since all file paths are fake)
       if (video) {
+        print(outPutFile.path);
         await PhotoManager.editor.saveVideo(outPutFile);
       } else {
         await PhotoManager.editor.saveImageWithPath(outPutFile.path);

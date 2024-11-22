@@ -38,8 +38,8 @@ class VerificationTaskHandler implements TaskHandler {
       await loadTranslations();
       final Localization L = Localization.instance;
       await dotenv.load();
-      await initSentry();
       await registar();
+      await initSentry();
       final GetIt getIt = GetIt.instance;
       final IForegroundService foregroundService =
           getIt.get<IForegroundService>();
@@ -91,7 +91,7 @@ class VerificationTaskHandler implements TaskHandler {
       return FileType.image;
     } else if (extension == "ogg") {
       return FileType.audio;
-    } else if (extension == "mkv") {
+    } else if (extension == "mp4") {
       return FileType.video;
     }
   }

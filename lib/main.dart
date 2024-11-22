@@ -5,6 +5,7 @@ import 'package:decentproof/features/analytics/bloc/AnalyticsBloc.dart';
 import 'package:decentproof/features/hashing/bloc/BlockChainCubit/BlockChainCubit.dart';
 import 'package:decentproof/features/hashing/bloc/SubmissionBloc.dart';
 import 'package:decentproof/features/hashing/bloc/PreparationBloc/PreparationBloc.dart';
+import 'package:decentproof/features/hashing/pages/VideoImageRecordingPage.dart';
 import 'package:decentproof/features/metadata/bloc/LocationWarningBloc.dart';
 import 'package:decentproof/features/metrics/bloc/MetricsBlocObserver.dart';
 import 'package:decentproof/features/settings/bloc/SettingsBloc.dart';
@@ -88,7 +89,8 @@ class MyApp extends StatelessWidget {
           "/audioPage": (context) => const AudioPage(),
           "/submissionPage": (context) => const SubmissionPage(),
           "/verificationPage": (context) => const VerificationPage(),
-          "/settingsPage": (context) => const SettingsPage()
+          "/settingsPage": (context) => const SettingsPage(),
+          "/recordingPage": (context) => const VideoImageRecordingPage()
         },
         darkTheme: ThemeData.from(
             colorScheme: ColorScheme.fromSeed(

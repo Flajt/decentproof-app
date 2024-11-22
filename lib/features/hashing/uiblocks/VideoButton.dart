@@ -1,10 +1,6 @@
 import 'dart:io';
-
-import 'package:decentproof/features/hashing/bloc/PreparationBloc/PreparationBloc.dart';
-import 'package:decentproof/features/hashing/bloc/PreparationBloc/PerparationEvents.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class VideoButton extends StatelessWidget {
   const VideoButton({super.key});
@@ -22,7 +18,8 @@ class VideoButton extends StatelessWidget {
         child: Material(
           color: Platform.isAndroid ? Colors.grey : Colors.transparent,
           child: InkWell(
-            onTap: () => context.read<PreparationBloc>().add(PrepareVideo()),
+            onTap: () => Navigator.of(context)
+                .pushNamed("/recordingPage", arguments: {"photo": false}),
             radius: size.width,
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,

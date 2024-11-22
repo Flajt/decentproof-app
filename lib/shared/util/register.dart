@@ -6,12 +6,8 @@ import 'package:decentproof/features/settings/logic/SettingsService.dart';
 import 'package:decentproof/shared/foregroundService/IForegroundService.dart';
 import 'package:decentproof/features/hashing/interfaces/IHashSubmissionService.dart';
 import 'package:decentproof/features/hashing/interfaces/IHashingService.dart';
-import 'package:decentproof/features/hashing/interfaces/IMediaPickerService.dart';
 import 'package:decentproof/features/hashing/interfaces/IWaterMarkService.dart';
 import 'package:decentproof/features/hashing/logic/AudioSavingService.dart';
-import 'package:decentproof/features/hashing/logic/ImagePickerWrapper.dart';
-import 'package:decentproof/features/hashing/logic/ImageSavingService.dart';
-import 'package:decentproof/features/hashing/logic/VideoSavingService.dart';
 import 'package:decentproof/features/hashing/logic/backend/HashSubmissionService.dart';
 import 'package:decentproof/shared/foregroundService/ForegroundServiceWrapper.dart';
 import 'package:decentproof/features/hashing/logic/hasher/AudioHashingService.dart';
@@ -69,11 +65,6 @@ Future<void> registar() async {
       instanceName: "VideoHashing");
   getIt.registerFactory<IHashingService>(() => AudioHashingService(),
       instanceName: "AudioHashing");
-  getIt.registerFactory<IMediaPickerService>(() => ImagePickerWrapper());
-  getIt.registerFactory<IFileSavingService>(() => ImageSavingService(),
-      instanceName: "ImageSaving");
-  getIt.registerFactory<IFileSavingService>(() => VideoSavingService(),
-      instanceName: "VideoSaving");
   getIt.registerFactory<IFileSavingService>(() => AudioSavingService(),
       instanceName: "AudioSaving");
   getIt.registerFactory<IWaterMarkService>(() => VideoWaterMarkService(),
@@ -97,5 +88,4 @@ Future<void> registar() async {
   getIt.registerSingleton<ISettingsStorageSerivce>(SettingsStorageSerivce());
   await getIt.get<ISettingsStorageSerivce>().init();
   await registerAnalytics();
-  await getIt.allReady();
 }

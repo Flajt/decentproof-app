@@ -1,10 +1,16 @@
-abstract class MetaDataEvents {}
-
-class PrepareVideo extends MetaDataEvents {}
-
-class PrepareAudio extends MetaDataEvents {
+abstract class MetaDataEvents {
   String filePath;
-  PrepareAudio(this.filePath);
+  MetaDataEvents(this.filePath);
 }
 
-class PrepareImage extends MetaDataEvents {}
+class PrepareVideo extends MetaDataEvents {
+  PrepareVideo(super.filePath);
+}
+
+class PrepareAudio extends MetaDataEvents {
+  PrepareAudio(super.filePath);
+}
+
+class PrepareImage extends MetaDataEvents {
+  PrepareImage(super.filePath);
+}

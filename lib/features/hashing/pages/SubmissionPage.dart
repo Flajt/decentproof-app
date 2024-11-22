@@ -30,10 +30,8 @@ class SubmissionPage extends StatelessWidget {
               if (state is SubmissionError) {
                 showDialog(
                     context: context,
-                    builder: (context) => ErrorDialog(
-                          error: state.message,
-                          size: size,
-                        ));
+                    builder: (context) =>
+                        ErrorDialog(error: state.message, size: size));
               }
             },
             child: Stack(

@@ -27,8 +27,8 @@ class PreperationTaskHandler extends TaskHandler {
     await dotenv.load();
     await loadTranslations();
     final Localization L = Localization.instance;
-    await initSentry();
     await registar();
+    await initSentry();
     final getIt = GetIt.I;
     final IForegroundService foregroundService =
         getIt.get<IForegroundService>();
