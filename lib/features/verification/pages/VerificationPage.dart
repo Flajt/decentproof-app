@@ -1,11 +1,9 @@
 import 'package:decentproof/features/analytics/bloc/AnalyticsBloc.dart';
 import 'package:decentproof/features/analytics/bloc/AnalyticsEvents.dart';
 import 'package:decentproof/features/hashing/logic/backend/ShowInExplorer.dart';
-import 'package:decentproof/features/hashing/models/StatusModel.dart';
 import 'package:decentproof/features/verification/bloc/VerificationBloc.dart';
 import 'package:decentproof/features/verification/bloc/VerificationBlocEvents.dart';
 import 'package:decentproof/features/verification/bloc/VerificationBlocStates.dart';
-import 'package:decentproof/features/verification/models/VerificationStatusModel.dart';
 import 'package:decentproof/features/verification/uiblocks/BitcoinButton.dart';
 import 'package:decentproof/features/verification/uiblocks/CheckMarkTable.dart';
 import 'package:decentproof/features/verification/uiblocks/EthereumButton.dart';
