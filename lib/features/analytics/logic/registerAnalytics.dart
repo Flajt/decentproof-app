@@ -1,3 +1,4 @@
+import 'package:decentproof/features/analytics/interfaces/IAnalyticsService.dart';
 import 'package:decentproof/features/analytics/logic/TelemetryDeckWrapper.dart';
 import 'package:decentproof/shared/Integrety/interfaces/ISecureStorageService.dart';
 import 'package:flutter/foundation.dart';
@@ -10,5 +11,5 @@ Future<void> registerAnalytics() async {
   final telemetryDeckWrapper =
       TelemetryDeckWrapper(defaultUser: email, testMode: kDebugMode);
   await telemetryDeckWrapper.init();
-  getIt.registerSingleton(telemetryDeckWrapper);
+  getIt.registerSingleton<IAnalyticsService>(telemetryDeckWrapper);
 }
