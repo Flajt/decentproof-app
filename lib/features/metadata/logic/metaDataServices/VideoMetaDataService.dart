@@ -96,26 +96,26 @@ class VideoMetaDataService implements IMetaDataService {
       }
     });
     Map<dynamic, dynamic> tags = await data.future;
-    if (tags.containsKey("COMMENT")) {
-      secretHash = tags["COMMENT"];
+    if (tags.containsKey("comment")) {
+      secretHash = tags["comment"];
     }
-    if (tags.containsKey("LATITUDE") && tags.containsKey("LONGITUDE")) {
+    if (tags.containsKey("latitude") && tags.containsKey("longitude")) {
       location = LocationModel(
-          latitude: double.parse(tags["LATITUDE"]),
-          longitude: double.parse(tags["LONGITUDE"]));
+          latitude: double.parse(tags["latitude"]),
+          longitude: double.parse(tags["longitude"]));
     }
-    if (tags.containsKey("SOFTWARE")) {
-      dpmVersion = tags["SOFTWARE"];
+    if (tags.containsKey("software")) {
+      dpmVersion = tags["software"];
       dpmVersion = dpmVersion!.split(" ")[1];
     } else {
       throw "Missing Software Version";
     }
-    if (tags.containsKey("_BLOCKCHAIN")) {
+    if (tags.containsKey("_blockchain")) {
       blockChain = BlockChain.values.firstWhere(
-          (element) => element.name == tags["_BLOCKCHAIN"],
+          (element) => element.name == tags["_blockchain"],
           orElse: () => throw "Missing BlockChain");
     }
-    return MetaDataModel(secretHash, location, dpmVersion!, blockChain!);
+    return MetaDataModel(secretHash, location, dpmVersion, blockChain!);
   }
 
   @override
