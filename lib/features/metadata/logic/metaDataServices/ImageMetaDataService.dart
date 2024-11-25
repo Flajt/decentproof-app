@@ -30,8 +30,8 @@ class ImageMetaDataService implements IMetaDataService {
     final image = (await img.decodeJpgFile(filePath))!;
     image.exif.imageIfd.software = "Decentproof $DPM_VERSION";
     image.exif.imageIfd.userComment = blockChain.name;
-    image.exif.gpsIfd.gpsLatitude = locationModel.latitude;
-    image.exif.gpsIfd.gpsLongitude = locationModel.longitude;
+    image.exif.gpsIfd.setGpsLocation(
+        latitude: locationModel.latitude, longitude: locationModel.longitude);
     await img.encodeJpgFile(filePath, image);
     return filePath;
   }
@@ -45,8 +45,8 @@ class ImageMetaDataService implements IMetaDataService {
     final image = (await img.decodeJpgFile(filePath))!;
     image.exif.imageIfd.software = "Decentproof $DPM_VERSION";
     image.exif.imageIfd.userComment = blockChain.name;
-    image.exif.gpsIfd.gpsLatitude = locationModel.latitude;
-    image.exif.gpsIfd.gpsLongitude = locationModel.longitude;
+    image.exif.gpsIfd.setGpsLocation(
+        latitude: locationModel.latitude, longitude: locationModel.longitude);
     //TODO add artist tag with secrets
     await img.encodeJpgFile(filePath, image);
     return filePath;
