@@ -20,6 +20,7 @@ class PreparationBloc extends Bloc<MetaDataEvents, PreparationState> {
 
   PreparationBloc() : super(InitalPrepareBlocState()) {
     getIt = GetIt.I;
+    foregroundService = getIt<IForegroundService>();
 
     on<PrepareAudio>((event, emit) async {
       final transaction = Sentry.startTransaction("PreparationBloc",
@@ -157,7 +158,6 @@ class PreparationBloc extends Bloc<MetaDataEvents, PreparationState> {
     if (Platform.isAndroid || Platform.isIOS) {
       //This is to prevent file deletion while running flutter test (since all file paths are fake)
       if (video) {
-        print(outPutFile.path);
         await PhotoManager.editor.saveVideo(outPutFile);
       } else {
         await PhotoManager.editor.saveImageWithPath(outPutFile.path);
