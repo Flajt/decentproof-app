@@ -12,7 +12,6 @@ class SentrySettingsTile extends StatelessWidget {
     bool chachedValue = false;
     return BlocSelector<SettingsBloc, SettingsBlocStates, bool>(
         selector: (state) {
-      print(state);
       if (state is UpdatedSettingsState) {
         chachedValue = state.errorReportingPermission;
         return state.errorReportingPermission;
