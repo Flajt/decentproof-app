@@ -15,6 +15,7 @@ class _AudioPageState extends State<AudioPage> {
   void initState() {
     super.initState();
     recorderController = RecorderController()
+      ..androidEncoder = AndroidEncoder.opus
       ..androidOutputFormat = AndroidOutputFormat.ogg
       ..iosEncoder = IosEncoder.kAudioFormatOpus
       //..bitRate = 48000 // See https://github.com/SimformSolutionsPvtLtd/audio_waveforms/issues/288#issuecomment-2068077836 for why it's commented out
