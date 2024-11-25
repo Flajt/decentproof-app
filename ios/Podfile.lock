@@ -94,7 +94,7 @@ PODS:
   - GoogleUtilities/UserDefaults (8.0.2):
     - GoogleUtilities/Logger
     - GoogleUtilities/Privacy
-  - in_app_review (0.2.0):
+  - in_app_review (2.0.0):
     - Flutter
   - JPSVolumeButtonHandler (1.0.5)
   - package_info_plus (0.4.5):
@@ -236,7 +236,7 @@ SPEC CHECKSUMS:
   flutter_secure_storage: d33dac7ae2ea08509be337e775f6b59f1ff45f12
   geolocator_apple: 9bcea1918ff7f0062d98345d238ae12718acfbc1
   GoogleUtilities: 26a3abef001b6533cf678d3eb38fd3f614b7872d
-  in_app_review: 318597b3a06c22bb46dc454d56828c85f444f99d
+  in_app_review: a31b5257259646ea78e0e35fc914979b0031d011
   JPSVolumeButtonHandler: 53110330c9168ed325def93eabff39f0fe3e8082
   package_info_plus: c0502532a26c7662a62a356cebe2692ec5fe4ec4
   path_provider_foundation: 2b6b4c569c0fb62ec74538f866245ac84301af46
