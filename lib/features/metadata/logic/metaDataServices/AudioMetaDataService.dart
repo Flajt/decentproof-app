@@ -12,7 +12,7 @@ import 'package:ffmpeg_kit_flutter/return_code.dart';
 
 class AudioMetaDataService implements IMetaDataService {
   static const versionCommand =
-      "-metadata softare='Decentproof $DPM_VERSION'"; //decentproof metadata version
+      "-metadata software='Decentproof $DPM_VERSION'"; //decentproof metadata version
   @override
   Future<String> addLocation(LocationModel locationModel, String filePath,
       BlockChain blockChain) async {
@@ -94,10 +94,11 @@ class AudioMetaDataService implements IMetaDataService {
       if (information == null) {
         data.completeError("Failure to get media information");
       } else {
-        data.complete(information.getTags());
+        data.complete(information.getAllProperties());
       }
     });
-    Map<dynamic, dynamic> tags = await data.future;
+    Map<dynamic, dynamic> completerData = await data.future;
+    final tags = completerData["streams"][0]["tags"];
     if (tags.containsKey("comment")) {
       secretHash = tags["comment"];
     }
