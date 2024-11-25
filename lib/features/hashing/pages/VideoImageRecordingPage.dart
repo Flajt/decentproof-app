@@ -15,7 +15,8 @@ class VideoImageRecordingPage extends StatelessWidget {
         ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     return Scaffold(
       body: CameraAwesomeBuilder.awesome(
-        availableFilters: null,
+        availableFilters: const [],
+        defaultFilter: null,
         onMediaCaptureEvent: (mediaCaptureEvent) {
           if (mediaCaptureEvent.status == MediaCaptureStatus.success) {
             _handleRecordingFinished(mediaCaptureEvent, bloc, data["photo"]);
@@ -23,7 +24,8 @@ class VideoImageRecordingPage extends StatelessWidget {
           }
         },
         saveConfig: data["photo"] == true
-            ? SaveConfig.photo()
+            ? SaveConfig.photo(
+                exifPreferences: ExifPreferences(saveGPSLocation: false))
             : SaveConfig.video(
                 videoOptions: VideoOptions(
                     enableAudio: true,
@@ -36,7 +38,6 @@ class VideoImageRecordingPage extends StatelessWidget {
 
   _handleRecordingFinished(
       MediaCapture mediaCapture, PreparationBloc bloc, bool isPhoto) {
-    print(mediaCapture.captureRequest.path);
     if (isPhoto && mediaCapture.captureRequest.path != null) {
       bloc.add(PrepareImage(mediaCapture.captureRequest.path!));
     } else if (!isPhoto && mediaCapture.captureRequest.path != null) {
