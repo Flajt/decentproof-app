@@ -10,7 +10,7 @@ class FilePickerWrapper implements IFileSelectionService {
         type: FileType.custom,
         withReadStream: true,
         allowCompression: false,
-        allowedExtensions: ["jpg", "ogg", "mkv"]);
+        allowedExtensions: ["jpg", "ogg", "mp4"]);
     if (result != null) {
       PlatformFile file = result.files[0];
       return FileDataModel(byteStream: file.readStream!, fileName: file.name);
