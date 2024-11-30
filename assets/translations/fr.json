@@ -34,7 +34,9 @@
         "embedSecret": "Intégrer la signature",
         "embedSecretSubtitle": "Intégrer une signature dans les fichiers multimédias créés",
         "blockChainSelection": "Modifier la blockchain",
-        "blockChainSelectionSubtitle": "Modifier la blockchain qui stocke votre preuve"
+        "blockChainSelectionSubtitle": "Modifier la blockchain qui stocke votre preuve",
+        "errorReportingTitle": "Gérer les rapports d'erreur de Sentry",
+        "errorReportingSubtitle": "Activer ou désactiver les rapports d'erreur (une coche signifie que l'option est activée)"
     },
     "submissionPage": {
         "hash": "Your Hash :",

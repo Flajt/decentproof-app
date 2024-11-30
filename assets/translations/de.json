@@ -39,7 +39,9 @@
         "embedSecret": "Signatur einbetten",
         "embedSecretSubtitle": "Speichere deine Signatur in Media Datein",
         "blockChainSelection": "Blockchain ändern",
-        "blockChainSelectionSubtitle": "Wechsel die Blockchain welche deinen Beweis speichert"
+        "blockChainSelectionSubtitle": "Wechsel die Blockchain welche deinen Beweis speichert",
+        "errorReportingTitle": "Sentry Fehlerberichterstattung verwalten",
+        "errorReportingSubtitle": "Aktiviere oder deaktiviere die Fehlerberichterstattung (Häkchen bedeutet aktiviert)"
     },
     "submissionPage": {
         "hash": "Ihr Hash",

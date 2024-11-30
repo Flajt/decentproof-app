@@ -33,8 +33,10 @@
         "embedLocationSubtitle": "Встроить местоположение в созданные медиафайлы",
         "embedSecret": "Встроить Сингатуру",
         "embedSecretSubtitle": "Встраивание цифровой подписи в созданные медиафайлы",
-         "blockChainSelection": "Изменить блокчейн",
-        "blockChainSelectionSubtitle": "Измените блокчейн, в котором хранится ваше доказательство"
+        "blockChainSelection": "Изменить блокчейн",
+        "blockChainSelectionSubtitle": "Измените блокчейн, в котором хранится ваше доказательство",
+        "errorReportingTitle": "Управление сообщениями об ошибках Sentry",
+        "errorReportingSubtitle": "Включить или отключить отчет об ошибках (флажок означает включение)"
     },
     "submissionPage": {
         "hash": "Ваш хэш:",

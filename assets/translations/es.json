@@ -34,7 +34,9 @@
         "embedSecret": "Incrustar singularidad",
         "embedSecretSubtitle": "Incrustar una firma en archivos multimedia creados",
         "blockChainSelection": "Cambiar la cadena de bloques",
-        "blockChainSelectionSubtitle": "Cambia la cadena de bloques que almacena tu prueba"
+        "blockChainSelectionSubtitle": "Cambia la cadena de bloques que almacena tu prueba",
+        "errorReportingTitle": "Gestionar los informes de errores de Sentry",
+        "errorReportingSubtitle": "Activar o desactivar la notificación de errores (la marca de verificación significa activado)"
     },
     "submissionPage": {
         "hash": "Tu hash:",

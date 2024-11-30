@@ -34,7 +34,9 @@
         "embedSecret": "シグネチャーの統合",
         "embedSecretSubtitle": "作成したメディアファイルに署名を埋め込む",
         "blockChainSelection": "ブロックチェーンを変更する",
-        "blockChainSelectionSubtitle": "証明を保存するブロックチェーンを変更する"
+        "blockChainSelectionSubtitle": "証明を保存するブロックチェーンを変更する",
+        "errorReportingTitle": "Sentry.ioエラー報告の管理",
+        "errorReportingSubtitle": "エラー報告の有効／無効（チェックマークは有効を意味する）"
     },
     "submissionPage": {
         "hash": "あなたのハッシュ:",

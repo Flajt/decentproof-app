@@ -34,7 +34,9 @@
         "embedSecret": "嵌入签名",
         "embedSecretSubtitle": "在创建的媒体文件中嵌入数字签名",
         "blockChainSelection": "更改区块链",
-        "blockChainSelectionSubtitle": "更改存储证明的区块链"
+        "blockChainSelectionSubtitle": "更改存储证明的区块链",
+        "errorReportingTitle": "管理 Sentry.io 错误报告",
+        "errorReportingSubtitle": "启用或禁用错误报告（复选标记表示启用）"
     },
     "submissionPage": {
         "hash": "你的哈希值：",

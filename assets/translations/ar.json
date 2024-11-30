@@ -34,7 +34,9 @@
         "embedSecret": "إدراج توقيع رقمي",
         "embedSecretSubtitle": "تضمين التوقيع في ملفات الوسائط التي تم إنشاؤها",
         "blockChainSelection": "تغيير سلسلة الكتل",
-        "blockChainSelectionSubtitle": "تغيير سلسلة الكتل التي تخزن إثباتك"
+        "blockChainSelectionSubtitle": "تغيير سلسلة الكتل التي تخزن إثباتك",
+        "errorReportingTitle": "إدارة الإبلاغ عن أخطاء Sentry.io",
+        "errorReportingSubtitle": "تمكين أو تعطيل الإبلاغ عن الأخطاء (علامة الاختيار تعني تمكين)"
     },
     "submissionPage": {
         "hash": "\"التجزئة\" الخاصة بك:",
