@@ -4,6 +4,8 @@ import 'package:decentproof/features/metadata/interfaces/IMetaDataPermissionServ
 import 'package:decentproof/features/settings/bloc/SettingsBloc.dart';
 import 'package:decentproof/features/settings/bloc/SettingsBlocEvents.dart';
 import 'package:decentproof/features/settings/bloc/SettingsBlocStates.dart';
+import 'package:decentproof/features/settings/interfaces/ISettingsStorageService.dart';
+import 'package:decentproof/features/settings/logic/SettingsService.dart';
 import 'package:decentproof/shared/Integrety/interfaces/ISecureStorageService.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get_it/get_it.dart';
@@ -17,12 +19,18 @@ void main() {
   final locationService = MockLocationServiceWrapper();
   final permissionService = MockMetaDataPermissionService();
   final secureStorageService = MockSecureStorageWrapper();
-  setUp(() async => {
-        await getIt.reset(),
-      });
+  final settingsStorageSerivce = MockSettingsStorageSerivce();
+  setUp(
+    () async {
+      await getIt.reset();
+      await settingsStorageSerivce.init();
+    },
+  );
   group("E-Mail", () {
     blocTest("input is invalid address",
         setUp: () {
+          getIt.registerFactory<ISettingsStorageSerivce>(
+              () => settingsStorageSerivce);
           getIt.registerFactory<IMetaDataPermissionService>(
               () => MockMetaDataPermissionService());
           getIt.registerFactory<ISecureStorageService>(
@@ -31,24 +39,33 @@ void main() {
               () => MockLocationServiceWrapper());
         },
         act: (bloc) => bloc.add(SaveEmailEvent("invalid")),
-        expect: () => [ErrorState("Invalid Email"), InitialSettingsState()],
+        expect: () => [ErrorState("Invalid Email"), UpdatedSettingsState()],
         build: () => SettingsBloc());
     blocTest(
       "input is empty",
       setUp: () {
+        getIt.registerFactory<ISettingsStorageSerivce>(
+            () => settingsStorageSerivce);
         getIt
             .registerFactory<ISecureStorageService>(() => secureStorageService);
         getIt.registerFactory<ILocationService>(() => locationService);
         getIt.registerFactory<IMetaDataPermissionService>(
             () => permissionService);
       },
-      act: (bloc) => bloc.add(SaveEmailEvent("")),
+      act: (bloc) {
+        bloc
+          ..add(SettingsFetchInital())
+          ..add(SaveEmailEvent(""));
+      },
       build: () => SettingsBloc(),
-      expect: () => [ErrorState("Invalid Email"), InitialSettingsState()],
+      expect: () => [ErrorState("Invalid Email"), UpdatedSettingsState()],
     );
-    blocTest("is valid",
+    blocTest<SettingsBloc, SettingsBlocStates>("is valid",
         build: () => SettingsBloc(),
+        seed: () => UpdatedSettingsState(),
         setUp: () {
+          getIt.registerFactory<ISettingsStorageSerivce>(
+              () => settingsStorageSerivce);
           getIt.registerFactory<IMetaDataPermissionService>(
               () => MockMetaDataPermissionService());
           getIt.registerFactory<ISecureStorageService>(
@@ -59,10 +76,12 @@ void main() {
               .thenAnswer((realInvocation) => Future.value());
         },
         act: (bloc) => bloc.add(SaveEmailEvent("test@test.com")),
-        expect: () => [EmailSavedState("test@test.com")]);
+        expect: () => [UpdatedSettingsState(hasEmail: true)]);
     blocTest("can be deleted",
         build: () => SettingsBloc(),
         setUp: () {
+          getIt.registerFactory<ISettingsStorageSerivce>(
+              () => settingsStorageSerivce);
           getIt.registerFactory<IMetaDataPermissionService>(
               () => MockMetaDataPermissionService());
           getIt.registerFactory<ISecureStorageService>(
@@ -72,13 +91,17 @@ void main() {
           when(secureStorageService.saveEmail(any))
               .thenAnswer((realInvocation) => Future.value());
         },
-        act: (bloc) => bloc.add(DeleteEmail()),
+        act: (bloc) => bloc
+          ..add(SettingsFetchInital())
+          ..add(DeleteEmail()),
         wait: const Duration(seconds: 3, milliseconds: 500),
-        expect: () => [EmailDeletedState(), InitialSettingsState()]);
+        expect: () => [UpdatedSettingsState(hasEmail: false)]);
   });
   group("Location embedding", () {
     blocTest("enabled successfully",
         setUp: () {
+          getIt.registerFactory<ISettingsStorageSerivce>(
+              () => settingsStorageSerivce);
           getIt.registerFactory<IMetaDataPermissionService>(
               () => permissionService);
           getIt.registerFactory<ISecureStorageService>(
@@ -89,11 +112,19 @@ void main() {
           when(locationService.hasPermission())
               .thenAnswer((realInvocation) => Future.value(true));
         },
-        act: (bloc) => bloc.add(ModifyLocationEmbeddingPermission(true)),
-        expect: () => [LocationEmbeddingPermissionModified(permission: true)],
+        act: (bloc) => bloc
+          ..add(SettingsFetchInital())
+          ..add(ModifyLocationEmbeddingPermission(true)),
+        expect: () => [
+              const UpdatedSettingsState(),
+              const UpdatedSettingsState(locationEmbeddingPermission: true)
+            ],
+        wait: const Duration(milliseconds: 100),
         build: () => SettingsBloc());
     blocTest("failed, location permission denied",
         setUp: () {
+          getIt.registerFactory<ISettingsStorageSerivce>(
+              () => settingsStorageSerivce);
           getIt.registerFactory<IMetaDataPermissionService>(
               () => permissionService);
           getIt.registerFactory<ISecureStorageService>(
@@ -106,11 +137,13 @@ void main() {
         },
         act: (bloc) => bloc.add(ModifyLocationEmbeddingPermission(true)),
         expect: () =>
-            [ErrorState("Location Permission Denied!"), InitialSettingsState()],
+            [ErrorState("Location Permission Denied!"), UpdatedSettingsState()],
         build: () => SettingsBloc());
 
     blocTest("successfull handle error",
         setUp: () {
+          getIt.registerFactory<ISettingsStorageSerivce>(
+              () => settingsStorageSerivce);
           getIt.registerFactory<IMetaDataPermissionService>(
               () => permissionService);
           getIt.registerFactory<ISecureStorageService>(
@@ -121,11 +154,13 @@ void main() {
           when(locationService.hasPermission()).thenThrow("Error");
         },
         act: (bloc) => bloc.add(ModifyLocationEmbeddingPermission(true)),
-        expect: () => [ErrorState("Error"), InitialSettingsState()],
+        expect: () => [ErrorState("Error"), UpdatedSettingsState()],
         build: () => SettingsBloc());
 
     blocTest("successfull, location permission granted",
         setUp: () {
+          getIt.registerFactory<ISettingsStorageSerivce>(
+              () => settingsStorageSerivce);
           getIt.registerFactory<IMetaDataPermissionService>(
               () => permissionService);
           getIt.registerFactory<ISecureStorageService>(
@@ -138,11 +173,19 @@ void main() {
           when(locationService.hasPermission())
               .thenAnswer((realInvocation) => Future.value(false));
         },
-        act: (bloc) => bloc.add(ModifyLocationEmbeddingPermission(true)),
-        expect: () => [LocationEmbeddingPermissionModified(permission: true)],
+        act: (bloc) {
+          bloc.add(SettingsFetchInital());
+          bloc.add(ModifyLocationEmbeddingPermission(true));
+        },
+        expect: () => const [
+              UpdatedSettingsState(),
+              UpdatedSettingsState(locationEmbeddingPermission: true)
+            ],
         build: () => SettingsBloc());
     blocTest("disable successfully",
         setUp: () {
+          getIt.registerFactory<ISettingsStorageSerivce>(
+              () => settingsStorageSerivce);
           getIt.registerFactory<IMetaDataPermissionService>(
               () => permissionService);
           getIt.registerFactory<ISecureStorageService>(
@@ -151,8 +194,11 @@ void main() {
           when(permissionService.allowLocationEmbedding(any))
               .thenAnswer((realInvocation) => Future.value());
         },
-        act: (bloc) => bloc.add(ModifyLocationEmbeddingPermission(false)),
-        expect: () => [LocationEmbeddingPermissionModified(permission: false)],
+        act: (bloc) => bloc
+          ..add(SettingsFetchInital())
+          ..add(ModifyLocationEmbeddingPermission(false)),
+        expect: () =>
+            const [UpdatedSettingsState(locationEmbeddingPermission: false)],
         build: () => SettingsBloc());
   });
 }
