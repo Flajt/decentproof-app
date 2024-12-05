@@ -1,6 +1,3 @@
-import 'package:decentproof/features/hashing/logic/ImagePickerWrapper.dart';
-import 'package:decentproof/features/hashing/logic/ImageSavingService.dart';
-import 'package:decentproof/features/hashing/logic/VideoSavingService.dart';
 import 'package:decentproof/features/hashing/logic/backend/HashSubmissionService.dart';
 import 'package:decentproof/features/hashing/logic/backend/ShowInExplorer.dart';
 import 'package:decentproof/features/hashing/logic/hasher/AudioHashingService.dart';
@@ -13,6 +10,7 @@ import 'package:decentproof/features/metadata/logic/MetaDataPermissionService.da
 import 'package:decentproof/features/metadata/logic/metaDataServices/AudioMetaDataService.dart';
 import 'package:decentproof/features/metadata/logic/metaDataServices/ImageMetaDataService.dart';
 import 'package:decentproof/features/metadata/logic/metaDataServices/VideoMetaDataService.dart';
+import 'package:decentproof/features/settings/logic/SettingsService.dart';
 import 'package:decentproof/features/verification/logic/FilePickerWrapper.dart';
 import 'package:decentproof/features/verification/logic/SignatureVerificationService.dart';
 import 'package:decentproof/features/verification/logic/VerificationService.dart';
@@ -53,8 +51,6 @@ const String kExternalStoragePath = 'externalStoragePath';
   MockSpec<ImageMetaDataService>(),
   MockSpec<AudioMetaDataService>(),
   MockSpec<VideoMetaDataService>(),
-  MockSpec<VideoSavingService>(),
-  MockSpec<ImageSavingService>(),
   MockSpec<ImageWaterMarkService>(),
   MockSpec<VideoWaterMarkService>(),
   MockSpec<AudioHashingService>(),
@@ -63,10 +59,10 @@ const String kExternalStoragePath = 'externalStoragePath';
   MockSpec<VerificationService>(),
   MockSpec<FilePickerWrapper>(),
   MockSpec<HashLogic>(),
-  MockSpec<ImagePickerWrapper>(),
   MockSpec<ShowInExplorer>(),
   MockSpec<SignatureVerificationService>(),
-  MockSpec<ForegroundServiceWrapper>()
+  MockSpec<ForegroundServiceWrapper>(),
+  MockSpec<SettingsStorageSerivce>()
 ])
 // ignore: unused_element
 void main() {}
