@@ -7,6 +7,7 @@ class VideoButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    final isAndroid = Platform.isAndroid;
     return Container(
       width: size.width * .6,
       height: size.height * .2,
@@ -18,8 +19,10 @@ class VideoButton extends StatelessWidget {
         child: Material(
           color: Platform.isAndroid ? Colors.grey : Colors.transparent,
           child: InkWell(
-            onTap: () => Navigator.of(context)
-                .pushNamed("/recordingPage", arguments: {"photo": false}),
+            onTap: () => isAndroid
+                ? null
+                : Navigator.of(context)
+                    .pushNamed("/recordingPage", arguments: {"photo": false}),
             radius: size.width,
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
