@@ -26,7 +26,7 @@ class SettingsBloc extends Bloc<SettingsBlocEvents, SettingsBlocStates> {
         bool locationEmbeddingPermission =
             metaDataPermissionService.shouldEmbedLocation();
         bool secretEmbeddingPermission =
-            metaDataPermissionService.shouldEmbedLocation();
+            metaDataPermissionService.shouldEmbedSecret();
         bool errorReportingPermission =
             await settingsStorageSerivce.getErrorReportingPermissionState();
         emit(UpdatedSettingsState(
