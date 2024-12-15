@@ -1,6 +1,3 @@
-import 'package:camerawesome/camerawesome_plugin.dart';
-import 'package:decentproof/features/hashing/bloc/PreparationBloc/PreparationBloc.dart';
-import 'package:decentproof/features/hashing/bloc/PreparationBloc/PerparationEvents.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
