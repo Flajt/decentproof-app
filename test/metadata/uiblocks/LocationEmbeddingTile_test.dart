@@ -2,6 +2,9 @@ import 'package:decentproof/features/metadata/interfaces/ILocationService.dart';
 import 'package:decentproof/features/metadata/interfaces/IMetaDataPermissionService.dart';
 import 'package:decentproof/features/metadata/uiblocks/LocationEmbeddingTile.dart';
 import 'package:decentproof/features/settings/bloc/SettingsBloc.dart';
+import 'package:decentproof/features/settings/bloc/SettingsBlocEvents.dart';
+import 'package:decentproof/features/settings/interfaces/ISettingsStorageService.dart';
+import 'package:decentproof/features/settings/logic/SettingsService.dart';
 import 'package:decentproof/shared/Integrety/interfaces/ISecureStorageService.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -19,22 +22,31 @@ void main() {
   final permissionService = MockMetaDataPermissionService();
   final locationService = MockLocationServiceWrapper();
   final storageService = MockSecureStorageWrapper();
+  final settingsStorageService = MockSettingsStorageSerivce();
   group("LocationEmbeddingTile", () {
     testWidgets("should change icon & state on tap", (widgetTester) async {
       getIt
           .registerFactory<IMetaDataPermissionService>(() => permissionService);
       getIt.registerFactory<ILocationService>(() => locationService);
       getIt.registerFactory<ISecureStorageService>(() => storageService);
+      getIt.registerSingleton<ISettingsStorageSerivce>(settingsStorageService);
       when(permissionService.shouldEmbedLocation())
           .thenReturnInOrder([false, true]);
       when(locationService.hasPermission())
           .thenAnswer((realInvocation) async => true);
+
       await widgetTester.pumpWidget(BlocProvider(
         create: (context) => SettingsBloc(),
-        child: const MaterialApp(
-          home: Scaffold(
-            body: SizedBox(
-                width: 250, height: 250, child: LocationEmbeddingTile()),
+        child: MaterialApp(
+          home: BlocProvider<SettingsBloc>(
+            create: (context) => SettingsBloc(),
+            child: Scaffold(
+              body: Builder(builder: (context) {
+                context.read<SettingsBloc>().add(SettingsFetchInital());
+                return const SizedBox(
+                    width: 250, height: 250, child: LocationEmbeddingTile());
+              }),
+            ),
           ),
         ),
       ));
