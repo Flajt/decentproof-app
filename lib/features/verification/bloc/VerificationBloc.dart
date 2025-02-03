@@ -32,13 +32,14 @@ class VerificationBloc
         if (fileDataModel != null) {
           File tempFile =
               File("${tempFileStorage.path}/${fileDataModel.fileName}");
+          final ReceivePort recivePort = ReceivePort();
+          final SendPort sendPort = recivePort.sendPort;
+          final stream = recivePort.asBroadcastStream();
+          _foregroundService.registerOnReciveData(sendPort.send);
           await copyFileToTemp(tempFile, fileDataModel);
           await _foregroundService.setData("filePath", tempFile.path);
           await _foregroundService.start(startVerificationForegroundService,
               "verificationNotification.title".tr(), "");
-          final ReceivePort recivePort =
-              await _foregroundService.getReceivePort();
-          final stream = recivePort.asBroadcastStream();
           await emit.forEach(stream, onData: (data) {
             if (data["status"] == "Error") {
               recivePort.close();

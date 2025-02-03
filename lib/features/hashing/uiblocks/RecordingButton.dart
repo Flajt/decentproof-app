@@ -14,11 +14,12 @@ import '../bloc/PreparationBloc/PerparationStates.dart';
 
 class RecordingButton extends StatefulWidget {
   const RecordingButton({
-    Key? key,
+    super.key,
     required this.controller,
-  }) : super(key: key);
+  });
   final RecorderController controller;
   @override
+  // ignore: library_private_types_in_public_api
   _RecordingButtonState createState() => _RecordingButtonState();
 }
 
@@ -47,9 +48,11 @@ class _RecordingButtonState extends State<RecordingButton> {
           widget.controller.reset();
         } else if (state is PreparationIsSuccessfull) {
           context.read<SubmissionBloc>().add(ResetSubmissionState());
-
-          Navigator.of(context).pushNamed("/submissionPage",
-              arguments: {"hash": state.hash, "path": state.path});
+          Navigator.of(context).pushNamed("/submissionPage", arguments: {
+            "hash": state.hash,
+            "path": state.path,
+            "source": "audio"
+          });
         } else if (state is PrepareationIsAddingMetaData) {
           showDialog(
               context: context, builder: (context) => const ProcessingDialog());

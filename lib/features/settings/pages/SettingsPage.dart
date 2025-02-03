@@ -1,16 +1,22 @@
 import 'package:decentproof/features/metadata/uiblocks/LocationEmbeddingTile.dart';
 import 'package:decentproof/features/metadata/uiblocks/SecretEmbeddingTile.dart';
+import 'package:decentproof/features/settings/bloc/SettingsBloc.dart';
+import 'package:decentproof/features/settings/bloc/SettingsBlocEvents.dart';
+import 'package:decentproof/features/settings/uiblocks/BlockChainSelectionDialogTile.dart';
 import 'package:decentproof/features/settings/uiblocks/EmailEmbeddingTile.dart';
+import 'package:decentproof/features/settings/uiblocks/SentrySettingsTile.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:decentproof/constants.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class SettingsPage extends StatelessWidget {
-  const SettingsPage({Key? key}) : super(key: key);
+  const SettingsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    context.read<SettingsBloc>().add(SettingsFetchInital());
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: SafeArea(
@@ -40,13 +46,15 @@ class SettingsPage extends StatelessWidget {
               ),
             ),
             const EmailEmbeddingTile(),
-            const AboutListTile(),
+            const LocationEmbeddingTile(),
+            const SecretEmbeddingTile(),
+            const BlockChainSelectionTile(),
+            const SentrySettingsTile(),
             ListTile(
               title: const Text("FAQ"),
               onTap: () async => await launchUrlString(WIKI_URL),
             ),
-            const LocationEmbeddingTile(),
-            const SecretEmbeddingTile()
+            const AboutListTile(),
           ],
         ),
       )),

@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:isolate';
 import 'dart:ui';
 
 import 'package:decentproof/features/metadata/interfaces/IMetaDataService.dart';
@@ -20,7 +19,7 @@ import 'package:easy_localization/src/localization.dart';
 
 class VerificationTaskHandler implements TaskHandler {
   @override
-  void onDestroy(DateTime timestamp, SendPort? sendPort) {}
+  Future<void> onDestroy(DateTime timestamp) async {}
 
   @override
   void onNotificationButtonPressed(String id) {}
@@ -29,18 +28,18 @@ class VerificationTaskHandler implements TaskHandler {
   void onNotificationPressed() {}
 
   @override
-  void onRepeatEvent(DateTime timestamp, SendPort? sendPort) {}
+  void onRepeatEvent(DateTime timestamp) {}
 
   @override
-  Future<void> onStart(DateTime timestamp, SendPort? sendPort) async {
+  Future<void> onStart(DateTime timestamp, TaskStarter starter) async {
     DartPluginRegistrant.ensureInitialized();
     try {
       await EasyLocalization.ensureInitialized();
       await loadTranslations();
       final Localization L = Localization.instance;
       await dotenv.load();
-      await initSentry();
       await registar();
+      await initSentry();
       final GetIt getIt = GetIt.instance;
       final IForegroundService foregroundService =
           getIt.get<IForegroundService>();
@@ -53,11 +52,12 @@ class VerificationTaskHandler implements TaskHandler {
       final int fileSize = (tempFile.lengthSync() / 65536).ceil();
       Stream<List<int>> tempStream = tempFile
           .openRead(); // Steams are consumed after beeing done so we need a new one
-      sendPort?.send({"status": "Hashing", "progess": 0});
+      FlutterForegroundTask.sendDataToMain({"status": "Hashing", "progess": 0});
       String hash = await hashLogic.hashBytesInChunksFromStream(tempStream,
           (progress) async {
         int currentProgress = (progress / fileSize * 100).ceil();
-        sendPort?.send({"status": "Hashing", "progess": currentProgress});
+        FlutterForegroundTask.sendDataToMain(
+            {"status": "Hashing", "progess": currentProgress});
         if (currentProgress % 5 == 0) {
           // Should prevent to many updates
           await foregroundService.updateNotification(
@@ -65,28 +65,33 @@ class VerificationTaskHandler implements TaskHandler {
                   "${L.tr("verificationNotification.hashing")} $currentProgress%");
         }
       });
-      VerificationStatusModel model = await verificationService.verify(hash);
       FileType fileType =
           isOfType(tempFile.path.split("/").last); // Shouldge the name
       MetaDataModel metaDataModel =
           await extractMetaData(fileType, tempFile, getIt);
+      VerificationStatusModel model = await verificationService.verify(
+        hash,
+        metaDataModel.blockChain,
+      );
       await foregroundService.updateNotification(
           body: L.tr("verificationNotification.validatingMetaData"));
       final finalModel = model.copyWith(metaDataModel: metaDataModel);
-      sendPort?.send({"status": "Done", "model": finalModel.toJson()});
+      FlutterForegroundTask.sendDataToMain(
+          {"status": "Done", "model": finalModel.toJson()});
     } catch (e, stack) {
       await Sentry.captureException(e, stackTrace: stack);
-      sendPort?.send({"status": "Error", "message": e.toString()});
+      FlutterForegroundTask.sendDataToMain(
+          {"status": "Error", "message": e.toString()});
     }
   }
 
   isOfType(String name) {
     String extension = name.split(".").last;
-    if (extension == "png") {
+    if (extension == "jpg") {
       return FileType.image;
-    } else if (extension == "mp3" || extension == "aac") {
+    } else if (extension == "ogg") {
       return FileType.audio;
-    } else if (extension == "mkv") {
+    } else if (extension == "mp4") {
       return FileType.video;
     }
   }
@@ -107,6 +112,14 @@ class VerificationTaskHandler implements TaskHandler {
         getIt.get<IMetaDataService>(instanceName: "ImageMetaData");
     return await imageMetaDataService.retriveMetaData(tempFile.path);
   }
+
+  @override
+  void onNotificationDismissed() {
+    // TODO: implement onNotificationDismissed
+  }
+
+  @override
+  void onReceiveData(Object data) {}
 }
 
 enum FileType {

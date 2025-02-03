@@ -5,6 +5,11 @@
             "audio": "Audio",
             "verify": "Verifizieren",
             "locationWarning": "Du hast Standort einbetten aktiviert, aber den GPS Service deaktiviert!"
+        },
+        "blockChainSelectionDialog":{
+            "title": "Wähle eine Blockchain",
+            "description": "Bitte wähle eine Blockchain um deinen Beweis zu speichern. Du kannst dies später in den Einstellungen ändern.",
+            "submit": "Bestätigen"
         }
     },
     "introPage": {
@@ -16,7 +21,7 @@
         "title5": "Ende",
         "tempTitle": "Audioaufnahmen",
         "body1": "Mit dieser App können Sie Multimediadateien erstellen und später beweisen, dass diese Datei nicht manipuliert wurde!",
-        "body2": "Wählen Sie einfach eine der 2 Optionen im Hauptmenü und beginnen Sie mit der Erstellung Ihrer Datei. Unterstützt werden:.mp3 .png & .aac",
+        "body2": "Wählen Sie einfach eine der 2 Optionen im Hauptmenü und beginnen Sie mit der Erstellung Ihrer Datei. Unterstützt werden:.mp4, .jpg & .ogg",
         "body3": "Sie können die Datei von jeder beliebigen App aus teilen, aber ich empfehlen Ihnen, E-Mail, einen Cloud-Speicher oder den direkten Export zu verwenden. Wenn Sie andere Apps wie z. B. eine Chat-App verwenden, gehen möglicherweise Metadaten verloren und Sie können die Datei später nicht verifizieren!",
         "body4": "Das ist ganz einfach: Wählen Sie einfach den dritten Eintrag im Hauptmenü und wählen Sie Ihre Datei aus.",
         "body5": "Das war's. Wenn Sie die App unterstützen wollen oder mehr Informationen über ihre Funktionsweise wünschen, können Sie das Symbol oben rechts auf der Hauptseite verwenden.",
@@ -32,7 +37,11 @@
         "embedLocation": "Standort speichern",
         "embedLocationSubtitle": "Speichert den Standort in Media Datein",
         "embedSecret": "Signatur einbetten",
-        "embedSecretSubtitle": "Speichere deine Signatur in Media Datein"
+        "embedSecretSubtitle": "Speichere deine Signatur in Media Datein",
+        "blockChainSelection": "Blockchain ändern",
+        "blockChainSelectionSubtitle": "Wechsel die Blockchain welche deinen Beweis speichert",
+        "errorReportingTitle": "Sentry Fehlerberichterstattung verwalten",
+        "errorReportingSubtitle": "Aktiviere oder deaktiviere die Fehlerberichterstattung (Häkchen bedeutet aktiviert)"
     },
     "submissionPage": {
         "hash": "Ihr Hash",

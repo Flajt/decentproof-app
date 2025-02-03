@@ -1,14 +1,13 @@
 import 'package:decentproof/constants.dart';
+import 'package:decentproof/features/analytics/logic/registerAnalytics.dart';
 import 'package:decentproof/features/hashing/interfaces/IFileSavingService.dart';
+import 'package:decentproof/features/settings/interfaces/ISettingsStorageService.dart';
+import 'package:decentproof/features/settings/logic/SettingsService.dart';
 import 'package:decentproof/shared/foregroundService/IForegroundService.dart';
 import 'package:decentproof/features/hashing/interfaces/IHashSubmissionService.dart';
 import 'package:decentproof/features/hashing/interfaces/IHashingService.dart';
-import 'package:decentproof/features/hashing/interfaces/IMediaPickerService.dart';
 import 'package:decentproof/features/hashing/interfaces/IWaterMarkService.dart';
 import 'package:decentproof/features/hashing/logic/AudioSavingService.dart';
-import 'package:decentproof/features/hashing/logic/ImagePickerWrapper.dart';
-import 'package:decentproof/features/hashing/logic/ImageSavingService.dart';
-import 'package:decentproof/features/hashing/logic/VideoSavingService.dart';
 import 'package:decentproof/features/hashing/logic/backend/HashSubmissionService.dart';
 import 'package:decentproof/shared/foregroundService/ForegroundServiceWrapper.dart';
 import 'package:decentproof/features/hashing/logic/hasher/AudioHashingService.dart';
@@ -46,7 +45,7 @@ import '../Integrety/interfaces/ISecureStorageService.dart';
 Future<void> registar() async {
   // Example:
   // GetIt.I.registerLazySingleton<ISecureStorageService>(() => SecureStorageService());
-
+  // The init calls for singletons are done here as well since this way I can use the services without having to await them
   final getIt = GetIt.I;
   getIt.registerFactory<ISecureStorageService>(() => SecureStorageWrapper());
   getIt.registerFactory<IApiKeyRequestService>(() =>
@@ -66,11 +65,6 @@ Future<void> registar() async {
       instanceName: "VideoHashing");
   getIt.registerFactory<IHashingService>(() => AudioHashingService(),
       instanceName: "AudioHashing");
-  getIt.registerFactory<IMediaPickerService>(() => ImagePickerWrapper());
-  getIt.registerFactory<IFileSavingService>(() => ImageSavingService(),
-      instanceName: "ImageSaving");
-  getIt.registerFactory<IFileSavingService>(() => VideoSavingService(),
-      instanceName: "VideoSaving");
   getIt.registerFactory<IFileSavingService>(() => AudioSavingService(),
       instanceName: "AudioSaving");
   getIt.registerFactory<IWaterMarkService>(() => VideoWaterMarkService(),
@@ -83,13 +77,15 @@ Future<void> registar() async {
   await getIt
       .get<IMetaDataPermissionService>()
       .init(); // Workaround to fix initalisation issues
-  getIt.registerFactory<IMetaDataService>(() => ImageMetaDataService(),
+  getIt.registerFactory<IMetaDataService>(() => const ImageMetaDataService(),
       instanceName: "ImageMetaData");
   getIt.registerFactory<IMetaDataService>(() => VideoMetaDataService(),
       instanceName: "VideoMetaData");
   getIt.registerFactory<IMetaDataService>(() => AudioMetaDataService(),
       instanceName: "AudioMetaData");
-  getIt.registerLazySingleton<IForegroundService>(
-      () => ForegroundServiceWrapper());
-  await getIt.allReady();
+  getIt.registerSingleton<IForegroundService>(ForegroundServiceWrapper());
+  await getIt.get<IForegroundService>().init();
+  getIt.registerSingleton<ISettingsStorageSerivce>(SettingsStorageSerivce());
+  await getIt.get<ISettingsStorageSerivce>().init();
+  await registerAnalytics();
 }

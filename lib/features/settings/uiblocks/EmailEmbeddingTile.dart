@@ -21,11 +21,8 @@ class EmailEmbeddingTile extends StatelessWidget {
           onTap: () => showDialog(
               context: context, builder: (context) => const AddEmailDialog()),
           trailing: IconButton(
-            icon: state is EmailDeletedState
-                ? const Icon(
-                    Icons.check,
-                    color: Colors.greenAccent,
-                  )
+            icon: state is UpdatedSettingsState && state.hasEmail == false
+                ? const Icon(Icons.email_rounded)
                 : const Icon(Icons.delete, color: Colors.redAccent),
             onPressed: () => context.read<SettingsBloc>().add(DeleteEmail()),
           ),

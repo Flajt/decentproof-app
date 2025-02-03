@@ -4,6 +4,7 @@ import 'package:decentproof/features/hashing/bloc/SubmissionBloc.dart';
 import 'package:decentproof/features/hashing/bloc/SubmissionEvents.dart';
 import 'package:decentproof/features/hashing/bloc/SubmissionState.dart';
 import 'package:decentproof/features/hashing/interfaces/IHashSubmissionService.dart';
+import 'package:decentproof/features/metadata/enum/BlockChainEnum.dart';
 import 'package:decentproof/shared/HashLogic.dart';
 import 'package:decentproof/shared/Integrety/interfaces/ISecureStorageService.dart';
 import 'package:flutter/services.dart';
@@ -14,6 +15,7 @@ import 'package:test/test.dart';
 import '../../mocks.mocks.dart';
 
 void main() {
+  const chain = BlockChain.BTC;
   setUp(() async => await GetIt.I.reset());
   group("SubmissionBloc success", () {
     final GetIt getIt = GetIt.I;
@@ -32,7 +34,8 @@ void main() {
             .thenAnswer((realInvocation) => Future.value(null));
       },
       build: () => SubmissionBloc(),
-      act: (bloc) => bloc.add(SubmitHash(StringUtils.generateRandomString(64))),
+      act: (bloc) =>
+          bloc.add(SubmitHash(StringUtils.generateRandomString(64), chain)),
       expect: () => [SubmissionInProgress(), SubmissionSuccessfull()],
     );
     blocTest(
@@ -48,12 +51,14 @@ void main() {
       verify: (_) {
         verify(mockHashSubmissionService.submitHash(
                 "3639efcd08abb273b1619e82e78c29a7df02c1051b1820e99fc395dcaa3326b8",
-                "test@test.com"))
+                "test@test.com",
+                chain))
             .called(1);
       },
       build: () => SubmissionBloc(),
       act: (bloc) => bloc.add(SubmitHash(
-          "3639efcd08abb273b1619e82e78c29a7df02c1051b1820e99fc395dcaa3326b8")),
+          "3639efcd08abb273b1619e82e78c29a7df02c1051b1820e99fc395dcaa3326b8",
+          chain)),
       expect: () => [SubmissionInProgress(), SubmissionSuccessfull()],
     );
     blocTest(
@@ -70,7 +75,7 @@ void main() {
       act: (bloc) async {
         final bytes = Uint8List.fromList("hello".codeUnits);
         final hash = await HashLogic().hashBytes(bytes);
-        bloc.add(SubmitHash(hash));
+        bloc.add(SubmitHash(hash, chain));
       },
       expect: () => [SubmissionInProgress(), SubmissionSuccessfull()],
     );
@@ -88,12 +93,14 @@ void main() {
       verify: (_) {
         verify(mockHashSubmissionService.submitHash(
                 "3639efcd08abb273b1619e82e78c29a7df02c1051b1820e99fc395dcaa3326b8",
-                "test@test.com"))
+                "test@test.com",
+                chain))
             .called(1);
       },
       build: () => SubmissionBloc(),
       act: (bloc) => bloc.add(SubmitHash(
-          "3639efcd08abb273b1619e82e78c29a7df02c1051b1820e99fc395dcaa3326b8")),
+          "3639efcd08abb273b1619e82e78c29a7df02c1051b1820e99fc395dcaa3326b8",
+          chain)),
       expect: () => [SubmissionInProgress(), SubmissionSuccessfull()],
     );
     blocTest(
@@ -128,7 +135,7 @@ void main() {
             .thenAnswer((realInvocation) => Future.value(null));
       },
       build: () => SubmissionBloc(),
-      act: (bloc) => bloc.add(SubmitHash("")),
+      act: (bloc) => bloc.add(SubmitHash("", chain)),
       expect: () => [
         SubmissionInProgress(),
         const SubmissionError("Hash is invalid"),
@@ -146,7 +153,8 @@ void main() {
             .thenAnswer((realInvocation) => Future.value(null));
       },
       build: () => SubmissionBloc(),
-      act: (bloc) => bloc.add(SubmitHash(StringUtils.generateRandomString(63))),
+      act: (bloc) =>
+          bloc.add(SubmitHash(StringUtils.generateRandomString(63), chain)),
       expect: () => [
         SubmissionInProgress(),
         const SubmissionError("Hash is invalid"),
@@ -164,7 +172,8 @@ void main() {
             .thenAnswer((realInvocation) => Future.value(null));
       },
       build: () => SubmissionBloc(),
-      act: (bloc) => bloc.add(SubmitHash(StringUtils.generateRandomString(65))),
+      act: (bloc) =>
+          bloc.add(SubmitHash(StringUtils.generateRandomString(65), chain)),
       expect: () => [
         SubmissionInProgress(),
         const SubmissionError("Hash is invalid"),
@@ -182,7 +191,8 @@ void main() {
             "Something went wrong uwu"); // It's too late for this stuff....
       },
       build: () => SubmissionBloc(),
-      act: (bloc) => bloc.add(SubmitHash(StringUtils.generateRandomString(64))),
+      act: (bloc) =>
+          bloc.add(SubmitHash(StringUtils.generateRandomString(64), chain)),
       expect: () => [
         SubmissionInProgress(),
         const SubmissionError("Something went wrong uwu"),

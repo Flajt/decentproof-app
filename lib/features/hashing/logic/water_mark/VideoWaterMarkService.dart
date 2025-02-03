@@ -24,13 +24,13 @@ class VideoWaterMarkService extends IWaterMarkService {
     String savePath = dir.path;
     String fileName = filePath.split("/").last.split(".").first;
     await FFmpegKit.executeAsync(
-        '-i $filePath -i ${waterMarkFile.path} -filter_complex "overlay=W-w-5:H-h-5:format=auto" -c:a copy $savePath/n_$fileName.mkv',
+        '-i $filePath -i ${waterMarkFile.path} -filter_complex "[1]scale=iw*0.3:-1[wm];[0][wm]overlay=W-w-5:H-h-5" -c:a copy $savePath/n_$fileName.mp4',
         (session) async {
       ReturnCode? code = await session.getReturnCode();
       if (ReturnCode.isSuccess(code)) {
-        completer.complete("$savePath/n_$fileName.mkv");
+        completer.complete("$savePath/n_$fileName.mp4");
       } else {
-        throw "Watermarking error";
+        completer.completeError("Failed to add watermark");
       }
     });
 

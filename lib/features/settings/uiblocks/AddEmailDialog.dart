@@ -40,7 +40,7 @@ class AddEmailDialog extends StatelessWidget {
           ),
           BlocListener<SettingsBloc, SettingsBlocStates>(
             listener: (context, state) {
-              if (state is EmailSavedState) {
+              if (state is UpdatedSettingsState && state.hasEmail) {
                 Navigator.of(context).pop();
               } else if (state is ErrorState) {
                 showDialog(

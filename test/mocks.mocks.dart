@@ -3,63 +3,57 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i9;
-import 'dart:isolate' as _i7;
-import 'dart:typed_data' as _i30;
+import 'dart:async' as _i7;
+import 'dart:typed_data' as _i27;
 
-import 'package:basic_utils/basic_utils.dart' as _i6;
-import 'package:decentproof/features/hashing/interfaces/IMediaPickerService.dart'
-    as _i4;
+import 'package:basic_utils/basic_utils.dart' as _i5;
 import 'package:decentproof/features/hashing/logic/backend/HashSubmissionService.dart'
-    as _i15;
-import 'package:decentproof/features/hashing/logic/backend/ShowInExplorer.dart'
-    as _i32;
-import 'package:decentproof/features/hashing/logic/hasher/AudioHashingService.dart'
-    as _i23;
-import 'package:decentproof/features/hashing/logic/hasher/ImageHashingService.dart'
-    as _i24;
-import 'package:decentproof/features/hashing/logic/hasher/VideoHashingService.dart'
-    as _i25;
-import 'package:decentproof/features/hashing/logic/ImagePickerWrapper.dart'
-    as _i31;
-import 'package:decentproof/features/hashing/logic/ImageSavingService.dart'
-    as _i20;
-import 'package:decentproof/features/hashing/logic/VideoSavingService.dart'
-    as _i19;
-import 'package:decentproof/features/hashing/logic/water_mark/ImageWaterMarkService.dart'
-    as _i21;
-import 'package:decentproof/features/hashing/logic/water_mark/VideoWaterMarkService.dart'
-    as _i22;
-import 'package:decentproof/features/metadata/logic/LocationServiceWrapper.dart'
     as _i13;
-import 'package:decentproof/features/metadata/logic/MetaDataPermissionService.dart'
-    as _i14;
-import 'package:decentproof/features/metadata/logic/metaDataServices/AudioMetaDataService.dart'
-    as _i17;
-import 'package:decentproof/features/metadata/logic/metaDataServices/ImageMetaDataService.dart'
-    as _i16;
-import 'package:decentproof/features/metadata/logic/metaDataServices/VideoMetaDataService.dart'
+import 'package:decentproof/features/hashing/logic/backend/ShowInExplorer.dart'
+    as _i28;
+import 'package:decentproof/features/hashing/logic/hasher/AudioHashingService.dart'
+    as _i20;
+import 'package:decentproof/features/hashing/logic/hasher/ImageHashingService.dart'
+    as _i21;
+import 'package:decentproof/features/hashing/logic/hasher/VideoHashingService.dart'
+    as _i22;
+import 'package:decentproof/features/hashing/logic/water_mark/ImageWaterMarkService.dart'
     as _i18;
+import 'package:decentproof/features/hashing/logic/water_mark/VideoWaterMarkService.dart'
+    as _i19;
+import 'package:decentproof/features/metadata/enum/BlockChainEnum.dart' as _i14;
+import 'package:decentproof/features/metadata/logic/LocationServiceWrapper.dart'
+    as _i11;
+import 'package:decentproof/features/metadata/logic/MetaDataPermissionService.dart'
+    as _i12;
+import 'package:decentproof/features/metadata/logic/metaDataServices/AudioMetaDataService.dart'
+    as _i16;
+import 'package:decentproof/features/metadata/logic/metaDataServices/ImageMetaDataService.dart'
+    as _i15;
+import 'package:decentproof/features/metadata/logic/metaDataServices/VideoMetaDataService.dart'
+    as _i17;
 import 'package:decentproof/features/metadata/models/LocationModel.dart' as _i2;
 import 'package:decentproof/features/metadata/models/MetaDataModel.dart' as _i3;
+import 'package:decentproof/features/settings/logic/SettingsService.dart'
+    as _i31;
 import 'package:decentproof/features/verification/logic/FilePickerWrapper.dart'
-    as _i27;
+    as _i24;
 import 'package:decentproof/features/verification/logic/SignatureVerificationService.dart'
-    as _i33;
+    as _i29;
 import 'package:decentproof/features/verification/logic/VerificationService.dart'
-    as _i26;
+    as _i23;
 import 'package:decentproof/features/verification/models/FileDataMode.dart'
-    as _i28;
+    as _i25;
 import 'package:decentproof/features/verification/models/VerificationStatusModel.dart'
-    as _i5;
+    as _i4;
 import 'package:decentproof/shared/foregroundService/ForegroundServiceWrapper.dart'
-    as _i34;
-import 'package:decentproof/shared/HashLogic.dart' as _i29;
-import 'package:decentproof/shared/Integrety/ApiKeyRequestService.dart' as _i11;
-import 'package:decentproof/shared/Integrety/AppCheck.dart' as _i8;
-import 'package:decentproof/shared/Integrety/SecureStorageWrapper.dart' as _i12;
+    as _i30;
+import 'package:decentproof/shared/HashLogic.dart' as _i26;
+import 'package:decentproof/shared/Integrety/ApiKeyRequestService.dart' as _i9;
+import 'package:decentproof/shared/Integrety/AppCheck.dart' as _i6;
+import 'package:decentproof/shared/Integrety/SecureStorageWrapper.dart' as _i10;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:mockito/src/dummies.dart' as _i10;
+import 'package:mockito/src/dummies.dart' as _i8;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -94,9 +88,9 @@ class _FakeMetaDataModel_1 extends _i1.SmartFake implements _i3.MetaDataModel {
         );
 }
 
-class _FakeIMediaPickerService_2 extends _i1.SmartFake
-    implements _i4.IMediaPickerService {
-  _FakeIMediaPickerService_2(
+class _FakeVerificationStatusModel_2 extends _i1.SmartFake
+    implements _i4.VerificationStatusModel {
+  _FakeVerificationStatusModel_2(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -105,9 +99,8 @@ class _FakeIMediaPickerService_2 extends _i1.SmartFake
         );
 }
 
-class _FakeVerificationStatusModel_3 extends _i1.SmartFake
-    implements _i5.VerificationStatusModel {
-  _FakeVerificationStatusModel_3(
+class _FakeECPublicKey_3 extends _i1.SmartFake implements _i5.ECPublicKey {
+  _FakeECPublicKey_3(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -116,28 +109,8 @@ class _FakeVerificationStatusModel_3 extends _i1.SmartFake
         );
 }
 
-class _FakeECPublicKey_4 extends _i1.SmartFake implements _i6.ECPublicKey {
-  _FakeECPublicKey_4(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
-}
-
-class _FakeECSignature_5 extends _i1.SmartFake implements _i6.ECSignature {
-  _FakeECSignature_5(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
-}
-
-class _FakeReceivePort_6 extends _i1.SmartFake implements _i7.ReceivePort {
-  _FakeReceivePort_6(
+class _FakeECSignature_4 extends _i1.SmartFake implements _i5.ECSignature {
+  _FakeECSignature_4(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -149,14 +122,14 @@ class _FakeReceivePort_6 extends _i1.SmartFake implements _i7.ReceivePort {
 /// A class which mocks [AppCheck].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockAppCheck extends _i1.Mock implements _i8.AppCheck {
+class MockAppCheck extends _i1.Mock implements _i6.AppCheck {
   @override
-  _i9.Future<String> getIntegrityToken() => (super.noSuchMethod(
+  _i7.Future<String> getIntegrityToken() => (super.noSuchMethod(
         Invocation.method(
           #getIntegrityToken,
           [],
         ),
-        returnValue: _i9.Future<String>.value(_i10.dummyValue<String>(
+        returnValue: _i7.Future<String>.value(_i8.dummyValue<String>(
           this,
           Invocation.method(
             #getIntegrityToken,
@@ -164,29 +137,29 @@ class MockAppCheck extends _i1.Mock implements _i8.AppCheck {
           ),
         )),
         returnValueForMissingStub:
-            _i9.Future<String>.value(_i10.dummyValue<String>(
+            _i7.Future<String>.value(_i8.dummyValue<String>(
           this,
           Invocation.method(
             #getIntegrityToken,
             [],
           ),
         )),
-      ) as _i9.Future<String>);
+      ) as _i7.Future<String>);
 }
 
 /// A class which mocks [ApiKeyRequestService].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockApiKeyRequestService extends _i1.Mock
-    implements _i11.ApiKeyRequestService {
+    implements _i9.ApiKeyRequestService {
   @override
   String get checkKeyURL => (super.noSuchMethod(
         Invocation.getter(#checkKeyURL),
-        returnValue: _i10.dummyValue<String>(
+        returnValue: _i8.dummyValue<String>(
           this,
           Invocation.getter(#checkKeyURL),
         ),
-        returnValueForMissingStub: _i10.dummyValue<String>(
+        returnValueForMissingStub: _i8.dummyValue<String>(
           this,
           Invocation.getter(#checkKeyURL),
         ),
@@ -195,33 +168,33 @@ class MockApiKeyRequestService extends _i1.Mock
   @override
   String get getKeyURL => (super.noSuchMethod(
         Invocation.getter(#getKeyURL),
-        returnValue: _i10.dummyValue<String>(
+        returnValue: _i8.dummyValue<String>(
           this,
           Invocation.getter(#getKeyURL),
         ),
-        returnValueForMissingStub: _i10.dummyValue<String>(
+        returnValueForMissingStub: _i8.dummyValue<String>(
           this,
           Invocation.getter(#getKeyURL),
         ),
       ) as String);
 
   @override
-  _i9.Future<bool> checkForNewApiKey(String? apiKey) => (super.noSuchMethod(
+  _i7.Future<bool> checkForNewApiKey(String? apiKey) => (super.noSuchMethod(
         Invocation.method(
           #checkForNewApiKey,
           [apiKey],
         ),
-        returnValue: _i9.Future<bool>.value(false),
-        returnValueForMissingStub: _i9.Future<bool>.value(false),
-      ) as _i9.Future<bool>);
+        returnValue: _i7.Future<bool>.value(false),
+        returnValueForMissingStub: _i7.Future<bool>.value(false),
+      ) as _i7.Future<bool>);
 
   @override
-  _i9.Future<String> getNewNewKey(String? token) => (super.noSuchMethod(
+  _i7.Future<String> getNewNewKey(String? token) => (super.noSuchMethod(
         Invocation.method(
           #getNewNewKey,
           [token],
         ),
-        returnValue: _i9.Future<String>.value(_i10.dummyValue<String>(
+        returnValue: _i7.Future<String>.value(_i8.dummyValue<String>(
           this,
           Invocation.method(
             #getNewNewKey,
@@ -229,124 +202,124 @@ class MockApiKeyRequestService extends _i1.Mock
           ),
         )),
         returnValueForMissingStub:
-            _i9.Future<String>.value(_i10.dummyValue<String>(
+            _i7.Future<String>.value(_i8.dummyValue<String>(
           this,
           Invocation.method(
             #getNewNewKey,
             [token],
           ),
         )),
-      ) as _i9.Future<String>);
+      ) as _i7.Future<String>);
 }
 
 /// A class which mocks [SecureStorageWrapper].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockSecureStorageWrapper extends _i1.Mock
-    implements _i12.SecureStorageWrapper {
+    implements _i10.SecureStorageWrapper {
   @override
-  _i9.Future<void> saveApiKey(String? key) => (super.noSuchMethod(
+  _i7.Future<void> saveApiKey(String? key) => (super.noSuchMethod(
         Invocation.method(
           #saveApiKey,
           [key],
         ),
-        returnValue: _i9.Future<void>.value(),
-        returnValueForMissingStub: _i9.Future<void>.value(),
-      ) as _i9.Future<void>);
+        returnValue: _i7.Future<void>.value(),
+        returnValueForMissingStub: _i7.Future<void>.value(),
+      ) as _i7.Future<void>);
 
   @override
-  _i9.Future<String?> retriveApiKey() => (super.noSuchMethod(
+  _i7.Future<String?> retriveApiKey() => (super.noSuchMethod(
         Invocation.method(
           #retriveApiKey,
           [],
         ),
-        returnValue: _i9.Future<String?>.value(),
-        returnValueForMissingStub: _i9.Future<String?>.value(),
-      ) as _i9.Future<String?>);
+        returnValue: _i7.Future<String?>.value(),
+        returnValueForMissingStub: _i7.Future<String?>.value(),
+      ) as _i7.Future<String?>);
 
   @override
-  _i9.Future<String?> retriveEmail() => (super.noSuchMethod(
+  _i7.Future<String?> retriveEmail() => (super.noSuchMethod(
         Invocation.method(
           #retriveEmail,
           [],
         ),
-        returnValue: _i9.Future<String?>.value(),
-        returnValueForMissingStub: _i9.Future<String?>.value(),
-      ) as _i9.Future<String?>);
+        returnValue: _i7.Future<String?>.value(),
+        returnValueForMissingStub: _i7.Future<String?>.value(),
+      ) as _i7.Future<String?>);
 
   @override
-  _i9.Future<void> saveEmail(String? email) => (super.noSuchMethod(
+  _i7.Future<void> saveEmail(String? email) => (super.noSuchMethod(
         Invocation.method(
           #saveEmail,
           [email],
         ),
-        returnValue: _i9.Future<void>.value(),
-        returnValueForMissingStub: _i9.Future<void>.value(),
-      ) as _i9.Future<void>);
+        returnValue: _i7.Future<void>.value(),
+        returnValueForMissingStub: _i7.Future<void>.value(),
+      ) as _i7.Future<void>);
 
   @override
-  _i9.Future<String?> retriveSecret() => (super.noSuchMethod(
+  _i7.Future<String?> retriveSecret() => (super.noSuchMethod(
         Invocation.method(
           #retriveSecret,
           [],
         ),
-        returnValue: _i9.Future<String?>.value(),
-        returnValueForMissingStub: _i9.Future<String?>.value(),
-      ) as _i9.Future<String?>);
+        returnValue: _i7.Future<String?>.value(),
+        returnValueForMissingStub: _i7.Future<String?>.value(),
+      ) as _i7.Future<String?>);
 
   @override
-  _i9.Future<void> saveSecret(String? secret) => (super.noSuchMethod(
+  _i7.Future<void> saveSecret(String? secret) => (super.noSuchMethod(
         Invocation.method(
           #saveSecret,
           [secret],
         ),
-        returnValue: _i9.Future<void>.value(),
-        returnValueForMissingStub: _i9.Future<void>.value(),
-      ) as _i9.Future<void>);
+        returnValue: _i7.Future<void>.value(),
+        returnValueForMissingStub: _i7.Future<void>.value(),
+      ) as _i7.Future<void>);
 
   @override
-  _i9.Future<void> deleteEmail() => (super.noSuchMethod(
+  _i7.Future<void> deleteEmail() => (super.noSuchMethod(
         Invocation.method(
           #deleteEmail,
           [],
         ),
-        returnValue: _i9.Future<void>.value(),
-        returnValueForMissingStub: _i9.Future<void>.value(),
-      ) as _i9.Future<void>);
+        returnValue: _i7.Future<void>.value(),
+        returnValueForMissingStub: _i7.Future<void>.value(),
+      ) as _i7.Future<void>);
 }
 
 /// A class which mocks [LocationServiceWrapper].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockLocationServiceWrapper extends _i1.Mock
-    implements _i13.LocationServiceWrapper {
+    implements _i11.LocationServiceWrapper {
   @override
-  _i9.Future<bool> getPermission() => (super.noSuchMethod(
+  _i7.Future<bool> getPermission() => (super.noSuchMethod(
         Invocation.method(
           #getPermission,
           [],
         ),
-        returnValue: _i9.Future<bool>.value(false),
-        returnValueForMissingStub: _i9.Future<bool>.value(false),
-      ) as _i9.Future<bool>);
+        returnValue: _i7.Future<bool>.value(false),
+        returnValueForMissingStub: _i7.Future<bool>.value(false),
+      ) as _i7.Future<bool>);
 
   @override
-  _i9.Future<bool> hasPermission() => (super.noSuchMethod(
+  _i7.Future<bool> hasPermission() => (super.noSuchMethod(
         Invocation.method(
           #hasPermission,
           [],
         ),
-        returnValue: _i9.Future<bool>.value(false),
-        returnValueForMissingStub: _i9.Future<bool>.value(false),
-      ) as _i9.Future<bool>);
+        returnValue: _i7.Future<bool>.value(false),
+        returnValueForMissingStub: _i7.Future<bool>.value(false),
+      ) as _i7.Future<bool>);
 
   @override
-  _i9.Future<_i2.LocationModel> requestLocation() => (super.noSuchMethod(
+  _i7.Future<_i2.LocationModel> requestLocation() => (super.noSuchMethod(
         Invocation.method(
           #requestLocation,
           [],
         ),
-        returnValue: _i9.Future<_i2.LocationModel>.value(_FakeLocationModel_0(
+        returnValue: _i7.Future<_i2.LocationModel>.value(_FakeLocationModel_0(
           this,
           Invocation.method(
             #requestLocation,
@@ -354,60 +327,60 @@ class MockLocationServiceWrapper extends _i1.Mock
           ),
         )),
         returnValueForMissingStub:
-            _i9.Future<_i2.LocationModel>.value(_FakeLocationModel_0(
+            _i7.Future<_i2.LocationModel>.value(_FakeLocationModel_0(
           this,
           Invocation.method(
             #requestLocation,
             [],
           ),
         )),
-      ) as _i9.Future<_i2.LocationModel>);
+      ) as _i7.Future<_i2.LocationModel>);
 
   @override
-  _i9.Future<bool> serviceEnabled() => (super.noSuchMethod(
+  _i7.Future<bool> serviceEnabled() => (super.noSuchMethod(
         Invocation.method(
           #serviceEnabled,
           [],
         ),
-        returnValue: _i9.Future<bool>.value(false),
-        returnValueForMissingStub: _i9.Future<bool>.value(false),
-      ) as _i9.Future<bool>);
+        returnValue: _i7.Future<bool>.value(false),
+        returnValueForMissingStub: _i7.Future<bool>.value(false),
+      ) as _i7.Future<bool>);
 }
 
 /// A class which mocks [MetaDataPermissionService].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockMetaDataPermissionService extends _i1.Mock
-    implements _i14.MetaDataPermissionService {
+    implements _i12.MetaDataPermissionService {
   @override
-  _i9.Future<void> init() => (super.noSuchMethod(
+  _i7.Future<void> init() => (super.noSuchMethod(
         Invocation.method(
           #init,
           [],
         ),
-        returnValue: _i9.Future<void>.value(),
-        returnValueForMissingStub: _i9.Future<void>.value(),
-      ) as _i9.Future<void>);
+        returnValue: _i7.Future<void>.value(),
+        returnValueForMissingStub: _i7.Future<void>.value(),
+      ) as _i7.Future<void>);
 
   @override
-  _i9.Future<void> allowLocationEmbedding(bool? allow) => (super.noSuchMethod(
+  _i7.Future<void> allowLocationEmbedding(bool? allow) => (super.noSuchMethod(
         Invocation.method(
           #allowLocationEmbedding,
           [allow],
         ),
-        returnValue: _i9.Future<void>.value(),
-        returnValueForMissingStub: _i9.Future<void>.value(),
-      ) as _i9.Future<void>);
+        returnValue: _i7.Future<void>.value(),
+        returnValueForMissingStub: _i7.Future<void>.value(),
+      ) as _i7.Future<void>);
 
   @override
-  _i9.Future<void> allowSecretEmbedding(bool? allow) => (super.noSuchMethod(
+  _i7.Future<void> allowSecretEmbedding(bool? allow) => (super.noSuchMethod(
         Invocation.method(
           #allowSecretEmbedding,
           [allow],
         ),
-        returnValue: _i9.Future<void>.value(),
-        returnValueForMissingStub: _i9.Future<void>.value(),
-      ) as _i9.Future<void>);
+        returnValue: _i7.Future<void>.value(),
+        returnValueForMissingStub: _i7.Future<void>.value(),
+      ) as _i7.Future<void>);
 
   @override
   bool shouldEmbedLocation() => (super.noSuchMethod(
@@ -434,24 +407,41 @@ class MockMetaDataPermissionService extends _i1.Mock
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockHashSubmissionService extends _i1.Mock
-    implements _i15.HashSubmissionService {
+    implements _i13.HashSubmissionService {
+  @override
+  bool get isDebug => (super.noSuchMethod(
+        Invocation.getter(#isDebug),
+        returnValue: false,
+        returnValueForMissingStub: false,
+      ) as bool);
+
+  @override
+  set isDebug(bool? _isDebug) => super.noSuchMethod(
+        Invocation.setter(
+          #isDebug,
+          _isDebug,
+        ),
+        returnValueForMissingStub: null,
+      );
+
   @override
   String get url => (super.noSuchMethod(
         Invocation.getter(#url),
-        returnValue: _i10.dummyValue<String>(
+        returnValue: _i8.dummyValue<String>(
           this,
           Invocation.getter(#url),
         ),
-        returnValueForMissingStub: _i10.dummyValue<String>(
+        returnValueForMissingStub: _i8.dummyValue<String>(
           this,
           Invocation.getter(#url),
         ),
       ) as String);
 
   @override
-  _i9.Future<void> submitHash(
+  _i7.Future<void> submitHash(
     String? hash,
     String? email,
+    _i14.BlockChain? blockChain,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -459,22 +449,24 @@ class MockHashSubmissionService extends _i1.Mock
           [
             hash,
             email,
+            blockChain,
           ],
         ),
-        returnValue: _i9.Future<void>.value(),
-        returnValueForMissingStub: _i9.Future<void>.value(),
-      ) as _i9.Future<void>);
+        returnValue: _i7.Future<void>.value(),
+        returnValueForMissingStub: _i7.Future<void>.value(),
+      ) as _i7.Future<void>);
 }
 
 /// A class which mocks [ImageMetaDataService].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockImageMetaDataService extends _i1.Mock
-    implements _i16.ImageMetaDataService {
+    implements _i15.ImageMetaDataService {
   @override
-  _i9.Future<String> addLocation(
+  _i7.Future<String> addLocation(
     _i2.LocationModel? locationModel,
     String? filePath,
+    _i14.BlockChain? blockChain,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -482,36 +474,40 @@ class MockImageMetaDataService extends _i1.Mock
           [
             locationModel,
             filePath,
+            blockChain,
           ],
         ),
-        returnValue: _i9.Future<String>.value(_i10.dummyValue<String>(
+        returnValue: _i7.Future<String>.value(_i8.dummyValue<String>(
           this,
           Invocation.method(
             #addLocation,
             [
               locationModel,
               filePath,
+              blockChain,
             ],
           ),
         )),
         returnValueForMissingStub:
-            _i9.Future<String>.value(_i10.dummyValue<String>(
+            _i7.Future<String>.value(_i8.dummyValue<String>(
           this,
           Invocation.method(
             #addLocation,
             [
               locationModel,
               filePath,
+              blockChain,
             ],
           ),
         )),
-      ) as _i9.Future<String>);
+      ) as _i7.Future<String>);
 
   @override
-  _i9.Future<String> addLocationAndSecret(
+  _i7.Future<String> addLocationAndSecret(
     _i2.LocationModel? locationModel,
     String? secretHash,
     String? filePath,
+    _i14.BlockChain? blockChain,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -520,9 +516,10 @@ class MockImageMetaDataService extends _i1.Mock
             locationModel,
             secretHash,
             filePath,
+            blockChain,
           ],
         ),
-        returnValue: _i9.Future<String>.value(_i10.dummyValue<String>(
+        returnValue: _i7.Future<String>.value(_i8.dummyValue<String>(
           this,
           Invocation.method(
             #addLocationAndSecret,
@@ -530,11 +527,12 @@ class MockImageMetaDataService extends _i1.Mock
               locationModel,
               secretHash,
               filePath,
+              blockChain,
             ],
           ),
         )),
         returnValueForMissingStub:
-            _i9.Future<String>.value(_i10.dummyValue<String>(
+            _i7.Future<String>.value(_i8.dummyValue<String>(
           this,
           Invocation.method(
             #addLocationAndSecret,
@@ -542,15 +540,17 @@ class MockImageMetaDataService extends _i1.Mock
               locationModel,
               secretHash,
               filePath,
+              blockChain,
             ],
           ),
         )),
-      ) as _i9.Future<String>);
+      ) as _i7.Future<String>);
 
   @override
-  _i9.Future<String> addSecret(
+  _i7.Future<String> addSecret(
     String? secretHash,
     String? filePath,
+    _i14.BlockChain? blockChain,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -558,39 +558,42 @@ class MockImageMetaDataService extends _i1.Mock
           [
             secretHash,
             filePath,
+            blockChain,
           ],
         ),
-        returnValue: _i9.Future<String>.value(_i10.dummyValue<String>(
+        returnValue: _i7.Future<String>.value(_i8.dummyValue<String>(
           this,
           Invocation.method(
             #addSecret,
             [
               secretHash,
               filePath,
+              blockChain,
             ],
           ),
         )),
         returnValueForMissingStub:
-            _i9.Future<String>.value(_i10.dummyValue<String>(
+            _i7.Future<String>.value(_i8.dummyValue<String>(
           this,
           Invocation.method(
             #addSecret,
             [
               secretHash,
               filePath,
+              blockChain,
             ],
           ),
         )),
-      ) as _i9.Future<String>);
+      ) as _i7.Future<String>);
 
   @override
-  _i9.Future<_i3.MetaDataModel> retriveMetaData(String? filePath) =>
+  _i7.Future<_i3.MetaDataModel> retriveMetaData(String? filePath) =>
       (super.noSuchMethod(
         Invocation.method(
           #retriveMetaData,
           [filePath],
         ),
-        returnValue: _i9.Future<_i3.MetaDataModel>.value(_FakeMetaDataModel_1(
+        returnValue: _i7.Future<_i3.MetaDataModel>.value(_FakeMetaDataModel_1(
           this,
           Invocation.method(
             #retriveMetaData,
@@ -598,25 +601,62 @@ class MockImageMetaDataService extends _i1.Mock
           ),
         )),
         returnValueForMissingStub:
-            _i9.Future<_i3.MetaDataModel>.value(_FakeMetaDataModel_1(
+            _i7.Future<_i3.MetaDataModel>.value(_FakeMetaDataModel_1(
           this,
           Invocation.method(
             #retriveMetaData,
             [filePath],
           ),
         )),
-      ) as _i9.Future<_i3.MetaDataModel>);
+      ) as _i7.Future<_i3.MetaDataModel>);
+
+  @override
+  _i7.Future<String> addBasicMetaData(
+    String? filePath,
+    _i14.BlockChain? blockChain,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #addBasicMetaData,
+          [
+            filePath,
+            blockChain,
+          ],
+        ),
+        returnValue: _i7.Future<String>.value(_i8.dummyValue<String>(
+          this,
+          Invocation.method(
+            #addBasicMetaData,
+            [
+              filePath,
+              blockChain,
+            ],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i7.Future<String>.value(_i8.dummyValue<String>(
+          this,
+          Invocation.method(
+            #addBasicMetaData,
+            [
+              filePath,
+              blockChain,
+            ],
+          ),
+        )),
+      ) as _i7.Future<String>);
 }
 
 /// A class which mocks [AudioMetaDataService].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockAudioMetaDataService extends _i1.Mock
-    implements _i17.AudioMetaDataService {
+    implements _i16.AudioMetaDataService {
   @override
-  _i9.Future<String> addLocation(
+  _i7.Future<String> addLocation(
     _i2.LocationModel? locationModel,
     String? filePath,
+    _i14.BlockChain? blockChain,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -624,36 +664,40 @@ class MockAudioMetaDataService extends _i1.Mock
           [
             locationModel,
             filePath,
+            blockChain,
           ],
         ),
-        returnValue: _i9.Future<String>.value(_i10.dummyValue<String>(
+        returnValue: _i7.Future<String>.value(_i8.dummyValue<String>(
           this,
           Invocation.method(
             #addLocation,
             [
               locationModel,
               filePath,
+              blockChain,
             ],
           ),
         )),
         returnValueForMissingStub:
-            _i9.Future<String>.value(_i10.dummyValue<String>(
+            _i7.Future<String>.value(_i8.dummyValue<String>(
           this,
           Invocation.method(
             #addLocation,
             [
               locationModel,
               filePath,
+              blockChain,
             ],
           ),
         )),
-      ) as _i9.Future<String>);
+      ) as _i7.Future<String>);
 
   @override
-  _i9.Future<String> addLocationAndSecret(
+  _i7.Future<String> addLocationAndSecret(
     _i2.LocationModel? locationModel,
     String? secretHash,
     String? filePath,
+    _i14.BlockChain? blockChain,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -662,9 +706,10 @@ class MockAudioMetaDataService extends _i1.Mock
             locationModel,
             secretHash,
             filePath,
+            blockChain,
           ],
         ),
-        returnValue: _i9.Future<String>.value(_i10.dummyValue<String>(
+        returnValue: _i7.Future<String>.value(_i8.dummyValue<String>(
           this,
           Invocation.method(
             #addLocationAndSecret,
@@ -672,11 +717,12 @@ class MockAudioMetaDataService extends _i1.Mock
               locationModel,
               secretHash,
               filePath,
+              blockChain,
             ],
           ),
         )),
         returnValueForMissingStub:
-            _i9.Future<String>.value(_i10.dummyValue<String>(
+            _i7.Future<String>.value(_i8.dummyValue<String>(
           this,
           Invocation.method(
             #addLocationAndSecret,
@@ -684,15 +730,17 @@ class MockAudioMetaDataService extends _i1.Mock
               locationModel,
               secretHash,
               filePath,
+              blockChain,
             ],
           ),
         )),
-      ) as _i9.Future<String>);
+      ) as _i7.Future<String>);
 
   @override
-  _i9.Future<String> addSecret(
+  _i7.Future<String> addSecret(
     String? secretHash,
     String? filePath,
+    _i14.BlockChain? blockChain,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -700,39 +748,42 @@ class MockAudioMetaDataService extends _i1.Mock
           [
             secretHash,
             filePath,
+            blockChain,
           ],
         ),
-        returnValue: _i9.Future<String>.value(_i10.dummyValue<String>(
+        returnValue: _i7.Future<String>.value(_i8.dummyValue<String>(
           this,
           Invocation.method(
             #addSecret,
             [
               secretHash,
               filePath,
+              blockChain,
             ],
           ),
         )),
         returnValueForMissingStub:
-            _i9.Future<String>.value(_i10.dummyValue<String>(
+            _i7.Future<String>.value(_i8.dummyValue<String>(
           this,
           Invocation.method(
             #addSecret,
             [
               secretHash,
               filePath,
+              blockChain,
             ],
           ),
         )),
-      ) as _i9.Future<String>);
+      ) as _i7.Future<String>);
 
   @override
-  _i9.Future<_i3.MetaDataModel> retriveMetaData(String? filePath) =>
+  _i7.Future<_i3.MetaDataModel> retriveMetaData(String? filePath) =>
       (super.noSuchMethod(
         Invocation.method(
           #retriveMetaData,
           [filePath],
         ),
-        returnValue: _i9.Future<_i3.MetaDataModel>.value(_FakeMetaDataModel_1(
+        returnValue: _i7.Future<_i3.MetaDataModel>.value(_FakeMetaDataModel_1(
           this,
           Invocation.method(
             #retriveMetaData,
@@ -740,25 +791,62 @@ class MockAudioMetaDataService extends _i1.Mock
           ),
         )),
         returnValueForMissingStub:
-            _i9.Future<_i3.MetaDataModel>.value(_FakeMetaDataModel_1(
+            _i7.Future<_i3.MetaDataModel>.value(_FakeMetaDataModel_1(
           this,
           Invocation.method(
             #retriveMetaData,
             [filePath],
           ),
         )),
-      ) as _i9.Future<_i3.MetaDataModel>);
+      ) as _i7.Future<_i3.MetaDataModel>);
+
+  @override
+  _i7.Future<String> addBasicMetaData(
+    String? filePath,
+    _i14.BlockChain? blockChain,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #addBasicMetaData,
+          [
+            filePath,
+            blockChain,
+          ],
+        ),
+        returnValue: _i7.Future<String>.value(_i8.dummyValue<String>(
+          this,
+          Invocation.method(
+            #addBasicMetaData,
+            [
+              filePath,
+              blockChain,
+            ],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i7.Future<String>.value(_i8.dummyValue<String>(
+          this,
+          Invocation.method(
+            #addBasicMetaData,
+            [
+              filePath,
+              blockChain,
+            ],
+          ),
+        )),
+      ) as _i7.Future<String>);
 }
 
 /// A class which mocks [VideoMetaDataService].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockVideoMetaDataService extends _i1.Mock
-    implements _i18.VideoMetaDataService {
+    implements _i17.VideoMetaDataService {
   @override
-  _i9.Future<String> addLocation(
+  _i7.Future<String> addLocation(
     _i2.LocationModel? locationModel,
     String? filePath,
+    _i14.BlockChain? blockChain,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -766,36 +854,40 @@ class MockVideoMetaDataService extends _i1.Mock
           [
             locationModel,
             filePath,
+            blockChain,
           ],
         ),
-        returnValue: _i9.Future<String>.value(_i10.dummyValue<String>(
+        returnValue: _i7.Future<String>.value(_i8.dummyValue<String>(
           this,
           Invocation.method(
             #addLocation,
             [
               locationModel,
               filePath,
+              blockChain,
             ],
           ),
         )),
         returnValueForMissingStub:
-            _i9.Future<String>.value(_i10.dummyValue<String>(
+            _i7.Future<String>.value(_i8.dummyValue<String>(
           this,
           Invocation.method(
             #addLocation,
             [
               locationModel,
               filePath,
+              blockChain,
             ],
           ),
         )),
-      ) as _i9.Future<String>);
+      ) as _i7.Future<String>);
 
   @override
-  _i9.Future<String> addLocationAndSecret(
+  _i7.Future<String> addLocationAndSecret(
     _i2.LocationModel? locationModel,
     String? secretHash,
     String? filePath,
+    _i14.BlockChain? blockChain,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -804,9 +896,10 @@ class MockVideoMetaDataService extends _i1.Mock
             locationModel,
             secretHash,
             filePath,
+            blockChain,
           ],
         ),
-        returnValue: _i9.Future<String>.value(_i10.dummyValue<String>(
+        returnValue: _i7.Future<String>.value(_i8.dummyValue<String>(
           this,
           Invocation.method(
             #addLocationAndSecret,
@@ -814,11 +907,12 @@ class MockVideoMetaDataService extends _i1.Mock
               locationModel,
               secretHash,
               filePath,
+              blockChain,
             ],
           ),
         )),
         returnValueForMissingStub:
-            _i9.Future<String>.value(_i10.dummyValue<String>(
+            _i7.Future<String>.value(_i8.dummyValue<String>(
           this,
           Invocation.method(
             #addLocationAndSecret,
@@ -826,15 +920,17 @@ class MockVideoMetaDataService extends _i1.Mock
               locationModel,
               secretHash,
               filePath,
+              blockChain,
             ],
           ),
         )),
-      ) as _i9.Future<String>);
+      ) as _i7.Future<String>);
 
   @override
-  _i9.Future<String> addSecret(
+  _i7.Future<String> addSecret(
     String? secretHash,
     String? filePath,
+    _i14.BlockChain? blockChain,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -842,39 +938,42 @@ class MockVideoMetaDataService extends _i1.Mock
           [
             secretHash,
             filePath,
+            blockChain,
           ],
         ),
-        returnValue: _i9.Future<String>.value(_i10.dummyValue<String>(
+        returnValue: _i7.Future<String>.value(_i8.dummyValue<String>(
           this,
           Invocation.method(
             #addSecret,
             [
               secretHash,
               filePath,
+              blockChain,
             ],
           ),
         )),
         returnValueForMissingStub:
-            _i9.Future<String>.value(_i10.dummyValue<String>(
+            _i7.Future<String>.value(_i8.dummyValue<String>(
           this,
           Invocation.method(
             #addSecret,
             [
               secretHash,
               filePath,
+              blockChain,
             ],
           ),
         )),
-      ) as _i9.Future<String>);
+      ) as _i7.Future<String>);
 
   @override
-  _i9.Future<_i3.MetaDataModel> retriveMetaData(String? filePath) =>
+  _i7.Future<_i3.MetaDataModel> retriveMetaData(String? filePath) =>
       (super.noSuchMethod(
         Invocation.method(
           #retriveMetaData,
           [filePath],
         ),
-        returnValue: _i9.Future<_i3.MetaDataModel>.value(_FakeMetaDataModel_1(
+        returnValue: _i7.Future<_i3.MetaDataModel>.value(_FakeMetaDataModel_1(
           this,
           Invocation.method(
             #retriveMetaData,
@@ -882,99 +981,64 @@ class MockVideoMetaDataService extends _i1.Mock
           ),
         )),
         returnValueForMissingStub:
-            _i9.Future<_i3.MetaDataModel>.value(_FakeMetaDataModel_1(
+            _i7.Future<_i3.MetaDataModel>.value(_FakeMetaDataModel_1(
           this,
           Invocation.method(
             #retriveMetaData,
             [filePath],
           ),
         )),
-      ) as _i9.Future<_i3.MetaDataModel>);
-}
+      ) as _i7.Future<_i3.MetaDataModel>);
 
-/// A class which mocks [VideoSavingService].
-///
-/// See the documentation for Mockito's code generation for more information.
-class MockVideoSavingService extends _i1.Mock
-    implements _i19.VideoSavingService {
   @override
-  _i9.Future<String> saveFile() => (super.noSuchMethod(
+  _i7.Future<String> addBasicMetaData(
+    String? filePath,
+    _i14.BlockChain? blockChain,
+  ) =>
+      (super.noSuchMethod(
         Invocation.method(
-          #saveFile,
-          [],
+          #addBasicMetaData,
+          [
+            filePath,
+            blockChain,
+          ],
         ),
-        returnValue: _i9.Future<String>.value(_i10.dummyValue<String>(
+        returnValue: _i7.Future<String>.value(_i8.dummyValue<String>(
           this,
           Invocation.method(
-            #saveFile,
-            [],
+            #addBasicMetaData,
+            [
+              filePath,
+              blockChain,
+            ],
           ),
         )),
         returnValueForMissingStub:
-            _i9.Future<String>.value(_i10.dummyValue<String>(
+            _i7.Future<String>.value(_i8.dummyValue<String>(
           this,
           Invocation.method(
-            #saveFile,
-            [],
+            #addBasicMetaData,
+            [
+              filePath,
+              blockChain,
+            ],
           ),
         )),
-      ) as _i9.Future<String>);
-}
-
-/// A class which mocks [ImageSavingService].
-///
-/// See the documentation for Mockito's code generation for more information.
-class MockImageSavingService extends _i1.Mock
-    implements _i20.ImageSavingService {
-  @override
-  _i4.IMediaPickerService get imagePickerWrapper => (super.noSuchMethod(
-        Invocation.getter(#imagePickerWrapper),
-        returnValue: _FakeIMediaPickerService_2(
-          this,
-          Invocation.getter(#imagePickerWrapper),
-        ),
-        returnValueForMissingStub: _FakeIMediaPickerService_2(
-          this,
-          Invocation.getter(#imagePickerWrapper),
-        ),
-      ) as _i4.IMediaPickerService);
-
-  @override
-  _i9.Future<String> saveFile() => (super.noSuchMethod(
-        Invocation.method(
-          #saveFile,
-          [],
-        ),
-        returnValue: _i9.Future<String>.value(_i10.dummyValue<String>(
-          this,
-          Invocation.method(
-            #saveFile,
-            [],
-          ),
-        )),
-        returnValueForMissingStub:
-            _i9.Future<String>.value(_i10.dummyValue<String>(
-          this,
-          Invocation.method(
-            #saveFile,
-            [],
-          ),
-        )),
-      ) as _i9.Future<String>);
+      ) as _i7.Future<String>);
 }
 
 /// A class which mocks [ImageWaterMarkService].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockImageWaterMarkService extends _i1.Mock
-    implements _i21.ImageWaterMarkService {
+    implements _i18.ImageWaterMarkService {
   @override
-  _i9.Future<String> addWaterMark(String? filePath) => (super.noSuchMethod(
+  _i7.Future<String> addWaterMark(String? filePath) => (super.noSuchMethod(
         Invocation.method(
           #addWaterMark,
           [filePath],
         ),
-        returnValue: _i9.Future<String>.value(_i10.dummyValue<String>(
+        returnValue: _i7.Future<String>.value(_i8.dummyValue<String>(
           this,
           Invocation.method(
             #addWaterMark,
@@ -982,28 +1046,28 @@ class MockImageWaterMarkService extends _i1.Mock
           ),
         )),
         returnValueForMissingStub:
-            _i9.Future<String>.value(_i10.dummyValue<String>(
+            _i7.Future<String>.value(_i8.dummyValue<String>(
           this,
           Invocation.method(
             #addWaterMark,
             [filePath],
           ),
         )),
-      ) as _i9.Future<String>);
+      ) as _i7.Future<String>);
 }
 
 /// A class which mocks [VideoWaterMarkService].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockVideoWaterMarkService extends _i1.Mock
-    implements _i22.VideoWaterMarkService {
+    implements _i19.VideoWaterMarkService {
   @override
-  _i9.Future<String> addWaterMark(String? filePath) => (super.noSuchMethod(
+  _i7.Future<String> addWaterMark(String? filePath) => (super.noSuchMethod(
         Invocation.method(
           #addWaterMark,
           [filePath],
         ),
-        returnValue: _i9.Future<String>.value(_i10.dummyValue<String>(
+        returnValue: _i7.Future<String>.value(_i8.dummyValue<String>(
           this,
           Invocation.method(
             #addWaterMark,
@@ -1011,23 +1075,23 @@ class MockVideoWaterMarkService extends _i1.Mock
           ),
         )),
         returnValueForMissingStub:
-            _i9.Future<String>.value(_i10.dummyValue<String>(
+            _i7.Future<String>.value(_i8.dummyValue<String>(
           this,
           Invocation.method(
             #addWaterMark,
             [filePath],
           ),
         )),
-      ) as _i9.Future<String>);
+      ) as _i7.Future<String>);
 }
 
 /// A class which mocks [AudioHashingService].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockAudioHashingService extends _i1.Mock
-    implements _i23.AudioHashingService {
+    implements _i20.AudioHashingService {
   @override
-  _i9.Future<String> hash(
+  _i7.Future<String> hash(
     String? path, [
     dynamic Function(double)? progress,
   ]) =>
@@ -1039,7 +1103,7 @@ class MockAudioHashingService extends _i1.Mock
             progress,
           ],
         ),
-        returnValue: _i9.Future<String>.value(_i10.dummyValue<String>(
+        returnValue: _i7.Future<String>.value(_i8.dummyValue<String>(
           this,
           Invocation.method(
             #hash,
@@ -1050,7 +1114,7 @@ class MockAudioHashingService extends _i1.Mock
           ),
         )),
         returnValueForMissingStub:
-            _i9.Future<String>.value(_i10.dummyValue<String>(
+            _i7.Future<String>.value(_i8.dummyValue<String>(
           this,
           Invocation.method(
             #hash,
@@ -1060,16 +1124,16 @@ class MockAudioHashingService extends _i1.Mock
             ],
           ),
         )),
-      ) as _i9.Future<String>);
+      ) as _i7.Future<String>);
 }
 
 /// A class which mocks [ImageHashingService].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockImageHashingService extends _i1.Mock
-    implements _i24.ImageHashingService {
+    implements _i21.ImageHashingService {
   @override
-  _i9.Future<String> hash(
+  _i7.Future<String> hash(
     String? path, [
     dynamic Function(double)? progress,
   ]) =>
@@ -1081,7 +1145,7 @@ class MockImageHashingService extends _i1.Mock
             progress,
           ],
         ),
-        returnValue: _i9.Future<String>.value(_i10.dummyValue<String>(
+        returnValue: _i7.Future<String>.value(_i8.dummyValue<String>(
           this,
           Invocation.method(
             #hash,
@@ -1092,7 +1156,7 @@ class MockImageHashingService extends _i1.Mock
           ),
         )),
         returnValueForMissingStub:
-            _i9.Future<String>.value(_i10.dummyValue<String>(
+            _i7.Future<String>.value(_i8.dummyValue<String>(
           this,
           Invocation.method(
             #hash,
@@ -1102,16 +1166,16 @@ class MockImageHashingService extends _i1.Mock
             ],
           ),
         )),
-      ) as _i9.Future<String>);
+      ) as _i7.Future<String>);
 }
 
 /// A class which mocks [VideoHashingService].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockVideoHashingService extends _i1.Mock
-    implements _i25.VideoHashingService {
+    implements _i22.VideoHashingService {
   @override
-  _i9.Future<String> hash(
+  _i7.Future<String> hash(
     String? path, [
     dynamic Function(double)? progress,
   ]) =>
@@ -1123,7 +1187,7 @@ class MockVideoHashingService extends _i1.Mock
             progress,
           ],
         ),
-        returnValue: _i9.Future<String>.value(_i10.dummyValue<String>(
+        returnValue: _i7.Future<String>.value(_i8.dummyValue<String>(
           this,
           Invocation.method(
             #hash,
@@ -1134,7 +1198,7 @@ class MockVideoHashingService extends _i1.Mock
           ),
         )),
         returnValueForMissingStub:
-            _i9.Future<String>.value(_i10.dummyValue<String>(
+            _i7.Future<String>.value(_i8.dummyValue<String>(
           this,
           Invocation.method(
             #hash,
@@ -1144,55 +1208,67 @@ class MockVideoHashingService extends _i1.Mock
             ],
           ),
         )),
-      ) as _i9.Future<String>);
+      ) as _i7.Future<String>);
 }
 
 /// A class which mocks [VerificationService].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockVerificationService extends _i1.Mock
-    implements _i26.VerificationService {
+    implements _i23.VerificationService {
   @override
   String get url => (super.noSuchMethod(
         Invocation.getter(#url),
-        returnValue: _i10.dummyValue<String>(
+        returnValue: _i8.dummyValue<String>(
           this,
           Invocation.getter(#url),
         ),
-        returnValueForMissingStub: _i10.dummyValue<String>(
+        returnValueForMissingStub: _i8.dummyValue<String>(
           this,
           Invocation.getter(#url),
         ),
       ) as String);
 
   @override
-  _i9.Future<_i5.VerificationStatusModel> verify(String? hash) =>
+  _i7.Future<_i4.VerificationStatusModel> verify(
+    String? hash,
+    _i14.BlockChain? blockChain,
+  ) =>
       (super.noSuchMethod(
         Invocation.method(
           #verify,
-          [hash],
+          [
+            hash,
+            blockChain,
+          ],
         ),
-        returnValue: _i9.Future<_i5.VerificationStatusModel>.value(
-            _FakeVerificationStatusModel_3(
+        returnValue: _i7.Future<_i4.VerificationStatusModel>.value(
+            _FakeVerificationStatusModel_2(
           this,
           Invocation.method(
             #verify,
-            [hash],
+            [
+              hash,
+              blockChain,
+            ],
           ),
         )),
         returnValueForMissingStub:
-            _i9.Future<_i5.VerificationStatusModel>.value(
-                _FakeVerificationStatusModel_3(
+            _i7.Future<_i4.VerificationStatusModel>.value(
+                _FakeVerificationStatusModel_2(
           this,
           Invocation.method(
             #verify,
-            [hash],
+            [
+              hash,
+              blockChain,
+            ],
           ),
         )),
-      ) as _i9.Future<_i5.VerificationStatusModel>);
+      ) as _i7.Future<_i4.VerificationStatusModel>);
 
   @override
-  _i9.Future<bool> verifySignature(
+  _i7.Future<bool> verifySignature(
     String? hash,
     String? signature,
   ) =>
@@ -1204,37 +1280,37 @@ class MockVerificationService extends _i1.Mock
             signature,
           ],
         ),
-        returnValue: _i9.Future<bool>.value(false),
-        returnValueForMissingStub: _i9.Future<bool>.value(false),
-      ) as _i9.Future<bool>);
+        returnValue: _i7.Future<bool>.value(false),
+        returnValueForMissingStub: _i7.Future<bool>.value(false),
+      ) as _i7.Future<bool>);
 }
 
 /// A class which mocks [FilePickerWrapper].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockFilePickerWrapper extends _i1.Mock implements _i27.FilePickerWrapper {
+class MockFilePickerWrapper extends _i1.Mock implements _i24.FilePickerWrapper {
   @override
-  _i9.Future<_i28.FileDataModel?> selectFileAsStream() => (super.noSuchMethod(
+  _i7.Future<_i25.FileDataModel?> selectFileAsStream() => (super.noSuchMethod(
         Invocation.method(
           #selectFileAsStream,
           [],
         ),
-        returnValue: _i9.Future<_i28.FileDataModel?>.value(),
-        returnValueForMissingStub: _i9.Future<_i28.FileDataModel?>.value(),
-      ) as _i9.Future<_i28.FileDataModel?>);
+        returnValue: _i7.Future<_i25.FileDataModel?>.value(),
+        returnValueForMissingStub: _i7.Future<_i25.FileDataModel?>.value(),
+      ) as _i7.Future<_i25.FileDataModel?>);
 }
 
 /// A class which mocks [HashLogic].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockHashLogic extends _i1.Mock implements _i29.HashLogic {
+class MockHashLogic extends _i1.Mock implements _i26.HashLogic {
   @override
-  _i9.Future<String> hashBytes(_i30.Uint8List? bytes) => (super.noSuchMethod(
+  _i7.Future<String> hashBytes(_i27.Uint8List? bytes) => (super.noSuchMethod(
         Invocation.method(
           #hashBytes,
           [bytes],
         ),
-        returnValue: _i9.Future<String>.value(_i10.dummyValue<String>(
+        returnValue: _i7.Future<String>.value(_i8.dummyValue<String>(
           this,
           Invocation.method(
             #hashBytes,
@@ -1242,23 +1318,23 @@ class MockHashLogic extends _i1.Mock implements _i29.HashLogic {
           ),
         )),
         returnValueForMissingStub:
-            _i9.Future<String>.value(_i10.dummyValue<String>(
+            _i7.Future<String>.value(_i8.dummyValue<String>(
           this,
           Invocation.method(
             #hashBytes,
             [bytes],
           ),
         )),
-      ) as _i9.Future<String>);
+      ) as _i7.Future<String>);
 
   @override
-  _i9.Future<String> hashBytesInChunks(_i30.Uint8List? bytes) =>
+  _i7.Future<String> hashBytesInChunks(_i27.Uint8List? bytes) =>
       (super.noSuchMethod(
         Invocation.method(
           #hashBytesInChunks,
           [bytes],
         ),
-        returnValue: _i9.Future<String>.value(_i10.dummyValue<String>(
+        returnValue: _i7.Future<String>.value(_i8.dummyValue<String>(
           this,
           Invocation.method(
             #hashBytesInChunks,
@@ -1266,18 +1342,18 @@ class MockHashLogic extends _i1.Mock implements _i29.HashLogic {
           ),
         )),
         returnValueForMissingStub:
-            _i9.Future<String>.value(_i10.dummyValue<String>(
+            _i7.Future<String>.value(_i8.dummyValue<String>(
           this,
           Invocation.method(
             #hashBytesInChunks,
             [bytes],
           ),
         )),
-      ) as _i9.Future<String>);
+      ) as _i7.Future<String>);
 
   @override
-  _i9.Future<String> hashBytesInChunksFromStream(
-    _i9.Stream<List<int>>? byteStream, [
+  _i7.Future<String> hashBytesInChunksFromStream(
+    _i7.Stream<List<int>>? byteStream, [
     dynamic Function(int)? progress,
   ]) =>
       (super.noSuchMethod(
@@ -1288,7 +1364,7 @@ class MockHashLogic extends _i1.Mock implements _i29.HashLogic {
             progress,
           ],
         ),
-        returnValue: _i9.Future<String>.value(_i10.dummyValue<String>(
+        returnValue: _i7.Future<String>.value(_i8.dummyValue<String>(
           this,
           Invocation.method(
             #hashBytesInChunksFromStream,
@@ -1299,7 +1375,7 @@ class MockHashLogic extends _i1.Mock implements _i29.HashLogic {
           ),
         )),
         returnValueForMissingStub:
-            _i9.Future<String>.value(_i10.dummyValue<String>(
+            _i7.Future<String>.value(_i8.dummyValue<String>(
           this,
           Invocation.method(
             #hashBytesInChunksFromStream,
@@ -1309,45 +1385,17 @@ class MockHashLogic extends _i1.Mock implements _i29.HashLogic {
             ],
           ),
         )),
-      ) as _i9.Future<String>);
-}
-
-/// A class which mocks [ImagePickerWrapper].
-///
-/// See the documentation for Mockito's code generation for more information.
-class MockImagePickerWrapper extends _i1.Mock
-    implements _i31.ImagePickerWrapper {
-  @override
-  _i9.Future<_i30.Uint8List> getImageAsBytes() => (super.noSuchMethod(
-        Invocation.method(
-          #getImageAsBytes,
-          [],
-        ),
-        returnValue: _i9.Future<_i30.Uint8List>.value(_i30.Uint8List(0)),
-        returnValueForMissingStub:
-            _i9.Future<_i30.Uint8List>.value(_i30.Uint8List(0)),
-      ) as _i9.Future<_i30.Uint8List>);
-
-  @override
-  _i9.Future<_i30.Uint8List> getVideoAsBytes() => (super.noSuchMethod(
-        Invocation.method(
-          #getVideoAsBytes,
-          [],
-        ),
-        returnValue: _i9.Future<_i30.Uint8List>.value(_i30.Uint8List(0)),
-        returnValueForMissingStub:
-            _i9.Future<_i30.Uint8List>.value(_i30.Uint8List(0)),
-      ) as _i9.Future<_i30.Uint8List>);
+      ) as _i7.Future<String>);
 }
 
 /// A class which mocks [ShowInExplorer].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockShowInExplorer extends _i1.Mock implements _i32.ShowInExplorer {
+class MockShowInExplorer extends _i1.Mock implements _i28.ShowInExplorer {
   @override
-  _i9.Future<String> show({
+  _i7.Future<String> show({
     required String? transaction,
-    _i32.Network? network = _i32.Network.bitcoin,
+    _i28.Network? network = _i28.Network.bitcoin,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -1358,7 +1406,7 @@ class MockShowInExplorer extends _i1.Mock implements _i32.ShowInExplorer {
             #network: network,
           },
         ),
-        returnValue: _i9.Future<String>.value(_i10.dummyValue<String>(
+        returnValue: _i7.Future<String>.value(_i8.dummyValue<String>(
           this,
           Invocation.method(
             #show,
@@ -1370,7 +1418,7 @@ class MockShowInExplorer extends _i1.Mock implements _i32.ShowInExplorer {
           ),
         )),
         returnValueForMissingStub:
-            _i9.Future<String>.value(_i10.dummyValue<String>(
+            _i7.Future<String>.value(_i8.dummyValue<String>(
           this,
           Invocation.method(
             #show,
@@ -1381,29 +1429,29 @@ class MockShowInExplorer extends _i1.Mock implements _i32.ShowInExplorer {
             },
           ),
         )),
-      ) as _i9.Future<String>);
+      ) as _i7.Future<String>);
 }
 
 /// A class which mocks [SignatureVerificationService].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockSignatureVerificationService extends _i1.Mock
-    implements _i33.SignatureVerificationService {
+    implements _i29.SignatureVerificationService {
   @override
-  _i6.ECPublicKey get pubKey => (super.noSuchMethod(
+  _i5.ECPublicKey get pubKey => (super.noSuchMethod(
         Invocation.getter(#pubKey),
-        returnValue: _FakeECPublicKey_4(
+        returnValue: _FakeECPublicKey_3(
           this,
           Invocation.getter(#pubKey),
         ),
-        returnValueForMissingStub: _FakeECPublicKey_4(
+        returnValueForMissingStub: _FakeECPublicKey_3(
           this,
           Invocation.getter(#pubKey),
         ),
-      ) as _i6.ECPublicKey);
+      ) as _i5.ECPublicKey);
 
   @override
-  set pubKey(_i6.ECPublicKey? _pubKey) => super.noSuchMethod(
+  set pubKey(_i5.ECPublicKey? _pubKey) => super.noSuchMethod(
         Invocation.setter(
           #pubKey,
           _pubKey,
@@ -1414,59 +1462,59 @@ class MockSignatureVerificationService extends _i1.Mock
   @override
   String get pemPubKey => (super.noSuchMethod(
         Invocation.getter(#pemPubKey),
-        returnValue: _i10.dummyValue<String>(
+        returnValue: _i8.dummyValue<String>(
           this,
           Invocation.getter(#pemPubKey),
         ),
-        returnValueForMissingStub: _i10.dummyValue<String>(
+        returnValueForMissingStub: _i8.dummyValue<String>(
           this,
           Invocation.getter(#pemPubKey),
         ),
       ) as String);
 
   @override
-  _i6.ECSignature loadAndConvertSignature(String? sig) => (super.noSuchMethod(
+  _i5.ECSignature loadAndConvertSignature(String? sig) => (super.noSuchMethod(
         Invocation.method(
           #loadAndConvertSignature,
           [sig],
         ),
-        returnValue: _FakeECSignature_5(
+        returnValue: _FakeECSignature_4(
           this,
           Invocation.method(
             #loadAndConvertSignature,
             [sig],
           ),
         ),
-        returnValueForMissingStub: _FakeECSignature_5(
+        returnValueForMissingStub: _FakeECSignature_4(
           this,
           Invocation.method(
             #loadAndConvertSignature,
             [sig],
           ),
         ),
-      ) as _i6.ECSignature);
+      ) as _i5.ECSignature);
 
   @override
-  _i6.ECPublicKey loadAndPrepPubKey() => (super.noSuchMethod(
+  _i5.ECPublicKey loadAndPrepPubKey() => (super.noSuchMethod(
         Invocation.method(
           #loadAndPrepPubKey,
           [],
         ),
-        returnValue: _FakeECPublicKey_4(
+        returnValue: _FakeECPublicKey_3(
           this,
           Invocation.method(
             #loadAndPrepPubKey,
             [],
           ),
         ),
-        returnValueForMissingStub: _FakeECPublicKey_4(
+        returnValueForMissingStub: _FakeECPublicKey_3(
           this,
           Invocation.method(
             #loadAndPrepPubKey,
             [],
           ),
         ),
-      ) as _i6.ECPublicKey);
+      ) as _i5.ECPublicKey);
 
   @override
   bool verify(
@@ -1490,16 +1538,16 @@ class MockSignatureVerificationService extends _i1.Mock
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockForegroundServiceWrapper extends _i1.Mock
-    implements _i34.ForegroundServiceWrapper {
+    implements _i30.ForegroundServiceWrapper {
   @override
-  _i9.Future<bool> get isRunning => (super.noSuchMethod(
+  _i7.Future<bool> get isRunning => (super.noSuchMethod(
         Invocation.getter(#isRunning),
-        returnValue: _i9.Future<bool>.value(false),
-        returnValueForMissingStub: _i9.Future<bool>.value(false),
-      ) as _i9.Future<bool>);
+        returnValue: _i7.Future<bool>.value(false),
+        returnValueForMissingStub: _i7.Future<bool>.value(false),
+      ) as _i7.Future<bool>);
 
   @override
-  _i9.Future<void> start(
+  _i7.Future<void> start(
     Function? startCallback,
     String? title,
     String? description,
@@ -1513,22 +1561,22 @@ class MockForegroundServiceWrapper extends _i1.Mock
             description,
           ],
         ),
-        returnValue: _i9.Future<void>.value(),
-        returnValueForMissingStub: _i9.Future<void>.value(),
-      ) as _i9.Future<void>);
+        returnValue: _i7.Future<void>.value(),
+        returnValueForMissingStub: _i7.Future<void>.value(),
+      ) as _i7.Future<void>);
 
   @override
-  _i9.Future<void> stop() => (super.noSuchMethod(
+  _i7.Future<void> stop() => (super.noSuchMethod(
         Invocation.method(
           #stop,
           [],
         ),
-        returnValue: _i9.Future<void>.value(),
-        returnValueForMissingStub: _i9.Future<void>.value(),
-      ) as _i9.Future<void>);
+        returnValue: _i7.Future<void>.value(),
+        returnValueForMissingStub: _i7.Future<void>.value(),
+      ) as _i7.Future<void>);
 
   @override
-  _i9.Future<void> setData(
+  _i7.Future<void> setData(
     String? key,
     Object? value,
   ) =>
@@ -1540,22 +1588,22 @@ class MockForegroundServiceWrapper extends _i1.Mock
             value,
           ],
         ),
-        returnValue: _i9.Future<void>.value(),
-        returnValueForMissingStub: _i9.Future<void>.value(),
-      ) as _i9.Future<void>);
+        returnValue: _i7.Future<void>.value(),
+        returnValueForMissingStub: _i7.Future<void>.value(),
+      ) as _i7.Future<void>);
 
   @override
-  _i9.Future<T?> getData<T>(String? key) => (super.noSuchMethod(
+  _i7.Future<T?> getData<T>(String? key) => (super.noSuchMethod(
         Invocation.method(
           #getData,
           [key],
         ),
-        returnValue: _i9.Future<T?>.value(),
-        returnValueForMissingStub: _i9.Future<T?>.value(),
-      ) as _i9.Future<T?>);
+        returnValue: _i7.Future<T?>.value(),
+        returnValueForMissingStub: _i7.Future<T?>.value(),
+      ) as _i7.Future<T?>);
 
   @override
-  _i9.Future<void> updateNotification({
+  _i7.Future<void> updateNotification({
     String? title,
     String? body,
   }) =>
@@ -1568,30 +1616,83 @@ class MockForegroundServiceWrapper extends _i1.Mock
             #body: body,
           },
         ),
-        returnValue: _i9.Future<void>.value(),
-        returnValueForMissingStub: _i9.Future<void>.value(),
-      ) as _i9.Future<void>);
+        returnValue: _i7.Future<void>.value(),
+        returnValueForMissingStub: _i7.Future<void>.value(),
+      ) as _i7.Future<void>);
 
   @override
-  _i9.Future<_i7.ReceivePort> getReceivePort() => (super.noSuchMethod(
+  void registerOnReciveData(void Function(Object)? callback) =>
+      super.noSuchMethod(
         Invocation.method(
-          #getReceivePort,
+          #registerOnReciveData,
+          [callback],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void removeReciveDataCallback(void Function(Object)? callback) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #removeReciveDataCallback,
+          [callback],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  _i7.Future<void> init() => (super.noSuchMethod(
+        Invocation.method(
+          #init,
           [],
         ),
-        returnValue: _i9.Future<_i7.ReceivePort>.value(_FakeReceivePort_6(
-          this,
-          Invocation.method(
-            #getReceivePort,
-            [],
-          ),
-        )),
-        returnValueForMissingStub:
-            _i9.Future<_i7.ReceivePort>.value(_FakeReceivePort_6(
-          this,
-          Invocation.method(
-            #getReceivePort,
-            [],
-          ),
-        )),
-      ) as _i9.Future<_i7.ReceivePort>);
+        returnValue: _i7.Future<void>.value(),
+        returnValueForMissingStub: _i7.Future<void>.value(),
+      ) as _i7.Future<void>);
+
+  @override
+  void sendToMain(Object? data) => super.noSuchMethod(
+        Invocation.method(
+          #sendToMain,
+          [data],
+        ),
+        returnValueForMissingStub: null,
+      );
+}
+
+/// A class which mocks [SettingsStorageSerivce].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockSettingsStorageSerivce extends _i1.Mock
+    implements _i31.SettingsStorageSerivce {
+  @override
+  _i7.Future<void> init() => (super.noSuchMethod(
+        Invocation.method(
+          #init,
+          [],
+        ),
+        returnValue: _i7.Future<void>.value(),
+        returnValueForMissingStub: _i7.Future<void>.value(),
+      ) as _i7.Future<void>);
+
+  @override
+  _i7.Future<void> saveErrorReportingPermissionState(bool? permissionGranted) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #saveErrorReportingPermissionState,
+          [permissionGranted],
+        ),
+        returnValue: _i7.Future<void>.value(),
+        returnValueForMissingStub: _i7.Future<void>.value(),
+      ) as _i7.Future<void>);
+
+  @override
+  _i7.Future<bool> getErrorReportingPermissionState() => (super.noSuchMethod(
+        Invocation.method(
+          #getErrorReportingPermissionState,
+          [],
+        ),
+        returnValue: _i7.Future<bool>.value(false),
+        returnValueForMissingStub: _i7.Future<bool>.value(false),
+      ) as _i7.Future<bool>);
 }

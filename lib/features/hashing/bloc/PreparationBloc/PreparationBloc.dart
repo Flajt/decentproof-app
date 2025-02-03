@@ -3,65 +3,23 @@ import 'dart:isolate';
 
 import 'package:decentproof/features/hashing/bloc/PreparationBloc/PerparationEvents.dart';
 import 'package:decentproof/features/hashing/bloc/PreparationBloc/PerparationStates.dart';
-import 'package:decentproof/features/hashing/interfaces/IFileSavingService.dart';
 import 'package:decentproof/features/hashing/logic/foregroundService/PerperationTaskHandler.dart';
 import 'package:decentproof/shared/foregroundService/IForegroundService.dart';
-import 'package:decentproof/features/hashing/interfaces/IHashingService.dart';
-import 'package:decentproof/features/metadata/interfaces/ILocationService.dart';
-import 'package:decentproof/features/metadata/interfaces/IMetaDataPermissionService.dart';
-import 'package:decentproof/features/metadata/interfaces/IMetaDataService.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:photo_manager/photo_manager.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
-
-import '../../interfaces/IWaterMarkService.dart';
 
 /// Deals with Hashing, Watermarking and adding MetaData to the file
 /// Because this BLOC is used to prepare different types of files it's named PreparationBloc
 /// TODO: Refactor the code to make it more readable,there is a lot of duplication going on
 class PreparationBloc extends Bloc<MetaDataEvents, PreparationState> {
   late final GetIt getIt;
-  late final IFileSavingService videoSavingService;
-  late final IFileSavingService imageSavingService;
-  late final IHashingService videoHashingService;
-  late final IHashingService imageHashingService;
-  late final IWaterMarkService videoWaterMarkSerivce;
-  late final IWaterMarkService imageWaterMarkService;
-  late final IMetaDataService audioMetaDataService;
-  late final IMetaDataService videoMetaDataService;
-  late final IMetaDataService imageMetaDataService;
-  late final IMetaDataPermissionService metaDataPermissionService;
-  late final ILocationService locationService;
-  late final IHashingService audioHashingService;
   late final IForegroundService foregroundService;
 
   PreparationBloc() : super(InitalPrepareBlocState()) {
     getIt = GetIt.I;
-    videoSavingService =
-        getIt.get<IFileSavingService>(instanceName: "VideoSaving");
-    imageSavingService =
-        getIt.get<IFileSavingService>(instanceName: "ImageSaving");
-    imageHashingService =
-        getIt.get<IHashingService>(instanceName: "ImageHashing");
-    videoHashingService =
-        getIt.get<IHashingService>(instanceName: "VideoHashing");
-    videoWaterMarkSerivce =
-        getIt.get<IWaterMarkService>(instanceName: "VideoWaterMark");
-    imageWaterMarkService =
-        getIt.get<IWaterMarkService>(instanceName: "ImageWaterMark");
-    audioMetaDataService =
-        getIt.get<IMetaDataService>(instanceName: "AudioMetaData");
-    videoMetaDataService =
-        getIt.get<IMetaDataService>(instanceName: "VideoMetaData");
-    imageMetaDataService =
-        getIt.get<IMetaDataService>(instanceName: "ImageMetaData");
-    metaDataPermissionService = getIt.get<IMetaDataPermissionService>();
-    audioHashingService =
-        getIt.get<IHashingService>(instanceName: "AudioHashing");
-    locationService = getIt.get<ILocationService>();
     foregroundService = getIt<IForegroundService>();
 
     on<PrepareAudio>((event, emit) async {
@@ -69,39 +27,18 @@ class PreparationBloc extends Bloc<MetaDataEvents, PreparationState> {
           "PrepareAudio"); // Consider moving it into Foreground Service
       try {
         await foregroundService.stop();
+        ReceivePort port = ReceivePort();
+        SendPort sendPort = port.sendPort;
+        foregroundService.registerOnReciveData(sendPort.send);
         await foregroundService.setData(
             "instructions", "audio::${event.filePath}");
         await foregroundService.start(
             startPreperationForegroundService,
             tr("perperationNotification.title"),
             tr("perperationNotification.initalDescription"));
-        ReceivePort port = await foregroundService.getReceivePort();
         final stream = port.asBroadcastStream();
         await emit.forEach(stream, onData: (message) {
-          message as Map<String, dynamic>;
-          final status = message["status"];
-          if (status == "AddingWaterMark") {
-            return PrepareationIsAplyingWaterMark();
-          } else if (status == "AddingMetaData") {
-            return PrepareationIsAddingMetaData();
-          } else if (status == "Error") {
-            port.close();
-            return PreparationHasError(message["description"]);
-          } else if (status == "Hashing") {
-            emit(PrepareationIsHashing());
-          } else if (status == "Done") {
-            port.close();
-            return PreparationIsSuccessfull(
-                message["filePath"], message["content"]);
-          } else if (status == "Fail") {
-            final e = message["description"];
-            //final stack = message["stack"];
-            transaction.throwable = e;
-            transaction.status = const SpanStatus.internalError();
-            port.close();
-            return PreparationHasError(e.toString());
-          }
-          return state; // IDK if that could drive me in a corner at some point
+          return _statusHandler(message, port, emit, transaction);
         });
         if (state is PreparationIsSuccessfull) {
           await foregroundService.stop();
@@ -120,40 +57,21 @@ class PreparationBloc extends Bloc<MetaDataEvents, PreparationState> {
       final transaction =
           Sentry.startTransaction("PreparationBloc", "PrepareImage");
       try {
-        final path = await imageSavingService.saveFile();
+        await foregroundService.stop();
+        final path = event.filePath;
         await foregroundService.setData("instructions", "image::$path");
         final notificationTitle = tr("perperationNotification.title");
         final notificationBody =
             tr("perperationNotification.initalDescription");
         await foregroundService.start(startPreperationForegroundService,
             notificationTitle, notificationBody);
-        ReceivePort port = await foregroundService.getReceivePort();
+        //ReceivePort port = await foregroundService.getReceivePort();
+        ReceivePort port = ReceivePort();
+        SendPort sendPort = port.sendPort;
         final stream = port.asBroadcastStream();
+        foregroundService.registerOnReciveData(sendPort.send);
         await emit.forEach(stream, onData: (message) {
-          message as Map<String, dynamic>;
-          final status = message["status"];
-          if (status == "AddingWaterMark") {
-            return PrepareationIsAplyingWaterMark();
-          } else if (status == "AddingMetaData") {
-            return PrepareationIsAddingMetaData();
-          } else if (status == "Error") {
-            port.close();
-            return PreparationHasError(message["description"]);
-          } else if (status == "Hashing") {
-            emit(PrepareationIsHashing());
-          } else if (status == "Done") {
-            port.close();
-            return PreparationIsSuccessfull(
-                message["filePath"], message["content"]);
-          } else if (status == "Fail") {
-            final e = message["description"];
-            //final stack = message["stack"];
-            transaction.throwable = e;
-            transaction.status = const SpanStatus.internalError();
-            port.close();
-            return PreparationHasError(e.toString());
-          }
-          return state; // IDK if that could drive me in a corner at some point
+          return _statusHandler(message, port, emit, transaction);
         });
         if (state is PreparationIsSuccessfull) {
           await addToGalleryACleanUp(
@@ -174,40 +92,21 @@ class PreparationBloc extends Bloc<MetaDataEvents, PreparationState> {
       final transaction =
           Sentry.startTransaction("PreparationBloc", "PrepareVideo");
       try {
-        String path = await videoSavingService.saveFile();
+        await foregroundService.stop();
+        String path = event.filePath;
         await foregroundService.setData("instructions", "video::$path");
         await foregroundService.start(
             startPreperationForegroundService,
             tr("perperationNotification.title"),
             tr("perperationNotification.initalDescription"));
-        ReceivePort port = await foregroundService.getReceivePort();
+        ReceivePort port = ReceivePort();
+        SendPort sendPort = port.sendPort;
         final stream = port.asBroadcastStream();
-        await emit.forEach(stream, onData: (message) {
-          message as Map<String, dynamic>;
-          final status = message["status"];
-          if (status == "AddingWaterMark") {
-            return PrepareationIsAplyingWaterMark();
-          } else if (status == "AddingMetaData") {
-            return PrepareationIsAddingMetaData();
-          } else if (status == "Error") {
-            port.close();
-            return PreparationHasError(message["description"]);
-          } else if (status == "Hashing") {
-            emit(PrepareationIsHashing());
-          } else if (status == "Done") {
-            port.close();
-            return PreparationIsSuccessfull(
-                message["filePath"], message["content"]);
-          } else if (status == "Fail") {
-            final e = message["description"];
-            //final stack = message["stack"];
-            transaction.throwable = e;
-            transaction.status = const SpanStatus.internalError();
-            port.close();
-            return PreparationHasError(e.toString());
-          }
-          return state; // IDK if that could drive me in a corner at some point
-        });
+        foregroundService.registerOnReciveData(sendPort.send);
+        //ReceivePort port = await foregroundService.getReceivePort();
+        await emit.forEach(stream,
+            onData: (message) =>
+                _statusHandler(message, port, emit, transaction));
         if (state is PreparationIsSuccessfull) {
           await addToGalleryACleanUp(
               path, (state as PreparationIsSuccessfull).path, true);
@@ -224,18 +123,44 @@ class PreparationBloc extends Bloc<MetaDataEvents, PreparationState> {
       }
     });
   }
+
+  PreparationState _statusHandler(message, ReceivePort port,
+      Emitter<PreparationState> emit, ISentrySpan transaction) {
+    message as Map<String, dynamic>;
+    final status = message["status"];
+    if (status == "AddingWaterMark") {
+      return PrepareationIsAplyingWaterMark();
+    } else if (status == "AddingMetaData") {
+      return PrepareationIsAddingMetaData();
+    } else if (status == "Error") {
+      port.close();
+      return PreparationHasError(message["description"]);
+    } else if (status == "Hashing") {
+      return PrepareationIsHashing();
+    } else if (status == "Done") {
+      port.close();
+      return PreparationIsSuccessfull(message["filePath"], message["content"]);
+    } else if (status == "Fail") {
+      final e = message["description"];
+      //final stack = message["stack"];
+      transaction.throwable = e;
+      transaction.status = const SpanStatus.internalError();
+      port.close();
+      return PreparationHasError(e.toString());
+    }
+    return state; // IDK if that could drive me in a corner at some point
+  }
+
   Future<void> addToGalleryACleanUp(
       String initalPath, String finalPath, bool video) async {
     final outPutFile = File(finalPath);
     final initalFile = File(initalPath);
-    final title = outPutFile.path.split("/").last.split(".").first;
     if (Platform.isAndroid || Platform.isIOS) {
       //This is to prevent file deletion while running flutter test (since all file paths are fake)
       if (video) {
-        await PhotoManager.editor.saveVideo(outPutFile, title: "$title.mkv");
+        await PhotoManager.editor.saveVideo(outPutFile);
       } else {
-        Uint8List data = await outPutFile.readAsBytes();
-        await PhotoManager.editor.saveImage(data, title: "$title.png");
+        await PhotoManager.editor.saveImageWithPath(outPutFile.path);
       }
       if (initalPath != finalPath) {
         await initalFile.delete();
